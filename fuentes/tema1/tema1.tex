@@ -225,19 +225,19 @@
 \end{minipage}\hfill
 \begin{minipage}[t]{0.42\linewidth}\vspace{-2pt}\centering
 \begin{tikzpicture}
-\begin{axis}[apuntes,width=6.4cm,height=5.0cm,xmin=0,xmax=5,ymin=0,ymax=5,
+\begin{axis}[apuntes,width=6.0cm,height=5.0cm,xmin=0,xmax=5.6,ymin=0,ymax=5,
   xlabel={$V$},ylabel={$p$},xtick=\empty,ytick=\empty,axis lines=left,
   every axis x label/.style={at={(1,0)},anchor=north east},
   every axis y label/.style={at={(0,1)},anchor=north east}]
-  \foreach \T/\c in {1/claro,2/acento!70,3.2/azul,4.6/marino}{
-    \edef\tmp{\noexpand\addplot[domain=0.25:5,samples=80,line width=0.9pt,color=\c] {\T/x};}\tmp
+  \foreach \T/\c in {1.4/claro,2.2/acento!70,3.6/azul,5.4/marino}{
+    \edef\tmp{\noexpand\addplot[domain=\T/5:4.8,samples=90,line width=0.9pt,color=\c] {\T/x};}\tmp
   }
-  \addplot[only marks,mark=*,mark size=1.6pt,teja] coordinates {(1,3.2) (2.3,2)};
-  \draw[flecha,teja,densely dashed] (axis cs:1,3.2) to[bend left=20] (axis cs:2.3,2);
-  \node[font=\scriptsize,teja,above right] at (axis cs:1,3.2) {$1$};
-  \node[font=\scriptsize,teja,above right] at (axis cs:2.3,2) {$2$};
-  \node[font=\scriptsize,marino,anchor=west] at (axis cs:3.55,1.55) {$T_4$};
-  \node[font=\scriptsize,claro!70!marino,anchor=west] at (axis cs:3.9,0.42) {$T_1$};
+  \addplot[only marks,mark=*,mark size=1.6pt,teja] coordinates {(1,3.6) (2.4,2.25)};
+  \draw[flecha,teja,densely dashed] (axis cs:1.08,3.5) to[bend left=12] (axis cs:2.3,2.3);
+  \node[font=\scriptsize,teja,anchor=north east,inner sep=1.5pt] at (axis cs:0.97,3.5) {$1$};
+  \node[font=\scriptsize,teja,anchor=north east,inner sep=1.5pt] at (axis cs:2.37,2.12) {$2$};
+  \node[font=\scriptsize,marino,anchor=west,inner sep=2pt] at (axis cs:4.8,1.125) {$T_4$};
+  \node[font=\scriptsize,claro!70!marino,anchor=west,inner sep=2pt] at (axis cs:4.8,0.29) {$T_1$};
 \end{axis}
 \end{tikzpicture}\par
 {\scriptsize\itshape\color{gris} Isotermas $pV=nRT$ del gas ideal ($T_1<\dots<T_4$) en el diagrama de Clapeyron; cada punto es un estado de equilibrio.}
@@ -433,15 +433,19 @@ Se cumple: reversible $\subset$ cuasiestático; la lentitud no elimina la disipa
 \centering
 \begin{subfigure}[b]{0.49\textwidth}\centering
 \begin{tikzpicture}
-\begin{axis}[apuntes,xmin=0.8,xmax=4.4,ymin=0,ymax=9,xlabel={$V$},ylabel={$p$},
-  xtick={1,4},ytick={2,8},legend pos=north east]
-  \addplot[marino,line width=1pt,domain=1:4,samples=60] {8/x^1};
-  \addlegendentry{camino A}
+\begin{axis}[apuntes,xmin=0.6,xmax=4.5,ymin=0,ymax=10,xlabel={$V$},ylabel={$p$},
+  xtick={1,4},ytick={2,8},xticklabels={$V_1$,$V_2$},yticklabels={$p_2$,$p_1$}]
+  \addplot[marino,line width=1pt,domain=1:4,samples=60] {8/x};
   \addplot[acento,densely dashed,line width=1pt] coordinates {(1,8) (4,8) (4,2)};
-  \addlegendentry{camino B}
+  % sentido de recorrido
+  \draw[flecha,marino] (axis cs:1.62,4.938) -- (axis cs:1.78,4.494);
+  \draw[flecha,acento] (axis cs:2.35,8) -- (axis cs:2.65,8);
+  \draw[flecha,acento] (axis cs:4,5.3) -- (axis cs:4,4.7);
   \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(1,8) (4,2)};
-  \node[font=\scriptsize,anchor=north east] at (axis cs:1,8) {$1$};
-  \node[font=\scriptsize,anchor=north west] at (axis cs:4,2) {$2$};
+  \node[font=\small,anchor=south east] at (axis cs:1,8) {$1$};
+  \node[font=\small,anchor=north west] at (axis cs:4,2) {$2$};
+  \node[font=\small,marino,anchor=north east] at (axis cs:1.9,3.9) {$\gamma_1$};
+  \node[font=\small,acento,anchor=south] at (axis cs:2.5,8.15) {$\gamma_2$};
 \end{axis}
 \end{tikzpicture}
 \caption{}
@@ -453,14 +457,16 @@ Se cumple: reversible $\subset$ cuasiestático; la lentitud no elimina la disipa
   \addplot[claro!80!acento,densely dashed,line width=0.8pt,domain=0:7] {1};
   \addplot[marino,line width=1pt,domain=0:7,samples=100] {1+4*exp(-x)};
   \draw[acento,line width=0.5pt] (axis cs:0,5) -- (axis cs:1,1);
-  \node[font=\scriptsize,acento,anchor=west] at (axis cs:1.1,2.3) {pendiente inicial $\to\tau$};
+  \addplot[only marks,mark=*,mark size=1.4pt,acento] coordinates {(1,1)};
+  \node[font=\scriptsize,acento,anchor=south west,inner sep=2pt] at (axis cs:1,1) {$t=\tau$};
 \end{axis}
 \end{tikzpicture}
 \caption{}
 \end{subfigure}
-\caption{(a) Dos procesos cuasiestáticos entre los mismos estados: $\Delta Z$ de una función de estado es
-idéntico; las magnitudes de proceso no. (b) Relajación de un sistema aislado hacia el equilibrio con
-tiempo característico $\tau$: el criterio práctico de equilibrio depende del tiempo de observación.}
+\caption{(a) Dos procesos cuasiestáticos $\gamma_1$ (continuo) y $\gamma_2$ (isobaro + isócoro) entre los
+mismos estados: para una función de estado $\int_{\gamma_1}\dd Z=\int_{\gamma_2}\dd Z=Z(2)-Z(1)$; para las
+magnitudes de proceso, no. (b) Relajación de un sistema aislado hacia el equilibrio con
+tiempo característico $\tau$ (la tangente en $t=0$ corta $X_{\mathrm{eq}}$ en $t=\tau$): el criterio práctico de equilibrio depende del tiempo de observación.}
 \label{fig:procesos}
 \end{figure}
 
@@ -830,7 +836,7 @@ deprisa que la isoterma $pV=\cte$ que pasa por el estado inicial (figura~\ref{fi
   \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(1,100) (3,21.48)};
   \node[font=\scriptsize,anchor=south west] at (axis cs:1,100) {$1$};
   \node[font=\scriptsize,anchor=south west] at (axis cs:3,21.48) {$2$};
-  \draw[flecha,marino] (axis cs:1.55,75) -- (axis cs:1.95,52);
+  \draw[flecha,marino] (axis cs:1.4,90) -- (axis cs:1.8,72);
 \end{axis}
 \end{tikzpicture}
 \caption{Problema 1.3. Expansión politrópica con $n=7/5$ (continua) frente a la isoterma por el estado
@@ -865,8 +871,9 @@ el plano $(\ln v,\ln p)$. Solo intervienen cocientes, así que no hace falta con
   ytick={2,10},yticklabels={$2$,$10$},log basis x=10]
   \addplot[marino,line width=1.1pt,domain=21.34:83.54,samples=40] {2*(83.54/x)^1.1793};
   \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(83.54,2) (21.34,10)};
-  \draw[flecha,marino] (axis cs:62,2.0) -- (axis cs:40,3.35);
-  \node[font=\scriptsize,acento,anchor=west] at (axis cs:46,6.2) {pendiente $-\alpha=-1{,}18$};
+  \draw[flecha,marino] (axis cs:72,3.9) -- (axis cs:46,6.1);
+  \node[font=\scriptsize,marino,anchor=south west] at (axis cs:56,5.6) {compresión};
+  \node[font=\scriptsize,acento,anchor=south west] at (axis cs:16.2,1.12) {pendiente $=-\alpha\simeq-1{,}18$};
   \node[font=\scriptsize,anchor=north] at (axis cs:83.54,2) {$1$};
   \node[font=\scriptsize,anchor=south] at (axis cs:21.34,10) {$2$};
 \end{axis}
