@@ -928,10 +928,172 @@ relación cíclica; \eqref{eq:finitos} es la integral de~\eqref{eq:dlnV} por un 
 tramo, se anula uno de los dos términos.
 \end{observacion}
 
-\begin{observacion}[Sólidos: dilatación lineal]
-Para un sólido isótropo, $V\propto L^3$ y $\alpha=3\alpha_l$, con $\alpha_l\equiv\frac{1}{L}\pd{L}{T}{p}$.
-Para $\alpha_l\Delta T\ll1$, $\Delta L\simeq\alpha_l L_0\Delta T$ (problemas 1.5 y 1.6). A volumen
-constante, $\dd V=0$ en~\eqref{eq:dlnV} da $0=\alpha\,\dd T-\kT\,\dd p$, es decir, $\pd{p}{T}{V}=\alpha/\kT$ (problema 1.7).
+\subsection{Dilatación lineal de sólidos}
+
+En un sólido no se mide el volumen sino una longitud (una barra, un puente, un péndulo), y lo que se
+tabula es el coeficiente lineal.
+
+\begin{definicion}[Coeficiente de dilatación lineal]
+Para una dimensión lineal $L$ de un sólido se define
+\begin{equation}
+\alpha_l\equiv\frac{1}{L}\pd LTp=\pd{\ln L}{T}{p}.
+\label{eq:alpha-l}
+\end{equation}
+\end{definicion}
+
+\begin{proposicion}[Relación entre $\alpha$ y $\alpha_l$]
+En un sólido isótropo, $\alpha=3\alpha_l$.
+\end{proposicion}
+
+\begin{demo}
+Se toma un bloque de aristas $L_1,L_2,L_3$, de modo que $V=L_1L_2L_3$. Tomando logaritmos y
+diferenciando,
+\begin{equation*}
+\ln V=\ln L_1+\ln L_2+\ln L_3\quad\Longrightarrow\quad
+\dd\ln V=\dd\ln L_1+\dd\ln L_2+\dd\ln L_3 .
+\end{equation*}
+Dividiendo por $\dd T$ a presión constante, cada término es, por~\eqref{eq:alpha-l}, el coeficiente lineal
+en esa dirección; por isotropía los tres son iguales:
+\begin{equation*}
+\alpha=\pd{\ln V}{T}{p}=\alpha_{l,1}+\alpha_{l,2}+\alpha_{l,3}=3\alpha_l .
+\end{equation*}
+\end{demo}
+
+\paso{Cambio finito de longitud} Con $\alpha_l$ constante, integrando~\eqref{eq:alpha-l} a presión fija
+entre $T_0$ y $T_0+\Delta T$:
+\begin{equation}
+\ln\frac{L}{L_0}=\alpha_l\,\Delta T
+\quad\Longrightarrow\quad
+L=L_0\,e^{\alpha_l\Delta T}=L_0\Bigl(1+\alpha_l\Delta T+\tfrac12(\alpha_l\Delta T)^2+\dots\Bigr).
+\label{eq:L-exp}
+\end{equation}
+Como en la práctica $\alpha_l\Delta T\sim10^{-4}$--$10^{-3}$, el término cuadrático es despreciable y
+\begin{equation}
+\boxed{\;\Delta L\simeq\alpha_l\,L_0\,\Delta T\;}\qquad(\alpha_l\Delta T\ll1).
+\label{eq:dL}
+\end{equation}
+
+\paso{De la longitud al volumen} Con las tres aristas dilatadas en el mismo factor, $L=L_0(1+\varepsilon)$
+con $\varepsilon\equiv\alpha_l\Delta T$, desarrollando el cubo:
+\begin{equation}
+V=L_0^3(1+\varepsilon)^3=V_0\bigl(1+3\varepsilon+3\varepsilon^2+\varepsilon^3\bigr)
+\quad\Longrightarrow\quad
+\frac{\Delta V}{V_0}=\underbrace{3\varepsilon}_{\text{caras}}+\underbrace{3\varepsilon^2}_{\text{aristas}}
++\underbrace{\varepsilon^3}_{\text{vértice}}\simeq3\alpha_l\Delta T=\alpha\,\Delta T .
+\label{eq:dV-cubo}
+\end{equation}
+La figura~\ref{fig:dilatacion} da la lectura geométrica de cada término.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.46\textwidth}\centering
+\begin{tikzpicture}[scale=1.0]
+  \def\a{2.6}\def\d{0.55}
+  % franjas de primer orden y esquina de segundo orden
+  \fill[claro!70] (\a,0) rectangle (\a+\d,\a);
+  \fill[claro!70] (0,\a) rectangle (\a,\a+\d);
+  \fill[teja!45] (\a,\a) rectangle (\a+\d,\a+\d);
+  \fill[fondo] (0,0) rectangle (\a,\a);
+  \draw[marino,line width=1pt] (0,0) rectangle (\a,\a);
+  \draw[acento,densely dashed,line width=0.7pt] (0,0) rectangle (\a+\d,\a+\d);
+  \node[marino] at (\a/2,\a/2) {$L_0^2$};
+  \node[font=\scriptsize,azul] at (\a+\d/2,\a/2) {\rotatebox{90}{$L_0\,\Delta L$}};
+  \node[font=\scriptsize,azul] at (\a/2,\a+\d/2) {$L_0\,\Delta L$};
+  \node[font=\scriptsize,teja!80!black,anchor=south west,inner sep=1pt] at (\a+\d+0.04,\a+\d+0.02) {$(\Delta L)^2$};
+  \draw[teja!80!black,line width=0.4pt] (\a+\d/2,\a+\d/2) -- (\a+\d+0.08,\a+\d+0.08);
+  % cotas
+  \draw[{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},gris,line width=0.4pt] (0,-0.3) -- (\a,-0.3) node[midway,below,font=\scriptsize] {$L_0$};
+  \draw[{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},gris,line width=0.4pt] (\a,-0.3) -- (\a+\d,-0.3) node[midway,below,font=\scriptsize] {$\Delta L$};
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.50\textwidth}\centering
+\renewcommand{\arraystretch}{1.35}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Pieza añadida & Volumen & Orden en $\varepsilon$\\
+\midrule
+3 láminas (caras) & $3L_0^2\,\Delta L$ & $3\varepsilon$\\
+3 barras (aristas) & $3L_0\,(\Delta L)^2$ & $3\varepsilon^2$\\
+1 cubito (vértice) & $(\Delta L)^3$ & $\varepsilon^3$\\
+\bottomrule
+\end{tabular}
+\vspace{1.2em}
+\caption{}
+\end{subfigure}
+\caption{Dilatación de un cubo de arista $L_0$ (escala muy exagerada). (a) Sección: al crecer cada arista
+$\Delta L$ se añaden franjas de área $L_0\Delta L$ (primer orden, azul) y una esquina $(\Delta L)^2$
+(segundo orden, rojo). (b) En tres dimensiones, las láminas sobre las tres caras dan el término
+$3\varepsilon$ de~\eqref{eq:dV-cubo}; aristas y vértice son despreciables, de ahí $\alpha\simeq3\alpha_l$.}
+\label{fig:dilatacion}
+\end{figure}
+
+\begin{observacion}[Orden de magnitud]
+Para el puente del problema~1.6, $\varepsilon=11\cdot10^{-6}\cdot60=6{,}6\cdot10^{-4}$: el término de
+aristas, $3\varepsilon^2\simeq1{,}3\cdot10^{-6}$, es unas 1500 veces menor que el de caras. Por eso
+\eqref{eq:dL} se usa sin más en los problemas 1.5 y 1.6.
+\end{observacion}
+
+\subsection{Calentamiento a volumen constante}
+
+Si el sistema está encerrado en un recipiente rígido, al calentarlo no puede dilatarse y lo que aumenta
+es la presión. Basta imponer $\dd V=0$ en~\eqref{eq:dlnV}:
+\begin{equation*}
+0=\alpha\,\dd T-\kT\,\dd p
+\quad\Longrightarrow\quad
+\kT\,\dd p=\alpha\,\dd T
+\quad\Longrightarrow\quad
+\boxed{\;\pd pTV=\frac{\alpha}{\kT}\;}
+\end{equation*}
+Es la misma derivada que define $\beta$: por~\eqref{eq:derivadas-coef}, $\pd pTV=p\beta$, y la igualdad
+$p\beta=\alpha/\kT$ es otra vez $\alpha=p\beta\kT$. Con coeficientes constantes, integrando entre
+$T$ y $T+\Delta T$,
+\begin{equation}
+\Delta p=\frac{\alpha}{\kT}\,\Delta T .
+\label{eq:dp-isocoro}
+\end{equation}
+
+\paso{Lectura en dos etapas} El resultado se entiende descomponiendo el proceso por el camino
+rectangular de la sección anterior (figura~\ref{fig:isocoro}): primero se calienta a presión constante,
+y el sistema se dilata $\Delta V_1=+\alpha V\Delta T$; después se comprime a temperatura constante hasta
+recuperar el volumen inicial, lo que exige $\Delta V_2=-\kT V\Delta p$. Como el volumen final es el inicial,
+\begin{equation*}
+\Delta V_1+\Delta V_2=0
+\quad\Longrightarrow\quad
+\alpha V\Delta T=\kT V\Delta p
+\quad\Longrightarrow\quad
+\Delta p=\frac{\alpha}{\kT}\,\Delta T .
+\end{equation*}
+La presión que aparece es la necesaria para «deshacer» la dilatación térmica comprimiendo: grande si el
+sistema se dilata mucho ($\alpha$ grande) y es poco compresible ($\kT$ pequeño).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  est/.style={draw=marino,line width=0.8pt,fill=fondo,align=center,inner sep=5pt,font=\small,minimum width=2.9cm},
+  >={Stealth[length=2.2mm]}]
+  \node[est] (A) at (0,0) {$T,\ p$\\[1pt] volumen $V$};
+  \node[est] (B) at (5.2,2.3) {$T+\Delta T,\ p$\\[1pt] volumen $V+\alpha V\Delta T$};
+  \node[est,draw=teja] (C) at (10.4,0) {$T+\Delta T,\ p+\Delta p$\\[1pt] volumen $V$};
+  \draw[->,marino,line width=0.8pt] (A.north) |- (B.west)
+    node[pos=0.75,above,font=\scriptsize,align=center] {(1) calentar a $p$ cte\\$\Delta V_1=+\alpha V\Delta T$};
+  \draw[->,acento,line width=0.8pt] (B.east) -| (C.north)
+    node[pos=0.25,above,font=\scriptsize,align=center] {(2) comprimir a $T$ cte\\$\Delta V_2=-\kT V\Delta p$};
+  \draw[->,teja,line width=0.8pt,densely dashed] (A.east) -- (C.west)
+    node[midway,below,font=\scriptsize,align=center] {proceso real: calentar a $V$ constante\\$\Delta V_1+\Delta V_2=0$};
+\end{tikzpicture}
+\caption{Calentamiento isócoro descompuesto en dos etapas con el mismo estado inicial y final. Como
+$\ln V$ es función de estado, el camino de dos etapas y el real dan el mismo balance de volumen, y de él
+sale $\Delta p=(\alpha/\kT)\Delta T$.}
+\label{fig:isocoro}
+\end{figure}
+
+\begin{observacion}[Líquidos y sólidos]
+Para el mercurio (problema~1.7), $\alpha/\kT\simeq4{,}6\cdot10^{6}\ \mathrm{Pa/K}$: un solo kelvin produce unos
+46~bar. En líquidos y sólidos $\kT$ es tan pequeño que impedir la dilatación térmica requiere presiones
+enormes; en un gas ideal, en cambio, $\alpha/\kT=(1/T)/(1/p)=p/T$, y a \SI{1}{bar} y \SI{300}{K} solo da
+unos \SI{3.3}{mbar/K}.
 \end{observacion}
 
 \begin{ejemplo}[Coeficientes del gas de van der Waals]\label{ej:vdw}
