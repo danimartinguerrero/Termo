@@ -484,9 +484,14 @@ cero aporta la \emph{transitividad}: el equilibrio térmico es una \emph{relaci�
 sus clases de equivalencia definen la temperatura.
 
 \begin{proposicion}[Existencia de la temperatura empírica]
-Sean tres sistemas simples $\Sigma_i$ de variables $(p_i,V_i)$. Si el equilibrio térmico $\Sigma_1\sim\Sigma_3$
-se expresa por $F_{13}(p_1,V_1,p_3,V_3)=0$ y $\Sigma_2\sim\Sigma_3$ por $F_{23}(p_2,V_2,p_3,V_3)=0$, existen
-funciones $\theta_i(p_i,V_i)$ tales que el equilibrio térmico mutuo equivale a
+Sean tres sistemas simples $\Sigma_i$ de variables $(p_i,V_i)$, $i=1,2,3$. Supongamos que:
+\begin{enumerate}[label=(H\arabic*),leftmargin=2.6em,itemsep=1pt]
+\item el equilibrio térmico $\Sigma_i\sim\Sigma_3$ ($i=1,2$) se expresa por una relación
+$F_{i3}(p_i,V_i,p_3,V_3)=0$ que puede despejarse de forma única en $p_3$
+(basta $\partial F_{i3}/\partial p_3\neq0$, por el teorema de la función implícita);
+\item se cumple la ley cero (teorema~3.1), junto con la reflexividad y la simetría del equilibrio térmico.
+\end{enumerate}
+Entonces existen funciones $\theta_i(p_i,V_i)$ tales que el equilibrio térmico mutuo equivale a
 \begin{equation}
 \theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3).
 \label{eq:temp-empirica}
@@ -494,16 +499,128 @@ funciones $\theta_i(p_i,V_i)$ tales que el equilibrio térmico mutuo equivale a
 \end{proposicion}
 
 \begin{demo}
-Despejando $p_3$ de ambas condiciones, $g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3)$. Por la ley cero esta
-igualdad equivale a $F_{12}(p_1,V_1,p_2,V_2)=0$, que no contiene $V_3$; luego $V_3$ debe cancelarse, lo
-que solo es posible si cada miembro se escribe como $\psi(V_3,\theta_i(p_i,V_i))$ con la misma $\psi$.
-Entonces $\theta_1=\theta_2$, e igualando con $p_3=\psi(V_3,\theta)$ se obtiene $\theta_3(p_3,V_3)=\theta$.
+Se procede en cinco pasos. Los dos primeros solo usan álgebra; la ley cero entra en el segundo y la
+parte delicada (la separación de variables) se justifica en el tercero.
+
+\paso{Paso 1: despejar $p_3$}
+Por (H1), de las dos condiciones de equilibrio
+\begin{equation*}
+F_{13}(p_1,V_1,p_3,V_3)=0,\qquad F_{23}(p_2,V_2,p_3,V_3)=0
+\end{equation*}
+se obtiene la presión que debe tener $\Sigma_3$, de volumen $V_3$, para estar en equilibrio con cada sistema:
+\begin{equation}
+p_3=g_{13}(p_1,V_1,V_3),\qquad p_3=g_{23}(p_2,V_2,V_3).
+\label{eq:g13g23}
+\end{equation}
+Si $\Sigma_3$ está a la vez en equilibrio con $\Sigma_1$ y con $\Sigma_2$, ambas expresiones dan la
+misma presión, y necesariamente
+\begin{equation}
+g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3).
+\label{eq:g-igual}
+\end{equation}
+Hasta aquí solo se ha despejado una variable y se han igualado dos expresiones de ella.
+
+\paso{Paso 2: dónde entra la ley cero}
+Si se cumple~\eqref{eq:g-igual}, $\Sigma_1\sim\Sigma_3$ y $\Sigma_2\sim\Sigma_3$; por la ley cero,
+$\Sigma_1\sim\Sigma_2$, lo que se expresa mediante una relación
+\begin{equation*}
+F_{12}(p_1,V_1,p_2,V_2)=0 .
+\end{equation*}
+Esta relación \emph{no contiene} $V_3$: el equilibrio entre $\Sigma_1$ y $\Sigma_2$ no puede depender del
+volumen del sistema auxiliar. Por tanto, fijados los estados de $\Sigma_1$ y $\Sigma_2$, la
+igualdad~\eqref{eq:g-igual} debe cumplirse para \emph{todo} valor admisible de $V_3$ o para ninguno.
+Que $V_3$ «se cancele» significa exactamente esto, y no es aún una factorización: hay que construirla.
+
+\paso{Paso 3: construcción de $\theta$ y de $\psi$}
+Se fija un volumen de referencia $V_3^\ast$ (es decir, se usa $\Sigma_3$ como \emph{termómetro de volumen
+constante}) y se define la temperatura empírica de $\Sigma_i$ como la presión que marca ese termómetro
+en equilibrio con él:
+\begin{equation}
+\theta_i(p_i,V_i)\equiv g_{i3}(p_i,V_i,V_3^\ast),\qquad i=1,2.
+\label{eq:def-theta}
+\end{equation}
+A continuación se define, para cada $V_3$ y cada valor $\theta$,
+\begin{equation}
+\psi(V_3,\theta)\equiv\ \text{presión de $\Sigma_3$ (volumen $V_3$) en equilibrio con un sistema de temperatura $\theta$}.
+\label{eq:def-psi}
+\end{equation}
+Hay que comprobar que $\psi$ está bien definida, es decir, que no depende de qué sistema de temperatura
+$\theta$ se use. Sean $\Sigma_1$ y $\Sigma_2$ con $\theta_1=\theta_2=\theta$. Por~\eqref{eq:def-theta}, el
+estado $(\theta,V_3^\ast)$ de $\Sigma_3$ está en equilibrio con ambos, luego por la ley cero
+$\Sigma_1\sim\Sigma_2$. Si ahora $\Sigma_3$, con volumen $V_3$, está en equilibrio con $\Sigma_1$, por la
+ley cero (y la simetría) también lo está con $\Sigma_2$, y por la unicidad de (H1)
+\begin{equation*}
+g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3).
+\end{equation*}
+Así, la presión depende solo de $V_3$ y de $\theta$, y queda probada la separación
+\begin{equation}
+\boxed{\;g_{13}(p_1,V_1,V_3)=\psi\bigl(V_3,\theta_1(p_1,V_1)\bigr),\qquad
+g_{23}(p_2,V_2,V_3)=\psi\bigl(V_3,\theta_2(p_2,V_2)\bigr)\;}
+\label{eq:separacion}
+\end{equation}
+con la \emph{misma} $\psi$ y con $\psi(V_3^\ast,\theta)=\theta$. Las dos variables desempeñan papeles
+distintos: $V_3$ describe el sistema auxiliar y $\theta_i$ identifica el estado térmico de $\Sigma_i$.
+
+\paso{Paso 4: inyectividad y $\theta_1=\theta_2$}
+Sustituyendo~\eqref{eq:separacion} en~\eqref{eq:g-igual}:
+\begin{equation*}
+\psi(V_3,\theta_1)=\psi(V_3,\theta_2).
+\end{equation*}
+La función $\psi(V_3,\cdot)$ es inyectiva en su segundo argumento: si $\psi(V_3,\theta_1)=\psi(V_3,\theta_2)$,
+el mismo estado de $\Sigma_3$ está en equilibrio con $\Sigma_1$ y con $\Sigma_2$, luego $\Sigma_1\sim\Sigma_2$
+por la ley cero; entonces el termómetro a $V_3^\ast$ en equilibrio con $\Sigma_1$ lo está también con
+$\Sigma_2$ y marca lo mismo, es decir, $\theta_1=\theta_2$. Por tanto
+\begin{equation}
+\boxed{\;\Sigma_1\sim\Sigma_2\iff\theta_1(p_1,V_1)=\theta_2(p_2,V_2).\;}
+\label{eq:theta12}
+\end{equation}
+Físicamente, la inyectividad dice que dos temperaturas distintas no pueden producir la misma presión
+del termómetro a un mismo volumen.
+
+\paso{Paso 5: temperatura del sistema auxiliar}
+Por~\eqref{eq:g13g23} y~\eqref{eq:separacion}, $\Sigma_3$ está en equilibrio con un sistema de temperatura
+$\theta$ si y solo si
+\begin{equation*}
+p_3=\psi(V_3,\theta).
+\end{equation*}
+Como $\psi(V_3,\cdot)$ es inyectiva, esta relación se invierte en su recorrido y define
+\begin{equation}
+\theta_3(p_3,V_3)\equiv\psi(V_3,\cdot)^{-1}(p_3)
+\quad\Longrightarrow\quad
+\Sigma_i\sim\Sigma_3\iff\theta_3(p_3,V_3)=\theta_i(p_i,V_i).
+\label{eq:theta3}
+\end{equation}
+Reuniendo~\eqref{eq:theta12} y~\eqref{eq:theta3} se obtiene~\eqref{eq:temp-empirica}.
 \end{demo}
+
+\begin{observacion}[Qué hay que retener]
+La ley cero permite construir una variable común a todos los sistemas en equilibrio térmico mutuo: la
+temperatura empírica. La construcción no es gratuita: requiere poder despejar $p_3$ (H1) y usa la ley
+cero tres veces (para que $V_3$ no intervenga, para que $\psi$ esté bien definida y para que sea
+inyectiva). La elección del termómetro ($\Sigma_3$ y $V_3^\ast$) es arbitraria; otra elección da
+$\tilde\theta=\phi(\theta)$ con $\phi$ inyectiva, y por eso $\theta$ solo está definida salvo una función
+inyectiva (monótona, si se quiere conservar el orden «más caliente que»).
+\end{observacion}
+
+\begin{ejemplo}[Los cinco pasos con los datos del problema~1.1]
+Con $p_1V_1-bp_1-p_3V_3=0$ y $p_2V_2-p_3V_3+b'p_3V_3/V_2=0$:
+\begin{align*}
+\text{Paso 1:}\quad & g_{13}=\frac{p_1(V_1-b)}{V_3},\qquad g_{23}=\frac{p_2V_2^2}{(V_2-b')\,V_3};\\
+\text{Paso 2:}\quad & \frac{p_1(V_1-b)}{V_3}=\frac{p_2V_2^2}{(V_2-b')\,V_3}
+\;\iff\; p_1(V_1-b)=\frac{p_2V_2^2}{V_2-b'}\quad(\text{$V_3$ desaparece});\\
+\text{Paso 3:}\quad & \theta_1=\frac{p_1(V_1-b)}{V_3^\ast},\quad \theta_2=\frac{p_2V_2^2}{(V_2-b')V_3^\ast},\quad
+\psi(V_3,\theta)=\frac{V_3^\ast}{V_3}\,\theta;\\
+\text{Paso 4:}\quad & \psi(V_3,\cdot)\ \text{es lineal con pendiente}\ V_3^\ast/V_3\neq0,\ \text{luego inyectiva}:\ \theta_1=\theta_2;\\
+\text{Paso 5:}\quad & \theta_3=\frac{p_3V_3}{V_3^\ast}.
+\end{align*}
+Multiplicando todas por la constante $V_3^\ast$ (una función inyectiva) se recuperan las del
+problema~1.1: $\theta_1=p_1(V_1-b)$, $\theta_2=p_2V_2^2/(V_2-b')$ y $\theta_3=p_3V_3$.
+\end{ejemplo}
 
 \begin{observacion}[Lectura operativa]
 En la práctica, se reescribe cada condición de equilibrio aislando \emph{la misma} combinación de las
 variables del sistema común: $\theta_1(p_1,V_1)=\theta_3(p_3,V_3)=\theta_2(p_2,V_2)$. La función $\theta$
-está definida salvo una función monótona arbitraria; las curvas $\theta_i(p_i,V_i)=\cte$ son las
+está definida salvo una función inyectiva; las curvas $\theta_i(p_i,V_i)=\cte$ son las
 \emph{isotermas} del sistema $i$. Es el método M1 (problema~1.1).
 \end{observacion}
 
