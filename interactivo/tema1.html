@@ -1,0 +1,1054 @@
+<title>Termodinámica I · Tema 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: barra de pestañas fija + columna de lectura (~68ch) con índice lateral en escritorio */
+:root{
+  --bg:#F5F8FC; --surface:#FFFFFF; --ink:#0E2140; --muted:#4E607A; --rule:#CAD8EA;
+  --accent:#1F4E89; --accent-2:#3A6EA5; --soft:#E7EFF9; --warm:#B5523B; --ok:#2F7A57; --okbg:#E5F3EC; --badbg:#F8E9E4;
+  --f-text:"STIX Two Text","STIX Two",Cambria,Georgia,serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2.25rem; --s7:3.5rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1320; --surface:#111C2D; --ink:#DDE6F2; --muted:#94A6BF; --rule:#26385A;
+  --accent:#8FB6E6; --accent-2:#6E9BD2; --soft:#16253B; --warm:#E58E76; --ok:#6CC59A; --okbg:#13291F; --badbg:#2E1A15; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1320; --surface:#111C2D; --ink:#DDE6F2; --muted:#94A6BF; --rule:#26385A;
+  --accent:#8FB6E6; --accent-2:#6E9BD2; --soft:#16253B; --warm:#E58E76; --ok:#6CC59A; --okbg:#13291F; --badbg:#2E1A15; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-text);font-size:1.08rem;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3,h4{font-family:var(--f-text);line-height:1.2;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select{font:inherit}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+mjx-container{color:inherit}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding-block:2px}
+
+/* ---------- Cabecera ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--rule)}
+.top-in{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s3) 0;display:flex;flex-direction:column;gap:var(--s2)}
+.brand{display:flex;align-items:baseline;gap:var(--s3);flex-wrap:wrap}
+.brand .eyebrow{font-family:var(--f-ui);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2)}
+.brand h1{font-size:1.35rem;font-weight:700;color:var(--ink)}
+.brand .prog{margin-left:auto;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.tabs{display:flex;gap:var(--s1);overflow-x:auto;scrollbar-width:none}
+.tabs a{font-family:var(--f-ui);font-size:.9rem;font-weight:500;color:var(--muted);text-decoration:none;padding:var(--s2) var(--s3);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabs a:hover{color:var(--ink)}
+
+/* ---------- Estructura ---------- */
+main{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s5) var(--s7)}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s6)}
+.with-side{grid-template-columns:200px minmax(0,1fr)}
+@media (max-width:860px){.with-side{grid-template-columns:minmax(0,1fr)}.side{display:none}}
+.col{max-width:72ch;min-width:0;display:flex;flex-direction:column;gap:var(--s5)}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 112px);align-self:start;font-family:var(--f-ui);font-size:.85rem;display:flex;flex-direction:column;gap:var(--s1)}
+.side .lbl{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--s2)}
+.side a{color:var(--muted);text-decoration:none;padding:3px 0 3px var(--s3);border-left:2px solid var(--rule)}
+.side a:hover,.side a.on{color:var(--accent);border-left-color:var(--accent)}
+
+.intro{display:flex;flex-direction:column;gap:var(--s3);padding-bottom:var(--s4);border-bottom:1px solid var(--rule)}
+.intro h2{font-size:1.9rem}
+.intro p{color:var(--muted);max-width:62ch}
+
+section.mod{display:flex;flex-direction:column;gap:var(--s4);scroll-margin-top:130px}
+.mod-h{display:flex;align-items:baseline;gap:var(--s3);border-bottom:1.5px solid var(--ink);padding-bottom:var(--s2)}
+.mod-h .n{font-family:var(--f-mono);font-size:.9rem;color:var(--accent-2)}
+.mod-h h3{font-size:1.45rem}
+h4{font-size:1.1rem;color:var(--accent);margin-top:var(--s2)}
+
+/* Bloques del estilo de los apuntes */
+.def{background:linear-gradient(90deg,var(--soft),transparent 140%);border-left:3px solid var(--ink);padding:var(--s3) var(--s4)}
+.def b.t{color:var(--ink)} .def .tt{color:var(--accent-2)}
+.obs .t{color:var(--accent-2);font-style:italic}
+.key{border:1px solid var(--rule);background:var(--surface);padding:var(--s3) var(--s4)}
+.small{font-size:.92rem;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-family:var(--f-ui);font-weight:600;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+
+/* ---------- Widgets ---------- */
+.lab{border:1px solid var(--rule);background:var(--surface);display:flex;flex-direction:column}
+.lab-h{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s4);border-bottom:1px solid var(--rule);font-family:var(--f-ui);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2)}
+.lab-b{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s4)}
+.row{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.seg{display:inline-flex;border:1px solid var(--rule)}
+.seg button{background:transparent;color:var(--muted);border:0;padding:6px 12px;cursor:pointer;font-family:var(--f-ui);font-size:.85rem}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.ctl{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr) 5.5rem;gap:var(--s3);align-items:center;font-family:var(--f-ui);font-size:.88rem}
+.ctl output{font-family:var(--f-mono);text-align:right}
+input[type=range]{width:100%;accent-color:var(--accent)}
+canvas{width:100%;height:auto;display:block;background:var(--surface)}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:var(--s2)}
+.readout div{border-top:2px solid var(--rule);padding-top:var(--s1);font-family:var(--f-ui);font-size:.78rem;color:var(--muted)}
+.readout b{display:block;font-family:var(--f-mono);font-weight:500;font-size:1rem;color:var(--ink)}
+.chip{display:inline-block;font-family:var(--f-ui);font-size:.75rem;font-weight:600;letter-spacing:.04em;padding:2px 8px;border:1px solid currentColor}
+.chip.ok{color:var(--ok)} .chip.bad{color:var(--warm)} .chip.mid{color:var(--accent-2)}
+
+.walls{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:var(--s3)}
+.walls .w{display:flex;flex-direction:column;gap:var(--s1);font-family:var(--f-ui);font-size:.82rem;color:var(--muted)}
+.verdict{display:flex;flex-direction:column;gap:var(--s1);border-left:3px solid var(--accent);padding-left:var(--s3)}
+.verdict .big{font-size:1.3rem;font-weight:700}
+
+.sorter{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.sorter button{font-family:var(--f-ui);font-size:.9rem;min-width:7.5rem;text-align:left;padding:6px 10px;background:var(--bg);color:var(--ink);border:1px solid var(--rule);cursor:pointer;display:flex;justify-content:space-between;gap:var(--s2)}
+.sorter button .tag{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.sorter button.E .tag,.sorter button.I .tag{color:var(--accent)}
+.sorter button.right{border-color:var(--ok);background:var(--okbg)}
+.sorter button.wrong{border-color:var(--warm);background:var(--badbg)}
+
+/* ---------- Botones ---------- */
+.btn{font-family:var(--f-ui);font-size:.88rem;font-weight:500;padding:7px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:hover:not(:disabled){filter:brightness(1.08)}
+
+/* ---------- Preguntas ---------- */
+.q{display:flex;flex-direction:column;gap:var(--s3)}
+.q .stem{font-size:1.05rem}
+.q .meta{font-family:var(--f-ui);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.opts{display:flex;flex-direction:column;gap:var(--s2)}
+.opt{display:flex;gap:var(--s3);align-items:flex-start;text-align:left;width:100%;padding:8px 12px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer;font-family:var(--f-text);font-size:1rem}
+.opt .k{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px}
+.opt:hover:not(:disabled){border-color:var(--accent-2)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--warm);background:var(--badbg)}
+.expl{border-left:3px solid var(--ok);padding:var(--s2) var(--s3);background:var(--okbg);font-size:.97rem}
+.expl.no{border-left-color:var(--warm);background:var(--badbg)}
+.check{display:flex;flex-direction:column;gap:var(--s4);border-top:1px dashed var(--rule);padding-top:var(--s4)}
+.check > .lbl{font-family:var(--f-ui);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2)}
+
+.quizbar{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.quizbar select{padding:6px 8px;border:1px solid var(--rule);background:var(--surface);color:var(--ink)}
+.meter{height:6px;background:var(--rule);position:relative}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.score{display:flex;flex-direction:column;gap:var(--s2);border:1px solid var(--rule);background:var(--surface);padding:var(--s4)}
+.score .big{font-family:var(--f-mono);font-size:2rem}
+
+/* ---------- Problemas ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:var(--s2);font-family:var(--f-ui)}
+.filters button{font-size:.82rem;padding:5px 10px;border:1px solid var(--rule);background:var(--surface);color:var(--muted);cursor:pointer}
+.filters button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--soft)}
+.plist{display:flex;flex-direction:column;gap:var(--s3)}
+.prob{border:1px solid var(--rule);background:var(--surface)}
+.prob > summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:3.4rem minmax(0,1fr) auto;gap:var(--s3);align-items:baseline;padding:var(--s3) var(--s4)}
+.prob > summary::-webkit-details-marker{display:none}
+.prob .pid{font-family:var(--f-mono);color:var(--accent-2)}
+.prob .ptitle{font-weight:600}
+.prob .pm{font-family:var(--f-ui);font-size:.75rem;color:var(--muted);white-space:nowrap}
+.prob.done .pid::after{content:" ✓";color:var(--ok)}
+.prob-b{padding:0 var(--s4) var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
+.stmt{background:linear-gradient(90deg,var(--soft),transparent 140%);border-left:3px solid var(--ink);padding:var(--s3) var(--s4);font-style:italic}
+.steps{display:flex;flex-direction:column;gap:var(--s3)}
+.step{border-left:2px solid var(--rule);padding-left:var(--s3)}
+.step b{color:var(--accent)}
+.res{display:inline-block;border:1px solid var(--ink);padding:2px 10px;margin-top:var(--s1)}
+.answer{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;font-family:var(--f-ui);font-size:.88rem}
+.answer input{width:8rem;padding:6px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);font-family:var(--f-mono)}
+.fb{font-family:var(--f-ui);font-size:.86rem}
+.fb.ok{color:var(--ok)} .fb.no{color:var(--warm)}
+
+@media (prefers-reduced-motion:no-preference){.opt,.btn,.sorter button{transition:background .15s,border-color .15s}}
+@media (max-width:520px){.ctl{grid-template-columns:minmax(0,1fr) 5rem}.ctl label{grid-column:1/-1}.prob > summary{grid-template-columns:3rem minmax(0,1fr)}.prob .pm{grid-column:2}}
+</style>
+
+<script>
+window.MathJax={
+  tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],
+    macros:{Vm:'\\bar V',kT:'\\kappa_T',dd:'\\mathrm{d}',cte:'\\mathrm{cte}',pd:['\\left(\\frac{\\partial #1}{\\partial #2}\\right)_{\\!#3}',3]}},
+  svg:{fontCache:'global'},
+  startup:{typeset:true}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <span class="eyebrow">Termodinámica I · Tema 1</span>
+      <h1>Conceptos básicos</h1>
+      <span class="prog" id="prog">0/17 problemas · mejor test —</span>
+    </div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#teoria" data-v="teoria">Teoría</a>
+      <a href="#cuestionario" data-v="cuestionario">Cuestionario</a>
+      <a href="#problemas" data-v="problemas">Problemas</a>
+      <a href="#practica" data-v="practica">Práctica</a>
+      <a href="#formulario" data-v="formulario">Formulario</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- =============================== TEORÍA =============================== -->
+<div class="view with-side" id="v-teoria">
+  <aside class="side" aria-label="Índice de teoría">
+    <span class="lbl">Teoría</span>
+    <a href="#teoria" data-go="m1">1 · Sistemas</a>
+    <a href="#teoria" data-go="m2">2 · Equilibrio y procesos</a>
+    <a href="#teoria" data-go="m3">3 · Ley cero</a>
+    <a href="#teoria" data-go="m4">4 · Ecuación de estado</a>
+    <a href="#teoria" data-go="m5">5 · Coeficientes α, κ<sub>T</sub>, β</a>
+    <a href="#teoria" data-go="m6">6 · Reconstruir la ecuación</a>
+  </aside>
+  <div class="col">
+    <div class="intro">
+      <h2>Del sistema a la ecuación de estado</h2>
+      <p>Seis módulos cortos con la teoría imprescindible del Tema 1. Cada uno tiene un laboratorio para tocar las ideas y dos preguntas de comprobación al final. La numeración de problemas coincide con la lista de seminarios.</p>
+    </div>
+
+    <!-- M1 -->
+    <section class="mod" id="m1">
+      <div class="mod-h"><span class="n">01</span><h3>Sistemas termodinámicos</h3></div>
+      <p>La termodinámica describe sistemas de \(N\sim10^{23}\) partículas con unas pocas magnitudes macroscópicas (\(p,V,T,n\)). Funciona porque las medidas macroscópicas son lentas y gruesas frente a las escalas atómicas: solo sobreviven al promedio las combinaciones que no fluctúan, y esas definen el <em>macroestado</em>.</p>
+      <div class="def"><b class="t">Definición</b> <span class="tt">(sistema, frontera, universo)</span>. Un sistema termodinámico es una región descrita por magnitudes termodinámicas, separada de sus <em>alrededores</em> por una <em>frontera</em> real o conceptual, fija o móvil. Sistema + frontera + alrededores relevantes forman el <em>universo termodinámico</em>.</div>
+      <p>La frontera se describe por sus <strong>paredes</strong>. Cada pareja restrictiva/permisiva controla una interacción, y una <em>ligadura</em> es una interacción suprimida.</p>
+
+      <div class="lab">
+        <div class="lab-h">Laboratorio · paredes y tipo de sistema</div>
+        <div class="lab-b">
+          <div class="walls">
+            <div class="w">Interacción mecánica
+              <div class="seg" data-wall="mec"><button type="button" aria-pressed="true" data-val="0">Rígida</button><button type="button" aria-pressed="false" data-val="1">Móvil</button></div></div>
+            <div class="w">Interacción térmica
+              <div class="seg" data-wall="ter"><button type="button" aria-pressed="false" data-val="0">Adiabática</button><button type="button" aria-pressed="true" data-val="1">Diatérmica</button></div></div>
+            <div class="w">Interacción material
+              <div class="seg" data-wall="mat"><button type="button" aria-pressed="true" data-val="0">Impermeable</button><button type="button" aria-pressed="false" data-val="1">Permeable</button></div></div>
+          </div>
+          <div class="verdict" id="wallOut"></div>
+        </div>
+      </div>
+
+      <h4>Extensivas e intensivas</h4>
+      <div class="def"><b class="t">Definición</b>. Una variable es <em>extensiva</em> si es aditiva (al unir dos copias idénticas se duplica): \(U,V,n,m,S\). Es <em>intensiva</em> si es local y no aditiva: \(T,p,\rho\). El cociente de dos extensivas es intensivo, así que las magnitudes <em>específicas</em> \(x=X/m\) y <em>molares</em> \(\bar X=X/n\) son intensivas.</div>
+
+      <div class="lab">
+        <div class="lab-h">Laboratorio · clasifica cada magnitud</div>
+        <div class="lab-b">
+          <p class="small">Pulsa cada magnitud para alternar entre <span class="mono">E</span> (extensiva) e <span class="mono">I</span> (intensiva) y después comprueba.</p>
+          <div class="sorter" id="sorter"></div>
+          <div class="row"><button class="btn" type="button" id="sortCheck">Comprobar</button><button class="btn ghost" type="button" id="sortReset">Reiniciar</button><span class="fb" id="sortFb"></span></div>
+        </div>
+      </div>
+
+      <div class="def"><b class="t">Definición</b> <span class="tt">(sistema simple, postulado de estado)</span>. Un sistema simple es homogéneo, isótropo, de composición fija, sin campos externos y con un único modo de trabajo. Su estado de equilibrio queda fijado por <strong>dos</strong> variables independientes. En el hidrostático, \(f(p,V,T)=0\).</div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Sistema</th><th>Tipo fuerza (intensiva)</th><th>Tipo desplazamiento (extensiva)</th></tr></thead>
+        <tbody>
+          <tr><td>Hidrostático</td><td>presión \(p\)</td><td>volumen \(V\)</td></tr>
+          <tr><td>Hilo estirado</td><td>tensión \(F\)</td><td>longitud \(L\)</td></tr>
+          <tr><td>Lámina superficial</td><td>tensión superficial \(\sigma\)</td><td>área \(A\)</td></tr>
+          <tr><td>Pila eléctrica</td><td>f.e.m. \(\mathcal E\)</td><td>carga \(q\)</td></tr>
+          <tr><td>Material magnético</td><td>campo \(H\)</td><td>imanación \(M\)</td></tr>
+        </tbody></table></div>
+      <div class="check" data-qs="s1,s5"><span class="lbl">Comprueba</span></div>
+    </section>
+
+    <!-- M2 -->
+    <section class="mod" id="m2">
+      <div class="mod-h"><span class="n">02</span><h3>Equilibrio y procesos</h3></div>
+      <div class="def"><b class="t">Definición</b> <span class="tt">(equilibrio)</span>. Las variables macroscópicas no cambian, no hay flujos internos y las ligaduras no permiten más evolución espontánea. Exige a la vez equilibrio <em>mecánico</em> (sin gradientes de \(p\) sin compensar), <em>térmico</em> (\(T\) uniforme a través de paredes diatérmicas) y <em>material</em> (sin difusión, reacción ni cambio de fase netos), en lo que las paredes permitan.</div>
+      <p class="obs"><span class="t">Observación (estacionario ≠ equilibrio).</span> Una barra entre dos focos alcanza un perfil \(T(x)\) constante, pero sigue circulando calor: es un estado estacionario. Que nada cambie en el tiempo no basta.</p>
+      <div class="def"><b class="t">Definición</b> <span class="tt">(procesos)</span>. <em>Cuasiestático</em>: tan lento que es una sucesión de estados de equilibrio y se dibuja como curva en el plano \(p\)–\(V\). <em>Reversible</em>: sistema y alrededores pueden volver al estado inicial con cambios infinitesimales. <em>Irreversible</em>: gradientes finitos, fricción, expansión libre… Se cumple reversible \(\subset\) cuasiestático.</div>
+      <p>Una <strong>función de estado</strong> \(Z(X,Y)\) solo depende del estado: \(\Delta Z\) no depende del camino y \(\oint \dd Z=0\). Su diferencial es <em>exacta</em>. El proceso fija el camino; los extremos fijan \(\Delta Z\).</p>
+
+      <div class="lab">
+        <div class="lab-h">Laboratorio · procesos politrópicos \(pV^n=\mathrm{cte}\)</div>
+        <div class="lab-b">
+          <canvas id="polyCv" width="720" height="380" aria-label="Diagrama p–V de procesos politrópicos"></canvas>
+          <div class="ctl"><label for="polyN">Exponente \(n\)</label><input type="range" id="polyN" min="0" max="3" step="0.05" value="1.4"><output id="polyNo">1,40</output></div>
+          <div class="ctl"><label for="polyV">Volumen final \(V_2\) (m³)</label><input type="range" id="polyV" min="0.4" max="3" step="0.05" value="3"><output id="polyVo">3,00</output></div>
+          <div class="readout">
+            <div>Presión final \(p_2\)<b id="polyP">—</b></div>
+            <div>Caso particular<b id="polyCase">—</b></div>
+            <div>Estado inicial<b>100 kPa · 1 m³</b></div>
+          </div>
+          <p class="small">Con \(n=1{,}4\) y \(V_2=3\) m³ es el problema 1.3. Las curvas tenues son \(n=0\) (isobara), \(n=1\) (isoterma del gas ideal) y \(n=1{,}4\). Si \(n\to\infty\) el proceso tiende a una isócora.</p>
+        </div>
+      </div>
+      <div class="check" data-qs="e1,e2"><span class="lbl">Comprueba</span></div>
+    </section>
+
+    <!-- M3 -->
+    <section class="mod" id="m3">
+      <div class="mod-h"><span class="n">03</span><h3>Ley cero y temperatura</h3></div>
+      <div class="def"><b class="t">Ley cero</b>. Si \(A\sim C\) y \(B\sim C\) en equilibrio térmico, entonces \(A\sim B\).</div>
+      <p>Con la reflexividad (\(A\sim A\)) y la simetría, la ley cero aporta la <strong>transitividad</strong>: el equilibrio térmico es una relación de equivalencia y cada clase define una temperatura.</p>
+      <div class="key">
+        <p><strong>Existencia de la temperatura empírica.</strong> Si \(\Sigma_1\sim\Sigma_3\) se expresa por \(F_{13}(p_1,V_1,p_3,V_3)=0\) y \(\Sigma_2\sim\Sigma_3\) por \(F_{23}=0\), despejando \(p_3\) de ambas y exigiendo que la igualdad resultante no dependa de \(V_3\) (debe equivaler a \(F_{12}=0\)) se llega a</p>
+        \[\theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3).\]
+      </div>
+      <p class="obs"><span class="t">Método M1.</span> Reescribe cada condición de equilibrio aislando <em>la misma</em> combinación de las variables del sistema común; lo que queda a cada lado son \(\theta_1\) y \(\theta_2\). La función \(\theta\) está definida salvo una función monótona, y las curvas \(\theta_i=\mathrm{cte}\) son las <em>isotermas</em>. Practícalo en el problema 1.1.</p>
+      <p>La escala absoluta es el kelvin: \(T/\mathrm K=t/{}^\circ\mathrm C+273{,}15\). Un intervalo de 1 K es igual a uno de 1 °C, luego \(\Delta T=\Delta t\).</p>
+      <div class="check" data-qs="z1,z2"><span class="lbl">Comprueba</span></div>
+    </section>
+
+    <!-- M4 -->
+    <section class="mod" id="m4">
+      <div class="mod-h"><span class="n">04</span><h3>Ecuación de estado</h3></div>
+      <div class="def"><b class="t">Definición</b>. Una ecuación (térmica o empírica) de estado es una relación \(f(p,V,T,n)=0\) entre variables de equilibrio. Con \(n\) fijo, solo dos de \(p,V,T\) son independientes.</div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Modelo</th><th>Ecuación</th><th>Aparece en</th></tr></thead>
+        <tbody>
+          <tr><td>Gas ideal</td><td>\(p\Vm=RT\)</td><td>1.3, 1.10</td></tr>
+          <tr><td>Clausius</td><td>\(p(\Vm-b)=RT\)</td><td>1.8</td></tr>
+          <tr><td>Van der Waals</td><td>\((p+a/\Vm^2)(\Vm-b)=RT\)</td><td>ejemplo de apuntes</td></tr>
+          <tr><td>Dieterici</td><td>\(p=\dfrac{RT}{\Vm-b}\,e^{-a/RT\Vm}\)</td><td>1.14</td></tr>
+          <tr><td>Virial</td><td>\(p=\dfrac{RT}{\Vm}\left(1+\dfrac b{\Vm}\right)\)</td><td>1.15</td></tr>
+        </tbody></table></div>
+      <p class="small">Todas tienden a \(p\Vm=RT\) cuando \(\Vm\to\infty\). Esta es la condición que fija las constantes de integración en el método M5.</p>
+      <div class="check" data-qs="c0,c8"><span class="lbl">Comprueba</span></div>
+    </section>
+
+    <!-- M5 -->
+    <section class="mod" id="m5">
+      <div class="mod-h"><span class="n">05</span><h3>Coeficientes \(\alpha\), \(\kT\), \(\beta\)</h3></div>
+      <div class="def"><b class="t">Definición</b>.
+        \[\alpha\equiv\frac1V\pd VTp,\qquad \kT\equiv-\frac1V\pd VpT,\qquad \beta\equiv\frac1p\pd pTV.\]
+        Son intensivos, por lo que puedes usar \(V\) o \(\Vm\). Unidades: \(\alpha,\beta\) en K⁻¹; \(\kT\) en Pa⁻¹.</div>
+      <p>Con las reglas recíproca y cíclica, \(\pd VTp\pd TpV\pd pVT=-1\), se obtiene la relación clave:</p>
+      \[\boxed{\alpha=p\,\beta\,\kT}\qquad\Rightarrow\qquad \pd pTV=\frac{\alpha}{\kT}.\]
+      <p>Solo dos coeficientes son independientes. La estabilidad mecánica exige \(\kT>0\); \(\alpha\) suele ser positivo, pero el agua entre 0 y 4 °C tiene \(\alpha<0\).</p>
+
+      <div class="lab">
+        <div class="lab-h">Laboratorio · isotermas y coeficientes</div>
+        <div class="lab-b">
+          <div class="seg" id="eosSeg" role="group" aria-label="Modelo">
+            <button type="button" aria-pressed="true" data-m="ideal">Ideal</button><button type="button" aria-pressed="false" data-m="claus">Clausius</button><button type="button" aria-pressed="false" data-m="vdw">Van der Waals</button><button type="button" aria-pressed="false" data-m="diet">Dieterici</button>
+          </div>
+          <canvas id="eosCv" width="720" height="400" aria-label="Isotermas en el plano p–V molar"></canvas>
+          <div class="ctl"><label for="eosT">Temperatura \(T\) (K)</label><input type="range" id="eosT" min="230" max="480" step="1" value="300"><output id="eosTo">300</output></div>
+          <div class="ctl"><label for="eosV">Volumen molar \(\Vm\) (L/mol)</label><input type="range" id="eosV" min="0.07" max="1" step="0.005" value="0.3"><output id="eosVo">0,300</output></div>
+          <div class="readout">
+            <div>\(p\) (bar)<b id="rP">—</b></div>
+            <div>\(\alpha\) (10⁻³ K⁻¹)<b id="rA">—</b></div>
+            <div>\(\kT\) (bar⁻¹)<b id="rK">—</b></div>
+            <div>\(\beta\) (10⁻³ K⁻¹)<b id="rB">—</b></div>
+            <div>Ideal: \(1/T\), \(1/p\)<b id="rI">—</b></div>
+            <div>Estabilidad<b id="rS">—</b></div>
+          </div>
+          <p class="small">Datos tipo CO₂ (L, bar, mol). Las derivadas se calculan numéricamente a partir de \(p(T,\Vm)\): \(\beta=\frac1p\partial_Tp\), \(\kT=-1/(\Vm\,\partial_{\Vm}p)\) y \(\alpha=p\beta\kT\). Para Van der Waals o Dieterici por debajo de \(T_c\simeq304\) K aparecen tramos con \(\kT<0\), que son mecánicamente inestables.</p>
+        </div>
+      </div>
+
+      <h4>Ecuación diferencial de estado</h4>
+      \[\dd\ln V=\alpha\,\dd T-\kT\,\dd p,\qquad \dd p=p\beta\,\dd T-\frac{\dd V}{\kT V}.\]
+      <p>Con coeficientes constantes y cambios pequeños: \(\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p\). Para un sólido isótropo, \(\alpha=3\alpha_l\) y \(\Delta L\simeq\alpha_lL_0\Delta T\) (problemas 1.5, 1.6, 1.7, 1.16).</p>
+      <div class="check" data-qs="c3,c5"><span class="lbl">Comprueba</span></div>
+    </section>
+
+    <!-- M6 -->
+    <section class="mod" id="m6">
+      <div class="mod-h"><span class="n">06</span><h3>Reconstruir la ecuación de estado (M5)</h3></div>
+      <div class="key">
+        <p><strong>Criterio de exactitud.</strong> \(M\,\dd x+N\,\dd y\) es diferencial exacta de \(z(x,y)\) si y solo si \(\pd Myx=\pd Nxy\). Se integra \(z=\int M\dd x+g(y)\) y se fija \(g\) imponiendo \(\partial_yz=N\).</p>
+      </div>
+      <ol>
+        <li>Completar el par de coeficientes con \(\alpha=p\beta\kT\).</li>
+        <li>Elegir la diferencial: con \(\alpha,\kT\) usa \(\dd\ln V\); si se pide \(p(T,V)\), usa \(\dd p\) o \(\dd\ln p\).</li>
+        <li>Comprobar la exactitud.</li>
+        <li>Integrar respecto de una variable y fijar la función de la otra.</li>
+        <li>Fijar la constante con un límite físico (normalmente gas ideal para \(\Vm\to\infty\)).</li>
+      </ol>
+
+      <div class="lab">
+        <div class="lab-h">Paso a paso · cuestión 1 del parcial 2025/26</div>
+        <div class="lab-b">
+          <p class="stmt">Una sustancia tiene \(\alpha=\dfrac1{T+A}\) y \(\kT=\dfrac1p\). Calcule \(p=p(T,V)\).</p>
+          <div class="steps" id="demoSteps">
+            <div class="step"><b>Paso 1 · diferencial.</b> \(\dd\ln V=\alpha\dd T-\kT\dd p=\dfrac{\dd T}{T+A}-\dfrac{\dd p}{p}\).</div>
+            <div class="step" hidden><b>Paso 2 · exactitud.</b> Variables separadas: \(\partial_p\frac1{T+A}=0=\partial_T(-\frac1p)\).</div>
+            <div class="step" hidden><b>Paso 3 · integración.</b> \(\dd\ln V=\dd\ln\dfrac{T+A}{p}\Rightarrow \ln V=\ln\dfrac{T+A}{p}+\ln K\).</div>
+            <div class="step" hidden><b>Paso 4 · resultado.</b> <span class="res">\(p=\dfrac{K(T+A)}{V}\)</span>. Comprobación: \(\beta=\frac1p\frac KV=\frac1{T+A}\), luego \(p\beta\kT=\frac1{T+A}=\alpha\). ✓</div>
+          </div>
+          <div class="row"><button class="btn" type="button" data-steps="demoSteps" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="demoSteps" data-act="reset">Ocultar</button></div>
+        </div>
+      </div>
+      <div class="check" data-qs="i1,i2"><span class="lbl">Comprueba</span></div>
+      <p class="small">¿Listo para más? Ve al <a href="#cuestionario">cuestionario</a> o resuelve los <a href="#problemas">problemas de seminario</a>.</p>
+    </section>
+  </div>
+</div>
+
+<!-- =============================== CUESTIONARIO =============================== -->
+<div class="view" id="v-cuestionario" hidden>
+  <div class="col">
+    <div class="intro">
+      <h2>Cuestionario</h2>
+      <p>Diez preguntas al azar del banco del tema, con la explicación de cada respuesta. Puedes filtrar por bloque.</p>
+    </div>
+    <div class="quizbar">
+      <label for="quizTag" class="small">Bloque</label>
+      <select id="quizTag">
+        <option value="all">Todo el tema</option>
+        <option value="sis">Sistemas</option>
+        <option value="eq">Equilibrio y procesos</option>
+        <option value="zero">Ley cero</option>
+        <option value="coef">Ecuación de estado y coeficientes</option>
+        <option value="int">Integración (M5) y cálculo</option>
+      </select>
+      <button class="btn" type="button" id="quizNew">Nuevo cuestionario</button>
+      <span class="small mono" id="quizCount"></span>
+    </div>
+    <div class="meter" aria-hidden="true"><i id="quizMeter" style="width:0%"></i></div>
+    <div id="quizBox" class="q"></div>
+    <div class="row"><button class="btn" type="button" id="quizNext" hidden>Siguiente</button></div>
+  </div>
+</div>
+
+<!-- =============================== PROBLEMAS =============================== -->
+<div class="view" id="v-problemas" hidden>
+  <div class="col">
+    <div class="intro">
+      <h2>Problemas de seminario</h2>
+      <p>Lista #1 del tema y cuestión 1 del parcial. Intenta cada problema antes de abrir los pasos: primero lee la pista de método, después muestra los pasos de uno en uno. En los problemas numéricos puedes comprobar tu resultado.</p>
+    </div>
+    <div class="row">
+      <div class="filters" id="pFilters">
+        <button type="button" aria-pressed="true" data-f="all">Todos</button>
+        <button type="button" aria-pressed="false" data-f="M1">M1 Ley cero</button>
+        <button type="button" aria-pressed="false" data-f="M2">M2 Politrópico</button>
+        <button type="button" aria-pressed="false" data-f="M3">M3 Coef. constantes</button>
+        <button type="button" aria-pressed="false" data-f="M4">M4 Derivación</button>
+        <button type="button" aria-pressed="false" data-f="M5">M5 Integración</button>
+        <button type="button" aria-pressed="false" data-f="todo">Sin resolver</button>
+      </div>
+      <button class="btn ghost" type="button" id="pRandom">Proponme uno</button>
+    </div>
+    <div class="plist" id="plist">
+
+<details class="prob" data-id="1.1" data-m="M1">
+<summary><span class="pid">1.1</span><span class="ptitle">Temperaturas empíricas de tres gases</span><span class="pm">M1</span></summary>
+<div class="prob-b">
+<p class="stmt">Cuando \(\Sigma_1\) y \(\Sigma_3\) están en equilibrio térmico, \(p_1V_1-bp_1-p_3V_3=0\); cuando lo están \(\Sigma_2\) y \(\Sigma_3\), \(p_2V_2-p_3V_3+b'p_3V_3/V_2=0\). Halle la relación de equilibrio entre \(\Sigma_1\) y \(\Sigma_2\) y las funciones \(\theta_i(p_i,V_i)\).</p>
+<p class="small"><strong>Pista.</strong> Aísla en ambas condiciones la misma combinación de \(\Sigma_3\).</p>
+<div class="steps" id="st-1-1">
+<div class="step" hidden><b>Paso 1.</b> \(\Sigma_1\sim\Sigma_3\): \(p_1(V_1-b)=p_3V_3\).</div>
+<div class="step" hidden><b>Paso 2.</b> \(\Sigma_2\sim\Sigma_3\): \(p_3V_3(1-b'/V_2)=p_2V_2\Rightarrow p_3V_3=\dfrac{p_2V_2^2}{V_2-b'}\).</div>
+<div class="step" hidden><b>Paso 3.</b> Ley cero: <span class="res">\(p_1(V_1-b)=\dfrac{p_2V_2^2}{V_2-b'}\)</span>, con \(\theta_1=p_1(V_1-b)\), \(\theta_2=\dfrac{p_2V_2^2}{V_2-b'}\), \(\theta_3=p_3V_3\).</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-1" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-1" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.2" data-m="M5">
+<summary><span class="pid">1.2</span><span class="ptitle">Ecuación de estado a partir de dV</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Un fluido cumple \(\dd V=\dfrac{2V}{T}\dd T-\dfrac{3V}{p}\dd p\). Encuentre la relación entre \(V\), \(p\) y \(T\).</p>
+<p class="small"><strong>Pista.</strong> Divide entre \(V\); las variables quedan separadas.</p>
+<div class="steps" id="st-1-2">
+<div class="step" hidden><b>Paso 1.</b> \(\dd\ln V=2\,\dd\ln T-3\,\dd\ln p=\dd\ln(T^2p^{-3})\). Es decir, \(\alpha=2/T\) y \(\kT=3/p\).</div>
+<div class="step" hidden><b>Paso 2.</b> Integrando: <span class="res">\(p^3V=KT^2\)</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-2" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-2" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.3" data-m="M2" data-ans="21.48" data-tol="0.02" data-unit="kPa" data-ask="\(p_2\)">
+<summary><span class="pid">1.3</span><span class="ptitle">Proceso politrópico: presión final</span><span class="pm">M2</span></summary>
+<div class="prob-b">
+<p class="stmt">Un gas sigue \(pV^{7/5}=\mathrm{cte}\) desde \(p_1=1\) bar, \(V_1=1\) m³ hasta \(V_2=3\cdot10^6\) cm³. Calcule \(p_2\) en kPa y represente el proceso en el diagrama \(pV\).</p>
+<p class="small"><strong>Pista.</strong> Unifica unidades antes de operar: \(V_2=3\) m³.</p>
+<div class="steps" id="st-1-3">
+<div class="step" hidden><b>Paso 1.</b> \(p_2=p_1(V_1/V_2)^{7/5}=100\ \mathrm{kPa}\cdot3^{-1{,}4}=100/4{,}656\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(p_2\simeq21{,}5\) kPa</span>. En el plano \(pV\) la curva cae más deprisa que la isoterma (pruébalo en el laboratorio del módulo 2).</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-3" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-3" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.4" data-m="M2" data-ans="1.179" data-tol="0.015" data-unit="" data-ask="\(\alpha\)">
+<summary><span class="pid">1.4</span><span class="ptitle">Exponente politrópico</span><span class="pm">M2</span></summary>
+<div class="prob-b">
+<p class="stmt">Un gas se comprime reversiblemente desde \(p_1=2\) bar, \(v_1=83{,}54\) cm³/kg hasta \(p_2=10\) bar, \(v_2=21{,}34\) cm³/kg, con \(pv^\alpha=\mathrm{cte}\). Calcule \(\alpha\).</p>
+<p class="small"><strong>Pista.</strong> Toma logaritmos. Solo intervienen cocientes, así que no hace falta convertir unidades.</p>
+<div class="steps" id="st-1-4">
+<div class="step" hidden><b>Paso 1.</b> \(\alpha=\dfrac{\ln(p_2/p_1)}{\ln(v_1/v_2)}=\dfrac{\ln5}{\ln(83{,}54/21{,}34)}=\dfrac{1{,}6094}{1{,}3648}\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(\alpha\simeq1{,}18\)</span>. En ejes log–log el proceso es una recta de pendiente \(-\alpha\).</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-4" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-4" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.5" data-m="M3" data-ans="14.69" data-tol="0.02" data-unit="s/día" data-ask="retraso">
+<summary><span class="pid">1.5</span><span class="ptitle">Reloj de péndulo de cobre</span><span class="pm">M3</span></summary>
+<div class="prob-b">
+<p class="stmt">Un péndulo de cobre de 0,5 m está calibrado a 20 °C. Un día a 40 °C, ¿se adelanta o se atrasa el reloj? ¿Cuánto por día? (\(\alpha_l=17\cdot10^{-6}\) K⁻¹.)</p>
+<p class="small"><strong>Pista.</strong> \(\mathcal T=2\pi\sqrt{l/g}\). El reloj cuenta oscilaciones: si cada una dura más, marca menos tiempo del real.</p>
+<div class="steps" id="st-1-5">
+<div class="step" hidden><b>Paso 1.</b> \(\mathcal T/\mathcal T_0=\sqrt{1+\alpha_l\Delta T}\simeq1+\tfrac12\alpha_l\Delta T\Rightarrow \Delta\mathcal T/\mathcal T_0\simeq1{,}70\cdot10^{-4}\).</div>
+<div class="step" hidden><b>Paso 2.</b> Retraso diario: \(86\,400\ \mathrm s\cdot1{,}70\cdot10^{-4}\Rightarrow\) <span class="res">se atrasa \(\simeq14{,}7\) s/día</span>. No depende ni de \(l_0\) ni de \(g\).</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-5" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-5" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.6" data-m="M3" data-ans="0.066" data-tol="0.02" data-unit="m" data-ask="\(\Delta L\)">
+<summary><span class="pid">1.6</span><span class="ptitle">Dilatación de un puente de acero</span><span class="pm">M3</span></summary>
+<div class="prob-b">
+<p class="stmt">Un puente continuo de acero mide 100 m. ¿Cuánto varía su longitud entre −10 °C y 50 °C? (\(\alpha_l=11\cdot10^{-6}\) K⁻¹.)</p>
+<p class="small"><strong>Pista.</strong> \(\Delta T=\Delta t=60\) K y \(\alpha_l\Delta T\ll1\).</p>
+<div class="steps" id="st-1-6">
+<div class="step" hidden><b>Paso 1.</b> \(\Delta L\simeq\alpha_lL_0\Delta T=11\cdot10^{-6}\cdot100\cdot60\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(\Delta L\simeq0{,}066\) m \(=6{,}6\) cm</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-6" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-6" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.7" data-m="M3" data-ans="46.15" data-tol="0.02" data-unit="bar" data-ask="\(\Delta p\)">
+<summary><span class="pid">1.7</span><span class="ptitle">Mercurio calentado a volumen constante</span><span class="pm">M3</span></summary>
+<div class="prob-b">
+<p class="stmt">Una masa de mercurio se calienta a volumen constante de 0 °C a 1 °C. Con \(\alpha=18\cdot10^{-5}\) K⁻¹ y \(\kT=39\cdot10^{-12}\) Pa⁻¹ constantes, calcule el aumento de presión.</p>
+<p class="small"><strong>Pista.</strong> A volumen fijo, \(\dd\ln V=0\).</p>
+<div class="steps" id="st-1-7">
+<div class="step" hidden><b>Paso 1.</b> \(\alpha\,\dd T=\kT\,\dd p\Rightarrow\Delta p=\dfrac{\alpha}{\kT}\Delta T=4{,}615\cdot10^6\) Pa.</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(\Delta p\simeq46{,}2\) bar</span>. Los líquidos son casi incompresibles: impedir su dilatación cuesta presiones enormes.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-7" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-7" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.8" data-m="M4">
+<summary><span class="pid">1.8</span><span class="ptitle">Coeficientes de la ecuación de Clausius</span><span class="pm">M4</span></summary>
+<div class="prob-b">
+<p class="stmt">Para \(p(\Vm-b)=RT\), calcule \(\alpha\) y \(\kT\).</p>
+<p class="small"><strong>Pista.</strong> Aquí se despeja \(\Vm=RT/p+b\) sin dificultad.</p>
+<div class="steps" id="st-1-8">
+<div class="step" hidden><b>Paso 1.</b> \(\pd{\Vm}Tp=\dfrac Rp\), \(\pd{\Vm}pT=-\dfrac{RT}{p^2}\), y \(\Vm=\dfrac{RT+bp}{p}\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(\alpha=\dfrac{R}{RT+bp}\)</span>, <span class="res">\(\kT=\dfrac{RT}{p(RT+bp)}\)</span>.</div>
+<div class="step" hidden><b>Comprobación.</b> \(\beta=\frac1p\frac R{\Vm-b}=\frac1T\) y \(p\beta\kT=\alpha\) ✓. Con \(b=0\) se recupera el gas ideal.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-8" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-8" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.9" data-m="M5">
+<summary><span class="pid">1.9</span><span class="ptitle">Ecuación de estado desde \(\alpha=3/T\), \(\kT=2/p\)</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Determine la ecuación de estado de un sistema con \(\alpha=3/T\) y \(\kT=2/p\).</p>
+<p class="small"><strong>Pista.</strong> Usa \(\dd\ln\Vm\); las variables están separadas.</p>
+<div class="steps" id="st-1-9">
+<div class="step" hidden><b>Paso 1.</b> \(\dd\ln\Vm=3\dfrac{\dd T}T-2\dfrac{\dd p}p=\dd\ln\dfrac{T^3}{p^2}\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(p^2\Vm=\mathrm{cte}\cdot T^3\)</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-9" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-9" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.10" data-m="M5">
+<summary><span class="pid">1.10</span><span class="ptitle">Gas con corrección lineal en p</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Determine la ecuación de estado de un gas con \(\alpha=\dfrac R{p\Vm}\) y \(\kT=\dfrac{RT}{p^2\Vm}+\dfrac B{2\Vm}\).</p>
+<p class="small"><strong>Pista.</strong> Multiplica por \(\Vm\) e integra \(\dd\Vm\) directamente.</p>
+<div class="steps" id="st-1-10">
+<div class="step" hidden><b>Paso 1.</b> \(\dd\Vm=\dfrac Rp\dd T-\left(\dfrac{RT}{p^2}+\dfrac B2\right)\dd p\).</div>
+<div class="step" hidden><b>Paso 2.</b> Exactitud: \(\partial_p(R/p)=-R/p^2=\partial_T(-RT/p^2-B/2)\) ✓.</div>
+<div class="step" hidden><b>Paso 3.</b> \(\Vm=\dfrac{RT}p+g(p)\) con \(g'=-B/2\Rightarrow g=-\tfrac B2p+\Vm_0\).</div>
+<div class="step" hidden><b>Paso 4.</b> Con \(B\to0\) debe recuperarse el gas ideal, luego \(\Vm_0=0\): <span class="res">\(p\Vm=RT-\tfrac12Bp^2\)</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-10" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-10" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.11" data-m="M5">
+<summary><span class="pid">1.11</span><span class="ptitle">Ecuación de estado desde \(\beta\) y \(\kT\)</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Determine la ecuación de estado con \(\beta=\dfrac{aT}{bp^2}\) y \(\kT=\dfrac{bp}{\Vm}\).</p>
+<p class="small"><strong>Pista.</strong> Completa el par con \(\alpha=p\beta\kT\).</p>
+<div class="steps" id="st-1-11">
+<div class="step" hidden><b>Paso 1.</b> \(\alpha=p\cdot\dfrac{aT}{bp^2}\cdot\dfrac{bp}{\Vm}=\dfrac{aT}{\Vm}\).</div>
+<div class="step" hidden><b>Paso 2.</b> \(\dd\Vm=\Vm\alpha\dd T-\Vm\kT\dd p=aT\dd T-bp\dd p\Rightarrow\) <span class="res">\(\Vm=\tfrac12aT^2-\tfrac12bp^2+\mathrm{cte}\)</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-11" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-11" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.12" data-m="M5">
+<summary><span class="pid">1.12</span><span class="ptitle">Ecuación de estado desde \(\alpha\) y \(\beta\)</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Determine la ecuación de estado con \(\alpha=\dfrac a{A+aT-bp}\) y \(\beta=\dfrac a{bp}\).</p>
+<p class="small"><strong>Pista.</strong> Halla \(\kT\) y busca la diferencial logarítmica de \(A+aT-bp\).</p>
+<div class="steps" id="st-1-12">
+<div class="step" hidden><b>Paso 1.</b> \(\kT=\dfrac\alpha{p\beta}=\dfrac b{A+aT-bp}\).</div>
+<div class="step" hidden><b>Paso 2.</b> \(\dd\ln\Vm=\dfrac{a\dd T-b\dd p}{A+aT-bp}=\dd\ln(A+aT-bp)\Rightarrow\) <span class="res">\(\Vm=\mathrm{cte}\cdot(A+aT-bp)\)</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-12" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-12" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.13" data-m="M5">
+<summary><span class="pid">1.13</span><span class="ptitle">¿Se recupera el gas ideal?</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">Con \(\alpha=\dfrac{\Vm-A}{2\Vm T}\) y \(\kT=\dfrac{\Vm-A}{p\Vm}\), determine la ecuación térmica de estado. ¿Puede recuperarse el gas ideal?</p>
+<p class="small"><strong>Pista.</strong> Al multiplicar por \(\Vm\) aparece \(\Vm-A\) en los dos términos.</p>
+<div class="steps" id="st-1-13">
+<div class="step" hidden><b>Paso 1.</b> \(\dd\ln(\Vm-A)=\dfrac{\dd T}{2T}-\dfrac{\dd p}p\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(p(\Vm-A)=K\sqrt T\)</span>.</div>
+<div class="step" hidden><b>Paso 3.</b> Para \(\Vm\gg A\), \(\alpha\to1/(2T)\neq1/T\): <strong>no</strong> tiende al gas ideal. Si fuera \(\alpha=(\Vm-A)/(\Vm T)\) saldría Clausius, que sí lo hace.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-13" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-13" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.14" data-m="M5">
+<summary><span class="pid">1.14</span><span class="ptitle">Ecuación de Dieterici</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">\(\kT=\dfrac{RT\Vm(\Vm-b)}{p[RT\Vm^2-a(\Vm-b)]}\), \(\beta=\dfrac{RT\Vm+a}{RT^2\Vm}\). Halle \(p(T,\Vm)\) sabiendo que para \(\Vm\) grande el gas es ideal.</p>
+<p class="small"><strong>Pista.</strong> Usa \(\dd\ln p=\beta\dd T-\dd\Vm/(p\kT\Vm)\).</p>
+<div class="steps" id="st-1-14">
+<div class="step" hidden><b>Paso 1.</b> \(\dd\ln p=\left(\dfrac1T+\dfrac a{RT^2\Vm}\right)\dd T-\left(\dfrac1{\Vm-b}-\dfrac a{RT\Vm^2}\right)\dd\Vm\).</div>
+<div class="step" hidden><b>Paso 2.</b> Exacta: ambas derivadas cruzadas valen \(-a/(RT^2\Vm^2)\) ✓.</div>
+<div class="step" hidden><b>Paso 3.</b> \(\ln p=\ln T-\dfrac a{RT\Vm}+g(\Vm)\), con \(g'=-\dfrac1{\Vm-b}\Rightarrow g=-\ln(\Vm-b)+\ln K\).</div>
+<div class="step" hidden><b>Paso 4.</b> \(\Vm\to\infty\Rightarrow K=R\): <span class="res">\(p=\dfrac{RT}{\Vm-b}\,e^{-a/(RT\Vm)}\)</span>. Explora sus isotermas en el módulo 5.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-14" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-14" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.15" data-m="M5" data-ans="3.21e-3" data-tol="0.01" data-unit="K⁻¹" data-ask="\(\alpha\)">
+<summary><span class="pid">1.15</span><span class="ptitle">Coeficiente \(\alpha\) de un gas del virial</span><span class="pm">M5</span></summary>
+<div class="prob-b">
+<p class="stmt">\(\kT=\dfrac1{RT(1/\Vm+2b/\Vm^2)}\), \(\beta=1/T\), \(b=4\cdot10^{-2}\) L/mol. Calcule \(\alpha\) para 1 mol en 1 L a 300 K (gas ideal para \(\Vm\) grande).</p>
+<p class="small"><strong>Pista.</strong> \(\alpha=p\beta\kT\) exige conocer \(p\): reconstruye antes \(p(T,\Vm)\) trabajando con \(\dd p\).</p>
+<div class="steps" id="st-1-15">
+<div class="step" hidden><b>Paso 1.</b> \(\dd p=\dfrac pT\dd T-RT\left(\dfrac1{\Vm^2}+\dfrac{2b}{\Vm^3}\right)\dd\Vm\).</div>
+<div class="step" hidden><b>Paso 2.</b> \(p=RT\left(\dfrac1{\Vm}+\dfrac b{\Vm^2}\right)+f(T)\), con \(f'=f/T\Rightarrow f=cT\), y el límite ideal da \(c=0\).</div>
+<div class="step" hidden><b>Paso 3.</b> \(\alpha=\dfrac{\Vm+b}{T(\Vm+2b)}=\dfrac{1{,}04}{300\cdot1{,}08}\Rightarrow\) <span class="res">\(\alpha\simeq3{,}21\cdot10^{-3}\) K⁻¹</span>.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-15" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-15" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="1.16" data-m="M3" data-ans="112.57e-6" data-tol="0.0005" data-unit="m³" data-ask="\(V\)">
+<summary><span class="pid">1.16</span><span class="ptitle">Cobre calentado y comprimido</span><span class="pm">M3</span></summary>
+<div class="prob-b">
+<p class="stmt">1 kg de cobre pasa de 300 K a 500 K mientras su presión aumenta 1000 bar. Con \(\alpha=51{,}7\cdot10^{-6}\) K⁻¹, \(\kT=0{,}8065\cdot10^{-11}\) Pa⁻¹ y \(v_0=111{,}5\cdot10^{-6}\) m³/kg, calcule el volumen final.</p>
+<p class="small"><strong>Pista.</strong> Integra \(\dd\ln V\) con coeficientes constantes. El orden en que se calienta y se comprime no importa.</p>
+<div class="steps" id="st-1-16">
+<div class="step" hidden><b>Paso 1.</b> \(\ln(V/V_0)=\alpha\Delta T-\kT\Delta p=1{,}034\cdot10^{-2}-8{,}065\cdot10^{-4}=9{,}534\cdot10^{-3}\).</div>
+<div class="step" hidden><b>Paso 2.</b> <span class="res">\(V\simeq112{,}57\cdot10^{-6}\) m³</span>. Domina la dilatación térmica.</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-1-16" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-1-16" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+<details class="prob" data-id="P.1" data-m="M5">
+<summary><span class="pid">P.1</span><span class="ptitle">Parcial 2025/26, cuestión 1</span><span class="pm">M5 · M4</span></summary>
+<div class="prob-b">
+<p class="stmt">\(\alpha=\dfrac1{T+A}\), \(\kT=\dfrac1p\). (a) Calcule \(p(T,V)\). (b) Compruebe la relación cíclica. (c) En una expansión espontánea (\(p_i=1\) bar) hasta equilibrarse con \(p_{\rm ext}=2\) bar, ¿describen estos coeficientes la curva del proceso?</p>
+<p class="small"><strong>Pista.</strong> (c) ¿Es un proceso cuasiestático?</p>
+<div class="steps" id="st-p1">
+<div class="step" hidden><b>(a)</b> \(\dd\ln V=\dd\ln\dfrac{T+A}p\Rightarrow\) <span class="res">\(p=\dfrac{K(T+A)}V\)</span>.</div>
+<div class="step" hidden><b>(b)</b> \(\pd pVT=-\dfrac pV\), \(\pd VTp=\dfrac Kp\), \(\pd TpV=\dfrac VK\); producto \(=-1\) ✓.</div>
+<div class="step" hidden><b>(c)</b> <strong>No.</strong> Es irreversible y no cuasiestático: los estados intermedios no son de equilibrio y el proceso no es una curva del espacio de estados. Solo se relacionan los estados inicial y final. (Con \(p_{\rm ext}>p_i\) sería, de hecho, una compresión.)</div>
+</div>
+<div class="row"><button class="btn" type="button" data-steps="st-p1" data-act="next">Siguiente paso</button><button class="btn ghost" type="button" data-steps="st-p1" data-act="all">Ver todo</button><button class="btn ghost" type="button" data-done>Marcar resuelto</button></div>
+</div></details>
+
+    </div>
+  </div>
+</div>
+
+<!-- =============================== PRÁCTICA =============================== -->
+<div class="view" id="v-practica" hidden>
+  <div class="col">
+    <div class="intro">
+      <h2>Práctica con datos nuevos</h2>
+      <p>Variantes de los problemas numéricos de la lista con datos aleatorios. Escribe tu resultado (vale coma o punto decimal y notación 1e-3), compruébalo y, si quieres, mira la resolución.</p>
+    </div>
+    <div class="row">
+      <div class="filters" id="genSel">
+        <button type="button" aria-pressed="true" data-g="poly">Politrópico (1.3)</button>
+        <button type="button" aria-pressed="false" data-g="expo">Exponente (1.4)</button>
+        <button type="button" aria-pressed="false" data-g="pend">Péndulo (1.5)</button>
+        <button type="button" aria-pressed="false" data-g="lin">Dilatación lineal (1.6)</button>
+        <button type="button" aria-pressed="false" data-g="iso">Volumen fijo (1.7)</button>
+        <button type="button" aria-pressed="false" data-g="cu">Calentar y comprimir (1.16)</button>
+      </div>
+    </div>
+    <div class="lab">
+      <div class="lab-h" id="genHead">Variante</div>
+      <div class="lab-b" id="genBox"></div>
+    </div>
+    <p class="small mono" id="genScore"></p>
+  </div>
+</div>
+
+<!-- =============================== FORMULARIO =============================== -->
+<div class="view" id="v-formulario" hidden>
+  <div class="col">
+    <div class="intro">
+      <h2>Formulario del Tema 1</h2>
+      <p>Las expresiones que se usan en los seminarios, con el método al que pertenecen.</p>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Resultado</th><th>Expresión</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td>Moles, partículas</td><td>\(n=m/M\), \(N=nN_A\)</td><td>—</td></tr>
+        <tr><td>Específica, molar</td><td>\(x=X/m\), \(\bar X=X/n\)</td><td>—</td></tr>
+        <tr><td>Temperatura</td><td>\(T/\mathrm K=t/{}^\circ\mathrm C+273{,}15\), \(\Delta T=\Delta t\)</td><td>M3</td></tr>
+        <tr><td>Temperatura empírica</td><td>\(\theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3)\)</td><td>M1</td></tr>
+        <tr><td>Politrópico</td><td>\(p_2=p_1(V_1/V_2)^n\), \(n=\dfrac{\ln(p_2/p_1)}{\ln(V_1/V_2)}\)</td><td>M2</td></tr>
+        <tr><td>Gas ideal</td><td>\(pV=nRT\); \(\alpha=\beta=1/T\), \(\kT=1/p\)</td><td>límite</td></tr>
+        <tr><td>Coeficientes</td><td>\(\alpha=\frac1V\pd VTp\), \(\kT=-\frac1V\pd VpT\), \(\beta=\frac1p\pd pTV\)</td><td>M4</td></tr>
+        <tr><td>Relación</td><td>\(\alpha=p\beta\kT\)</td><td>M4, M5</td></tr>
+        <tr><td>Cíclica, recíproca</td><td>\(\pd xyz\pd yzx\pd zxy=-1\), \(\pd xyz=1/\pd yxz\)</td><td>M4</td></tr>
+        <tr><td>Exactitud</td><td>\(M\dd x+N\dd y\) exacta \(\iff\partial_yM=\partial_xN\)</td><td>M5</td></tr>
+        <tr><td>Diferenciales</td><td>\(\dd\ln V=\alpha\dd T-\kT\dd p\), \(\dd p=p\beta\dd T-\dfrac{\dd V}{\kT V}\)</td><td>M5</td></tr>
+        <tr><td>Coef. constantes</td><td>\(\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p\)</td><td>M3</td></tr>
+        <tr><td>Volumen fijo</td><td>\(\pd pTV=\alpha/\kT=p\beta\)</td><td>M3</td></tr>
+        <tr><td>Sólidos</td><td>\(\alpha=3\alpha_l\), \(\Delta L\simeq\alpha_lL_0\Delta T\)</td><td>M3</td></tr>
+      </tbody></table></div>
+  </div>
+</div>
+</main>
+
+<script>
+(function(){
+"use strict";
+/* ---------------- Almacenamiento (solo comodidad local) ---------------- */
+const KEY="termo1-progreso";
+let store={done:{},best:null,gen:{ok:0,n:0}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) store=Object.assign(store,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+function updProg(){
+  const n=Object.keys(store.done).filter(k=>store.done[k]).length;
+  document.getElementById("prog").textContent=`${n}/17 problemas · mejor test ${store.best==null?"—":store.best+"/10"}`;
+  document.querySelectorAll(".prob").forEach(p=>p.classList.toggle("done",!!store.done[p.dataset.id]));
+}
+function typeset(el){ if(window.MathJax&&MathJax.typesetPromise){ MathJax.typesetPromise(el?[el]:undefined).catch(()=>{}); } }
+const fmt=(x,d)=>x.toFixed(d).replace(".",",");
+const fmtTex=(x,d)=>x.toFixed(d).replace(".","{,}");
+function sci(x,d){ if(x===0) return "0"; const e=Math.floor(Math.log10(Math.abs(x))); const m=x/Math.pow(10,e); return `${fmtTex(m,d)}\\cdot10^{${e}}`; }
+function parseNum(s){ if(!s) return NaN; s=s.trim().replace(/\s/g,"").replace(",",".").replace(/[·x×]10\^?/i,"e"); return Number(s); }
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+/* ---------------- Navegación por hash ---------------- */
+const views=["teoria","cuestionario","problemas","practica","formulario"];
+function route(){
+  const h=(location.hash||"#teoria").slice(1); const v=views.includes(h)?h:"teoria";
+  views.forEach(x=>{document.getElementById("v-"+x).hidden=(x!==v);});
+  document.querySelectorAll(".tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
+  if(v==="teoria"){drawPoly();drawEos();}
+  if(v==="cuestionario"&&!quiz.list.length) newQuiz();
+}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
+document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{
+  e.preventDefault(); if(location.hash!=="#teoria"){location.hash="teoria";}
+  setTimeout(()=>document.getElementById(a.dataset.go).scrollIntoView({behavior:"smooth",block:"start"}),30);
+}));
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){
+    document.querySelectorAll(".side a").forEach(a=>a.classList.toggle("on",a.dataset.go===en.target.id)); }}),{rootMargin:"-30% 0px -60% 0px"});
+  document.querySelectorAll("section.mod").forEach(s=>io.observe(s));
+}
+
+/* ---------------- Paredes ---------------- */
+const wall={mec:0,ter:1,mat:0};
+document.querySelectorAll("[data-wall]").forEach(g=>g.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  wall[g.dataset.wall]=+b.dataset.val; renderWall();
+}));
+function renderWall(){
+  let tipo,ej;
+  if(wall.mat){tipo="Abierto";ej="Turbina, compresor, una olla destapada.";}
+  else if(!wall.mec&&!wall.ter){tipo="Aislado";ej="Termo ideal cerrado: \\(U\\) y \\(n\\) se conservan.";}
+  else {tipo="Cerrado";ej=wall.mec?"Cilindro–pistón sellado: el gas puede hacer trabajo sobre el pistón.":"Recipiente rígido de paredes conductoras.";}
+  const can=[]; if(wall.mec) can.push("\\(V\\) (trabajo de volumen)"); if(wall.ter) can.push("calor a través de la pared"); if(wall.mat) can.push("\\(n_i\\) (materia)");
+  const lig=[]; if(!wall.mec) lig.push("\\(V\\) fijo"); if(!wall.ter) lig.push("sin calor"); if(!wall.mat) lig.push("\\(n\\) fijo");
+  const out=document.getElementById("wallOut");
+  out.innerHTML=`<span class="small">Tipo de sistema</span><span class="big">${tipo}</span>
+  <span>Intercambios permitidos: ${can.length?can.join(", "):"ninguno"}.</span>
+  <span class="small">Ligaduras: ${lig.length?lig.join(", "):"ninguna"}. Ejemplo: ${ej}</span>`;
+  typeset(out);
+}
+renderWall();
+
+/* ---------------- Clasificador E / I ---------------- */
+const mags=[["V","E"],["p","I"],["T","I"],["U","E"],["n","E"],["m","E"],["ρ","I"],["V̄ = V/n","I"],["v = V/m","I"],["S","E"],["σ (tensión sup.)","I"],["A (área)","E"],["q (carga)","E"],["F (tensión hilo)","I"]];
+const sorter=document.getElementById("sorter"); const state=mags.map(()=>"?");
+function renderSorter(){
+  sorter.innerHTML="";
+  mags.forEach((m,i)=>{const b=document.createElement("button"); b.type="button"; b.className=state[i]==="?"?"":state[i];
+    b.innerHTML=`<span>${m[0]}</span><span class="tag">${state[i]}</span>`; b.setAttribute("aria-label",`${m[0]}: ${state[i]}`);
+    b.addEventListener("click",()=>{state[i]=state[i]==="E"?"I":"E"; renderSorter(); document.getElementById("sortFb").textContent="";});
+    sorter.appendChild(b);});
+}
+renderSorter();
+document.getElementById("sortCheck").addEventListener("click",()=>{
+  let ok=0; [...sorter.children].forEach((b,i)=>{const r=state[i]===mags[i][1]; if(r) ok++; b.classList.add(r?"right":"wrong");});
+  const fb=document.getElementById("sortFb"); fb.className="fb "+(ok===mags.length?"ok":"no");
+  fb.textContent=ok===mags.length?"Todas correctas.":`${ok}/${mags.length} correctas. Recuerda: un cociente de extensivas es intensivo.`;
+});
+document.getElementById("sortReset").addEventListener("click",()=>{state.fill("?");renderSorter();document.getElementById("sortFb").textContent="";});
+
+/* ---------------- Canvas helpers ---------------- */
+function setupCanvas(cv){
+  const r=cv.getBoundingClientRect(); const dpr=window.devicePixelRatio||1;
+  const w=Math.max(300,r.width||720), h=w*(cv.height/cv.width||0.53);
+  cv.style.height=h+"px"; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  const c=cv.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0); return {c,w,h};
+}
+function axes(c,w,h,box,xr,yr,xl,yl,xt,yt){
+  const [L,T,R,B]=box; const X=x=>L+(x-xr[0])/(xr[1]-xr[0])*(w-L-R), Y=y=>h-B-(y-yr[0])/(yr[1]-yr[0])*(h-T-B);
+  c.fillStyle=css("--surface"); c.fillRect(0,0,w,h);
+  c.strokeStyle=css("--rule"); c.lineWidth=1; c.font="12px 'IBM Plex Mono', monospace"; c.fillStyle=css("--muted");
+  xt.forEach(t=>{c.beginPath();c.moveTo(X(t),T);c.lineTo(X(t),h-B);c.globalAlpha=.45;c.stroke();c.globalAlpha=1;c.textAlign="center";c.fillText(String(t).replace(".",","),X(t),h-B+16);});
+  yt.forEach(t=>{c.beginPath();c.moveTo(L,Y(t));c.lineTo(w-R,Y(t));c.globalAlpha=.45;c.stroke();c.globalAlpha=1;c.textAlign="right";c.fillText(String(t).replace(".",","),L-6,Y(t)+4);});
+  c.strokeStyle=css("--ink"); c.beginPath(); c.moveTo(L,T); c.lineTo(L,h-B); c.lineTo(w-R,h-B); c.stroke();
+  c.font="13px 'IBM Plex Sans', sans-serif"; c.fillStyle=css("--ink"); c.textAlign="right"; c.fillText(xl,w-R,h-B+32); c.textAlign="left"; c.fillText(yl,L+6,T-6);
+  return {X,Y};
+}
+function curve(c,X,Y,f,x0,x1,col,lw,dash,yr){
+  c.save(); c.strokeStyle=col; c.lineWidth=lw; c.setLineDash(dash||[]); c.beginPath(); let pen=false;
+  for(let i=0;i<=300;i++){const x=x0+(x1-x0)*i/300, y=f(x); if(!isFinite(y)||y<yr[0]-1e-9||y>yr[1]){pen=false;continue;} if(!pen){c.moveTo(X(x),Y(y));pen=true;} else c.lineTo(X(x),Y(y));}
+  c.stroke(); c.restore();
+}
+function dot(c,x,y,col){c.fillStyle=col;c.beginPath();c.arc(x,y,4.5,0,7);c.fill();}
+
+/* ---------------- Politrópico ---------------- */
+const pn=document.getElementById("polyN"), pv=document.getElementById("polyV");
+function drawPoly(){
+  const cv=document.getElementById("polyCv"); if(!cv.offsetParent) return;
+  const {c,w,h}=setupCanvas(cv); const n=+pn.value, V2=+pv.value, p2=100*Math.pow(1/V2,n);
+  const yr=[0,250], xr=[0.3,3.2];
+  const {X,Y}=axes(c,w,h,[48,24,16,40],xr,yr,"V (m³)","p (kPa)",[0.5,1,1.5,2,2.5,3],[0,50,100,150,200,250]);
+  [[0,"--rule"],[1,"--rule"],[1.4,"--rule"]].forEach(([k])=>curve(c,X,Y,v=>100*Math.pow(1/v,k),xr[0],xr[1],css("--accent-2"),1,[4,4],yr));
+  curve(c,X,Y,v=>100*Math.pow(1/v,n),xr[0],xr[1],css("--accent"),1.2,[],yr);
+  curve(c,X,Y,v=>100*Math.pow(1/v,n),Math.min(1,V2),Math.max(1,V2),css("--warm"),3,[],yr);
+  dot(c,X(1),Y(100),css("--ink")); if(p2<=250) dot(c,X(V2),Y(p2),css("--warm"));
+  c.fillStyle=css("--ink"); c.font="12px 'IBM Plex Mono', monospace"; c.textAlign="left"; c.fillText("1",X(1)+7,Y(100)-7); if(p2<=250) c.fillText("2",X(V2)+7,Y(p2)-7);
+  document.getElementById("polyNo").textContent=fmt(n,2); document.getElementById("polyVo").textContent=fmt(V2,2);
+  document.getElementById("polyP").textContent=fmt(p2,2)+" kPa";
+  const cs=n===0?"isobara (n = 0)":Math.abs(n-1)<1e-9?"isoterma del gas ideal":Math.abs(n-1.4)<1e-9?"adiabática diatómica (Tema 2)":n>2.5?"tiende a isócora":(V2>1?"expansión":V2<1?"compresión":"—");
+  document.getElementById("polyCase").textContent=cs;
+}
+[pn,pv].forEach(i=>i.addEventListener("input",drawPoly));
+
+/* ---------------- Isotermas y coeficientes ---------------- */
+const R=0.08314; // bar·L/(mol·K)
+const models={
+  ideal:{p:(T,V)=>R*T/V, Tc:null},
+  claus:{p:(T,V)=>R*T/(V-0.04267), Tc:null},
+  vdw:{p:(T,V)=>R*T/(V-0.04267)-3.64/(V*V), Tc:304},
+  diet:{p:(T,V)=>R*T/(V-0.0463)*Math.exp(-4.68/(R*T*V)), Tc:304}
+};
+let model="ideal";
+document.getElementById("eosSeg").addEventListener("click",e=>{const b=e.target.closest("button"); if(!b) return;
+  model=b.dataset.m; document.querySelectorAll("#eosSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); drawEos();});
+const eT=document.getElementById("eosT"), eV=document.getElementById("eosV");
+[eT,eV].forEach(i=>i.addEventListener("input",drawEos));
+function drawEos(){
+  const cv=document.getElementById("eosCv"); if(!cv.offsetParent) return;
+  const {c,w,h}=setupCanvas(cv); const T=+eT.value, V=+eV.value, M=models[model];
+  const yr=[0,160], xr=[0.05,1];
+  const {X,Y}=axes(c,w,h,[48,24,16,40],xr,yr,"V̄ (L/mol)","p (bar)",[0.2,0.4,0.6,0.8,1],[0,40,80,120,160]);
+  const x0=model==="ideal"?0.05:0.052;
+  [T-80,T-40,T+40,T+80].forEach(t=>{ if(t>150) curve(c,X,Y,v=>M.p(t,v),x0,1,css("--accent-2"),1,[4,4],yr); });
+  if(model!=="ideal") curve(c,X,Y,v=>R*T/v,0.05,1,css("--muted"),1,[1,4],yr);
+  curve(c,X,Y,v=>M.p(T,v),x0,1,css("--accent"),2.4,[],yr);
+  const p=M.p(T,V), hT=0.01, hV=1e-5*Math.max(V,0.05);
+  const dpdT=(M.p(T+hT,V)-M.p(T-hT,V))/(2*hT), dpdV=(M.p(T,V+hV)-M.p(T,V-hV))/(2*hV);
+  const beta=dpdT/p, kT=-1/(V*dpdV), alpha=p*beta*kT;
+  if(p>=yr[0]&&p<=yr[1]) dot(c,X(V),Y(p),css("--warm"));
+  c.fillStyle=css("--muted"); c.font="12px 'IBM Plex Sans', sans-serif"; c.textAlign="right";
+  c.fillText(model==="ideal"?"isotermas del gas ideal":"punteada: gas ideal a la misma T",w-20,40);
+  document.getElementById("eosTo").textContent=T; document.getElementById("eosVo").textContent=fmt(V,3);
+  document.getElementById("rP").textContent=fmt(p,2);
+  document.getElementById("rA").textContent=fmt(alpha*1e3,3);
+  document.getElementById("rK").textContent=Math.abs(kT)<1e-3||Math.abs(kT)>1e3?kT.toExponential(2).replace(".",","):fmt(kT,4);
+  document.getElementById("rB").textContent=fmt(beta*1e3,3);
+  document.getElementById("rI").textContent=fmt(1e3/T,3)+" · "+fmt(1/p,4);
+  const s=document.getElementById("rS");
+  if(p<=0){s.innerHTML='<span class="chip bad">p ≤ 0: sin sentido físico</span>';}
+  else if(kT<0){s.innerHTML='<span class="chip bad">κT &lt; 0: inestable</span>';}
+  else s.innerHTML='<span class="chip ok">κT &gt; 0: estable</span>';
+}
+let rz; window.addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{drawPoly();drawEos();},120);});
+if(window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{drawPoly();drawEos();});
+new MutationObserver(()=>{drawPoly();drawEos();}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+/* ---------------- Pasos ---------------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-steps]"); if(b){
+    const box=document.getElementById(b.dataset.steps); const st=[...box.querySelectorAll(".step")];
+    const act=b.dataset.act;
+    if(act==="next"){const h=st.find(s=>s.hidden); if(h) h.hidden=false;}
+    else if(act==="all") st.forEach(s=>s.hidden=false);
+    else if(act==="reset") st.forEach((s,i)=>s.hidden=i>0);
+    return;
+  }
+  const d=e.target.closest("[data-done]"); if(d){
+    const id=d.closest(".prob").dataset.id; store.done[id]=!store.done[id]; save(); updProg();
+    d.textContent=store.done[id]?"Resuelto ✓":"Marcar resuelto";
+  }
+});
+
+/* ---------------- Comprobación numérica en problemas ---------------- */
+document.querySelectorAll(".prob[data-ans]").forEach(p=>{
+  const body=p.querySelector(".prob-b"); const stepsRow=body.querySelector(".steps");
+  const wrap=document.createElement("div"); wrap.className="answer";
+  const id="in-"+p.dataset.id.replace(".","-");
+  wrap.innerHTML=`<label for="${id}">Tu resultado ${p.dataset.ask}</label><input id="${id}" inputmode="decimal" autocomplete="off"><span>${p.dataset.unit}</span><button class="btn ghost" type="button">Comprobar</button><span class="fb"></span>`;
+  body.insertBefore(wrap,stepsRow);
+  const inp=wrap.querySelector("input"), fb=wrap.querySelector(".fb");
+  const chk=()=>{const x=parseNum(inp.value), a=Number(p.dataset.ans), tol=Number(p.dataset.tol);
+    if(isNaN(x)){fb.className="fb no";fb.textContent="Escribe un número.";return;}
+    const ok=Math.abs(x-a)<=Math.abs(a)*tol; fb.className="fb "+(ok?"ok":"no");
+    fb.textContent=ok?"Correcto.":"Todavía no. Revisa unidades y el método.";
+    if(ok&&!store.done[p.dataset.id]){store.done[p.dataset.id]=true;save();updProg();p.querySelector("[data-done]").textContent="Resuelto ✓";}};
+  wrap.querySelector("button").addEventListener("click",chk); inp.addEventListener("keydown",e=>{if(e.key==="Enter")chk();});
+});
+document.querySelectorAll(".prob").forEach(p=>{ if(store.done[p.dataset.id]) p.querySelector("[data-done]").textContent="Resuelto ✓"; });
+
+/* Filtros y problema aleatorio */
+let pf="all";
+document.getElementById("pFilters").addEventListener("click",e=>{const b=e.target.closest("button"); if(!b) return;
+  pf=b.dataset.f; document.querySelectorAll("#pFilters button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); applyF();});
+function applyF(){document.querySelectorAll(".prob").forEach(p=>{
+  p.hidden=!(pf==="all"||(pf==="todo"?!store.done[p.dataset.id]:p.dataset.m===pf||(pf==="M4"&&p.dataset.id==="P.1")));});}
+document.getElementById("pRandom").addEventListener("click",()=>{
+  const c=[...document.querySelectorAll(".prob")].filter(p=>!p.hidden&&!store.done[p.dataset.id]);
+  const pool=c.length?c:[...document.querySelectorAll(".prob")].filter(p=>!p.hidden);
+  if(!pool.length) return; const p=pool[Math.floor(Math.random()*pool.length)];
+  document.querySelectorAll(".prob").forEach(x=>x.open=false); p.open=true; p.scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+/* ---------------- Banco de preguntas ---------------- */
+const Q=[
+ {id:"s1",t:"sis",q:String.raw`Un cilindro con pistón, paredes diatérmicas y sin fugas que contiene un gas es un sistema…`,o:["aislado","cerrado","abierto","simple pero no termodinámico"],a:1,e:String.raw`Intercambia energía (trabajo por el pistón y calor por las paredes) pero no materia: es cerrado.`},
+ {id:"s2",t:"sis",q:String.raw`Una turbina de vapor en funcionamiento es un sistema…`,o:["aislado","cerrado","abierto"],a:2,e:String.raw`El vapor entra y sale: hay intercambio de materia, así que es abierto.`},
+ {id:"s3",t:"sis",q:String.raw`¿Cuál de estas magnitudes es intensiva?`,o:[String.raw`\(U\)`,String.raw`\(m\)`,String.raw`\(\rho\)`,String.raw`\(V\)`],a:2,e:String.raw`\(\rho=m/V\) es cociente de extensivas, luego intensiva. Al duplicar el sistema no cambia.`},
+ {id:"s4",t:"sis",q:String.raw`Una pared adiabática impide…`,o:["el intercambio de calor","el intercambio de trabajo","el paso de materia","cualquier interacción"],a:0,e:String.raw`Adiabática es la restrictiva de la interacción térmica. Rígida impide el trabajo de volumen; impermeable, la materia.`},
+ {id:"s5",t:"sis",q:String.raw`¿Cuántas variables independientes fijan el estado de equilibrio de un sistema hidrostático simple y cerrado?`,o:["1","2","3","depende del gas"],a:1,e:String.raw`Postulado de estado: dos. \(p,V,T\) están ligadas por \(f(p,V,T)=0\).`},
+ {id:"s6",t:"sis",q:String.raw`El volumen molar \(\Vm=V/n\) es…`,o:["extensivo","intensivo","ni una cosa ni otra"],a:1,e:String.raw`Cociente de dos extensivas: intensivo. Por eso los coeficientes se calculan igual con \(V\) que con \(\Vm\).`},
+ {id:"e1",t:"eq",q:String.raw`Una barra entre dos focos a distinta temperatura alcanza un perfil \(T(x)\) que no cambia con el tiempo. Está en…`,o:["equilibrio termodinámico","un estado estacionario fuera del equilibrio","equilibrio ligado"],a:1,e:String.raw`Sigue habiendo un flujo de calor. Que nada cambie en el tiempo no basta para hablar de equilibrio.`},
+ {id:"e2",t:"eq",q:String.raw`¿Qué relación es correcta?`,o:[String.raw`reversible \(\subset\) cuasiestático`,String.raw`cuasiestático \(\subset\) reversible`,"son equivalentes","son disjuntos"],a:0,e:String.raw`Todo reversible es cuasiestático, pero un proceso lento con fricción es cuasiestático e irreversible.`},
+ {id:"e3",t:"eq",q:String.raw`La expansión libre de un gas en el vacío es…`,o:["reversible","cuasiestática pero irreversible","irreversible y no cuasiestática"],a:2,e:String.raw`Los estados intermedios no son de equilibrio y no se puede invertir con cambios infinitesimales.`},
+ {id:"e4",t:"eq",q:String.raw`Si \(Z\) es una función de estado, en cualquier ciclo…`,o:[String.raw`\(\oint\dd Z=0\)`,String.raw`\(\oint\dd Z>0\)`,String.raw`\(\oint\dd Z\) depende del camino`],a:0,e:String.raw`\(\Delta Z\) solo depende de los extremos, que en un ciclo coinciden.`},
+ {id:"e5",t:"eq",q:String.raw`Para representar un proceso como una curva en el diagrama \(p\)–\(V\) es necesario que sea…`,o:["adiabático","cuasiestático","isotermo","reversible y adiabático"],a:1,e:String.raw`Solo si pasa por estados de equilibrio tienen sentido \(p\) y \(V\) en cada instante.`},
+ {id:"z1",t:"zero",q:String.raw`La ley cero aporta a la relación de equilibrio térmico la propiedad…`,o:["reflexiva","simétrica","transitiva"],a:2,e:String.raw`Con ella el equilibrio térmico es una relación de equivalencia, y sus clases definen la temperatura.`},
+ {id:"z2",t:"zero",q:String.raw`Si \(\theta(p,V)\) es una temperatura empírica válida, también lo es…`,o:[String.raw`solo \(\theta+\mathrm{cte}\)`,String.raw`solo \(k\theta\)`,String.raw`cualquier función monótona \(\phi(\theta)\)`,"ninguna otra"],a:2,e:String.raw`Igualdades \(\theta_1=\theta_2\) se conservan con cualquier \(\phi\) inyectiva; la monotonía conserva además el orden.`},
+ {id:"z3",t:"zero",q:String.raw`Un intervalo de 15 °C equivale a…`,o:["15 K","288,15 K","258,15 K"],a:0,e:String.raw`Las escalas solo se desplazan: \(\Delta T=\Delta t\).`},
+ {id:"z4",t:"zero",q:String.raw`Si \(\Sigma_1\sim\Sigma_3\) da \(p_1(V_1-b)=p_3V_3\) y \(\Sigma_2\sim\Sigma_3\) da \(p_2V_2=p_3V_3\), la condición \(\Sigma_1\sim\Sigma_2\) es…`,o:[String.raw`\(p_1(V_1-b)=p_2V_2\)`,String.raw`\(p_1V_1=p_2(V_2-b)\)`,"no puede determinarse"],a:0,e:String.raw`Método M1: ambas igualan \(\theta_3=p_3V_3\).`},
+ {id:"c0",t:"coef",q:String.raw`Para \(\Vm\to\infty\), todas las ecuaciones de estado de los seminarios tienden a…`,o:[String.raw`\(p(\Vm-b)=RT\)`,String.raw`\(p\Vm=RT\)`,String.raw`\(p=0\) a cualquier \(T\)`],a:1,e:String.raw`A baja densidad los gases reales se comportan como ideales; es la condición que fija constantes en M5.`},
+ {id:"c1",t:"coef",q:String.raw`Para el gas ideal, \(\alpha\) vale…`,o:[String.raw`\(1/p\)`,String.raw`\(1/T\)`,String.raw`\(R/p\)`,String.raw`\(T\)`],a:1,e:String.raw`\(V=nRT/p\Rightarrow\frac1V\partial_TV=\frac1T\).`},
+ {id:"c2",t:"coef",q:String.raw`Para el gas ideal, \(\kT\) vale…`,o:[String.raw`\(1/p\)`,String.raw`\(1/T\)`,String.raw`\(-1/p\)`],a:0,e:String.raw`\(-\frac1V\partial_pV=-\frac1V\left(-\frac{V}{p}\right)=\frac1p\).`},
+ {id:"c3",t:"coef",q:String.raw`¿Qué relación entre coeficientes es correcta?`,o:[String.raw`\(\alpha=p\beta\kT\)`,String.raw`\(\beta=p\alpha\kT\)`,String.raw`\(\kT=p\alpha\beta\)`,String.raw`\(\alpha=\beta\kT/p\)`],a:0,e:String.raw`De la regla cíclica con \(\pd VTp=\alpha V\), \(\pd TpV=1/(p\beta)\), \(\pd pVT=-1/(\kT V)\).`},
+ {id:"c4",t:"coef",q:String.raw`Las unidades SI de \(\kT\) son…`,o:["K⁻¹","Pa⁻¹","Pa·K⁻¹","adimensional"],a:1,e:String.raw`Cambio relativo de volumen por unidad de presión.`},
+ {id:"c5",t:"coef",q:String.raw`A volumen constante, \(\pd pTV\) es igual a…`,o:[String.raw`\(\alpha\kT\)`,String.raw`\(\alpha/\kT\)`,String.raw`\(\kT/\alpha\)`,String.raw`\(-\alpha/\kT\)`],a:1,e:String.raw`Con \(\dd\ln V=0\): \(\alpha\dd T=\kT\dd p\). También es \(p\beta\).`},
+ {id:"c6",t:"coef",q:String.raw`La estabilidad mecánica exige…`,o:[String.raw`\(\alpha>0\)`,String.raw`\(\kT>0\)`,String.raw`\(\beta>0\)`],a:1,e:String.raw`Al comprimir, el volumen debe disminuir. Las ramas con \(\kT<0\) de Van der Waals son inestables.`},
+ {id:"c7",t:"coef",q:String.raw`¿Qué sustancia tiene \(\alpha<0\) entre 0 y 4 °C?`,o:["mercurio","agua","cobre","cualquier gas ideal"],a:1,e:String.raw`El agua alcanza su densidad máxima cerca de 4 °C.`},
+ {id:"c8",t:"coef",q:String.raw`Para \(p(\Vm-b)=RT\), el coeficiente \(\beta\) vale…`,o:[String.raw`\(1/T\)`,String.raw`\(R/(RT+bp)\)`,String.raw`\(1/p\)`],a:0,e:String.raw`\(\partial_Tp=R/(\Vm-b)=p/T\), luego \(\beta=1/T\), igual que en el gas ideal.`},
+ {id:"i1",t:"int",q:String.raw`¿Es exacta \(\delta z=y\,\dd x+2x\,\dd y\)?`,o:["sí","no"],a:1,e:String.raw`\(\partial_yM=1\neq\partial_xN=2\).`},
+ {id:"i2",t:"int",q:String.raw`Si \(\alpha=1/T\) y \(\kT=1/p\), la ecuación de estado es…`,o:[String.raw`\(pV=\mathrm{cte}\cdot T\)`,String.raw`\(V=\mathrm{cte}\cdot pT\)`,String.raw`\(p=\mathrm{cte}\cdot VT\)`],a:0,e:String.raw`\(\dd\ln V=\dd\ln T-\dd\ln p\): el gas ideal.`},
+ {id:"i3",t:"int",q:String.raw`En un sólido isótropo, el coeficiente cúbico y el lineal cumplen…`,o:[String.raw`\(\alpha=\alpha_l\)`,String.raw`\(\alpha=2\alpha_l\)`,String.raw`\(\alpha=3\alpha_l\)`],a:2,e:String.raw`\(V\propto L^3\Rightarrow\dd\ln V=3\,\dd\ln L\).`},
+ {id:"i4",t:"int",q:String.raw`Mercurio con \(\alpha=18\cdot10^{-5}\) K⁻¹ y \(\kT=39\cdot10^{-12}\) Pa⁻¹ se calienta 1 K a volumen fijo. \(\Delta p\approx\)`,o:["4,6 bar","46 bar","460 bar","0,46 bar"],a:1,e:String.raw`\(\Delta p=(\alpha/\kT)\Delta T=4{,}6\cdot10^6\) Pa \(\approx46\) bar (problema 1.7).`},
+ {id:"i5",t:"int",q:String.raw`En M5, la constante de integración se fija normalmente con…`,o:[String.raw`el límite de gas ideal \(\Vm\to\infty\)`,String.raw`\(T\to0\)`,"la condición de exactitud"],a:0,e:String.raw`La exactitud asegura que existe la función; el límite físico fija la constante.`},
+ {id:"i6",t:"int",q:String.raw`¿Pueden \(\alpha\) y \(\kT\) describir el camino de una expansión espontánea contra \(p_{\rm ext}\) constante?`,o:["sí","no","solo si es adiabática"],a:1,e:String.raw`El proceso no es cuasiestático; solo se relacionan los estados inicial y final (parcial 2025/26).`},
+ {id:"i7",t:"int",q:String.raw`A presión constante y con \(\alpha\) constante, al calentar \(\Delta T\)…`,o:[String.raw`\(V=V_0e^{\alpha\Delta T}\)`,String.raw`\(V=V_0(1-\alpha\Delta T)\)`,String.raw`\(V=V_0\alpha\Delta T\)`],a:0,e:String.raw`\(\dd\ln V=\alpha\dd T\); para \(\alpha\Delta T\ll1\), \(V\simeq V_0(1+\alpha\Delta T)\).`}
+];
+const byId=Object.fromEntries(Q.map(q=>[q.id,q]));
+function renderQ(q,box,onDone){
+  const letters="abcd";
+  box.innerHTML=`<p class="stem">${q.q}</p><div class="opts">${q.o.map((o,i)=>`<button type="button" class="opt" data-i="${i}"><span class="k">${letters[i]})</span><span>${o}</span></button>`).join("")}</div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.i, ok=i===q.a;
+    box.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===q.a) x.classList.add("right");});
+    if(!ok) b.classList.add("wrong");
+    const ex=document.createElement("div"); ex.className="expl"+(ok?"":" no"); ex.innerHTML=(ok?"<strong>Correcto.</strong> ":"<strong>No.</strong> ")+q.e;
+    box.appendChild(ex); typeset(ex); onDone&&onDone(ok);
+  }));
+}
+document.querySelectorAll(".check[data-qs]").forEach(ch=>{
+  ch.dataset.qs.split(",").forEach(id=>{const d=document.createElement("div"); d.className="q"; ch.appendChild(d); renderQ(byId[id],d);});
+});
+
+/* ---------------- Cuestionario ---------------- */
+const quiz={list:[],i:0,ok:0};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newQuiz(){
+  const t=document.getElementById("quizTag").value;
+  const pool=Q.filter(q=>t==="all"||q.t===t);
+  quiz.list=shuffle(pool.slice()).slice(0,Math.min(10,pool.length)); quiz.i=0; quiz.ok=0; showQ();
+}
+const tagName={sis:"Sistemas",eq:"Equilibrio y procesos",zero:"Ley cero",coef:"Coeficientes",int:"Integración y cálculo"};
+function showQ(){
+  const box=document.getElementById("quizBox"), nx=document.getElementById("quizNext");
+  document.getElementById("quizMeter").style.width=(100*quiz.i/quiz.list.length)+"%";
+  if(quiz.i>=quiz.list.length){
+    const n=quiz.list.length, s=quiz.ok;
+    if(n===10&&(store.best==null||s>store.best)){store.best=s;save();updProg();}
+    box.innerHTML=`<div class="score"><span class="small">Resultado</span><span class="big">${s}/${n}</span>
+    <span>${s===n?"Perfecto. Pasa a los problemas de seminario.":s>=n*0.7?"Bien. Repasa en la teoría los bloques de las preguntas falladas.":"Repasa la teoría del tema y vuelve a intentarlo."}</span></div>`;
+    nx.hidden=true; document.getElementById("quizCount").textContent=""; return;
+  }
+  const q=quiz.list[quiz.i];
+  document.getElementById("quizCount").textContent=`Pregunta ${quiz.i+1} de ${quiz.list.length} · aciertos ${quiz.ok}`;
+  box.innerHTML=""; const meta=document.createElement("span"); meta.className="meta"; meta.textContent=tagName[q.t];
+  const inner=document.createElement("div"); inner.className="q"; box.append(meta,inner);
+  nx.hidden=true;
+  renderQ(q,inner,ok=>{ if(ok) quiz.ok++; nx.hidden=false; nx.textContent=quiz.i+1<quiz.list.length?"Siguiente":"Ver resultado"; nx.focus(); });
+  typeset(box);
+}
+document.getElementById("quizNew").addEventListener("click",newQuiz);
+document.getElementById("quizTag").addEventListener("change",newQuiz);
+document.getElementById("quizNext").addEventListener("click",()=>{quiz.i++;showQ();});
+
+/* ---------------- Generadores de variantes ---------------- */
+const rnd=(a,b,d)=>{const x=a+Math.random()*(b-a); return Number(x.toFixed(d));};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const gens={
+  poly(){const p1=pick([1,2,3,5]), V1=rnd(0.5,2,1), r=rnd(1.5,4,1), V2=Number((V1*r).toFixed(2)), n=pick([1.2,1.3,1.4,1.5,5/3]);
+    const p2=100*p1*Math.pow(V1/V2,n); const nt=n===5/3?"5/3":fmtTex(n,1);
+    return {st:String.raw`Un gas sigue \(pV^{${nt}}=\mathrm{cte}\) desde \(p_1=${p1}\) bar, \(V_1=${fmtTex(V1,1)}\) m³ hasta \(V_2=${fmtTex(V2*1e3,0)}\) L. Calcule \(p_2\) en kPa.`,
+      ask:"\\(p_2\\)",unit:"kPa",ans:p2,tol:0.01,
+      sol:String.raw`\(V_2=${fmtTex(V2,2)}\) m³ y \(p_1=${p1*100}\) kPa. Entonces \(p_2=p_1(V_1/V_2)^{${nt}}=${fmtTex(p2,2)}\) kPa.`};},
+  expo(){const n=rnd(1.05,1.6,2), p1=pick([1,2,3]), v1=rnd(60,120,1), r=rnd(2,5,1), v2=Number((v1/r).toFixed(2)), p2=p1*Math.pow(v1/v2,n);
+    return {st:String.raw`Compresión reversible con \(pv^{\alpha}=\mathrm{cte}\) desde \(p_1=${p1}\) bar, \(v_1=${fmtTex(v1,1)}\) cm³/kg hasta \(p_2=${fmtTex(p2,2)}\) bar, \(v_2=${fmtTex(v2,2)}\) cm³/kg. Calcule \(\alpha\).`,
+      ask:"\\(\\alpha\\)",unit:"",ans:Math.log(p2/p1)/Math.log(v1/v2),tol:0.01,
+      sol:String.raw`\(\alpha=\ln(p_2/p_1)/\ln(v_1/v_2)=${fmtTex(Math.log(p2/p1),4)}/${fmtTex(Math.log(v1/v2),4)}\simeq${fmtTex(Math.log(p2/p1)/Math.log(v1/v2),3)}\).`};},
+  pend(){const mat=pick([["latón",19e-6],["cobre",17e-6],["acero",11e-6],["aluminio",23e-6]]), t0=pick([15,18,20]), t1=t0+pick([-15,-10,10,15,20,25]);
+    const dT=t1-t0, r=Math.sqrt(1+mat[1]*dT), s=86400*(1-1/r);
+    return {st:String.raw`Un péndulo de ${mat[0]} (\(\alpha_l=${sci(mat[1],0)}\) K⁻¹) está calibrado a ${t0} °C. Si la temperatura pasa a ${t1} °C, ¿cuántos segundos por día adelanta (+) o atrasa (−) el reloj?`,
+      ask:"s/día",unit:"(+ adelanta, − atrasa)",ans:-s,tol:0.02,
+      sol:String.raw`\(\Delta\mathcal T/\mathcal T_0\simeq\tfrac12\alpha_l\Delta T=${sci(0.5*mat[1]*dT,2)}\). Variación diaria: \(${fmtTex(-s,2)}\) s/día (${s>0?"se atrasa":"se adelanta"}).`};},
+  lin(){const mat=pick([["acero",11e-6],["aluminio",23e-6],["cobre",17e-6],["hormigón",12e-6]]), L=pick([25,50,80,120,200]), a=pick([-20,-15,-5]), b=pick([30,40,45]);
+    const dL=mat[1]*L*(b-a);
+    return {st:String.raw`Una estructura continua de ${mat[0]} (\(\alpha_l=${sci(mat[1],0)}\) K⁻¹) mide ${L} m. ¿Cuánto varía su longitud, en cm, entre ${a} °C y ${b} °C?`,
+      ask:"\\(\\Delta L\\)",unit:"cm",ans:dL*100,tol:0.01,
+      sol:String.raw`\(\Delta L\simeq\alpha_lL_0\Delta T=${sci(mat[1],0)}\cdot${L}\cdot${b-a}=${fmtTex(dL*100,2)}\) cm.`};},
+  iso(){const sub=pick([["mercurio",18e-5,39e-12],["agua (a 20 °C)",2.07e-4,45.9e-11],["etanol",1.1e-3,1.12e-9],["cobre",5.0e-5,0.73e-11]]), dT=pick([0.5,1,2,3]);
+    const dp=sub[1]/sub[2]*dT/1e5;
+    return {st:String.raw`Se calienta ${sub[0]} a volumen constante \(\Delta T=${fmtTex(dT,1)}\) K, con \(\alpha=${sci(sub[1],2)}\) K⁻¹ y \(\kT=${sci(sub[2],2)}\) Pa⁻¹ constantes. Calcule el aumento de presión en bar.`,
+      ask:"\\(\\Delta p\\)",unit:"bar",ans:dp,tol:0.01,
+      sol:String.raw`\(\Delta p=(\alpha/\kT)\Delta T=${sci(sub[1]/sub[2]*dT,3)}\) Pa \(=${fmtTex(dp,1)}\) bar.`};},
+  cu(){const a=rnd(30,60,1)*1e-6, k=rnd(0.6,1.2,2)*1e-11, T0=300, T1=pick([400,450,500,600]), dp=pick([200,500,1000,2000]), v0=rnd(100,130,1)*1e-6, m=pick([1,2,5]);
+    const l=a*(T1-T0)-k*dp*1e5, V=m*v0*Math.exp(l);
+    return {st:String.raw`${m} kg de un metal pasan de ${T0} K a ${T1} K mientras la presión aumenta ${dp} bar. Con \(\alpha=${sci(a,1)}\) K⁻¹, \(\kT=${sci(k,2)}\) Pa⁻¹ y \(v_0=${sci(v0,1)}\) m³/kg, calcule el volumen final en cm³.`,
+      ask:"\\(V\\)",unit:"cm³",ans:V*1e6,tol:0.0005,
+      sol:String.raw`\(\ln(V/V_0)=\alpha\Delta T-\kT\Delta p=${sci(a*(T1-T0),3)}-${sci(k*dp*1e5,3)}=${sci(l,3)}\); \(V=${m}\cdot v_0\,e^{\ln(V/V_0)}=${fmtTex(V*1e6,2)}\) cm³.`};}
+};
+let gk="poly";
+const heads={poly:"Variante del problema 1.3",expo:"Variante del problema 1.4",pend:"Variante del problema 1.5",lin:"Variante del problema 1.6",iso:"Variante del problema 1.7",cu:"Variante del problema 1.16"};
+function newGen(){
+  const g=gens[gk](); const box=document.getElementById("genBox"); document.getElementById("genHead").textContent=heads[gk];
+  box.innerHTML=`<p class="stmt">${g.st}</p>
+  <div class="answer"><label for="genIn">Tu resultado ${g.ask}</label><input id="genIn" inputmode="decimal" autocomplete="off"><span>${g.unit}</span><button class="btn" type="button" id="genChk">Comprobar</button><span class="fb" id="genFb"></span></div>
+  <div class="step" id="genSol" hidden><b>Resolución.</b> ${g.sol}</div>
+  <div class="row"><button class="btn ghost" type="button" id="genShow">Ver resolución</button><button class="btn ghost" type="button" id="genNew">Otra variante</button></div>`;
+  const inp=box.querySelector("#genIn"), fb=box.querySelector("#genFb"); let counted=false;
+  const chk=()=>{const x=parseNum(inp.value); if(isNaN(x)){fb.className="fb no";fb.textContent="Escribe un número.";return;}
+    const ok=Math.abs(x-g.ans)<=Math.abs(g.ans)*g.tol+1e-12; fb.className="fb "+(ok?"ok":"no");
+    fb.textContent=ok?"Correcto.":"Todavía no. Revisa unidades y signos.";
+    if(!counted){counted=true;store.gen.n++; if(ok) store.gen.ok++; save(); genScore();}};
+  box.querySelector("#genChk").addEventListener("click",chk); inp.addEventListener("keydown",e=>{if(e.key==="Enter")chk();});
+  box.querySelector("#genShow").addEventListener("click",()=>{box.querySelector("#genSol").hidden=false;});
+  box.querySelector("#genNew").addEventListener("click",newGen);
+  typeset(box);
+}
+function genScore(){document.getElementById("genScore").textContent=store.gen.n?`Variantes acertadas al primer intento: ${store.gen.ok}/${store.gen.n}`:"";}
+document.getElementById("genSel").addEventListener("click",e=>{const b=e.target.closest("button"); if(!b) return;
+  gk=b.dataset.g; document.querySelectorAll("#genSel button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false")); newGen();});
+
+/* ---------------- Arranque ---------------- */
+newGen(); genScore(); updProg(); applyF(); route();
+})();
+</script>
