@@ -1,0 +1,8 @@
+fuentes/**/*.aux
+fuentes/**/*.log
+fuentes/**/*.out
+fuentes/**/*.toc
+fuentes/**/*.fls
+fuentes/**/*.fdb_latexmk
+fuentes/**/build.log
+fuentes/**/*.pdf

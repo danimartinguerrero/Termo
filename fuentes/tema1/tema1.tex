@@ -1,0 +1,1327 @@
+% =====================================================================
+%  Termodinámica I · Tema 1. Conceptos básicos
+%  Apuntes formalizados con seminarios prácticos
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Codificación, idioma y tipografía ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noshorthands,es-tabla,es-nolists]{babel}
+\usepackage{lmodern}
+\usepackage[letterspace=150]{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage[locale=DE,per-mode=symbol,separate-uncertainty]{siunitx}
+\sisetup{exponent-product=\cdot,output-decimal-marker={,},group-digits=false}
+
+% ---------- Página ----------
+\usepackage[a4paper,top=2.6cm,bottom=2.6cm,left=2.5cm,right=2.5cm,headheight=14pt]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[titles]{tocloft}
+\usepackage{booktabs,array,tabularx,multirow}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont={sc,color=acento},labelsep=period,justification=justified,singlelinecheck=true]{caption}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning,decorations.pathmorphing,patterns,shadings,fadings}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Paleta ----------
+\definecolor{marino}{HTML}{0B2545}
+\definecolor{azul}{HTML}{1F4E89}
+\definecolor{acento}{HTML}{3A6EA5}
+\definecolor{claro}{HTML}{BCD0EA}
+\definecolor{fondo}{HTML}{F1F5FB}
+\definecolor{gris}{HTML}{4C5F77}
+\definecolor{teja}{HTML}{B5523B}
+\hypersetup{colorlinks=true,linkcolor=acento,citecolor=acento,urlcolor=acento}
+
+% ---------- Títulos ----------
+\titleformat{\section}{\Large\bfseries\color{marino}}{\thesection.}{0.6em}{}[{\color{marino}\titlerule[1.1pt]}]
+\titleformat{\subsection}{\large\bfseries\color{marino}}{\thesubsection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.9em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+% ---------- Índice ----------
+\renewcommand{\cfttoctitlefont}{\Large\bfseries\color{marino}}
+\renewcommand{\cftaftertoctitle}{\par\vspace{-0.6em}{\color{marino}\rule{\textwidth}{1.1pt}}}
+\renewcommand{\cftsecfont}{\bfseries\color{marino}}
+\renewcommand{\cftsecpagefont}{\bfseries\color{marino}}
+\renewcommand{\cftsubsecfont}{\color{azul}}
+\renewcommand{\cftsubsecpagefont}{\color{azul}}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsecleader}{\color{claro}\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{0.55em}
+\setlength{\cftsubsecnumwidth}{2.9em}
+
+% ---------- Cabeceras ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\fancyhead[L]{\color{acento}\textsc{Termodinámica I \,·\, Tema 1}}
+\fancyhead[R]{\color{acento}\textsc{\leftmark}}
+\fancyfoot[C]{\color{marino}\small\thepage}
+\renewcommand{\headrule}{{\color{claro}\hrule height 0.5pt}}
+
+% ---------- Entornos ----------
+\newcounter{enunc}[section]
+\renewcommand{\theenunc}{\thesection.\arabic{enunc}}
+\tcbset{
+  apunte/.style={enhanced,breakable,boxrule=0pt,arc=0pt,outer arc=0pt,
+    left=8pt,right=8pt,top=6pt,bottom=6pt,
+    interior style={left color=fondo,right color=fondo!40},
+    borderline west={2.2pt}{0pt}{marino},
+    before skip=0.9em,after skip=0.9em}
+}
+% Definición (recuadro)
+\newenvironment{definicion}[1][]{%
+  \refstepcounter{enunc}%
+  \begin{tcolorbox}[apunte]%
+  \textbf{\color{marino}Definición \theenunc}%
+  \if\relax\detokenize{#1}\relax\else\ {\color{acento}(#1)}\fi\textbf{.}\ \ignorespaces}%
+  {\end{tcolorbox}}
+% Proposición / teorema (sin recuadro, cursiva)
+\newenvironment{proposicion}[1][]{%
+  \refstepcounter{enunc}\par\medskip\noindent
+  \textbf{\color{marino}Proposición \theenunc}%
+  \if\relax\detokenize{#1}\relax\else\ {\color{acento}(#1)}\fi\textbf{.}\ \itshape\ignorespaces}%
+  {\par\medskip}
+\newenvironment{teorema}[1][]{%
+  \refstepcounter{enunc}\begin{tcolorbox}[apunte]%
+  \textbf{\color{marino}Teorema \theenunc}%
+  \if\relax\detokenize{#1}\relax\else\ {\color{acento}(#1)}\fi\textbf{.}\ \itshape\ignorespaces}%
+  {\end{tcolorbox}}
+% Observación
+\newenvironment{observacion}[1][]{%
+  \refstepcounter{enunc}\par\medskip\noindent
+  {\color{acento}\itshape Observación \theenunc%
+  \if\relax\detokenize{#1}\relax\else\ (#1)\fi.}\ \ignorespaces}%
+  {\par\medskip}
+% Ejemplo
+\newenvironment{ejemplo}[1][]{%
+  \refstepcounter{enunc}\par\medskip\noindent
+  \textbf{\color{marino}Ejemplo \theenunc}%
+  \if\relax\detokenize{#1}\relax\else\ {\color{acento}(#1)}\fi\textbf{.}\ \ignorespaces}%
+  {\hfill\finbox\par\medskip}
+% Demostración
+\newenvironment{demo}{\par\noindent{\color{acento}\itshape Demostración.}\ \ignorespaces}{\hfill\finbox\par\medskip}
+% Problema de seminario
+\newenvironment{problema}[2]{%
+  \begin{tcolorbox}[apunte]%
+  \textbf{\color{marino}Problema #1} {\color{acento}(#2)}\textbf{.}\ \itshape\ignorespaces}%
+  {\end{tcolorbox}}
+\newcommand{\resolucion}{\par\noindent{\color{acento}\itshape Resolución.}\ }
+\newcommand{\idea}{\textbf{Idea.}\ }
+\newcommand{\paso}[1]{\par\smallskip\noindent\textbf{\color{marino}#1.}\ }
+\newcommand{\finbox}{{\color{azul}\rule{0.55em}{0.55em}}}
+\newcommand{\fin}{\hfill\finbox\par\medskip}
+\newcommand{\resultado}[1]{\tcbox[on line,boxrule=0.6pt,arc=0pt,colframe=marino,colback=white,
+  left=4pt,right=4pt,top=2pt,bottom=2pt]{$\displaystyle #1$}}
+
+% ---------- Macros físicas ----------
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\pd}[3]{\left(\frac{\partial #1}{\partial #2}\right)_{\!#3}}
+\newcommand{\Vm}{\bar V}
+\newcommand{\kT}{\kappa_T}
+\newcommand{\cte}{\mathrm{cte}}
+\newcommand{\espaciado}[1]{\textls[180]{\textsc{#1}}}
+
+% ---------- Estilo de gráficas ----------
+\pgfplotsset{
+  apuntes/.style={
+    width=7.2cm,height=5.4cm,
+    axis line style={marino!80,line width=0.5pt},
+    tick style={marino!80},
+    every tick label/.append style={font=\footnotesize},
+    label style={font=\small},
+    legend style={font=\footnotesize,draw=none,fill=white,fill opacity=0.85,text opacity=1},
+    legend cell align=left,
+    tick align=outside,
+    clip mode=individual
+  }
+}
+\tikzset{flecha/.style={-{Stealth[length=2.2mm]},line width=0.6pt}}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.15em}
+\linespread{1.04}
+
+% =====================================================================
+\begin{document}
+
+% =====================================================================
+%  PORTADA
+% =====================================================================
+\begin{titlepage}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=marino,right color=claro!60] (current page.north west) rectangle ([yshift=-0.32cm]current page.north east);
+  \shade[left color=marino,right color=claro!60] (current page.south west) rectangle ([yshift=0.32cm]current page.south east);
+\end{tikzpicture}%
+\par\vspace*{-1.2cm}
+\noindent
+\begin{tikzpicture}
+  \useasboundingbox (0,-0.9) rectangle (\textwidth,0.9);
+  \node[anchor=west,inner sep=0] at (0,0) {\includegraphics[width=0.24\textwidth]{logos/usal.png}};
+  \node[anchor=east,inner sep=0] at (\textwidth,0) {\includegraphics[width=0.16\textwidth]{logos/fac.png}};
+  \node[align=center,inner sep=0] at (0.55\textwidth,0) {{\color{marino}\large\textls[160]{\textsc{Universidad de Salamanca}}}\\[3pt]
+    {\color{gris}\small\textls[120]{\textsc{Facultad de Ciencias \,·\, Grado en Física}}}};
+\end{tikzpicture}
+
+\vspace{0.4cm}
+\noindent{\color{claro}\rule{\textwidth}{0.5pt}}
+
+\vspace{0.9cm}
+\noindent{\color{acento}\large\espaciado{Termodinámica I \;·\; Tema 1}}
+
+\vspace{0.3cm}
+\noindent{\fontsize{30}{36}\selectfont\bfseries\color{marino}Conceptos básicos}
+
+\vspace{0.25cm}
+\noindent\begin{tikzpicture}
+  \shade[left color=marino,right color=white] (0,0) rectangle (0.62\textwidth,0.09);
+\end{tikzpicture}
+
+\vspace{0.35cm}
+\noindent{\large\itshape Sistemas y paredes, equilibrio y procesos, ley cero y temperatura empírica, ecuaciones de estado y coeficientes de respuesta $\alpha$, $\kT$ y $\beta$}
+
+\vspace{0.6cm}
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+  {\color{acento}\espaciado{Autor}}\\[1pt]
+  {\large Daniel Martín Guerrero}\,$^{\mathrm{a}}$
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+  {\color{acento}\espaciado{Profesor}}\\[1pt]
+  {\large Julián González Ayala}\,$^{\mathrm{a}}$
+\end{minipage}
+
+\vspace{0.2cm}
+\noindent{\small\color{gris}$^{\mathrm{a}}$\,Grado en Física, Facultad de Ciencias, Universidad de Salamanca, Plaza de la Merced s/n, 37008 Salamanca, España}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[apunte,breakable=false]
+\begin{minipage}[t]{0.54\linewidth}
+  {\color{acento}\espaciado{Resumen}}\par\smallskip
+  \small
+  Establecemos el lenguaje de la termodinámica de equilibrio: sistema, frontera y paredes,
+  variables extensivas e intensivas y la noción de estado. Distinguimos equilibrio de estado
+  estacionario y clasificamos los procesos (cuasiestático, reversible, irreversible). La
+  ley cero convierte el equilibrio térmico en una relación de equivalencia y garantiza la
+  existencia de una temperatura empírica. Por último, la ecuación de estado $f(p,V,T)=0$ y
+  sus derivadas, los coeficientes $\alpha$, $\kT$ y $\beta$, ligados por $\alpha=p\beta\kT$,
+  permiten reconstruir la ecuación de estado integrando una diferencial exacta. Los
+  seminarios resuelven los dieciséis problemas del tema y la cuestión 1 del parcial.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.42\linewidth}\vspace{-2pt}\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,width=6.4cm,height=5.0cm,xmin=0,xmax=5,ymin=0,ymax=5,
+  xlabel={$V$},ylabel={$p$},xtick=\empty,ytick=\empty,axis lines=left,
+  every axis x label/.style={at={(1,0)},anchor=north east},
+  every axis y label/.style={at={(0,1)},anchor=north east}]
+  \foreach \T/\c in {1/claro,2/acento!70,3.2/azul,4.6/marino}{
+    \edef\tmp{\noexpand\addplot[domain=0.25:5,samples=80,line width=0.9pt,color=\c] {\T/x};}\tmp
+  }
+  \addplot[only marks,mark=*,mark size=1.6pt,teja] coordinates {(1,3.2) (2.3,2)};
+  \draw[flecha,teja,densely dashed] (axis cs:1,3.2) to[bend left=20] (axis cs:2.3,2);
+  \node[font=\scriptsize,teja,above right] at (axis cs:1,3.2) {$1$};
+  \node[font=\scriptsize,teja,above right] at (axis cs:2.3,2) {$2$};
+  \node[font=\scriptsize,marino,anchor=west] at (axis cs:3.55,1.55) {$T_4$};
+  \node[font=\scriptsize,claro!70!marino,anchor=west] at (axis cs:3.9,0.42) {$T_1$};
+\end{axis}
+\end{tikzpicture}\par
+{\scriptsize\itshape\color{gris} Isotermas $pV=nRT$ del gas ideal ($T_1<\dots<T_4$) en el diagrama de Clapeyron; cada punto es un estado de equilibrio.}
+\end{minipage}
+\end{tcolorbox}
+
+\noindent{\color{acento}\espaciado{Palabras clave}} \small sistema termodinámico · paredes y ligaduras · extensiva e intensiva · equilibrio · proceso cuasiestático · ley cero · temperatura empírica · ecuación de estado · coeficientes termomecánicos · relación cíclica
+
+\smallskip
+\noindent{\color{acento}\espaciado{Clasificación PACS}} 05.70.$-$a (Termodinámica), 05.70.Ce (Funciones termodinámicas y ecuaciones de estado), 65.40.De (Dilatación térmica)
+
+\vspace{0.3cm}
+\noindent{\color{claro}\rule{\textwidth}{0.5pt}}
+\begin{equation*}
+pV=nRT \qquad
+\alpha=\frac{1}{V}\pd{V}{T}{p}\qquad
+\kT=-\frac{1}{V}\pd{V}{p}{T}\qquad
+\alpha=p\,\beta\,\kT\qquad
+\dd\ln V=\alpha\,\dd T-\kT\,\dd p
+\end{equation*}
+\noindent{\color{claro}\rule{\textwidth}{0.5pt}}
+
+\vfill
+\begin{center}
+  {\color{marino}\large\espaciado{Apuntes formalizados con seminarios prácticos}}\\[4pt]
+  {\color{gris}\espaciado{Salamanca, curso 2026/2027}}
+\end{center}
+\end{titlepage}
+
+% =====================================================================
+\setcounter{page}{1}
+\tableofcontents
+\thispagestyle{fancy}
+\clearpage
+
+% =====================================================================
+\section{Sistemas termodinámicos}
+% =====================================================================
+
+La termodinámica describe sistemas de $N\sim 10^{23}$ partículas mediante unas pocas magnitudes
+macroscópicas ($p$, $V$, $T$, $n$, \dots). La clave es que las medidas macroscópicas son
+\emph{lentas} y \emph{gruesas} frente a las escalas atómicas: solo sobreviven al promedio
+estadístico las combinaciones de coordenadas que no fluctúan, y estas definen el
+\emph{macroestado}~\cite{apuntes,transp}.
+
+\subsection{Sistema, frontera y paredes}
+
+\begin{definicion}[Magnitud y sistema termodinámico]
+Una \emph{magnitud termodinámica} es una propiedad macroscópica que describe el estado interno de un
+sistema. Un \emph{sistema termodinámico} es una región del espacio descrita por magnitudes
+termodinámicas, separada de sus \emph{alrededores} por una \emph{frontera} (real o conceptual, fija o
+móvil). Sistema, frontera y alrededores relevantes forman el \emph{universo termodinámico}.
+\end{definicion}
+
+\begin{definicion}[Aislado, cerrado, abierto]
+Un sistema es \emph{aislado} si no intercambia ni energía ni materia; \emph{cerrado} si intercambia
+energía pero no materia; \emph{abierto} si intercambia ambas.
+\end{definicion}
+
+La frontera se caracteriza por las \emph{paredes}, que permiten o impiden cada tipo de interacción
+(tabla~\ref{tab:paredes}). Una \emph{ligadura} elimina una interacción posible y reduce los cambios
+accesibles al sistema.
+
+\begin{table}[H]
+\centering
+\caption{Paredes e interacciones. Cada par restrictiva/permisiva controla una variable.}
+\label{tab:paredes}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Interacción & Pared restrictiva & Pared permisiva & Consecuencia \\
+\midrule
+Mecánica & rígida & móvil & $V$ fijo o variable \\
+Térmica & adiabática & diatérmica & impide o permite el calor \\
+Material & impermeable & (semi)permeable & $n_i$ fijo o variable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.95]
+  % alrededores
+  \fill[fondo] (-0.6,-0.5) rectangle (9.6,3.9);
+  \node[font=\small\itshape,gris,anchor=north west] at (-0.5,3.85) {alrededores};
+  % cilindro
+  \draw[line width=1.6pt,marino] (0.8,3.0) -- (0.8,0.2) -- (4.6,0.2) -- (4.6,3.0);
+  \fill[claro!45] (0.85,0.25) rectangle (4.55,2.0);
+  \fill[azul!80] (0.85,2.0) rectangle (4.55,2.35);
+  \draw[line width=1.2pt,marino] (2.7,2.35) -- (2.7,3.5);
+  \draw[flecha,teja] (2.7,4.3) -- (2.7,3.6) node[pos=0,above,font=\scriptsize] {$F_{\mathrm{ext}}$};
+  \node[font=\small,marino] at (2.7,1.1) {gas: $p,\,V,\,T,\,n$};
+  \draw[densely dashed,acento,line width=0.7pt] (0.95,0.32) rectangle (4.45,1.95);
+  \node[font=\scriptsize,acento,anchor=west] at (4.7,1.2) {frontera};
+  \draw[acento,line width=0.4pt] (4.45,1.2) -- (4.7,1.2);
+  % calor
+  \draw[flecha,teja,decorate,decoration={snake,amplitude=1.2pt,segment length=6pt,post length=2mm}] (2.7,-0.45) -- (2.7,0.15);
+  \node[font=\scriptsize,teja,anchor=west] at (2.85,-0.2) {calor (pared diatérmica)};
+  % leyenda
+  \node[align=left,font=\scriptsize,anchor=west] at (6.2,2.2) {\textbf{\color{marino}Paredes}\\[1pt]pistón: móvil\\base: diatérmica\\resto: rígidas,\\adiabáticas,\\impermeables};
+\end{tikzpicture}
+\caption{El cilindro--pistón como caso conductor del tema: sistema \emph{cerrado}, con una pared móvil
+(interacción mecánica) y una diatérmica (interacción térmica). La línea discontinua delimita el sistema.}
+\label{fig:piston}
+\end{figure}
+
+\begin{definicion}[Fase, especie y componente]
+Un sistema es \emph{homogéneo} (monofásico) si sus propiedades son las mismas en toda su
+extensión; si consta de varias regiones homogéneas (\emph{fases}) separadas por interfaces, es
+\emph{heterogéneo}. Una \emph{especie química} es una entidad identificable por análisis químico; un
+\emph{componente} es una especie independiente necesaria para fijar la composición.
+\end{definicion}
+
+\subsection{Variables extensivas e intensivas}
+
+\begin{definicion}[Extensiva e intensiva]
+Una variable es \emph{extensiva} si es aditiva sobre las partes del sistema ($U$, $V$, $n$, $m$, $S$):
+al unir dos copias idénticas se duplica. Es \emph{intensiva} si es local y no aditiva ($T$, $p$,
+$\rho$): al duplicar el sistema no cambia.
+\end{definicion}
+
+El cociente de dos extensivas es intensivo. Con $n=m/M$ moles y $N=nN_A$ partículas
+($N_A=\SI{6.022e23}{\per\mole}$) se definen las magnitudes \emph{específicas} y \emph{molares}:
+\begin{equation}
+x\equiv\frac{X}{m}\quad(\text{p.\,ej. } v=V/m),\qquad
+\bar X\equiv\frac{X}{n}\quad(\text{p.\,ej. } \Vm=V/n).
+\label{eq:molares}
+\end{equation}
+
+\begin{definicion}[Sistema simple; postulado de estado]
+Un \emph{sistema simple} es homogéneo, isótropo, de composición fija, sin campos externos relevantes
+y con un único modo de trabajo. Su estado de equilibrio queda fijado por \emph{dos} variables
+independientes. En un sistema hidrostático, $p$, $V$ y $T$ están ligadas por $f(p,V,T)=0$.
+\end{definicion}
+
+\begin{table}[H]
+\centering
+\caption{Pares de trabajo generalizados. Toda la estructura matemática del tema se traslada sin cambios
+sustituyendo $(p,V)$ por el par conjugado correspondiente.}
+\label{tab:pares}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Sistema & Variable tipo fuerza (intensiva) & Variable tipo desplazamiento (extensiva)\\
+\midrule
+Hidrostático & presión $p$ & volumen $V$\\
+Hilo estirado & tensión $F$ & longitud $L$\\
+Lámina superficial & tensión superficial $\sigma$ & área $A$\\
+Pila eléctrica & fuerza electromotriz $\mathcal E$ & carga $q$\\
+Material magnético & campo $H$ & imanación $M$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\section{Equilibrio y procesos}
+% =====================================================================
+
+\subsection{Equilibrio termodinámico}
+
+\begin{definicion}[Equilibrio termodinámico]
+Un sistema está en \emph{equilibrio} cuando sus variables macroscópicas no cambian con el tiempo,
+no hay flujos macroscópicos internos y las ligaduras no permiten ninguna evolución espontánea
+adicional. Requiere, simultáneamente y en la medida en que las paredes lo permitan, equilibrio
+\emph{mecánico} (sin fuerzas ni gradientes de $p$ no compensados), \emph{térmico} ($T$ uniforme a
+través de paredes diatérmicas) y \emph{material} (sin difusión, reacción ni cambio de fase netos).
+\end{definicion}
+
+\begin{observacion}[Equilibrio frente a estado estacionario]
+La independencia temporal no basta: una barra entre dos focos alcanza un perfil $T(x)$ constante
+pero mantiene un flujo de calor, luego está en un \emph{estado estacionario}, no en equilibrio.
+Se habla además de equilibrio \emph{interno} (cada subsistema), \emph{mutuo} (dos sistemas a través
+de una pared permisiva) y \emph{ligado} (equilibrio interno, pero una ligadura impide el mutuo).
+\end{observacion}
+
+\subsection{Cambios de estado y procesos}
+
+\begin{definicion}[Cambio de estado, proceso y función de estado]
+Un \emph{cambio de estado} queda fijado por los estados inicial y final; un \emph{proceso} es el camino
+que los une en el espacio de estados. Una \emph{función de estado} $Z=Z(X,Y)$ toma un valor único en
+cada estado, de modo que $\Delta Z$ depende solo de los extremos y $\dd Z$ es una \emph{diferencial exacta}.
+\end{definicion}
+
+\begin{definicion}[Clasificación de procesos]
+Un proceso es \emph{cuasiestático} si es lo bastante lento como para aproximarse por una sucesión de
+estados de equilibrio (y por tanto representarse como una curva en el diagrama $p$--$V$);
+\emph{reversible} si sistema \emph{y} alrededores pueden regresar a su estado inicial mediante cambios
+infinitesimales; \emph{irreversible} en otro caso (gradientes finitos, fricción, expansión libre, \dots).
+Se cumple: reversible $\subset$ cuasiestático; la lentitud no elimina la disipación.
+\end{definicion}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,xmin=0.8,xmax=4.4,ymin=0,ymax=9,xlabel={$V$},ylabel={$p$},
+  xtick={1,4},ytick={2,8},legend pos=north east]
+  \addplot[marino,line width=1pt,domain=1:4,samples=60] {8/x^1};
+  \addlegendentry{camino A}
+  \addplot[acento,densely dashed,line width=1pt] coordinates {(1,8) (4,8) (4,2)};
+  \addlegendentry{camino B}
+  \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(1,8) (4,2)};
+  \node[font=\scriptsize,anchor=north east] at (axis cs:1,8) {$1$};
+  \node[font=\scriptsize,anchor=north west] at (axis cs:4,2) {$2$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,xmin=0,xmax=7,ymin=0,ymax=6,xlabel={$t/\tau$},ylabel={observable $X$},
+  xtick={0,1,3,5,7},ytick={1,5},yticklabels={$X_{\mathrm{eq}}$,$X_0$}]
+  \addplot[claro!80!acento,densely dashed,line width=0.8pt,domain=0:7] {1};
+  \addplot[marino,line width=1pt,domain=0:7,samples=100] {1+4*exp(-x)};
+  \draw[acento,line width=0.5pt] (axis cs:0,5) -- (axis cs:1,1);
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:1.1,2.3) {pendiente inicial $\to\tau$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{(a) Dos procesos cuasiestáticos entre los mismos estados: $\Delta Z$ de una función de estado es
+idéntico; las magnitudes de proceso no. (b) Relajación de un sistema aislado hacia el equilibrio con
+tiempo característico $\tau$: el criterio práctico de equilibrio depende del tiempo de observación.}
+\label{fig:procesos}
+\end{figure}
+
+% =====================================================================
+\section{Ley cero y temperatura}
+% =====================================================================
+
+\begin{teorema}[Ley cero de la termodinámica]
+Si dos sistemas $A$ y $B$ están, por separado, en equilibrio térmico con un tercero $C$, entonces $A$
+y $B$ están en equilibrio térmico entre sí: $A\sim C$ y $B\sim C\Rightarrow A\sim B$.
+\end{teorema}
+
+Como todo sistema está en equilibrio consigo mismo (reflexividad) y la relación es simétrica, la ley
+cero aporta la \emph{transitividad}: el equilibrio térmico es una \emph{relación de equivalencia}, y
+sus clases de equivalencia definen la temperatura.
+
+\begin{proposicion}[Existencia de la temperatura empírica]
+Sean tres sistemas simples $\Sigma_i$ de variables $(p_i,V_i)$. Si el equilibrio térmico $\Sigma_1\sim\Sigma_3$
+se expresa por $F_{13}(p_1,V_1,p_3,V_3)=0$ y $\Sigma_2\sim\Sigma_3$ por $F_{23}(p_2,V_2,p_3,V_3)=0$, existen
+funciones $\theta_i(p_i,V_i)$ tales que el equilibrio térmico mutuo equivale a
+\begin{equation}
+\theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3).
+\label{eq:temp-empirica}
+\end{equation}
+\end{proposicion}
+
+\begin{demo}
+Despejando $p_3$ de ambas condiciones, $g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3)$. Por la ley cero esta
+igualdad equivale a $F_{12}(p_1,V_1,p_2,V_2)=0$, que no contiene $V_3$; luego $V_3$ debe cancelarse, lo
+que solo es posible si cada miembro se escribe como $\psi(V_3,\theta_i(p_i,V_i))$ con la misma $\psi$.
+Entonces $\theta_1=\theta_2$, e igualando con $p_3=\psi(V_3,\theta)$ se obtiene $\theta_3(p_3,V_3)=\theta$.
+\end{demo}
+
+\begin{observacion}[Lectura operativa]
+En la práctica, se reescribe cada condición de equilibrio aislando \emph{la misma} combinación de las
+variables del sistema común: $\theta_1(p_1,V_1)=\theta_3(p_3,V_3)=\theta_2(p_2,V_2)$. La función $\theta$
+está definida salvo una función monótona arbitraria; las curvas $\theta_i(p_i,V_i)=\cte$ son las
+\emph{isotermas} del sistema $i$. Es el método M1 (problema~1.1).
+\end{observacion}
+
+\begin{definicion}[Temperatura absoluta]
+La \emph{temperatura termodinámica} $T$, de unidad el kelvin (K, sin signo de grado), es la escala
+absoluta. Se relaciona con la escala Celsius por $T/\mathrm{K}=t/{}^\circ\mathrm{C}+273{,}15$; un
+intervalo de \SI{1}{K} equivale a uno de \SI{1}{\celsius}, de modo que $\Delta T=\Delta t$.
+\end{definicion}
+
+% =====================================================================
+\section{Ecuaciones de estado y coeficientes de respuesta}
+% =====================================================================
+
+\subsection{Ecuación de estado}
+
+\begin{definicion}[Ecuación de estado]
+Una \emph{ecuación (térmica o empírica) de estado} es una relación $f(p,V,T,n)=0$ entre variables de
+equilibrio. Con $n$ fijo impone una ligadura: solo dos de las tres variables $p,V,T$ son independientes,
+y cada una puede expresarse como función de las otras dos.
+\end{definicion}
+
+El ejemplo canónico es el \emph{gas ideal},
+\begin{equation}
+pV=nRT\qquad\Longleftrightarrow\qquad p\Vm=RT,\qquad R=\SI{8.314}{\joule\per\mole\per\kelvin},
+\label{eq:gas-ideal}
+\end{equation}
+válido a densidades bajas y lejos de la condensación. Otros modelos usuales, que reaparecen en los
+seminarios, se recogen en la tabla~\ref{tab:modelos}.
+
+\begin{table}[H]
+\centering
+\caption{Ecuaciones de estado de los seminarios. Todas tienden a $p\Vm=RT$ para $\Vm\to\infty$.}
+\label{tab:modelos}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Modelo & Ecuación & Problemas\\
+\midrule
+Gas ideal & $p\Vm=RT$ & 1.3, 1.10\\
+Clausius (covolumen) & $p(\Vm-b)=RT$ & 1.8\\
+Van der Waals & $\bigl(p+a/\Vm^2\bigr)(\Vm-b)=RT$ & ejemplo~\ref{ej:vdw}\\
+Dieterici & $p=\dfrac{RT}{\Vm-b}\,e^{-a/(RT\Vm)}$ & 1.14\\[4pt]
+Virial (2.º coeficiente) & $p=\dfrac{RT}{\Vm}\Bigl(1+\dfrac{b}{\Vm}\Bigr)$ & 1.15\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Coeficientes termomecánicos}
+
+\begin{definicion}[Coeficientes de respuesta]
+Para un sistema hidrostático cerrado se definen el coeficiente de \emph{dilatación cúbica}, el de
+\emph{compresibilidad isotérmica} y el \emph{piezotérmico}:
+\begin{equation}
+\alpha\equiv\frac{1}{V}\pd{V}{T}{p},\qquad
+\kT\equiv-\frac{1}{V}\pd{V}{p}{T},\qquad
+\beta\equiv\frac{1}{p}\pd{p}{T}{V},
+\label{eq:coeficientes}
+\end{equation}
+o, de forma equivalente, $\alpha=\pd{\ln V}{T}{p}$ y $\kT=-\pd{\ln V}{p}{T}$.
+\end{definicion}
+
+Son intensivos (por eso pueden calcularse con $V$ o con $\Vm$ indistintamente) y miden la
+sensibilidad \emph{relativa} del sistema (tabla~\ref{tab:coef}). En general dependen del estado,
+$\alpha=\alpha(T,p)$; tratarlos como constantes es solo una aproximación local.
+
+\begin{table}[H]
+\centering
+\caption{Interpretación de los coeficientes de respuesta.}
+\label{tab:coef}
+\small
+\begin{tabular}{@{}cllc@{}}
+\toprule
+Coef. & Pregunta experimental & Signo & Unidad SI\\
+\midrule
+$\alpha$ & ¿cómo cambia $V$ con $T$ a $p$ fija? & normalmente $>0$ (agua: $<0$ entre 0 y \SI{4}{\celsius}) & \si{\per\kelvin}\\
+$\kT$ & ¿cómo cambia $V$ con $p$ a $T$ fija? & $>0$ (estabilidad mecánica) & \si{\per\pascal}\\
+$\beta$ & ¿cómo cambia $p$ con $T$ a $V$ fijo? & fijado por $\alpha=p\beta\kT$ & \si{\per\kelvin}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,xmin=0,xmax=5,ymin=0,ymax=5,xlabel={$T$},ylabel={$V$},xtick=\empty,ytick=\empty,
+  axis lines=left]
+  \addplot[marino,line width=1pt,domain=0.3:4.8,samples=60] {0.6+0.25*x+0.08*x^2};
+  \addplot[teja,line width=0.8pt,domain=1.4:4.0] {1.8582+0.682*(x-2.7)};
+  \addplot[only marks,mark=*,mark size=1.6pt,teja] coordinates {(2.7,{0.6+0.25*2.7+0.08*2.7^2})};
+  \node[font=\scriptsize,teja,anchor=north west,align=left] at (axis cs:3.0,1.9) {pendiente\\$(\partial V/\partial T)_p=\alpha V$};
+  \node[font=\scriptsize,marino,anchor=south east] at (axis cs:4.7,4.2) {isobara};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,xmin=0,xmax=5,ymin=0,ymax=5,xlabel={$p$},ylabel={$V$},xtick=\empty,ytick=\empty,
+  axis lines=left]
+  \addplot[marino,line width=1pt,domain=0.6:4.9,samples=60] {3/x};
+  \addplot[teja,line width=0.8pt,domain=0.9:3.0] {3/1.8-3/1.8^2*(x-1.8)};
+  \addplot[only marks,mark=*,mark size=1.6pt,teja] coordinates {(1.8,{3/1.8})};
+  \node[font=\scriptsize,teja,anchor=south west,align=left] at (axis cs:2.0,2.0) {pendiente\\$(\partial V/\partial p)_T=-\kT V$};
+  \node[font=\scriptsize,marino,anchor=south west] at (axis cs:3.9,0.8) {isoterma};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{Lectura geométrica de los coeficientes. (a) $\alpha$ es la pendiente relativa de la isobara $V(T)$.
+(b) $\kT$ es menos la pendiente relativa de la isoterma $V(p)$; $\kT>0$ porque el volumen disminuye al
+comprimir.}
+\label{fig:coef}
+\end{figure}
+
+\subsection{Herramientas de cálculo en varias variables}
+
+Si $x,y,z$ están ligadas por $f(x,y,z)=0$, cada una es función de las otras dos y se cumplen:
+\begin{equation}
+\pd{x}{y}{z}=\frac{1}{\pd{y}{x}{z}}\quad\text{(recíproca)},\qquad
+\pd{x}{y}{z}\pd{y}{z}{x}\pd{z}{x}{y}=-1\quad\text{(cíclica)}.
+\label{eq:ciclica}
+\end{equation}
+
+\begin{proposicion}[Relación entre coeficientes]
+Los tres coeficientes no son independientes:
+\begin{equation}
+\alpha=p\,\beta\,\kT .
+\label{eq:alpha-beta-kappa}
+\end{equation}
+\end{proposicion}
+
+\begin{demo}
+Aplicando la cíclica a $(p,V,T)$, $\pd{V}{T}{p}\pd{T}{p}{V}\pd{p}{V}{T}=-1$, y sustituyendo
+$\pd{V}{T}{p}=\alpha V$, $\pd{T}{p}{V}=1/(p\beta)$ y $\pd{p}{V}{T}=-1/(\kT V)$ se obtiene
+$-\alpha/(p\beta\kT)=-1$.
+\end{demo}
+
+\begin{teorema}[Criterio de exactitud]
+La forma $\delta z=M(x,y)\,\dd x+N(x,y)\,\dd y$ es la diferencial exacta de una función $z(x,y)$ si y solo si
+\begin{equation}
+\pd{M}{y}{x}=\pd{N}{x}{y}.
+\label{eq:schwarz}
+\end{equation}
+En tal caso $z$ se obtiene integrando $M$ respecto de $x$, $z=\int M\,\dd x+g(y)$, y fijando $g(y)$
+con la condición $\partial z/\partial y=N$.
+\end{teorema}
+
+\subsection{Ecuación diferencial de estado}
+
+Diferenciando $V(T,p)$, $p(T,V)$ y $T(p,V)$ y usando~\eqref{eq:coeficientes}:
+\begin{equation}
+\boxed{\;\dd\ln V=\alpha\,\dd T-\kT\,\dd p\;}\qquad
+\dd p=p\beta\,\dd T-\frac{\dd V}{\kT V},\qquad
+\dd T=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}.
+\label{eq:diferenciales}
+\end{equation}
+Conocidos dos coeficientes (el tercero sale de~\eqref{eq:alpha-beta-kappa}), la ecuación de estado se
+reconstruye integrando cualquiera de ellas: es el método M5. Como $\ln V$ es función de estado, la
+integral no depende del camino; por una trayectoria rectangular $(T_a,p_a)\to(T_b,p_a)\to(T_b,p_b)$,
+\begin{equation}
+\ln\frac{V_b}{V_a}=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T-\int_{p_a}^{p_b}\kT(T_b,p)\,\dd p
+\;\xrightarrow{\ \alpha,\kT\ \text{ctes}\ }\;
+\alpha\,\Delta T-\kT\,\Delta p\approx\frac{\Delta V}{V}.
+\label{eq:finitos}
+\end{equation}
+
+\begin{observacion}[Sólidos: dilatación lineal]
+Para un sólido isótropo, $V\propto L^3$ y $\alpha=3\alpha_l$, con $\alpha_l\equiv\frac{1}{L}\pd{L}{T}{p}$.
+Para $\alpha_l\Delta T\ll1$, $\Delta L\simeq\alpha_l L_0\Delta T$ (problemas 1.5 y 1.6). A volumen
+constante, $\dd V=0$ en~\eqref{eq:diferenciales} da $\pd{p}{T}{V}=\alpha/\kT$ (problema 1.7).
+\end{observacion}
+
+\begin{ejemplo}[Coeficientes del gas de van der Waals]\label{ej:vdw}
+De $\bigl(p+a/\Vm^2\bigr)(\Vm-b)=RT$ no es práctico despejar $\Vm$ (cúbica), pero sí $T$ y $p$. Por la
+regla recíproca,
+\begin{equation*}
+\frac{1}{\Vm\alpha}=\pd{T}{\Vm}{p}=\frac{1}{R}\Bigl(p-\frac{a}{\Vm^2}+\frac{2ab}{\Vm^3}\Bigr),\qquad
+-\frac{1}{\Vm\kT}=\pd{p}{\Vm}{T}=-\frac{RT}{(\Vm-b)^2}+\frac{2a}{\Vm^3},
+\end{equation*}
+y eliminando $p$ con la ecuación de estado,
+\begin{equation*}
+\alpha=\frac{R\Vm^2(\Vm-b)}{RT\Vm^3-2a(\Vm-b)^2},\qquad
+\kT=\frac{\Vm^2(\Vm-b)^2}{RT\Vm^3-2a(\Vm-b)^2}.
+\end{equation*}
+Con $a=b=0$ se recuperan los del gas ideal, $\alpha=1/T$ y $\kT=1/p$.
+\end{ejemplo}
+
+% =====================================================================
+\section{Seminarios prácticos}
+% =====================================================================
+
+Esta sección resuelve los dieciséis problemas de la lista del tema~\cite{apuntes} y la cuestión~1 del
+parcial de 2025/26~\cite{parcial}. Cada problema sigue la misma estructura: el \emph{enunciado}, la
+\emph{idea} que guía la resolución, la \emph{resolución} paso a paso y, cuando aporta, una
+\emph{observación} sobre el resultado. Salvo indicación contraria, $R=\SI{8.314}{\joule\per\mole\per\kelvin}$.
+
+\subsection{Cómo plantear un problema del Tema 1}
+
+Todos los problemas del tema se reducen a cinco tareas (tabla~\ref{tab:metodos}). La primera decisión es
+identificar \emph{qué se da} (ecuación de estado, coeficientes, condiciones de equilibrio o una relación
+de proceso) y \emph{qué se pide}.
+
+\begin{table}[H]
+\centering
+\caption{Mapa de decisión: qué método conviene según lo que pide el enunciado.}
+\label{tab:metodos}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xl>{\raggedleft\arraybackslash}p{2.4cm}@{}}
+\toprule
+Lo que da / pide el enunciado & Método & Problemas\\
+\midrule
+Condiciones de equilibrio térmico entre sistemas; hallar $\theta_i$ & M1. Ley cero & 1.1\\
+Proceso $pV^n=\cte$; hallar $p_2$ o el exponente & M2. Politrópico & 1.3, 1.4\\
+Dilatación, calentamiento a $V$ cte, cambios pequeños & M3. Coeficientes constantes & 1.5--1.7, 1.16\\
+Ecuación de estado dada; hallar $\alpha$, $\kT$, $\beta$ & M4. Derivación & 1.8, P.1(b)\\
+Coeficientes (o $\dd V$) dados; hallar la ecuación de estado & M5. Integración & 1.2, 1.9--1.15, P.1(a)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{tcolorbox}[apunte,title={\color{acento}\espaciado{Los cinco métodos}},
+  coltitle=acento,colbacktitle=fondo,attach title to upper,after title={\par\smallskip}]
+\begin{description}[leftmargin=2.2em,style=sameline,font=\normalfont\bfseries\color{marino},itemsep=3pt]
+\item[M1.] \emph{Ley cero.} Reescribir cada condición de equilibrio aislando la misma combinación
+$\theta_3(p_3,V_3)$ del sistema común; lo que queda a cada lado son $\theta_1$ y $\theta_2$, y
+$\Sigma_1\sim\Sigma_2\iff\theta_1=\theta_2$.
+\item[M2.] \emph{Politrópico.} $p_1V_1^n=p_2V_2^n\Rightarrow p_2=p_1(V_1/V_2)^n$ y
+$n=\ln(p_2/p_1)/\ln(V_1/V_2)$. Unificar unidades \emph{antes} de operar.
+\item[M3.] \emph{Coeficientes constantes.} $\Delta L\simeq\alpha_lL_0\Delta T$; $\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p$;
+a volumen fijo, $\Delta p=(\alpha/\kT)\Delta T$.
+\item[M4.] \emph{Derivación.} Despejar la variable que se deriva si es sencillo; si no, usar la regla
+recíproca~\eqref{eq:ciclica} o derivar implícitamente. Expresar el resultado en las variables pedidas.
+\item[M5.] \emph{Integración.} (1) Completar el par necesario con $\alpha=p\beta\kT$; (2) escribir la
+diferencial adecuada~\eqref{eq:diferenciales}; (3) comprobar exactitud~\eqref{eq:schwarz}; (4) integrar
+respecto de una variable y fijar la función de la otra; (5) fijar la constante con un límite físico
+(normalmente gas ideal para $\Vm\to\infty$).
+\end{description}
+\end{tcolorbox}
+
+\begin{observacion}[Elección de la diferencial en M5]
+Si los datos son $\alpha$ y $\kT$, conviene $\dd\ln V$; si son $\beta$ y $\kT$ y se pide $p(T,V)$, conviene
+$\dd p$ o $\dd\ln p$. Cuando los coeficientes contienen $\Vm-A$ o $A+aT-bp$, conviene buscar la diferencial
+logarítmica de esa combinación: la integral es inmediata.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.1. Temperaturas empíricas de tres gases}
+
+\begin{problema}{1.1}{Ley cero con tres gases}
+Los sistemas $\Sigma_1$, $\Sigma_2$ y $\Sigma_3$ son gases de variables $(p_i,V_i)$. Cuando $\Sigma_1$ y $\Sigma_3$
+están en equilibrio térmico se cumple $p_1V_1-bp_1-p_3V_3=0$, y cuando lo están $\Sigma_2$ y $\Sigma_3$,
+$p_2V_2-p_3V_3+b'p_3V_3/V_2=0$, con $b,b'$ constantes. ¿Qué relación expresa el equilibrio térmico entre
+$\Sigma_1$ y $\Sigma_2$? ¿Cuáles son las funciones $\theta_i(p_i,V_i)$ que coinciden en el equilibrio?
+\end{problema}
+
+\resolucion\idea Método M1: aislar en ambas condiciones la misma combinación de $\Sigma_3$, que aparece
+de forma natural como $p_3V_3$.
+
+\paso{Paso 1: condición $\Sigma_1\sim\Sigma_3$} $p_1(V_1-b)=p_3V_3$.
+
+\paso{Paso 2: condición $\Sigma_2\sim\Sigma_3$} Sacando factor común $p_3V_3$:
+$p_3V_3\,(1-b'/V_2)=p_2V_2$, es decir, $p_3V_3=\dfrac{p_2V_2^2}{V_2-b'}$.
+
+\paso{Paso 3: ley cero} Igualando ambas expresiones de $p_3V_3$:
+\begin{equation*}
+\resultado{p_1(V_1-b)=\frac{p_2V_2^2}{V_2-b'}}\qquad
+\resultado{\theta_1=p_1(V_1-b),\quad \theta_2=\frac{p_2V_2^2}{V_2-b'},\quad \theta_3=p_3V_3}
+\end{equation*}
+\fin
+
+\begin{observacion}[Unicidad]
+Cualquier función monótona $\phi(\theta)$ aplicada a las tres $\theta_i$ es igualmente válida; la elección
+anterior es la más simple. $\Sigma_3$ es un gas ideal ($\theta_3\propto T$), $\Sigma_1$ un gas de Clausius y
+$\Sigma_2$ un gas con corrección en $b'/V_2$.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.2. Ecuación de estado a partir de \texorpdfstring{$\dd V$}{dV}}
+
+\begin{problema}{1.2}{Integración directa}
+Un fluido pasa de $(T,p)$ a $(T+\dd T,p+\dd p)$ con $\dd V=\dfrac{2V}{T}\,\dd T-\dfrac{3V}{p}\,\dd p$.
+Encuéntrese la relación entre $V$, $p$ y $T$.
+\end{problema}
+
+\resolucion\idea Dividir por $V$: la diferencial queda en variables separadas (método M5 con
+$\alpha=2/T$ y $\kT=3/p$).
+
+\paso{Paso 1: diferencial logarítmica} $\dd\ln V=2\,\dd\ln T-3\,\dd\ln p=\dd\ln\bigl(T^2p^{-3}\bigr)$, exacta de forma trivial.
+
+\paso{Paso 2: integración} $\ln V=\ln(T^2/p^3)+\ln K$, de donde
+\begin{equation*}
+\resultado{p^3V=K\,T^2}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.3. Proceso politrópico: presión final}
+
+\begin{problema}{1.3}{Expansión con $pV^{7/5}=\cte$}
+Un gas efectúa un proceso reversible con $pV^{7/5}=\cte$ desde $p_1=\SI{1}{bar}$, $V_1=\SI{1}{m^3}$
+hasta $V_2=\SI{3e6}{cm^3}$. Calcúlese $p_2$ en kPa y represéntese el proceso en el diagrama $pV$.
+\end{problema}
+
+\resolucion\idea Método M2 tras unificar unidades: $V_2=\SI{3e6}{cm^3}=\SI{3}{m^3}$, $p_1=\SI{100}{kPa}$.
+
+\paso{Paso 1: presión final}
+\begin{equation*}
+p_2=p_1\Bigl(\frac{V_1}{V_2}\Bigr)^{7/5}=\SI{100}{kPa}\cdot3^{-1{,}4}=\frac{\SI{100}{kPa}}{4{,}656}
+\quad\Longrightarrow\quad\resultado{p_2\simeq\SI{21.5}{kPa}}
+\end{equation*}
+
+\paso{Paso 2: representación} El proceso es una expansión cuasiestática que, en el plano $pV$, cae más
+deprisa que la isoterma $pV=\cte$ que pasa por el estado inicial (figura~\ref{fig:p13}).
+\fin
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,width=8.4cm,height=5.6cm,xmin=0.8,xmax=3.3,ymin=0,ymax=110,
+  xlabel={$V$ (m$^3$)},ylabel={$p$ (kPa)},xtick={1,2,3},ytick={21.5,33.3,100},
+  yticklabels={$21{,}5$,$33{,}3$,$100$},legend pos=north east]
+  \addplot[name path=pol,marino,line width=1.1pt,domain=1:3,samples=80] {100*x^(-1.4)};
+  \addlegendentry{$pV^{7/5}=\cte$}
+  \addplot[acento,densely dashed,line width=0.9pt,domain=1:3,samples=80] {100/x};
+  \addlegendentry{isoterma $pV=\cte$}
+  \path[name path=eje] (axis cs:1,0) -- (axis cs:3,0);
+  \addplot[fondo!60!claro,opacity=0.6] fill between[of=pol and eje];
+  \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(1,100) (3,21.48)};
+  \node[font=\scriptsize,anchor=south west] at (axis cs:1,100) {$1$};
+  \node[font=\scriptsize,anchor=south west] at (axis cs:3,21.48) {$2$};
+  \draw[flecha,marino] (axis cs:1.55,75) -- (axis cs:1.95,52);
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.3. Expansión politrópica con $n=7/5$ (continua) frente a la isoterma por el estado
+inicial (discontinua). El área sombreada es el trabajo realizado por el gas, que se estudiará en el Tema~2.}
+\label{fig:p13}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.4. Exponente politrópico}
+
+\begin{problema}{1.4}{Exponente de una compresión}
+Un cilindro--pistón contiene un gas que se comprime reversiblemente desde $p_1=\SI{2}{bar}$,
+$v_1=\SI{83.54}{cm^3/kg}$ hasta $p_2=\SI{10}{bar}$, $v_2=\SI{21.34}{cm^3/kg}$, según $pv^{\alpha}=\cte$.
+Calcúlese $\alpha$.
+\end{problema}
+
+\resolucion\idea Método M2: tomando logaritmos, $pv^\alpha=\cte$ es una recta de pendiente $-\alpha$ en
+el plano $(\ln v,\ln p)$. Solo intervienen cocientes, así que no hace falta convertir unidades.
+
+\paso{Paso 1: despeje}
+\begin{equation*}
+\alpha=\frac{\ln(p_2/p_1)}{\ln(v_1/v_2)}=\frac{\ln5}{\ln(83{,}54/21{,}34)}=\frac{1{,}6094}{1{,}3648}
+\quad\Longrightarrow\quad\resultado{\alpha\simeq1{,}18}
+\end{equation*}
+\fin
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,width=7.6cm,height=5.2cm,xmode=log,ymode=log,xmin=15,xmax=120,ymin=1,ymax=14,
+  xlabel={$v$ (cm$^3$/kg)},ylabel={$p$ (bar)},xtick={21.34,83.54},xticklabels={$21{,}34$,$83{,}54$},
+  ytick={2,10},yticklabels={$2$,$10$},log basis x=10]
+  \addplot[marino,line width=1.1pt,domain=21.34:83.54,samples=40] {2*(83.54/x)^1.1793};
+  \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(83.54,2) (21.34,10)};
+  \draw[flecha,marino] (axis cs:62,2.0) -- (axis cs:40,3.35);
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:46,6.2) {pendiente $-\alpha=-1{,}18$};
+  \node[font=\scriptsize,anchor=north] at (axis cs:83.54,2) {$1$};
+  \node[font=\scriptsize,anchor=south] at (axis cs:21.34,10) {$2$};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.4. En ejes doblemente logarítmicos un proceso politrópico es una recta; su pendiente
+es el exponente cambiado de signo.}
+\label{fig:p14}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.5. Reloj de péndulo}
+
+\begin{problema}{1.5}{Péndulo de cobre}
+Un reloj con un péndulo de cobre de \SI{0.5}{m}, calibrado a \SI{20}{\celsius}, funciona un día a
+\SI{40}{\celsius}. ¿Se adelanta o se atrasa? ¿Cuánto? ($\alpha_l=\SI{17e-6}{\per\kelvin}$.)
+\end{problema}
+
+\resolucion\idea El periodo $\mathcal T=2\pi\sqrt{l/g}$ crece con la longitud. El reloj cuenta
+oscilaciones: si cada una dura más, marca menos tiempo del real y se \emph{atrasa}. Método M3.
+
+\paso{Paso 1: variación relativa del periodo} Con $l=l_0(1+\alpha_l\Delta T)$ y $\Delta T=\SI{20}{K}$,
+\begin{equation*}
+\frac{\mathcal T}{\mathcal T_0}=\sqrt{1+\alpha_l\Delta T}\simeq1+\tfrac12\alpha_l\Delta T
+\quad\Longrightarrow\quad
+\frac{\Delta\mathcal T}{\mathcal T_0}\simeq\tfrac12\alpha_l\Delta T=\num{1.70e-4}.
+\end{equation*}
+
+\paso{Paso 2: retraso diario} En un tiempo real $t$ el reloj marca $t\,\mathcal T_0/\mathcal T$; el retraso
+es $t\,(1-\mathcal T_0/\mathcal T)\simeq t\,\Delta\mathcal T/\mathcal T_0$. Para $t=\SI{86400}{s}$:
+\begin{equation*}
+\resultado{\text{se atrasa}\ \simeq\SI{14.7}{s/día}}
+\end{equation*}
+\fin
+
+\begin{observacion}[La longitud no interviene]
+El resultado no depende de $l_0=\SI{0.5}{m}$ ni de $g$: solo importa la variación \emph{relativa},
+$\tfrac12\alpha_l\Delta T$. Es el rasgo general de los coeficientes de respuesta.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.6. Dilatación de un puente}
+
+\begin{problema}{1.6}{Puente de acero}
+Un puente de acero continuo mide \SI{100}{m}. ¿Cuánto varía su longitud entre \SI{-10}{\celsius} y
+\SI{50}{\celsius}? ($\alpha_l=\SI{11e-6}{\per\kelvin}$.)
+\end{problema}
+
+\resolucion\idea Método M3 con $\alpha_l\Delta T\ll1$ y $\Delta T=\Delta t=\SI{60}{K}$.
+\begin{equation*}
+\Delta L\simeq\alpha_l L_0\,\Delta T=\SI{11e-6}{\per\kelvin}\cdot\SI{100}{m}\cdot\SI{60}{K}=\SI{0.066}{m}
+\quad\Longrightarrow\quad\resultado{\Delta L\simeq\SI{6.6}{cm}}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.7. Mercurio calentado a volumen constante}
+
+\begin{problema}{1.7}{Presión a volumen fijo}
+Calcúlese el aumento de presión de una masa de mercurio calentada a volumen constante de \SI{0}{\celsius}
+a \SI{1}{\celsius}, con $\alpha=\SI{18e-5}{\per\kelvin}$ y $\kT=\SI{39e-12}{\per\pascal}$ constantes.
+\end{problema}
+
+\resolucion\idea A volumen fijo, $\dd\ln V=0$ en~\eqref{eq:diferenciales}: $\alpha\,\dd T=\kT\,\dd p$.
+
+\paso{Paso 1: integración}
+\begin{equation*}
+\Delta p=\frac{\alpha}{\kT}\,\Delta T=\frac{\SI{18e-5}{\per\kelvin}}{\SI{39e-12}{\per\pascal}}\cdot\SI{1}{K}=\SI{4.615e6}{Pa}
+\quad\Longrightarrow\quad\resultado{\Delta p\simeq\SI{46.2}{bar}}
+\end{equation*}
+\fin
+
+\begin{observacion}[Orden de magnitud]
+Un solo kelvin produce unas 46 atmósferas: los líquidos son casi incompresibles ($\kT$ minúsculo), por
+lo que impedir su dilatación exige presiones enormes. De aquí el riesgo de un termómetro sobrecalentado.
+Nótese que $\alpha/\kT=p\beta=\pd{p}{T}{V}$.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.8. Coeficientes de la ecuación de Clausius}
+
+\begin{problema}{1.8}{Ecuación de Clausius}
+Para la ecuación de estado $p(\Vm-b)=RT$, calcúlense $\alpha$ y $\kT$.
+\end{problema}
+
+\resolucion\idea Método M4: aquí $\Vm$ se despeja sin dificultad, $\Vm=RT/p+b$.
+
+\paso{Paso 1: derivadas}
+$\pd{\Vm}{T}{p}=\dfrac{R}{p}$, \quad $\pd{\Vm}{p}{T}=-\dfrac{RT}{p^2}$.
+
+\paso{Paso 2: coeficientes} Dividiendo por $\Vm=(RT+bp)/p$:
+\begin{equation*}
+\resultado{\alpha=\frac{R}{RT+bp}}\qquad\resultado{\kT=\frac{RT}{p\,(RT+bp)}}
+\end{equation*}
+
+\paso{Comprobación} $\beta=\frac1p\pd{p}{T}{\Vm}=\frac{1}{p}\frac{R}{\Vm-b}=\frac1T$, y en efecto
+$p\beta\kT=\frac{R}{RT+bp}=\alpha$. Con $b=0$, $\alpha=1/T$ y $\kT=1/p$ (gas ideal).
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.9. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\kappa_T$}{kT} (I)}
+
+\begin{problema}{1.9}{$\alpha=3/T$, $\kT=2/p$}
+Determínese la ecuación de estado de un sistema hidrostático con $\alpha=3/T$ y $\kT=2/p$.
+\end{problema}
+
+\resolucion\idea Método M5 con $\dd\ln\Vm$; las variables están separadas.
+\begin{equation*}
+\dd\ln\Vm=\frac{3\,\dd T}{T}-\frac{2\,\dd p}{p}=\dd\ln\frac{T^3}{p^2}
+\quad\Longrightarrow\quad\resultado{p^2\Vm=\cte\cdot T^3}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.10. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\kappa_T$}{kT} (II)}
+
+\begin{problema}{1.10}{Gas con corrección lineal en $p$}
+Determínese la ecuación de estado de un gas con $\alpha=\dfrac{R}{p\Vm}$ y $\kT=\dfrac{RT}{p^2\Vm}+\dfrac{B}{2\Vm}$.
+\end{problema}
+
+\resolucion\idea Método M5. Multiplicando por $\Vm$ desaparece el volumen de los coeficientes y se
+integra $\dd\Vm$ directamente.
+
+\paso{Paso 1: diferencial}
+$\dd\Vm=\Vm\alpha\,\dd T-\Vm\kT\,\dd p=\dfrac{R}{p}\,\dd T-\Bigl(\dfrac{RT}{p^2}+\dfrac B2\Bigr)\dd p$.
+
+\paso{Paso 2: exactitud} $\partial_p(R/p)=-R/p^2=\partial_T\bigl(-RT/p^2-B/2\bigr)$. \checkmark
+
+\paso{Paso 3: integración} $\Vm=\int\frac Rp\,\dd T=\frac{RT}{p}+g(p)$; imponiendo
+$\partial_p\Vm=-\frac{RT}{p^2}+g'(p)=-\frac{RT}{p^2}-\frac B2$ resulta $g=-\frac{B}{2}p+\Vm_0$.
+
+\paso{Paso 4: constante} Para $B\to0$ los coeficientes son los del gas ideal y debe recuperarse
+$p\Vm=RT$, luego $\Vm_0=0$:
+\begin{equation*}
+\resultado{p\Vm=RT-\tfrac12Bp^2}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.11. Ecuación de estado a partir de \texorpdfstring{$\beta$}{beta} y \texorpdfstring{$\kappa_T$}{kT}}
+
+\begin{problema}{1.11}{$\beta=aT/(bp^2)$, $\kT=bp/\Vm$}
+Determínese la ecuación de estado de un sistema hidrostático con $\beta=\dfrac{aT}{bp^2}$ y
+$\kT=\dfrac{bp}{\Vm}$, siendo $a$ y $b$ constantes.
+\end{problema}
+
+\resolucion\idea Método M5: completar el par con $\alpha=p\beta\kT$ y usar $\dd\Vm$.
+
+\paso{Paso 1: tercer coeficiente} $\alpha=p\cdot\dfrac{aT}{bp^2}\cdot\dfrac{bp}{\Vm}=\dfrac{aT}{\Vm}$.
+
+\paso{Paso 2: diferencial e integración} $\dd\Vm=\Vm\alpha\,\dd T-\Vm\kT\,\dd p=aT\,\dd T-bp\,\dd p$, exacta
+y de variables separadas:
+\begin{equation*}
+\resultado{\Vm=\frac{aT^2}{2}-\frac{bp^2}{2}+\cte}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.12. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\beta$}{beta}}
+
+\begin{problema}{1.12}{$\alpha$ y $\beta$ con denominador común}
+Determínese la ecuación de estado de un fluido con $\alpha=\dfrac{a}{A+aT-bp}$ y $\beta=\dfrac{a}{bp}$,
+siendo $A$, $a$ y $b$ constantes.
+\end{problema}
+
+\resolucion\idea Método M5. Tras hallar $\kT$, la diferencial es la logarítmica de $A+aT-bp$.
+
+\paso{Paso 1: tercer coeficiente} $\kT=\dfrac{\alpha}{p\beta}=\dfrac{a}{A+aT-bp}\cdot\dfrac{bp}{ap}=\dfrac{b}{A+aT-bp}$.
+
+\paso{Paso 2: integración}
+\begin{equation*}
+\dd\ln\Vm=\frac{a\,\dd T-b\,\dd p}{A+aT-bp}=\dd\ln(A+aT-bp)
+\quad\Longrightarrow\quad\resultado{\Vm=\cte\cdot(A+aT-bp)}
+\end{equation*}
+\fin
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.13. ¿Se recupera el gas ideal?}
+
+\begin{problema}{1.13}{Coeficientes con $\Vm-A$}
+Un sistema hidrostático tiene $\alpha=\dfrac{\Vm-A}{2\Vm T}$ y $\kT=\dfrac{\Vm-A}{p\Vm}$ ($A$ constante).
+Determínese la ecuación térmica de estado. ¿Puede recuperarse el comportamiento de gas ideal?
+\end{problema}
+
+\resolucion\idea Método M5. Al multiplicar por $\Vm$ aparece $\Vm-A$ en ambos términos: se integra
+$\dd\ln(\Vm-A)$.
+
+\paso{Paso 1: diferencial}
+$\dd\Vm=\dfrac{\Vm-A}{2T}\,\dd T-\dfrac{\Vm-A}{p}\,\dd p
+\;\Longrightarrow\;
+\dd\ln(\Vm-A)=\dfrac{\dd T}{2T}-\dfrac{\dd p}{p}$.
+
+\paso{Paso 2: integración}
+\begin{equation*}
+\resultado{p\,(\Vm-A)=K\sqrt T}
+\end{equation*}
+
+\paso{Paso 3: límite} Para $\Vm\gg A$, $p\Vm\to K\sqrt T$ y $\alpha\to1/(2T)\neq1/T$: \emph{no} se recupera
+el gas ideal en ningún límite, porque la dependencia en $T$ es $T^{1/2}$ y no $T$.
+\fin
+
+\begin{observacion}[Lectura del enunciado]
+Si el coeficiente fuera $\alpha=(\Vm-A)/(\Vm T)$, el mismo procedimiento daría $p(\Vm-A)=RT$, la
+ecuación de Clausius, que sí tiende al gas ideal para $\Vm\gg A$. Conviene comprobar siempre el límite:
+$\alpha\to1/T$ y $\kT\to1/p$.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.14. Ecuación de Dieterici}
+
+\begin{problema}{1.14}{$p(T,\Vm)$ a partir de $\kT$ y $\beta$}
+Un gas tiene $\kT=\dfrac{RT\Vm(\Vm-b)}{p\,[RT\Vm^2-a(\Vm-b)]}$ y $\beta=\dfrac{RT\Vm+a}{RT^2\Vm}$.
+Hállese $p(T,\Vm)$ sabiendo que para $\Vm$ grande el gas se comporta como ideal.
+\end{problema}
+
+\resolucion\idea Método M5 con $\dd\ln p=\beta\,\dd T-\dfrac{\dd\Vm}{p\kT\Vm}$: los dos coeficientes ya son
+los de las variables pedidas.
+
+\paso{Paso 1: diferencial} Simplificando cada término,
+\begin{equation*}
+\dd\ln p=\Bigl(\frac1T+\frac{a}{RT^2\Vm}\Bigr)\dd T-\Bigl(\frac{1}{\Vm-b}-\frac{a}{RT\Vm^2}\Bigr)\dd\Vm .
+\end{equation*}
+
+\paso{Paso 2: exactitud} $\partial_{\Vm}\bigl(\tfrac1T+\tfrac{a}{RT^2\Vm}\bigr)=-\tfrac{a}{RT^2\Vm^2}
+=\partial_T\bigl(-\tfrac{1}{\Vm-b}+\tfrac{a}{RT\Vm^2}\bigr)$. \checkmark
+
+\paso{Paso 3: integración} Respecto de $T$: $\ln p=\ln T-\dfrac{a}{RT\Vm}+g(\Vm)$. Derivando respecto de
+$\Vm$ e igualando, $g'(\Vm)=-1/(\Vm-b)$, luego $g=-\ln(\Vm-b)+\ln K$.
+
+\paso{Paso 4: constante} Para $\Vm\to\infty$, $p\to KT/\Vm$; el límite ideal exige $K=R$:
+\begin{equation*}
+\resultado{p=\frac{RT}{\Vm-b}\,\exp\Bigl(-\frac{a}{RT\Vm}\Bigr)}
+\end{equation*}
+\fin
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,width=8.8cm,height=5.8cm,xmin=0.04,xmax=0.6,ymin=0,ymax=130,
+  xlabel={$\Vm$ (L/mol)},ylabel={$p$ (bar)},legend pos=north east,
+  xtick={0.1,0.2,0.3,0.4,0.5,0.6},
+  xticklabels={$0{,}1$,$0{,}2$,$0{,}3$,$0{,}4$,$0{,}5$,$0{,}6$}]
+  % a = 4,68 bar L^2/mol^2 ; b = 0,0463 L/mol ; R = 0,08314 bar L/(mol K); T_c = a/(4Rb) = 304 K
+  \addplot[claro!70!acento,line width=1pt,domain=0.054:0.6,samples=200] {0.08314*270/(x-0.0463)*exp(-4.68/(0.08314*270*x))};
+  \addlegendentry{$T=\SI{270}{K}<T_c$}
+  \addplot[acento,line width=1pt,domain=0.054:0.6,samples=200] {0.08314*304/(x-0.0463)*exp(-4.68/(0.08314*304*x))};
+  \addlegendentry{$T=T_c\simeq\SI{304}{K}$}
+  \addplot[marino,line width=1pt,domain=0.058:0.6,samples=200] {0.08314*345/(x-0.0463)*exp(-4.68/(0.08314*345*x))};
+  \addlegendentry{$T=\SI{345}{K}$}
+  \addplot[teja,densely dotted,line width=1pt,domain=0.22:0.6,samples=60] {0.08314*345/x};
+  \addlegendentry{ideal, \SI{345}{K}}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.14. Isotermas de Dieterici con valores ilustrativos ($a=\SI{4.68}{bar.L^2/mol^2}$,
+$b=\SI{0.0463}{L/mol}$, $T_c=a/4Rb$). A volúmenes grandes tienden a la isoterma ideal (punteada); por
+debajo de $T_c$ aparece el tramo con $(\partial p/\partial\Vm)_T>0$, es decir $\kT<0$: estados
+mecánicamente inestables, propios de la región líquido--vapor.}
+\label{fig:p114}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.15. Coeficiente de dilatación de un gas del virial}
+
+\begin{problema}{1.15}{$\alpha$ en un estado dado}
+Un gas tiene $\kT=\dfrac{1}{RT\,(1/\Vm+2b/\Vm^2)}$ y $\beta=\dfrac1T$, con $b=\SI{4e-2}{L/mol}$.
+Calcúlese $\alpha$ cuando un mol ocupa \SI{1}{L} a \SI{300}{K}, sabiendo que para $\Vm$ grande el gas es ideal.
+\end{problema}
+
+\resolucion\idea $\alpha=p\beta\kT$ exige conocer $p$ en ese estado, luego antes hay que reconstruir
+$p(T,\Vm)$ (método M5). Como $\kT$ contiene $p$ implícitamente, se trabaja con $\dd p$.
+
+\paso{Paso 1: diferencial}
+$\dd p=p\beta\,\dd T-\dfrac{\dd\Vm}{\kT\Vm}=\dfrac pT\,\dd T-RT\Bigl(\dfrac1{\Vm^2}+\dfrac{2b}{\Vm^3}\Bigr)\dd\Vm$.
+
+\paso{Paso 2: integración} Respecto de $\Vm$: $p=RT\bigl(\tfrac1{\Vm}+\tfrac{b}{\Vm^2}\bigr)+f(T)$. Imponiendo
+$\partial_Tp=p/T$ se obtiene $f'=f/T$, es decir, $f=cT$. El límite ideal exige $c=0$:
+\begin{equation*}
+p=\frac{RT}{\Vm}\Bigl(1+\frac{b}{\Vm}\Bigr).
+\end{equation*}
+
+\paso{Paso 3: coeficiente de dilatación}
+\begin{equation*}
+\alpha=p\beta\kT=\frac{1/\Vm+b/\Vm^2}{T\,(1/\Vm+2b/\Vm^2)}=\frac{\Vm+b}{T\,(\Vm+2b)}
+=\frac{1{,}04}{300\cdot1{,}08}\,\si{\per\kelvin}
+\quad\Longrightarrow\quad\resultado{\alpha\simeq\SI{3.21e-3}{\per\kelvin}}
+\end{equation*}
+\fin
+
+\begin{observacion}[Comparación con el gas ideal]
+El gas ideal daría $\alpha=1/T=\SI{3.33e-3}{\per\kelvin}$; la corrección relativa es $-b/(\Vm+2b)\simeq\SI{-3.7}{\percent}$,
+del orden de $b/\Vm$, como corresponde a un desarrollo del virial truncado.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.16. Cobre calentado y comprimido}
+
+\begin{problema}{1.16}{Volumen final con coeficientes medios}
+Un kilogramo de cobre se calienta de \SI{300}{K} a \SI{500}{K} mientras su presión aumenta \SI{1000}{bar}.
+Con $\alpha=\SI{51.7e-6}{\per\kelvin}$, $\kT=\SI{0.8065e-11}{\per\pascal}$ (valores medios) y
+$v_0=\SI{111.5e-6}{m^3/kg}$, calcúlese el volumen final.
+\end{problema}
+
+\resolucion\idea Método M3: integrar $\dd\ln V=\alpha\,\dd T-\kT\,\dd p$ con coeficientes constantes.
+Como $\ln V$ es función de estado, no importa el orden en que se calienta y se comprime.
+
+\paso{Paso 1: integración}
+\begin{align*}
+\ln\frac{V}{V_0}&=\alpha\Delta T-\kT\Delta p=\SI{51.7e-6}{\per\kelvin}\cdot\SI{200}{K}-\SI{0.8065e-11}{\per\pascal}\cdot\SI{1e8}{Pa}\\
+&=\num{1.034e-2}-\num{8.065e-4}=\num{9.534e-3}.
+\end{align*}
+
+\paso{Paso 2: volumen final} Con $V_0=mv_0=\SI{111.5e-6}{m^3}$,
+\begin{equation*}
+V=V_0\,e^{\num{9.534e-3}}\quad\Longrightarrow\quad\resultado{V\simeq\SI{112.57e-6}{m^3}}
+\end{equation*}
+\fin
+
+\begin{observacion}[Competencia de efectos]
+La dilatación térmica (\SI{+1.03}{\percent}) domina sobre la compresión (\SI{-0.08}{\percent}). Como
+$\ln(V/V_0)\ll1$, la aproximación lineal $\Delta V\simeq V_0(\alpha\Delta T-\kT\Delta p)$ da el mismo
+resultado con tres cifras.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestión 1}
+
+\begin{problema}{P.1}{Parcial 2025/26}
+Una sustancia hipotética tiene $\alpha=\dfrac{1}{T+A}$ y $\kT=\dfrac1p$. (a) Calcule la ecuación de estado
+$p=p(T,V)$. (b) Compruebe explícitamente la relación cíclica entre $p$, $V$ y $T$. (c) En una expansión
+espontánea de este gas (presión inicial \SI{1}{bar}) hasta el equilibrio con unos alrededores a
+$p_{\mathrm{ext}}=\SI{2}{bar}$, ¿pueden usarse estos coeficientes para describir la curva del proceso?
+\end{problema}
+
+\resolucion\idea (a) Método M5; (b) método M4 sobre el resultado; (c) concepto de proceso cuasiestático.
+
+\paso{(a) Ecuación de estado}
+$\dd\ln V=\dfrac{\dd T}{T+A}-\dfrac{\dd p}{p}=\dd\ln\dfrac{T+A}{p}$, luego $pV=K(T+A)$ y
+\begin{equation*}
+\resultado{p=\frac{K\,(T+A)}{V}}
+\end{equation*}
+
+\paso{(b) Relación cíclica} De $pV=K(T+A)$:
+\begin{equation*}
+\pd{p}{V}{T}=-\frac{K(T+A)}{V^2}=-\frac pV,\qquad
+\pd{V}{T}{p}=\frac Kp,\qquad
+\pd{T}{p}{V}=\frac VK,
+\end{equation*}
+y su producto es $\bigl(-\tfrac pV\bigr)\tfrac Kp\,\tfrac VK=-1$.~\checkmark\par
+Equivalentemente, $\beta=\frac{1}{p}\frac{K}{V}=\frac{1}{T+A}$ y $p\beta\kT=\frac{1}{T+A}=\alpha$.
+
+\paso{(c) Proceso espontáneo} \textbf{No.} Una evolución espontánea con un desequilibrio finito de presión
+es irreversible y no cuasiestática: los estados intermedios no son de equilibrio, $p$ y $T$ no están
+definidas uniformemente y el proceso no es una curva del espacio de estados. Los coeficientes
+(y la ecuación de estado) solo relacionan los estados \emph{inicial y final}, ambos de equilibrio.
+\fin
+
+\begin{observacion}[Detalle del enunciado]
+Con $p_{\mathrm{ext}}>p_i$ el proceso espontáneo sería en realidad una \emph{compresión}; la respuesta no
+cambia, porque depende solo de que el proceso sea no cuasiestático. Tampoco la opción «solo si es
+adiabática» la salva: ser adiabático no lo hace cuasiestático.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Resumen de resultados}
+
+\begin{table}[H]
+\centering
+\caption{Resultados de los seminarios del Tema 1.}
+\label{tab:resumen}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{@{}lXc@{}}
+\toprule
+Problema & Resultado & Método\\
+\midrule
+1.1 & $p_1(V_1-b)=p_2V_2^2/(V_2-b')$;\ \ $\theta_1=p_1(V_1-b)$, $\theta_2=p_2V_2^2/(V_2-b')$, $\theta_3=p_3V_3$ & M1\\
+1.2 & $p^3V=KT^2$ & M5\\
+1.3 & $p_2\simeq\SI{21.5}{kPa}$ & M2\\
+1.4 & $\alpha\simeq1{,}18$ & M2\\
+1.5 & se atrasa $\simeq\SI{14.7}{s/día}$ & M3\\
+1.6 & $\Delta L\simeq\SI{6.6}{cm}$ & M3\\
+1.7 & $\Delta p\simeq\SI{46.2}{bar}$ & M3\\
+1.8 & $\alpha=R/(RT+bp)$,\ \ $\kT=RT/[p(RT+bp)]$ & M4\\
+1.9 & $p^2\Vm=\cte\cdot T^3$ & M5\\
+1.10 & $p\Vm=RT-\tfrac12Bp^2$ & M5\\
+1.11 & $\Vm=\tfrac12aT^2-\tfrac12bp^2+\cte$ & M5\\
+1.12 & $\Vm=\cte\cdot(A+aT-bp)$ & M5\\
+1.13 & $p(\Vm-A)=K\sqrt T$; no tiende al gas ideal & M5\\
+1.14 & $p=\dfrac{RT}{\Vm-b}\,e^{-a/(RT\Vm)}$ (Dieterici) & M5\\
+1.15 & $p=\frac{RT}{\Vm}\bigl(1+\frac{b}{\Vm}\bigr)$;\ \ $\alpha=\frac{\Vm+b}{T(\Vm+2b)}\simeq\SI{3.21e-3}{\per\kelvin}$ & M5\\
+1.16 & $V\simeq\SI{112.57e-6}{m^3}$ & M3\\
+P.1 & $p=K(T+A)/V$; cíclica $=-1$; no (proceso no cuasiestático) & M5, M4\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{tcolorbox}[apunte,title={\color{acento}\espaciado{Lista de control antes de entregar}},
+  coltitle=acento,colbacktitle=fondo,attach title to upper,after title={\par\smallskip}]
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt,label={\color{acento}\small$\blacktriangleright$}]
+\item ¿Unidades homogéneas (\si{m^3}, \si{Pa}, \si{K})? En cocientes y en $\Delta T$ no hace falta convertir.
+\item En M5, ¿se ha comprobado la exactitud y se ha fijado la constante con un límite físico?
+\item ¿El resultado recupera el gas ideal ($\alpha\to1/T$, $\kT\to1/p$) cuando corresponde?
+\item ¿Se cumple $\alpha=p\beta\kT$ con los coeficientes obtenidos?
+\item ¿El proceso es cuasiestático? Si no lo es, solo se pueden relacionar los estados extremos.
+\end{itemize}
+\end{tcolorbox}
+
+% =====================================================================
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\section{Formulario del Tema 1}
+% =====================================================================
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.55}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.9cm}>{\centering\arraybackslash}X>{\raggedleft\arraybackslash}p{2.3cm}@{}}
+\toprule
+Magnitud o resultado & Expresión & Referencia\\
+\midrule
+\multicolumn{3}{@{}l}{\color{acento}\espaciado{Sistemas y estado}}\\
+Moles y partículas & $n=m/M$,\quad $N=nN_A$ & sección 1.2\\
+Específica y molar & $x=X/m$,\quad $\bar X=X/n$ & ec.~\eqref{eq:molares}\\
+Temperatura absoluta & $T/\mathrm K=t/{}^\circ\mathrm C+273{,}15$,\quad $\Delta T=\Delta t$ & sección 3\\
+Temperatura empírica & $\theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3)$ & ec.~\eqref{eq:temp-empirica}\\
+\midrule
+\multicolumn{3}{@{}l}{\color{acento}\espaciado{Ecuaciones de estado y coeficientes}}\\
+Gas ideal & $pV=nRT$,\quad $\alpha=1/T$,\quad $\kT=1/p$,\quad $\beta=1/T$ & ec.~\eqref{eq:gas-ideal}\\
+Coeficientes & $\alpha=\frac1V\pd{V}{T}{p}$,\ \ $\kT=-\frac1V\pd{V}{p}{T}$,\ \ $\beta=\frac1p\pd{p}{T}{V}$ & ec.~\eqref{eq:coeficientes}\\
+Relación $\alpha$, $\beta$, $\kT$ & $\alpha=p\beta\kT$ & ec.~\eqref{eq:alpha-beta-kappa}\\
+Recíproca y cíclica & $\pd{x}{y}{z}=1/\pd{y}{x}{z}$,\quad $\pd{x}{y}{z}\pd{y}{z}{x}\pd{z}{x}{y}=-1$ & ec.~\eqref{eq:ciclica}\\
+Exactitud & $M\,\dd x+N\,\dd y$ exacta $\iff\partial_yM=\partial_xN$ & ec.~\eqref{eq:schwarz}\\
+\midrule
+\multicolumn{3}{@{}l}{\color{acento}\espaciado{Ecuación diferencial de estado}}\\
+Diferenciales & $\dd\ln V=\alpha\,\dd T-\kT\,\dd p$,\quad $\dd p=p\beta\,\dd T-\dfrac{\dd V}{\kT V}$ & ec.~\eqref{eq:diferenciales}\\
+Coeficientes constantes & $\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p$ & ec.~\eqref{eq:finitos}\\
+Volumen constante & $\pd{p}{T}{V}=\alpha/\kT=p\beta$ & probl.~1.7\\
+Dilatación lineal & $\alpha=3\alpha_l$,\quad $\Delta L\simeq\alpha_lL_0\Delta T$ & probl.~1.5, 1.6\\
+Politrópico & $pV^n=\cte$,\quad $n=\ln(p_2/p_1)/\ln(V_1/V_2)$ & probl.~1.3, 1.4\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\renewcommand{\refname}{Referencias}
+\makeatletter\renewcommand{\@mkboth}[2]{\markboth{Referencias}{}}\makeatother
+\addcontentsline{toc}{section}{Referencias}
+\begin{thebibliography}{9}
+\small
+\bibitem{apuntes} J.~González Ayala. \emph{Termodinámica I}, capítulo 1: Conceptos básicos, y Lista de problemas \#1. Apuntes de la asignatura. Grado en Física, Universidad de Salamanca, 2026.
+\bibitem{transp} J.~González Ayala. \emph{Tema 1. Conceptos básicos: de la descripción macroscópica a la ecuación de estado}. Transparencias. Universidad de Salamanca, curso 2026--27.
+\bibitem{parcial} \emph{Termodinámica I. Prueba de evaluación continua (temas 1--3)}. Universidad de Salamanca, 31 de octubre de 2025.
+\bibitem{callen} H.~B.~Callen. \emph{Thermodynamics and an Introduction to Thermostatistics}, 2.ª ed. Wiley, 1985.
+\bibitem{zemansky} M.~W.~Zemansky y R.~H.~Dittman. \emph{Calor y termodinámica}, 6.ª ed. McGraw-Hill, 1990.
+\bibitem{aguilar} J.~Aguilar Peris. \emph{Curso de termodinámica}. Alhambra, 1981.
+\end{thebibliography}
+
+\end{document}
