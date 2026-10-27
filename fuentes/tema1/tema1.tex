@@ -739,11 +739,43 @@ comprimir.}
 
 \subsection{Herramientas de cálculo en varias variables}
 
-Si $x,y,z$ están ligadas por $f(x,y,z)=0$, cada una es función de las otras dos y se cumplen:
+\begin{proposicion}[Relaciones recíproca y cíclica]
+Si $x,y,z$ están ligadas por $f(x,y,z)=0$, cada una es función diferenciable de las otras dos y se cumplen
 \begin{equation}
 \pd{x}{y}{z}=\frac{1}{\pd{y}{x}{z}}\quad\text{(recíproca)},\qquad
 \pd{x}{y}{z}\pd{y}{z}{x}\pd{z}{x}{y}=-1\quad\text{(cíclica)}.
 \label{eq:ciclica}
+\end{equation}
+\end{proposicion}
+
+\begin{demo}
+Se escriben las diferenciales totales de $x(y,z)$ y de $y(x,z)$:
+\begin{equation*}
+\dd x=\pd xyz\dd y+\pd xzy\dd z,\qquad
+\dd y=\pd yxz\dd x+\pd yzx\dd z .
+\end{equation*}
+Sustituyendo la segunda en la primera y agrupando:
+\begin{equation*}
+\dd x=\pd xyz\pd yxz\dd x+\left[\pd xyz\pd yzx+\pd xzy\right]\dd z .
+\end{equation*}
+Como $x$ y $z$ son independientes, $\dd x$ y $\dd z$ son arbitrarios y los coeficientes deben coincidir
+a ambos lados. El de $\dd x$ da $\pd xyz\pd yxz=1$, que es la recíproca. El de $\dd z$ da
+\begin{equation*}
+\pd xyz\pd yzx=-\pd xzy=-\frac{1}{\pd zxy},
+\end{equation*}
+donde en el último paso se ha usado la recíproca; multiplicando por $\pd zxy$ se obtiene la cíclica.
+\end{demo}
+
+Para usar estas reglas con $(p,V,T)$ basta despejar de las definiciones~\eqref{eq:coeficientes} cada
+derivada en función de su coeficiente,
+\begin{equation}
+\pd VTp=\alpha V,\qquad \pd VpT=-\kT V,\qquad \pd pTV=p\beta,
+\label{eq:derivadas-coef}
+\end{equation}
+y, cuando la derivada aparece «dada la vuelta», aplicar la recíproca:
+\begin{equation}
+\pd TVp=\frac{1}{\alpha V},\qquad \pd pVT=-\frac{1}{\kT V},\qquad \pd TpV=\frac{1}{p\beta}.
+\label{eq:derivadas-inv}
 \end{equation}
 
 \begin{proposicion}[Relación entre coeficientes]
@@ -755,10 +787,21 @@ Los tres coeficientes no son independientes:
 \end{proposicion}
 
 \begin{demo}
-Aplicando la cíclica a $(p,V,T)$, $\pd{V}{T}{p}\pd{T}{p}{V}\pd{p}{V}{T}=-1$, y sustituyendo
-$\pd{V}{T}{p}=\alpha V$, $\pd{T}{p}{V}=1/(p\beta)$ y $\pd{p}{V}{T}=-1/(\kT V)$ se obtiene
-$-\alpha/(p\beta\kT)=-1$.
+La relación cíclica~\eqref{eq:ciclica} con $(x,y,z)=(V,T,p)$ se escribe
+\begin{equation*}
+\pd VTp\pd TpV\pd pVT=-1 .
+\end{equation*}
+Sustituyendo la primera derivada de~\eqref{eq:derivadas-coef} y las dos últimas de~\eqref{eq:derivadas-inv}:
+\begin{equation*}
+(\alpha V)\cdot\frac{1}{p\beta}\cdot\left(-\frac{1}{\kT V}\right)=-1
+\quad\Longrightarrow\quad
+-\frac{\alpha}{p\beta\kT}=-1
+\quad\Longrightarrow\quad
+\alpha=p\beta\kT .
+\end{equation*}
 \end{demo}
+
+Por eso basta conocer dos coeficientes: el tercero se calcula con~\eqref{eq:alpha-beta-kappa}.
 
 \begin{teorema}[Criterio de exactitud]
 La forma $\delta z=M(x,y)\,\dd x+N(x,y)\,\dd y$ es la diferencial exacta de una función $z(x,y)$ si y solo si
@@ -772,27 +815,123 @@ con la condición $\partial z/\partial y=N$.
 
 \subsection{Ecuación diferencial de estado}
 
-Diferenciando $V(T,p)$, $p(T,V)$ y $T(p,V)$ y usando~\eqref{eq:coeficientes}:
+Toda la sección consiste en escribir la diferencial total de una de las tres variables en función de
+las otras dos y sustituir las derivadas por~\eqref{eq:derivadas-coef} y~\eqref{eq:derivadas-inv}. Hay
+tres elecciones posibles.
+
+\paso{(a) Volumen: $V=V(T,p)$} Diferencial total y sustitución de~\eqref{eq:derivadas-coef}:
+\begin{equation*}
+\dd V=\pd VTp\dd T+\pd VpT\dd p=\alpha V\,\dd T-\kT V\,\dd p .
+\end{equation*}
+Dividiendo entre $V$ y usando $\dd V/V=\dd\ln V$:
 \begin{equation}
-\boxed{\;\dd\ln V=\alpha\,\dd T-\kT\,\dd p\;}\qquad
+\dd\ln V=\alpha\,\dd T-\kT\,\dd p .
+\label{eq:dlnV}
+\end{equation}
+
+\paso{(b) Presión: $p=p(T,V)$} La primera derivada es directamente $p\beta$; la segunda está invertida
+respecto de la de $\kT$ y se obtiene con la recíproca, $\pd pVT=1/\pd VpT=-1/(\kT V)$:
+\begin{equation}
+\dd p=\pd pTV\dd T+\pd pVT\dd V=p\beta\,\dd T-\frac{\dd V}{\kT V}.
+\label{eq:dp}
+\end{equation}
+
+\paso{(c) Temperatura: $T=T(p,V)$} Las dos derivadas están invertidas; por~\eqref{eq:derivadas-inv},
+\begin{equation}
+\dd T=\pd TVp\dd V+\pd TpV\dd p=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}.
+\label{eq:dT}
+\end{equation}
+
+\begin{observacion}[Una sola información escrita de tres maneras]
+Las tres expresiones son equivalentes. Por ejemplo, despejando $\dd V$ de~\eqref{eq:dp} se obtiene
+$\dd V=\kT V\,p\beta\,\dd T-\kT V\,\dd p$, que coincide con~\eqref{eq:dlnV} precisamente porque
+$p\beta\kT=\alpha$. Se elige la que tenga como variable dependiente la magnitud pedida: $\dd\ln V$ si se
+dan $\alpha$ y $\kT$; $\dd p$ si se pide $p(T,V)$.
+\end{observacion}
+
+En resumen:
+\begin{equation}
+\boxed{\;\dd\ln V=\alpha\,\dd T-\kT\,\dd p,\qquad
 \dd p=p\beta\,\dd T-\frac{\dd V}{\kT V},\qquad
-\dd T=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}.
+\dd T=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}\;}
 \label{eq:diferenciales}
 \end{equation}
-Conocidos dos coeficientes (el tercero sale de~\eqref{eq:alpha-beta-kappa}), la ecuación de estado se
-reconstruye integrando cualquiera de ellas: es el método M5. Como $\ln V$ es función de estado, la
-integral no depende del camino; por una trayectoria rectangular $(T_a,p_a)\to(T_b,p_a)\to(T_b,p_b)$,
+Conocidos dos coeficientes, la ecuación de estado se reconstruye integrando cualquiera de ellas: es el
+método M5.
+
+\subsection{Integración por un camino rectangular}
+
+Como $\ln V$ es función de estado, $\dd\ln V$ es exacta y su integral entre dos estados no depende del
+camino. Se elige el más cómodo: un rectángulo en el plano $(T,p)$ en el que, en cada tramo, se anula
+uno de los dos términos de~\eqref{eq:dlnV} (figura~\ref{fig:rectangulo}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[apuntes,width=6.6cm,height=4.6cm,xmin=0,xmax=5,ymin=0,ymax=4.2,
+  xlabel={$T$},ylabel={$p$},xtick={1,4},xticklabels={$T_a$,$T_b$},ytick={1,3},yticklabels={$p_a$,$p_b$}]
+  \addplot[marino,line width=1.1pt] coordinates {(1,1) (4,1)};
+  \addplot[acento,line width=1.1pt] coordinates {(4,1) (4,3)};
+  \addplot[gris,densely dotted,line width=0.8pt] coordinates {(1,1) (1,3) (4,3)};
+  \draw[flecha,marino] (axis cs:2.3,1) -- (axis cs:2.7,1);
+  \draw[flecha,acento] (axis cs:4,1.8) -- (axis cs:4,2.2);
+  \addplot[only marks,mark=*,mark size=1.8pt,teja] coordinates {(1,1) (4,3)};
+  \node[font=\small,anchor=north east] at (axis cs:1,1) {$a$};
+  \node[font=\small,anchor=south west] at (axis cs:4,3) {$b$};
+  \node[font=\scriptsize,marino,anchor=north] at (axis cs:2.5,0.95) {tramo 1: $\dd p=0$};
+  \node[font=\scriptsize,acento,anchor=east] at (axis cs:3.92,2) {tramo 2: $\dd T=0$};
+\end{axis}
+\end{tikzpicture}
+\caption{Camino de integración de $\dd\ln V$ entre $a=(T_a,p_a)$ y $b=(T_b,p_b)$: primero isobaro y luego
+isotermo. Cualquier otro camino, como el punteado, da el mismo resultado.}
+\label{fig:rectangulo}
+\end{figure}
+
+\paso{Tramo 1: $(T_a,p_a)\to(T_b,p_a)$} La presión está fija en $p_a$, luego $\dd p=0$ y solo sobrevive el
+término en $\alpha$, evaluado a $p=p_a$:
+\begin{equation*}
+\int_{\text{tramo 1}}\dd\ln V=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T .
+\end{equation*}
+
+\paso{Tramo 2: $(T_b,p_a)\to(T_b,p_b)$} La temperatura está fija en $T_b$, luego $\dd T=0$ y solo sobrevive
+el término en $\kT$, evaluado a $T=T_b$:
+\begin{equation*}
+\int_{\text{tramo 2}}\dd\ln V=-\int_{p_a}^{p_b}\kT(T_b,p)\,\dd p .
+\end{equation*}
+
+\paso{Suma de los tramos} La integral total de $\dd\ln V$ es $\ln V_b-\ln V_a=\ln(V_b/V_a)$, luego
 \begin{equation}
-\ln\frac{V_b}{V_a}=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T-\int_{p_a}^{p_b}\kT(T_b,p)\,\dd p
-\;\xrightarrow{\ \alpha,\kT\ \text{ctes}\ }\;
-\alpha\,\Delta T-\kT\,\Delta p\approx\frac{\Delta V}{V}.
+\ln\frac{V_b}{V_a}=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T-\int_{p_a}^{p_b}\kT(T_b,p)\,\dd p .
 \label{eq:finitos}
 \end{equation}
+
+\paso{Coeficientes constantes} Si $\alpha$ y $\kT$ no dependen de $T$ ni de $p$, salen de las integrales:
+\begin{equation}
+\ln\frac{V_b}{V_a}=\alpha\,(T_b-T_a)-\kT\,(p_b-p_a)=\alpha\,\Delta T-\kT\,\Delta p .
+\label{eq:finitos-ctes}
+\end{equation}
+
+\paso{Cambios pequeños} Escribiendo $V_b=V_a+\Delta V$ y usando $\ln(1+x)=x-\tfrac12x^2+\dots\simeq x$ para
+$|x|\ll1$:
+\begin{equation}
+\ln\frac{V_b}{V_a}=\ln\Bigl(1+\frac{\Delta V}{V_a}\Bigr)\simeq\frac{\Delta V}{V_a}
+\quad\Longrightarrow\quad
+\frac{\Delta V}{V_a}\simeq\alpha\,\Delta T-\kT\,\Delta p,
+\label{eq:finitos-lineal}
+\end{equation}
+con un error relativo del orden de $\tfrac12\,\Delta V/V_a$.
+
+\begin{observacion}[Resumen de la sección]
+\eqref{eq:diferenciales} es la diferencial total con las derivadas sustituidas por $\alpha$, $\beta$ y
+$\kT$, usando la recíproca cuando la derivada aparece invertida; \eqref{eq:alpha-beta-kappa} es la
+relación cíclica; \eqref{eq:finitos} es la integral de~\eqref{eq:dlnV} por un camino en el que, en cada
+tramo, se anula uno de los dos términos.
+\end{observacion}
 
 \begin{observacion}[Sólidos: dilatación lineal]
 Para un sólido isótropo, $V\propto L^3$ y $\alpha=3\alpha_l$, con $\alpha_l\equiv\frac{1}{L}\pd{L}{T}{p}$.
 Para $\alpha_l\Delta T\ll1$, $\Delta L\simeq\alpha_l L_0\Delta T$ (problemas 1.5 y 1.6). A volumen
-constante, $\dd V=0$ en~\eqref{eq:diferenciales} da $\pd{p}{T}{V}=\alpha/\kT$ (problema 1.7).
+constante, $\dd V=0$ en~\eqref{eq:dlnV} da $0=\alpha\,\dd T-\kT\,\dd p$, es decir, $\pd{p}{T}{V}=\alpha/\kT$ (problema 1.7).
 \end{observacion}
 
 \begin{ejemplo}[Coeficientes del gas de van der Waals]\label{ej:vdw}
@@ -1053,7 +1192,7 @@ Calcúlese el aumento de presión de una masa de mercurio calentada a volumen co
 a \SI{1}{\celsius}, con $\alpha=\SI{18e-5}{\per\kelvin}$ y $\kT=\SI{39e-12}{\per\pascal}$ constantes.
 \end{problema}
 
-\resolucion\idea A volumen fijo, $\dd\ln V=0$ en~\eqref{eq:diferenciales}: $\alpha\,\dd T=\kT\,\dd p$.
+\resolucion\idea A volumen fijo, $\dd\ln V=0$ en~\eqref{eq:dlnV}: $\alpha\,\dd T=\kT\,\dd p$.
 
 \paso{Paso 1: integración}
 \begin{equation*}
@@ -1426,7 +1565,7 @@ Exactitud & $M\,\dd x+N\,\dd y$ exacta $\iff\partial_yM=\partial_xN$ & ec.~\eqre
 \midrule
 \multicolumn{3}{@{}l}{\color{acento}\espaciado{Ecuación diferencial de estado}}\\
 Diferenciales & $\dd\ln V=\alpha\,\dd T-\kT\,\dd p$,\quad $\dd p=p\beta\,\dd T-\dfrac{\dd V}{\kT V}$ & ec.~\eqref{eq:diferenciales}\\
-Coeficientes constantes & $\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p$ & ec.~\eqref{eq:finitos}\\
+Coeficientes constantes & $\ln(V_2/V_1)=\alpha\Delta T-\kT\Delta p$ & ec.~\eqref{eq:finitos-ctes}\\
 Volumen constante & $\pd{p}{T}{V}=\alpha/\kT=p\beta$ & probl.~1.7\\
 Dilatación lineal & $\alpha=3\alpha_l$,\quad $\Delta L\simeq\alpha_lL_0\Delta T$ & probl.~1.5, 1.6\\
 Politrópico & $pV^n=\cte$,\quad $n=\ln(p_2/p_1)/\ln(V_1/V_2)$ & probl.~1.3, 1.4\\
