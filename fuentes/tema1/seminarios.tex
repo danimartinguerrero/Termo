@@ -1340,6 +1340,54 @@ cambia, porque depende solo de que el proceso sea no cuasiestático. Tampoco la 
 adiabática» la salva: ser adiabático no lo hace cuasiestático.
 \end{observacion}
 
+\begin{observacion}[Por qué no sirven a lo largo del proceso, y para qué sí sirven]
+El obstáculo no es la irreversibilidad en sí, sino que los estados intermedios \emph{no son de
+equilibrio}. Los coeficientes son derivadas de la ecuación de estado,
+$\alpha=\frac1V\pdi{V}{T}{p}$ y $\kappa_T=-\frac1V\pdi{V}{p}{T}$, y $f(p,V,T)=0$ solo se cumple en
+estados de equilibrio: son las pendientes de la superficie de estado (portada) y solo informan de
+estados que están sobre ella.
+
+\paso{Qué ocurre durante el proceso} Con un salto finito de presión el pistón se mueve de golpe: cerca
+de él el gas se comprime más que lejos, aparecen ondas y remolinos y la temperatura no es uniforme. En
+un instante intermedio no hay \emph{una} presión ni \emph{una} temperatura del gas, sino campos
+$p(\mathbf r,t)$ y $T(\mathbf r,t)$. No existe ningún valor que sustituir en $pV=K(T+A)$ ni en
+$\alpha=1/(T+A)$: esos estados no son puntos del diagrama $p$--$V$ y el proceso no es una curva.
+
+\paso{Qué sí se puede hacer} Relacionar los estados \emph{inicial y final}, que sí son de equilibrio.
+Como $V$ es función de estado, $\Delta V$ no depende del camino: se integra por un camino cuasiestático
+ficticio entre ambos (el rectangular de la sección~4.5),
+\[
+  \ln\frac{V_f}{V_i}=\int_{T_i}^{T_f}\alpha\,\dd T-\int_{p_i}^{p_f}\kappa_T\,\dd p .
+\]
+Por ejemplo, si las paredes son diatérmicas y el baño fija $T_f=T_i$, la ecuación de estado da
+\[
+  p_iV_i=K(T_i+A)=p_fV_f\quad\Longrightarrow\quad V_f=\frac{p_i}{p_f}\,V_i=\frac{V_i}{2},
+\]
+resultado correcto aunque el proceso real haya sido violento. Lo que no puede decirse es por qué
+estados $(p,V)$ pasó el gas entre medias.
+
+\paso{Irreversible no es lo mismo que no cuasiestático} Un pistón lento con fricción da un proceso
+irreversible pero cuasiestático: el gas recorre estados de equilibrio, la curva existe y los
+coeficientes sí la describen (tabla~\ref{tab:cuasi}). Por eso la palabra correcta en la respuesta (c)
+es \emph{no cuasiestático}, no «irreversible».
+\end{observacion}
+
+\begin{table}[htbp]
+\centering
+\caption{Validez de los coeficientes según el tipo de proceso.}
+\label{tab:cuasi}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.6cm}}
+\toprule
+Proceso & ¿Estados intermedios de equilibrio? & ¿Valen los coeficientes a lo largo del proceso?\\
+\midrule
+Reversible (lento, sin fricción) & sí & sí\\
+Cuasiestático irreversible (lento, con fricción) & sí & sí, aunque sea irreversible\\
+Espontáneo con salto finito de $p$ & no & no; solo entre los estados extremos\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
