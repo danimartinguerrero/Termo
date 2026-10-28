@@ -179,7 +179,7 @@ libre, \dots). Se cumple: reversible $\subset$ cuasiestático; la lentitud no el
   \addplot[acento,dashed,domain=0:7] {0.2};
   \addplot[acento] coordinates {(0,1) (1,0.2)};
   \fill[acento] (axis cs:1,0.2) circle (1.5pt);
-  \node[acento,font=\scriptsize,anchor=south west] at (axis cs:1.05,0.21) {$t=\tau$};
+  \node[acento,font=\scriptsize,anchor=north] at (axis cs:1,0.17) {$t=\tau$};
 \end{axis}
 \end{tikzpicture}
 \caption{}
@@ -432,7 +432,7 @@ $\beta$ & ¿cómo cambia $p$ con $T$ a $V$ fijo? & fijado por $\alpha=p\beta\kap
   \addplot[navy,thick,domain=0.75:4.9,samples=60] {3.4/x};
   \addplot[rojo,domain=0.9:2.9,samples=2] {2-(3.4/1.7^2)*(x-1.7)};
   \fill[rojo] (axis cs:1.7,2) circle (1.5pt);
-  \node[navy,font=\scriptsize] at (axis cs:4.3,1.05) {isoterma};
+  \node[navy,font=\scriptsize,anchor=south] at (axis cs:4.2,1.2) {isoterma};
   \node[rojo,font=\scriptsize,align=left,anchor=south west] at (axis cs:2.25,2.15) {pendiente\\$(\partial V/\partial p)_T=-\kappa_TV$};
 \end{axis}
 \end{tikzpicture}

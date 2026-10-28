@@ -150,16 +150,16 @@ prueba definitiva de que no hay errores de signo.
                         s4/12.6/{\textbf{4} Exactitud\\ $\partial_yM=\partial_xN$}}
      \node[p] (\n) at (\x,0) {\t};
   \node[d] (dd) at (12.6,-2.25) {¿separadas?};
-  \node[p] (sA) at (9.45,-1.6) {\textbf{5A} Integrar\\ cada término};
-  \node[p] (sB) at (9.45,-2.9) {\textbf{5B} $\int\!M\dd x+g(y)$,\\ $g$ con $N$};
+  \node[p] (sA) at (9.2,-2.25) {\textbf{5A} Integrar\\ cada término};
+  \node[p] (sB) at (12.6,-4.4) {\textbf{5B} $\int\!M\dd x+g(y)$,\\ $g$ con $N$};
   \node[p] (s6) at (6.3,-2.25) {\textbf{6} Quitar $\ln$;\\ fijar constante};
   \node[p] (s7) at (3.15,-2.25) {\textbf{7} Comprobar\\ $\alpha$, $\kappa_T$, $\beta$};
   \draw[f] (s0) -- (s1); \draw[f] (s1) -- (s2); \draw[f] (s2) -- (s3); \draw[f] (s3) -- (s4);
   \draw[f] (s4) -- (dd);
-  \draw[f] (dd.west) -- node[above,font=\scriptsize,acento] {sí} (sA.east);
-  \draw[f] (dd.west) -- node[below,font=\scriptsize,acento] {no} (sB.east);
+  \draw[f] (dd.west) -- node[above=3pt,font=\scriptsize\bfseries,acento] {sí} (sA.east);
+  \draw[f] (dd.south) -- node[right=4pt,font=\scriptsize\bfseries,acento] {no} (sB.north);
   \draw[f] (sA.west) -- (s6.east);
-  \draw[f] (sB.west) -- (s6.east);
+  \draw[f] (sB.west) -| (s6.south);
   \draw[f] (s6) -- (s7);
 \end{tikzpicture}
 \caption{Esquema del método M5. La única bifurcación es si las variables están separadas (caso A) o no
@@ -355,16 +355,21 @@ $(V_1/V)^{1{,}4}<V_1/V$: la politrópica cae \emph{más deprisa} que la isoterma
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
-\begin{axis}[graf,leyenda fuera,width=7.6cm,height=5.4cm,xmin=0.8,xmax=3.2,ymin=0,ymax=110,
-    xtick={1,2,3},ytick={21.5,33.3,100},yticklabels={21{,}5,33{,}3,100},
+\begin{axis}[graf,leyenda fuera,width=7.8cm,height=5.6cm,xmin=0.6,xmax=3.4,ymin=0,ymax=122,
+    xtick={1,2,3},xticklabels={$V_1=1$,2,$V_2=3$},ytick={21.5,33.3,100},yticklabels={21{,}5,33{,}3,100},
     xlabel={$V$ (m$^3$)},ylabel={$p$ (kPa)}]
-  \addplot[draw=none,fill=fondomedio,domain=1:3,samples=60,forget plot] {100*x^(-1.4)} \closedcycle;
+  \addplot[draw=none,fill=fondomedio!70,domain=1:3,samples=60,forget plot] {100*x^(-1.4)} \closedcycle;
+  \addplot[draw=none,pattern=north east lines,pattern color=acentoclaro,domain=1:3,samples=60,forget plot] {100*x^(-1.4)} \closedcycle;
+  \draw[acentomedio,densely dotted] (axis cs:1,0) -- (axis cs:1,100);
+  \draw[acentomedio,densely dotted] (axis cs:3,0) -- (axis cs:3,21.48);
+
   \addplot[navy,domain=1:3,samples=60] {100*x^(-1.4)};
   \addplot[acento,densely dashed,domain=1:3,samples=60] {100/x};
-  \fill[rojo] (axis cs:1,100) circle (1.8pt) node[above right,font=\scriptsize,black] {1};
-  \fill[rojo] (axis cs:3,21.48) circle (1.8pt) node[below left,font=\scriptsize,black] {2};
-  \draw[navy,-{Stealth[length=5pt]}] (axis cs:1.35,80) -- (axis cs:1.75,60);
-  \legend{$pV^{7/5}=\cte$,isoterma $pV=\cte$}
+  \fill[rojo] (axis cs:1,100) circle (1.8pt) node[left=2pt,font=\scriptsize,black] {1};
+  \fill[rojo] (axis cs:3,21.48) circle (1.8pt) node[right=2pt,font=\scriptsize,black] {2};
+  \draw[navy,-{Stealth[length=5pt]}] (axis cs:1.42,85) -- (axis cs:1.8,64);
+  \addlegendimage{area legend,draw=acentomedio,fill=fondomedio!70,postaction={pattern=north east lines,pattern color=acentoclaro}}
+  \legend{$pV^{7/5}=\cte$,isoterma $pV=\cte$,$\int_{V_1}^{V_2}p\,\dd V$ (trabajo)}
 \end{axis}
 \end{tikzpicture}
 \caption{Problema 1.3. Expansión politrópica con $n=7/5$ (continua) frente a la isoterma por el estado
@@ -476,7 +481,7 @@ lineal en $\Delta T$, por debajo de \SI{20}{\celsius} el reloj se adelanta (figu
   \fill[rojo] (axis cs:40,14.69) circle (1.8pt);
   \fill[acento] (axis cs:20,0) circle (1.8pt) node[below right,font=\scriptsize] {calibración};
   \node[font=\scriptsize,rojo,anchor=east] at (axis cs:30,12) {\SI{40}{\celsius}: se atrasa};
-  \node[font=\scriptsize,acento,anchor=west] at (axis cs:2,-12) {se adelanta};
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:8,-13.5) {se adelanta};
 \end{axis}
 \end{tikzpicture}
 \caption{Problema 1.5. Retraso diario $\simeq\tfrac12\alpha_l(t-\SI{20}{\celsius})\cdot\SI{86400}{s}$
@@ -1266,8 +1271,8 @@ mismo resultado con cuatro cifras.
   \fill[rojo] (axis cs:300,0) circle (1.8pt);
   \fill[navy] (axis cs:500,0) circle (1.8pt);
   \fill[rojo] (axis cs:500,1000) circle (1.8pt);
-  \node[font=\scriptsize,anchor=north east,fill=white,inner sep=1pt] at (axis cs:296,-30) {$111{,}50$};
-  \node[font=\scriptsize,anchor=north west,fill=white,inner sep=1pt] at (axis cs:504,-30) {$112{,}66$};
+  \node[font=\scriptsize,anchor=north] at (axis cs:300,-30) {$111{,}50$};
+  \node[font=\scriptsize,anchor=north] at (axis cs:500,-30) {$112{,}66$};
   \node[font=\scriptsize,anchor=west,fill=white,inner sep=1pt] at (axis cs:508,1000) {$112{,}57$};
   \node[font=\scriptsize,navy,anchor=south] at (axis cs:400,30) {$+\alpha\Delta T$};
   \node[font=\scriptsize,acento,anchor=west] at (axis cs:508,500) {$-\kappa_T\Delta p$};
@@ -1342,8 +1347,8 @@ adiabática» la salva: ser adiabático no lo hace cuasiestático.
     xtick=\empty,ytick={1,2},xlabel={$V$},ylabel={$p$ (bar)}]
   \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.6/x};
   \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.2/x};
-  \fill[rojo] (axis cs:1.6,1) circle (2pt) node[below right,font=\scriptsize,black] {inicial};
-  \fill[rojo] (axis cs:0.6,2) circle (2pt) node[above right,font=\scriptsize,black] {final};
+  \fill[rojo] (axis cs:1.6,1) circle (2pt) node[above right=1pt,font=\scriptsize,black] {inicial};
+  \fill[rojo] (axis cs:0.6,2) circle (2pt) node[left=2pt,font=\scriptsize,black] {final};
   \draw[gris,densely dashed,-{Stealth[length=5pt]},decorate,decoration={snake,amplitude=2pt,segment length=9pt,post length=6pt}]
      (axis cs:1.55,1.05) -- (axis cs:0.66,1.93);
   \node[gris,font=\scriptsize,align=center] at (axis cs:1.55,1.9) {estados intermedios\\fuera de equilibrio};
