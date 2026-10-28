@@ -59,26 +59,34 @@
 \begin{minipage}[t]{0.44\linewidth}\centering
   \vspace{2pt}
   \begin{tikzpicture}
-  \begin{axis}[view={30}{25},width=6.9cm,height=6.6cm,
-     xmin=0.6,xmax=4.2,ymin=1,ymax=4,zmin=0,zmax=7,
+  \begin{axis}[view={32}{24},width=6.9cm,height=6.7cm,
+     xmin=0.75,xmax=4,ymin=1,ymax=4,zmin=0,zmax=6.6,
      xtick=\empty,ytick=\empty,ztick=\empty,
      axis lines=left,axis line style={navy,-{Stealth[length=5pt]}},
-     xlabel={$V$},ylabel={$T$},zlabel={$p$},ylabel style={anchor=north west},
-     colormap={estado}{rgb255(0cm)=(232,239,248); rgb255(1cm)=(157,183,210); rgb255(2cm)=(58,110,165); rgb255(3cm)=(11,37,69)},
-     point meta min=0.3,point meta max=5.6,clip=false]
-    \addplot3[surf,shader=interp,domain=0.6:4.2,y domain=1:4,samples=34,samples y=22] {min(y/x,6)};
-    \addplot3[mesh,draw=white,draw opacity=0.3,line width=0.3pt,domain=0.6:4.2,y domain=1:4,samples=13,samples y=7] {min(y/x,6)};
-    \pgfplotsinvokeforeach{1.5,2.5,3.5}{
-      \addplot3[white,line width=1.5pt,domain=#1/6:4.2,samples=50,samples y=1] (x,#1,{#1/x});
+     xlabel={$V$},ylabel={$T$},zlabel={$p$},ylabel style={anchor=north west},zlabel style={rotate=-90},
+     colormap={estado}{rgb255(0cm)=(236,242,250); rgb255(1cm)=(176,198,222); rgb255(2cm)=(96,138,186); rgb255(3cm)=(40,80,130); rgb255(4cm)=(11,37,69)},
+     point meta min=0.25,point meta max=5.4,clip=false]
+    % superficie p = T/V parametrizada por (V,T): la cuadrícula son isotermas e isócoras
+    \addplot3[surf,z buffer=sort,shader=faceted interp,faceted color=white!55!acentoclaro,line width=0.15pt,
+       domain=0.75:4,y domain=1:4,samples=27,samples y=13] {y/x};
+    % isotermas destacadas
+    \pgfplotsinvokeforeach{1.75,2.5,3.25}{
+      \addplot3[white,line width=1.3pt,domain=0.75:4,samples=70,samples y=1] (x,#1,{#1/x});
     }
-    \addplot3[rojo,line width=1.4pt,domain=0.75:1.75,samples=30,samples y=1] (x,{2*x},2);
-    \fill[rojo] (axis cs:0.75,1.5,2) circle (1.6pt);
-    \fill[rojo] (axis cs:1.75,3.5,2) circle (1.6pt);
-    \coordinate (iso) at (axis cs:3.2,3.5,{3.5/3.2});
-    \coordinate (isob) at (axis cs:1.5,3.0,2);
+    % contorno de la superficie
+    \addplot3[navy,line width=0.6pt,domain=0.75:4,samples=60,samples y=1] (x,1,{1/x});
+    \addplot3[navy,line width=0.6pt,domain=0.75:4,samples=60,samples y=1] (x,4,{4/x});
+    \addplot3[navy,line width=0.6pt,domain=1:4,samples=2,samples y=1] (0.75,x,{x/0.75});
+    \addplot3[navy,line width=0.6pt,domain=1:4,samples=2,samples y=1] (4,x,{x/4});
+    % isobara p = 2
+    \addplot3[rojo,line width=1.4pt,domain=1.5:4,samples=2,samples y=1] ({x/2},x,2);
+    \fill[rojo] (axis cs:0.75,1.5,2) circle (1.5pt);
+    \fill[rojo] (axis cs:2,4,2) circle (1.5pt);
+    \coordinate (iso) at (axis cs:3.3,3.25,{3.25/3.3});
+    \coordinate (isob) at (axis cs:1.6,3.2,2);
   \end{axis}
-  \draw[gris,line width=0.4pt] (iso) -- ++(0.7,0.65) node[anchor=south west,inner sep=1pt,font=\scriptsize,navy] {isotermas};
-  \draw[gris,line width=0.4pt] (isob) -- ++(0.9,1.35) node[anchor=south west,inner sep=1pt,font=\scriptsize,rojo] {isobara};
+  \draw[gris,line width=0.4pt] (iso) -- ++(0.5,0.7) node[anchor=south west,inner sep=1pt,font=\scriptsize,navy] {isotermas};
+  \draw[gris,line width=0.4pt] (isob) -- ++(0.8,1.35) node[anchor=south west,inner sep=1pt,font=\scriptsize,rojo] {isobara};
   \end{tikzpicture}\par
   {\scriptsize\itshape\color{gris} Superficie de estado $pV=nRT$ del gas ideal: cada punto es un estado de
   equilibrio; sus cortes a $T$ constante son las isotermas y a $p$ constante, las isobaras.\par}
