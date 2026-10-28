@@ -1265,7 +1265,7 @@ mismo resultado con cuatro cifras.
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
-\begin{axis}[graf,clip mode=individual,width=7.6cm,height=5.2cm,xmin=250,xmax=600,ymin=-200,ymax=1250,
+\begin{axis}[graf,clip mode=individual,width=7.6cm,height=5.2cm,xmin=180,xmax=640,ymin=-180,ymax=1200,
     xtick={300,500},ytick={0,1000},xlabel={$T$ (K)},ylabel={$p-p_0$ (bar)}]
   \addplot[navy,thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}] coordinates {(300,0) (500,0)};
   \addplot[acento,thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}] coordinates {(500,0) (500,1000)};
@@ -1273,11 +1273,11 @@ mismo resultado con cuatro cifras.
   \fill[rojo] (axis cs:300,0) circle (1.8pt);
   \fill[navy] (axis cs:500,0) circle (1.8pt);
   \fill[rojo] (axis cs:500,1000) circle (1.8pt);
-  \node[font=\scriptsize,anchor=north] at (axis cs:300,-30) {$111{,}50$};
-  \node[font=\scriptsize,anchor=north] at (axis cs:500,-30) {$112{,}66$};
-  \node[font=\scriptsize,anchor=west,fill=white,inner sep=1pt] at (axis cs:508,1000) {$112{,}57$};
+  \node[font=\scriptsize,anchor=east] at (axis cs:290,0) {$111{,}50$};
+  \node[font=\scriptsize,anchor=west] at (axis cs:510,0) {$112{,}66$};
+  \node[font=\scriptsize,anchor=west] at (axis cs:510,1000) {$112{,}57$};
   \node[font=\scriptsize,navy,anchor=south] at (axis cs:400,30) {$+\alpha\Delta T$};
-  \node[font=\scriptsize,acento,anchor=west] at (axis cs:508,500) {$-\kappa_T\Delta p$};
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:510,500) {$-\kappa_T\Delta p$};
 \end{axis}
 \end{tikzpicture}
 \caption{Problema 1.16. Camino rectangular en el plano $(T,p)$: calentamiento isobaro y compresión
@@ -1393,20 +1393,38 @@ Espontáneo con salto finito de $p$ & no & no; solo entre los estados extremos\\
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
-\begin{axis}[graf,width=7.4cm,height=5.2cm,xmin=0.3,xmax=2.4,ymin=0.5,ymax=2.5,
-    xtick=\empty,ytick={1,2},xlabel={$V$},ylabel={$p$ (bar)}]
-  \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.6/x};
-  \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.2/x};
-  \fill[rojo] (axis cs:1.6,1) circle (2pt) node[above right=1pt,font=\scriptsize,black] {inicial};
-  \fill[rojo] (axis cs:0.6,2) circle (2pt) node[left=2pt,font=\scriptsize,black] {final};
-  \draw[gris,densely dashed,-{Stealth[length=5pt]},decorate,decoration={snake,amplitude=2pt,segment length=9pt,post length=6pt}]
-     (axis cs:1.55,1.05) -- (axis cs:0.66,1.93);
-  \node[gris,font=\scriptsize,align=center] at (axis cs:1.55,1.9) {estados intermedios\\fuera de equilibrio};
+\begin{axis}[graf,width=10cm,height=6cm,xmin=0.6,xmax=3.3,ymin=0.4,ymax=2.6,
+    xtick={1,2},xticklabels={$V_f$,$V_i$},ytick={1,2},yticklabels={$p_i=1$,$p_f=2$},
+    xlabel={$V$},ylabel={$p$ (bar)},clip mode=individual,
+    legend style={at={(0.5,-0.24)},anchor=north,legend columns=2,/tikz/every even column/.append style={column sep=10pt}}]
+  % isoterma T_i = T_f y camino cuasiestático ficticio sobre ella
+  \addplot[acentoclaro,line width=0.8pt,domain=0.78:3.3,samples=90] {2/x};
+  \addplot[navy,line width=1.5pt,domain=1:2,samples=60,postaction={decorate},
+     decoration={markings,mark=at position 0.55 with {\arrowreversed{Stealth[length=6pt]}}}] {2/x};
+  % presión exterior durante el proceso
+  \addplot[rojo,densely dashed,line width=0.8pt,samples=2] coordinates {(1,2) (2,2)};
+  % estados intermedios: zona difusa, sin curva
+  \fill[gris,opacity=0.08] (axis cs:1.5,1.62) ellipse [x radius=1.35cm,y radius=0.42cm,rotate=-22];
+  \fill[gris,opacity=0.10] (axis cs:1.5,1.62) ellipse [x radius=0.95cm,y radius=0.28cm,rotate=-22];
+  \fill[gris,opacity=0.10] (axis cs:1.5,1.62) ellipse [x radius=0.5cm,y radius=0.15cm,rotate=-22];
+  \draw[gris!80!black,line width=0.6pt,densely dotted,-{Stealth[length=5pt]}]
+     (axis cs:1.97,1.08) .. controls (axis cs:1.88,1.65) and (axis cs:1.4,1.92) .. (axis cs:1.07,1.98);
+  % estados de equilibrio
+  \fill[rojo] (axis cs:2,1) circle (2.2pt);
+  \fill[rojo] (axis cs:1,2) circle (2.2pt);
+  \node[font=\scriptsize,anchor=south west,inner sep=2pt] at (axis cs:2.03,1.03) {estado inicial};
+  \node[font=\scriptsize,anchor=north east,inner sep=2pt] at (axis cs:0.97,1.96) {estado final};
+  \draw[gris,line width=0.4pt] (axis cs:1.86,1.52) -- (axis cs:2.3,1.6)
+     node[anchor=west,font=\scriptsize,gris!80!black,align=left,inner sep=2pt] {estados intermedios\\ fuera de equilibrio};
+  \addlegendimage{area legend,draw=none,fill=gris,fill opacity=0.25}
+  \legend{isoterma $T_i=T_f$,camino cuasiestático ficticio,$p_{\mathrm{ext}}=\SI{2}{bar}$,proceso real (sin curva)}
 \end{axis}
 \end{tikzpicture}
-\caption{Parcial, cuestión 1(c). Solo los estados inicial y final (puntos) son de equilibrio y están
-sobre isotermas de la ecuación de estado; el proceso espontáneo (línea ondulada) no es una curva del
-diagrama $p$--$V$ y los coeficientes no describen su trayectoria.}
+\caption{Parcial, cuestión 1(c), con paredes diatérmicas ($T_f=T_i$). Solo los estados inicial y final
+(puntos) son de equilibrio y están sobre la isoterma de la ecuación de estado. El proceso real atraviesa
+estados sin $p$ ni $T$ únicas (zona difusa) y no es una curva del diagrama; el camino cuasiestático
+ficticio (trazo grueso) sirve para calcular $\Delta V$ entre los extremos, $V_f=V_i/2$, pero no describe
+lo que ocurre durante el proceso.}
 \label{fig:pp1}
 \end{figure}
 
