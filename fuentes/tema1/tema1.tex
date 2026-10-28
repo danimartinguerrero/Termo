@@ -1,0 +1,23 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{estilo}
+
+\begin{document}
+
+\input{portada}
+
+% ------------------------------- Índice -------------------------------
+\newpage
+\markboth{Índice}{}
+\renewcommand{\contentsname}{Índice}
+\begingroup
+\titleformat{\section}{\Large\bfseries\color{navy}}{}{0em}{}[\vspace{2pt}{\color{navy}\titlerule[0.9pt]}]
+\tableofcontents
+\endgroup
+\markboth{Índice}{}
+\newpage
+
+\input{teoria}
+\input{seminarios}
+\input{apendice}
+
+\end{document}

@@ -1,0 +1,1401 @@
+% =====================================================================
+\section{Seminarios prácticos}
+% =====================================================================
+Esta sección resuelve los dieciséis problemas de la lista del tema \cite{gonzalez1} y la cuestión 1 del
+parcial de 2025/26 \cite{parcial}. Cada problema sigue la misma estructura: el \emph{enunciado}, la
+\emph{idea} que guía la resolución, la \emph{resolución} paso a paso con todo el desarrollo simbólico
+y, cuando aporta, una \emph{observación} sobre el resultado y una figura. Salvo indicación contraria,
+$R=\SI{8,314}{J/(mol.K)}$.
+
+\subsection{Cómo plantear un problema del Tema 1}
+
+Todos los problemas del tema se reducen a cinco tareas (tabla~\ref{tab:metodos}). La primera decisión
+es identificar \emph{qué se da} (ecuación de estado, coeficientes, condiciones de equilibrio o una
+relación de proceso) y \emph{qué se pide}.
+
+\begin{table}[htbp]
+\centering
+\caption{Mapa de decisión: qué método conviene según lo que pide el enunciado.}
+\label{tab:metodos}
+\small
+\begin{tabularx}{\textwidth}{Xlr}
+\toprule
+Lo que da / pide el enunciado & Método & Problemas\\
+\midrule
+Condiciones de equilibrio térmico entre sistemas; hallar $\theta_i$ & M1. Ley cero & 1.1\\
+Proceso $pV^n=\cte$; hallar $p_2$ o el exponente & M2. Politrópico & 1.3, 1.4\\
+Dilatación, calentamiento a $V$ cte, cambios pequeños & M3. Coeficientes constantes & 1.5--1.7, 1.16\\
+Ecuación de estado dada; hallar $\alpha$, $\kappa_T$, $\beta$ & M4. Derivación & 1.8, P.1(b)\\
+Coeficientes (o $\dd V$) dados; hallar la ecuación de estado & M5. Integración & 1.2, 1.9--1.15, P.1(a)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{recuadro}{Los cinco métodos}
+\begin{enumerate}[label=\textbf{\color{navy}M\arabic*.},leftmargin=2.2em,itemsep=4pt]
+\item \emph{Ley cero.} Reescribir cada condición de equilibrio aislando la misma combinación
+  $\theta_3(p_3,V_3)$ del sistema común; lo que queda a cada lado son $\theta_1$ y $\theta_2$, y
+  $\Sigma_1\sim\Sigma_2\iff\theta_1=\theta_2$.
+\item \emph{Politrópico.} $p_1V_1^n=p_2V_2^n\Rightarrow p_2=p_1(V_1/V_2)^n$ y
+  $n=\ln(p_2/p_1)/\ln(V_1/V_2)$. Unificar unidades \emph{antes} de operar.
+\item \emph{Coeficientes constantes.} $\Delta L\simeq\alpha_lL_0\Delta T$;
+  $\ln(V_2/V_1)=\alpha\Delta T-\kappa_T\Delta p$; a volumen fijo, $\Delta p=(\alpha/\kappa_T)\Delta T$.
+\item \emph{Derivación.} Despejar la variable que se deriva si es sencillo; si no, usar la regla
+  recíproca \eqref{eq:reciclica} o derivar implícitamente. Expresar el resultado en las variables pedidas.
+\item \emph{Integración.} Escribir la diferencial adecuada \eqref{eq:resumen}, comprobar su exactitud
+  \eqref{eq:exacta}, integrar y fijar la constante con un límite físico. Es el método más largo; su
+  receta completa, en ocho pasos, se da a continuación.
+\end{enumerate}
+\end{recuadro}
+
+\subsection{El método M5 paso a paso}\label{sec:receta}
+
+Los problemas~1.2 y 1.9--1.15 y la cuestión P.1(a) se resuelven \emph{siempre} con la misma secuencia.
+Escribirla explícitamente en el examen es lo que demuestra que se sabe resolver el problema, y no
+solo que se ha llegado al resultado.
+
+\paso{Paso 0: planteamiento} Identificar la \emph{incógnita} como función de las otras dos variables
+---normalmente $\Vm=\Vm(T,p)$, o bien $p=p(T,\Vm)$ si así lo pide el enunciado---, los \emph{datos}
+(dos de los tres coeficientes) y las \emph{condiciones} (un límite físico o un estado de referencia).
+
+\paso{Paso 0 bis: completar el par} Si los datos no son los coeficientes que aparecen en la
+diferencial de la incógnita, el que falta se obtiene de la relación cíclica \eqref{eq:apbk}:
+\[
+  \alpha=p\,\beta\,\kappa_T,\qquad \kappa_T=\frac{\alpha}{p\beta},\qquad \beta=\frac{\alpha}{p\kappa_T}.
+\]
+
+\paso{Paso 1: diferencial total} Escribir la diferencial de la incógnita y sustituir cada derivada por
+su coeficiente con \eqref{eq:derivadas}--\eqref{eq:inversas}:
+\[
+  \dd\Vm=\Vm\alpha\,\dd T-\Vm\kappa_T\,\dd p\qquad\text{o}\qquad
+  \dd p=p\beta\,\dd T-\frac{\dd\Vm}{\Vm\kappa_T}.
+\]
+
+\paso{Paso 2: elegir la forma} Se elige la forma en la que \emph{la incógnita desaparece de los
+coeficientes}, porque solo entonces la diferencial se puede integrar en las otras dos variables
+(tabla~\ref{tab:forma}).
+
+\begin{table}[htbp]
+\centering
+\caption{Criterio para elegir la forma de la diferencial en el paso 2.}
+\label{tab:forma}
+\small
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{lll}
+\toprule
+Los coeficientes $\alpha$, $\kappa_T$\dots & Forma que conviene & Problemas\\
+\midrule
+no contienen la incógnita $X$ & $\dd\ln X=\dfrac{\dd X}{X}$ & 1.9, 1.12, P.1\\[4pt]
+contienen el factor $1/X$ & $\dd X$ (multiplicar por $X$) & 1.2, 1.10, 1.11\\[4pt]
+contienen el factor $(X-A)/X$ & $\dd\ln(X-A)=\dfrac{\dd X}{X-A}$ & 1.13\\[4pt]
+$p\kappa_T$ no contiene $p$ & $\dd\ln p=\beta\,\dd T-\dfrac{\dd\Vm}{p\kappa_T\Vm}$ & 1.14\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paso{Paso 3: sustituir y simplificar} Sustituir los datos y escribir el resultado como
+$\dd z=M(x,y)\,\dd x+N(x,y)\,\dd y$, separando cada coeficiente en fracciones simples
+(por ejemplo, $\frac{RT\Vm+a}{RT^2\Vm}=\frac1T+\frac{a}{RT^2\Vm}$).
+
+\paso{Paso 4: exactitud} Comprobar \eqref{eq:exacta}, $\partial_yM=\partial_xN$. Para derivar las
+fracciones se usa la regla del cociente,
+\begin{equation}\label{eq:cociente}
+  \left(\frac fg\right)'=\frac{f'g-fg'}{g^2}
+  \qquad\xrightarrow{\;f=\text{cte}\;}\qquad
+  \left(\frac fg\right)'=-\frac{f\,g'}{g^2},
+\end{equation}
+que, con numerador constante, coincide con la regla de la cadena aplicada a $f\,g^{-1}$. Conviene
+escribir $g'$ entre paréntesis con su signo antes de multiplicar.
+
+\paso{Paso 5: integrar} Se distinguen dos casos:
+\begin{itemize}[leftmargin=1.6em]
+\item[\textbf{\color{navy}A.}] \emph{Variables separadas}: $M=M(x)$ y $N=N(y)$. Se integra cada término
+  por su lado: $z=\int M\,\dd x+\int N\,\dd y+\cte$.
+\item[\textbf{\color{navy}B.}] \emph{Variables no separadas}. (5.1) Se integra $M$ en $x$ con $y$ fija;
+  la «constante» depende de $y$: $z=\int M\,\dd x+g(y)$. (5.2) Se deriva respecto de $y$ y se iguala a
+  $N$, lo que da $g'(y)$; los términos en $x$ \emph{deben} cancelarse (si no, hay un error, porque la
+  forma es exacta). (5.3) Se integra $g'(y)$.
+\end{itemize}
+Las primitivas que aparecen en el tema son siempre de tres tipos:
+\begin{equation}\label{eq:primitivas}
+  \int\frac{f'(x)}{f(x)}\,\dd x=\ln f(x),\qquad
+  \int\frac{a\,\dd x}{c+ax}=\ln(c+ax),\qquad
+  \int x^{-n}\,\dd x=\frac{x^{1-n}}{1-n}\ (n\neq1),
+\end{equation}
+donde en la segunda $c$ puede contener la otra variable, que está fija (cambio $u=c+ax$, $\dd u=a\,\dd x$).
+
+\paso{Paso 6: quitar logaritmos y fijar la constante} Conviene escribir la constante de integración
+directamente como $\ln K$ y agrupar con
+\begin{equation}\label{eq:logs}
+  a\ln x=\ln x^a,\quad\ \ln x\pm\ln y=\ln(xy^{\pm1}),\quad\ 
+  \ln X=\ln Y\iff X=Y,\quad\ \e^{\ln X+y}=X\,\e^{y}.
+\end{equation}
+Si se escribió $+C$, basta tomar exponenciales: $\e^{\ln X+C}=\e^{C}X$, y $K\equiv\e^C$ es otra
+constante. La constante se fija con el límite físico del enunciado (normalmente gas ideal para
+$\Vm\to\infty$); si no hay ninguno, queda libre.
+
+\paso{Paso 7: comprobación} Derivar el resultado y recuperar los coeficientes del enunciado. Es la
+prueba definitiva de que no hay errores de signo.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\footnotesize,
+   p/.style={draw=navy,fill=fondo,align=center,rounded corners=1pt,inner sep=3pt,text width=2.6cm,minimum height=1.0cm},
+   d/.style={draw=acento,fill=white,diamond,aspect=2.4,align=center,inner sep=1pt,font=\scriptsize},
+   f/.style={-{Stealth[length=4pt]},navy}]
+  \foreach \n/\x/\t in {s0/0/{\textbf{0} Planteamiento\\ incógnita, datos},
+                        s1/3.15/{\textbf{0 bis, 1} Par de\\ coef.; diferencial},
+                        s2/6.3/{\textbf{2} Forma\\ $\dd X$ o $\dd\ln X$},
+                        s3/9.45/{\textbf{3} Sustituir\\ $M\,\dd x+N\,\dd y$},
+                        s4/12.6/{\textbf{4} Exactitud\\ $\partial_yM=\partial_xN$}}
+     \node[p] (\n) at (\x,0) {\t};
+  \node[d] (dd) at (12.6,-2.25) {¿separadas?};
+  \node[p] (sA) at (9.45,-1.6) {\textbf{5A} Integrar\\ cada término};
+  \node[p] (sB) at (9.45,-2.9) {\textbf{5B} $\int\!M\dd x+g(y)$,\\ $g$ con $N$};
+  \node[p] (s6) at (6.3,-2.25) {\textbf{6} Quitar $\ln$;\\ fijar constante};
+  \node[p] (s7) at (3.15,-2.25) {\textbf{7} Comprobar\\ $\alpha$, $\kappa_T$, $\beta$};
+  \draw[f] (s0) -- (s1); \draw[f] (s1) -- (s2); \draw[f] (s2) -- (s3); \draw[f] (s3) -- (s4);
+  \draw[f] (s4) -- (dd);
+  \draw[f] (dd.west) -- node[above,font=\scriptsize,acento] {sí} (sA.east);
+  \draw[f] (dd.west) -- node[below,font=\scriptsize,acento] {no} (sB.east);
+  \draw[f] (sA.west) -- (s6.east);
+  \draw[f] (sB.west) -- (s6.east);
+  \draw[f] (s6) -- (s7);
+\end{tikzpicture}
+\caption{Esquema del método M5. La única bifurcación es si las variables están separadas (caso A) o no
+(caso B, con la función auxiliar $g$ de la otra variable).}
+\label{fig:receta}
+\end{figure}
+
+\begin{observacion}[Atajo de la diferencial logarítmica]
+Si los coeficientes de $\dd T$ y de $\dd p$ tienen el \emph{mismo denominador} $D(T,p)$ y sus numeradores
+son $\partial_TD$ y $\partial_pD$, la forma completa es $\dd D/D=\dd\ln D$ y se integra en una línea
+(problemas~1.12, 1.13 y P.1). Si no se ve el atajo, el caso B lleva al mismo resultado: la función
+auxiliar sale constante, $g'=0$ (problema~1.12).
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.1. Temperaturas empíricas de tres gases}
+% ---------------------------------------------------------------------
+\begin{problema}{1.1}{Ley cero con tres gases}
+Los sistemas $\Sigma_1$, $\Sigma_2$ y $\Sigma_3$ son gases de variables $(p_i,V_i)$. Cuando $\Sigma_1$ y
+$\Sigma_3$ están en equilibrio térmico se cumple $p_1V_1-bp_1-p_3V_3=0$, y cuando lo están $\Sigma_2$ y
+$\Sigma_3$, $p_2V_2-p_3V_3+b'p_3V_3/V_2=0$, con $b,b'$ constantes. ¿Qué relación expresa el equilibrio
+térmico entre $\Sigma_1$ y $\Sigma_2$? ¿Cuáles son las funciones $\theta_i(p_i,V_i)$ que coinciden en el
+equilibrio?
+\end{problema}
+
+\begin{resolucion}
+\idea Método M1: aislar en ambas condiciones la \emph{misma} combinación de $\Sigma_3$, que aparece de
+forma natural como $p_3V_3$.
+
+\paso{Paso 0: planteamiento} Se buscan funciones $\theta_i(p_i,V_i)$ tales que
+$\Sigma_i\sim\Sigma_j\iff\theta_i=\theta_j$. Como $\Sigma_3$ es el sistema común, basta despejar en cada
+condición la parte que depende solo de $(p_3,V_3)$.
+
+\paso{Paso 1: condición \texorpdfstring{$\Sigma_1\sim\Sigma_3$}{S1~S3}} Sacando factor común $p_1$ y
+pasando $p_3V_3$ al otro miembro:
+\[
+  p_1V_1-bp_1-p_3V_3=0\quad\Longrightarrow\quad p_1(V_1-b)=p_3V_3.
+\]
+
+\paso{Paso 2: condición \texorpdfstring{$\Sigma_2\sim\Sigma_3$}{S2~S3}} Se agrupan los dos términos en
+$p_3V_3$ y se saca factor común:
+\[
+  p_2V_2=p_3V_3-\frac{b'p_3V_3}{V_2}=p_3V_3\Bigl(1-\frac{b'}{V_2}\Bigr)=p_3V_3\,\frac{V_2-b'}{V_2}
+  \quad\Longrightarrow\quad p_3V_3=\frac{p_2V_2^2}{V_2-b'}.
+\]
+
+\paso{Paso 3: ley cero} Si $\Sigma_1\sim\Sigma_3$ y $\Sigma_2\sim\Sigma_3$, por la ley cero
+$\Sigma_1\sim\Sigma_2$, y las dos expresiones de $p_3V_3$ deben coincidir:
+\[
+  \boxed{\,p_1(V_1-b)=\frac{p_2V_2^2}{V_2-b'}\,}
+\]
+Es la relación pedida: no contiene las variables de $\Sigma_3$, como exige la ley cero.
+
+\paso{Paso 4: temperaturas empíricas} Cada miembro depende solo de las variables de un sistema y los
+tres valores coinciden en el equilibrio mutuo, $\theta_1=\theta_3=\theta_2$:
+\[
+  \boxed{\,\theta_1=p_1(V_1-b),\qquad\theta_2=\frac{p_2V_2^2}{V_2-b'},\qquad\theta_3=p_3V_3\,}
+\]
+
+\paso{Paso 5: comprobación} Sustituyendo $\theta_1=\theta_3$ se recupera $p_1V_1-bp_1-p_3V_3=0$; y
+sustituyendo $\theta_2=\theta_3$ y multiplicando por $(V_2-b')/V_2$, se recupera
+$p_2V_2-p_3V_3+b'p_3V_3/V_2=0$.
+\end{resolucion}
+
+\begin{observacion}[Unicidad]
+Cualquier función monótona $\phi(\theta)$ aplicada a las tres $\theta_i$ es igualmente válida; la elección
+anterior es la más simple. $\Sigma_3$ es un gas ideal ($\theta_3\propto T$), $\Sigma_1$ un gas de Clausius y
+$\Sigma_2$ un gas con corrección en $b'/V_2$. La figura~\ref{fig:p11} muestra que la «misma temperatura»
+corresponde a isotermas distintas en cada sistema.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=8cm,height=5.6cm,xmin=0.6,xmax=4,ymin=0,ymax=4.2,
+    xlabel={$V_i$ (u.\,arb.)},ylabel={$p_i$ (u.\,arb.)}]
+  \addplot[navy,domain=0.62:4,samples=80] {1.5/(x-0.3)};
+  \addplot[acento,domain=0.62:4,samples=80] {1.5*(x-0.2)/x^2};
+  \addplot[rojo,densely dashed,domain=0.62:4,samples=80] {1.5/x};
+  \addplot[navy,domain=0.85:4,samples=80,forget plot,opacity=0.45] {3/(x-0.3)};
+  \addplot[acento,domain=0.62:4,samples=80,forget plot,opacity=0.45] {3*(x-0.2)/x^2};
+  \addplot[rojo,densely dashed,domain=0.72:4,samples=80,forget plot,opacity=0.45] {3/x};
+  \legend{$\Sigma_1$: $p_1(V_1-b)=\theta$,$\Sigma_2$: $p_2V_2^2/(V_2-b')=\theta$,$\Sigma_3$: $p_3V_3=\theta$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.1. Isotermas $\theta_i(p_i,V_i)=\theta$ de los tres gases para $\theta=1{,}5$ (trazo
+intenso) y $\theta=3$ (trazo suave), con $b=0{,}3$ y $b'=0{,}2$. Estados de sistemas distintos situados
+sobre curvas con el mismo $\theta$ están en equilibrio térmico mutuo.}
+\label{fig:p11}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.2. Ecuación de estado a partir de \texorpdfstring{$\dd V$}{dV}}
+% ---------------------------------------------------------------------
+\begin{problema}{1.2}{Integración directa}
+Un fluido pasa de $(T,p)$ a $(T+\dd T,p+\dd p)$ con $\displaystyle\dd V=\frac{2V}{T}\,\dd T-\frac{3V}{p}\,\dd p$.
+Encuéntrese la relación entre $V$, $p$ y $T$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5. Al comparar con $\dd V=\alpha V\dd T-\kappa_TV\dd p$ se leen los coeficientes; como estos
+no contienen $V$, se trabaja con $\dd\ln V$ y las variables quedan separadas.
+
+\paso{Paso 0: planteamiento} Incógnita $V=V(T,p)$. Identificando término a término con
+\eqref{eq:dlnV} multiplicada por $V$:
+\[
+  \alpha V=\frac{2V}{T}\ \Longrightarrow\ \alpha=\frac2T,\qquad
+  \kappa_TV=\frac{3V}{p}\ \Longrightarrow\ \kappa_T=\frac3p.
+\]
+
+\paso{Paso 1--2: diferencial y forma} Los coeficientes dados llevan el factor $V$; dividiendo entre $V$,
+\[
+  \frac{\dd V}{V}=\dd\ln V=\frac{2}{T}\,\dd T-\frac{3}{p}\,\dd p\qquad
+  \Bigl(M=\frac2T,\quad N=-\frac3p\Bigr).
+\]
+
+\paso{Paso 3: exactitud}
+\[
+  \pd{M}{p}{T}=\frac{\partial}{\partial p}\Bigl(\frac2T\Bigr)=0,\qquad
+  \pd{N}{T}{p}=\frac{\partial}{\partial T}\Bigl(-\frac3p\Bigr)=0\quad\Longrightarrow\quad\text{exacta.}
+\]
+
+\paso{Paso 4: integración (caso A)} $M$ solo depende de $T$ y $N$ solo de $p$; se integra cada término
+por su lado, con la constante escrita como $\ln K$:
+\[
+  \ln V=2\int\frac{\dd T}{T}-3\int\frac{\dd p}{p}=2\ln T-3\ln p+\ln K.
+\]
+
+\paso{Paso 5: quitar logaritmos} Con \eqref{eq:logs}, $2\ln T=\ln T^2$, $3\ln p=\ln p^3$, y
+\[
+  \ln V=\ln\frac{K\,T^2}{p^3}\quad\Longrightarrow\quad V=\frac{K\,T^2}{p^3}\quad\Longrightarrow\quad
+  \boxed{\,p^3V=K\,T^2\,}
+\]
+
+\paso{Paso 6: comprobación} Con $V=KT^2p^{-3}$:
+\[
+  \alpha=\frac1V\cdot2KTp^{-3}=\frac2T\chk\qquad
+  \kappa_T=-\frac1V\cdot\bigl(-3KT^2p^{-4}\bigr)=\frac3p\chk
+\]
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=8cm,height=5.4cm,xmin=0.2,xmax=4,ymin=0,ymax=3.2,
+    xlabel={$V$ (u.\,arb.)},ylabel={$p$ (u.\,arb.)}]
+  \addplot[acentoclaro,domain=0.2:4,samples=80] {(1/x)^(1/3)};
+  \addplot[acentomedio,domain=0.2:4,samples=80] {(2.25/x)^(1/3)};
+  \addplot[navy,domain=0.2:4,samples=80] {(4/x)^(1/3)};
+  \addplot[rojo,densely dashed,domain=0.2:4,samples=80] {(1/x)};
+  \legend{$T=1$,$T=1{,}5$,$T=2$,gas ideal ($T=1$)}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.2. Isotermas $p=(KT^2/V)^{1/3}$ ($K=1$): decaen como $V^{-1/3}$, mucho más
+despacio que las del gas ideal ($V^{-1}$), porque $\kappa_T=3/p$ es el triple que el del gas ideal.}
+\label{fig:p12}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.3. Proceso politrópico: presión final}
+% ---------------------------------------------------------------------
+\begin{problema}{1.3}{Expansión con $pV^{7/5}=\cte$}
+Un gas efectúa un proceso reversible con $pV^{7/5}=\cte$ desde $p_1=\SI{1}{bar}$, $V_1=\SI{1}{m^3}$
+hasta $V_2=\SI{3e6}{cm^3}$. Calcúlese $p_2$ en kPa y represéntese el proceso en el diagrama $pV$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M2 tras unificar unidades.
+
+\paso{Paso 0: unidades} Con $\SI{1}{m^3}=\SI{e6}{cm^3}$ y $\SI{1}{bar}=\SI{e5}{Pa}=\SI{100}{kPa}$:
+\[
+  V_2=\SI{3e6}{cm^3}\cdot\frac{\SI{1}{m^3}}{\SI{e6}{cm^3}}=\SI{3}{m^3},\qquad p_1=\SI{100}{kPa},\qquad
+  \frac{V_1}{V_2}=\frac13.
+\]
+
+\paso{Paso 1: ecuación del proceso} Como $pV^n$ toma el mismo valor en todos los estados del proceso,
+con $n=7/5=1{,}4$:
+\[
+  p_1V_1^{\,n}=p_2V_2^{\,n}\quad\Longrightarrow\quad p_2=p_1\Bigl(\frac{V_1}{V_2}\Bigr)^{n}.
+\]
+
+\paso{Paso 2: cálculo} La potencia se evalúa con logaritmos:
+\[
+  \Bigl(\frac13\Bigr)^{1{,}4}=\e^{-1{,}4\ln3}=\e^{-1{,}5381}=\frac{1}{4{,}656}=0{,}2148
+  \quad\Longrightarrow\quad p_2=\SI{100}{kPa}\cdot0{,}2148\simeq\boxed{\,\SI{21,5}{kPa}\,}
+\]
+
+\paso{Paso 3: representación} Por el estado inicial pasan la politrópica $p=p_1(V_1/V)^{1{,}4}$ y la
+isoterma $p=p_1V_1/V$ (que llegaría a $p_1/3=\SI{33,3}{kPa}$). Como $n>1$ y $V_1/V<1$,
+$(V_1/V)^{1{,}4}<V_1/V$: la politrópica cae \emph{más deprisa} que la isoterma (figura~\ref{fig:p13}).
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.6cm,height=5.4cm,xmin=0.8,xmax=3.2,ymin=0,ymax=110,
+    xtick={1,2,3},ytick={21.5,33.3,100},yticklabels={21{,}5,33{,}3,100},
+    xlabel={$V$ (m$^3$)},ylabel={$p$ (kPa)}]
+  \addplot[draw=none,fill=fondomedio,domain=1:3,samples=60,forget plot] {100*x^(-1.4)} \closedcycle;
+  \addplot[navy,domain=1:3,samples=60] {100*x^(-1.4)};
+  \addplot[acento,densely dashed,domain=1:3,samples=60] {100/x};
+  \fill[rojo] (axis cs:1,100) circle (1.8pt) node[above right,font=\scriptsize,black] {1};
+  \fill[rojo] (axis cs:3,21.48) circle (1.8pt) node[below left,font=\scriptsize,black] {2};
+  \draw[navy,-{Stealth[length=5pt]}] (axis cs:1.35,80) -- (axis cs:1.75,60);
+  \legend{$pV^{7/5}=\cte$,isoterma $pV=\cte$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.3. Expansión politrópica con $n=7/5$ (continua) frente a la isoterma por el estado
+inicial (discontinua). El área sombreada es el trabajo realizado por el gas, que se estudiará en el Tema 2.}
+\label{fig:p13}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.4. Exponente politrópico}
+% ---------------------------------------------------------------------
+\begin{problema}{1.4}{Exponente de una compresión}
+Un cilindro--pistón contiene un gas que se comprime reversiblemente desde $p_1=\SI{2}{bar}$,
+$v_1=\SI{83,54}{cm^3/kg}$ hasta $p_2=\SI{10}{bar}$, $v_2=\SI{21,34}{cm^3/kg}$, según $pv^\alpha=\cte$.
+Calcúlese $\alpha$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M2: tomando logaritmos, $pv^\alpha=\cte$ es una recta de pendiente $-\alpha$ en el plano
+$(\ln v,\ln p)$. Solo intervienen cocientes, así que no hace falta convertir unidades.
+
+\paso{Paso 1: ecuación del proceso} Entre los dos estados,
+\[
+  p_1v_1^{\,\alpha}=p_2v_2^{\,\alpha}\quad\Longrightarrow\quad\frac{p_2}{p_1}=\Bigl(\frac{v_1}{v_2}\Bigr)^{\alpha}.
+\]
+
+\paso{Paso 2: despeje} Tomando logaritmos y usando $\ln x^\alpha=\alpha\ln x$:
+\[
+  \ln\frac{p_2}{p_1}=\alpha\ln\frac{v_1}{v_2}\quad\Longrightarrow\quad
+  \alpha=\frac{\ln(p_2/p_1)}{\ln(v_1/v_2)}.
+\]
+
+\paso{Paso 3: cálculo} Con $p_2/p_1=5$ y $v_1/v_2=83{,}54/21{,}34=3{,}9147$:
+\[
+  \alpha=\frac{\ln5}{\ln3{,}9147}=\frac{1{,}6094}{1{,}3648}\quad\Longrightarrow\quad\boxed{\,\alpha\simeq1{,}18\,}
+\]
+
+\paso{Paso 4: comprobación} $5^{1/1{,}18}\simeq\e^{1{,}6094/1{,}18}=\e^{1{,}364}\simeq3{,}91=v_1/v_2$\chk\
+Como $1<\alpha<\gamma\simeq1{,}4$, la compresión está entre la isoterma y la adiabática del gas ideal diatómico.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.2cm,height=5.2cm,xmode=log,ymode=log,xmin=18,xmax=100,ymin=1.5,ymax=13,
+    xtick={21.34,83.54},xticklabels={21{,}34,83{,}54},ytick={2,10},yticklabels={2,10},
+    minor tick num=0,log basis x=10,xlabel={$v$ (cm$^3$/kg)},ylabel={$p$ (bar)}]
+  \addplot[navy,domain=21.34:83.54,samples=2] {2*(83.54/x)^1.1793};
+  \fill[rojo] (axis cs:83.54,2) circle (1.8pt) node[below,font=\scriptsize,black] {1};
+  \fill[rojo] (axis cs:21.34,10) circle (1.8pt) node[above,font=\scriptsize,black] {2};
+  \draw[navy,-{Stealth[length=5pt]}] (axis cs:55,6) -- (axis cs:38,7.6) node[pos=0,right,font=\scriptsize,acento] {compresión};
+  \node[acento,font=\scriptsize] at (axis cs:32,2.0) {pendiente $=-\alpha\simeq-1{,}18$};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.4. En ejes doblemente logarítmicos un proceso politrópico es una recta; su
+pendiente es el exponente cambiado de signo.}
+\label{fig:p14}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.5. Reloj de péndulo}
+% ---------------------------------------------------------------------
+\begin{problema}{1.5}{Péndulo de cobre}
+Un reloj con un péndulo de cobre de \SI{0,5}{m}, calibrado a \SI{20}{\celsius}, funciona un día a
+\SI{40}{\celsius}. ¿Se adelanta o se atrasa? ¿Cuánto? ($\alpha_l=\SI{17e-6}{/K}$.)
+\end{problema}
+
+\begin{resolucion}
+\idea El periodo $\mathcal T=2\pi\sqrt{l/g}$ crece con la longitud. El reloj cuenta oscilaciones: si cada
+una dura más, marca menos tiempo del real y se \emph{atrasa}. Método M3.
+
+\paso{Paso 1: longitud a \SI{40}{\celsius}} Con $\Delta T=\Delta t=\SI{20}{K}$ y \eqref{eq:DL},
+$l=l_0(1+\alpha_l\Delta T)$, donde $\alpha_l\Delta T=\num{3,4e-4}\ll1$.
+
+\paso{Paso 2: variación relativa del periodo} En el cociente se cancelan $2\pi$ y $g$; con la
+aproximación binomial $(1+x)^{1/2}\simeq1+\tfrac12x$:
+\[
+  \frac{\mathcal T}{\mathcal T_0}=\sqrt{\frac{l}{l_0}}=\sqrt{1+\alpha_l\Delta T}\simeq1+\tfrac12\alpha_l\Delta T
+  \quad\Longrightarrow\quad
+  \frac{\Delta\mathcal T}{\mathcal T_0}\simeq\tfrac12\alpha_l\Delta T=\tfrac12\cdot\num{17e-6}\cdot20=\num{1,70e-4}.
+\]
+
+\paso{Paso 3: lectura del reloj} En un tiempo real $t$ el péndulo da $N=t/\mathcal T$ oscilaciones, y el
+reloj, calibrado para $\mathcal T_0$, marca $N\mathcal T_0=t\,\mathcal T_0/\mathcal T$. El retraso es
+\[
+  t-t\,\frac{\mathcal T_0}{\mathcal T}=t\Bigl(1-\frac{\mathcal T_0}{\mathcal T}\Bigr)\simeq t\,\frac{\Delta\mathcal T}{\mathcal T_0},
+\]
+donde se ha usado $\mathcal T_0/\mathcal T=(1+\Delta\mathcal T/\mathcal T_0)^{-1}\simeq1-\Delta\mathcal T/\mathcal T_0$.
+
+\paso{Paso 4: retraso diario} Con $t=\SI{1}{día}=\SI{86400}{s}$:
+\[
+  \SI{86400}{s}\cdot\num{1,70e-4}=\SI{14,7}{s}\quad\Longrightarrow\quad\boxed{\,\text{se atrasa}\ \simeq\SI{14,7}{s/día}\,}
+\]
+\end{resolucion}
+
+\begin{observacion}[La longitud no interviene]
+El resultado no depende de $l_0=\SI{0,5}{m}$ ni de $g$: solo importa la variación \emph{relativa},
+$\tfrac12\alpha_l\Delta T$. Es el rasgo general de los coeficientes de respuesta. Como el retraso es
+lineal en $\Delta T$, por debajo de \SI{20}{\celsius} el reloj se adelanta (figura~\ref{fig:p15}).
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.6cm,height=5cm,xmin=0,xmax=42,ymin=-17,ymax=17,
+    xtick={0,10,20,30,40},ytick={-14.7,0,14.7},yticklabels={$-14{,}7$,0,$14{,}7$},
+    xlabel={$t$ (\si{\celsius})},ylabel={retraso (s/día)},
+    extra y ticks={0},extra y tick style={grid=major,grid style={regla}}]
+  \addplot[navy,domain=0:42,samples=2] {0.7344*(x-20)};
+  \fill[rojo] (axis cs:40,14.69) circle (1.8pt);
+  \fill[acento] (axis cs:20,0) circle (1.8pt) node[below right,font=\scriptsize] {calibración};
+  \node[font=\scriptsize,rojo,anchor=east] at (axis cs:30,12) {\SI{40}{\celsius}: se atrasa};
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:2,-12) {se adelanta};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.5. Retraso diario $\simeq\tfrac12\alpha_l(t-\SI{20}{\celsius})\cdot\SI{86400}{s}$
+de un péndulo de cobre calibrado a \SI{20}{\celsius}.}
+\label{fig:p15}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.6. Dilatación de un puente}
+% ---------------------------------------------------------------------
+\begin{problema}{1.6}{Puente de acero}
+Un puente de acero continuo mide \SI{100}{m}. ¿Cuánto varía su longitud entre \SI{-10}{\celsius} y
+\SI{50}{\celsius}? ($\alpha_l=\SI{11e-6}{/K}$.)
+\end{problema}
+
+\begin{resolucion}
+\idea Método M3 con $\alpha_l\Delta T\ll1$.
+
+\paso{Paso 1: salto térmico} Un intervalo Celsius es igual a uno Kelvin:
+$\Delta T=\Delta t=50-(-10)=\SI{60}{K}$.
+
+\paso{Paso 2: validez de la aproximación lineal}
+$\alpha_l\Delta T=\num{11e-6}\cdot60=\num{6,6e-4}\ll1$, así que \eqref{eq:DL} es aplicable.
+
+\paso{Paso 3: cálculo}
+\[
+  \Delta L\simeq\alpha_lL_0\,\Delta T=\SI{11e-6}{/K}\cdot\SI{100}{m}\cdot\SI{60}{K}=\SI{0,066}{m}
+  \quad\Longrightarrow\quad\boxed{\,\Delta L\simeq\SI{6,6}{cm}\,}
+\]
+
+\paso{Paso 4: error de la aproximación} El resultado exacto \eqref{eq:Lexp} es
+$\Delta L=L_0(\e^{\alpha_l\Delta T}-1)$; frente a \eqref{eq:DL} añade el término
+$\tfrac12L_0(\alpha_l\Delta T)^2\simeq\SI{22}{\micro m}$, del todo despreciable frente a \SI{6,6}{cm}.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.7. Mercurio calentado a volumen constante}
+% ---------------------------------------------------------------------
+\begin{problema}{1.7}{Presión a volumen fijo}
+Calcúlese el aumento de presión de una masa de mercurio calentada a volumen constante de
+\SI{0}{\celsius} a \SI{1}{\celsius}, con $\alpha=\SI{18e-5}{/K}$ y $\kappa_T=\SI{39e-12}{/Pa}$ constantes.
+\end{problema}
+
+\begin{resolucion}
+\idea A volumen fijo, $\dd\ln V=0$ en \eqref{eq:dlnV}.
+
+\paso{Paso 1: condición de volumen fijo}
+\[
+  0=\dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p\quad\Longrightarrow\quad\dd p=\frac{\alpha}{\kappa_T}\,\dd T.
+\]
+
+\paso{Paso 2: integración} Con $\alpha$ y $\kappa_T$ constantes salen de la integral:
+\[
+  \int_{p_0}^{p_0+\Delta p}\dd p=\frac{\alpha}{\kappa_T}\int_{T_0}^{T_0+\Delta T}\dd T
+  \quad\Longrightarrow\quad\Delta p=\frac{\alpha}{\kappa_T}\,\Delta T.
+\]
+
+\paso{Paso 3: cálculo} Con $\Delta T=\SI{1}{K}$ y $\SI{1}{bar}=\SI{e5}{Pa}$:
+\[
+  \Delta p=\frac{\SI{18e-5}{/K}}{\SI{39e-12}{/Pa}}\cdot\SI{1}{K}=\SI{4,615e6}{Pa}
+  \quad\Longrightarrow\quad\boxed{\,\Delta p\simeq\SI{46,2}{bar}\,}
+\]
+
+\paso{Paso 4: comprobación en dos etapas} Calentando a $p$ constante, $\Delta V_1/V=\alpha\Delta T=\num{1,8e-4}$;
+para recuperar el volumen hay que comprimir con $\kappa_T\Delta p=\num{1,8e-4}$, es decir,
+$\Delta p=\num{1,8e-4}/\SI{39e-12}{/Pa}=\SI{4,6e6}{Pa}$\chk\ (figura~\ref{fig:dosetapas}).
+\end{resolucion}
+
+\begin{observacion}[Orden de magnitud]
+Un solo kelvin produce unas 46 atmósferas: los líquidos son casi incompresibles ($\kappa_T$ minúsculo),
+por lo que impedir su dilatación exige presiones enormes. De aquí el riesgo de un termómetro
+sobrecalentado. Nótese que $\alpha/\kappa_T=p\beta=\pdi{p}{T}{V}$.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.8. Coeficientes de la ecuación de Clausius}
+% ---------------------------------------------------------------------
+\begin{problema}{1.8}{Ecuación de Clausius}
+Para la ecuación de estado $p(\Vm-b)=RT$, calcúlense $\alpha$ y $\kappa_T$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: aquí $\Vm$ se despeja sin dificultad.
+
+\paso{Paso 0: despeje} $\displaystyle\Vm-b=\frac{RT}{p}\ \Longrightarrow\ \Vm=\frac{RT}{p}+b=\frac{RT+bp}{p}$.
+
+\paso{Paso 1: derivadas parciales} $b$ es constante; $RT/p$ es lineal en $T$ y va como $p^{-1}$:
+\[
+  \pd{\Vm}{T}{p}=\frac{R}{p},\qquad\pd{\Vm}{p}{T}=RT\cdot(-p^{-2})=-\frac{RT}{p^2}.
+\]
+
+\paso{Paso 2: coeficientes} Dividiendo por $\Vm=(RT+bp)/p$, es decir, multiplicando por $p/(RT+bp)$:
+\[
+  \alpha=\frac{R}{p}\cdot\frac{p}{RT+bp}\ \Longrightarrow\ \boxed{\,\alpha=\frac{R}{RT+bp}\,}\qquad
+  \kappa_T=\frac{RT}{p^2}\cdot\frac{p}{RT+bp}\ \Longrightarrow\ \boxed{\,\kappa_T=\frac{RT}{p\,(RT+bp)}\,}
+\]
+
+\paso{Paso 3: en variables \texorpdfstring{$(T,\Vm)$}{(T,V)}} Con $p=RT/(\Vm-b)$,
+$RT+bp=RT\bigl(1+\frac{b}{\Vm-b}\bigr)=\frac{RT\Vm}{\Vm-b}$, y por tanto
+\[
+  \alpha=\frac{\Vm-b}{T\,\Vm},\qquad\kappa_T=\frac{(\Vm-b)^2}{RT\,\Vm}.
+\]
+
+\paso{Paso 4: comprobación} De $p=RT/(\Vm-b)$: $\pdi{p}{T}{\Vm}=R/(\Vm-b)=p/T$, luego $\beta=1/T$, y
+\[
+  p\beta\kappa_T=p\cdot\frac1T\cdot\frac{RT}{p(RT+bp)}=\frac{R}{RT+bp}=\alpha\chk
+\]
+Con $b=0$, $\alpha=1/T$ y $\kappa_T=1/p$ (gas ideal).
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.4cm,height=5cm,xmin=0,xmax=1,ymin=0.4,ymax=1.08,
+    xlabel={$x=bp/RT$},ylabel={cociente con el gas ideal}]
+  \addplot[navy,domain=0:1,samples=60] {1/(1+x)};
+  \addplot[rojo,densely dashed,domain=0:1,samples=2] {1};
+  \legend{$\alpha T=\kappa_Tp=1/(1+x)$,gas ideal}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.8. El covolumen reduce por igual $\alpha$ y $\kappa_T$ respecto del gas ideal: el gas
+de Clausius es menos dilatable y menos compresible. Las correcciones son de orden $bp/RT$.}
+\label{fig:p18}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.9. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\kappa_T$}{kappa} (I)}
+% ---------------------------------------------------------------------
+\begin{problema}{1.9}{$\alpha=3/T$, $\kappa_T=2/p$}
+Determínese la ecuación de estado de un sistema hidrostático con $\alpha=3/T$ y $\kappa_T=2/p$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5 con $\dd\ln\Vm$: los coeficientes no contienen $\Vm$ y las variables están separadas.
+
+\paso{Paso 0: planteamiento} Incógnita $\Vm=\Vm(T,p)$; datos $\alpha=3/T$, $\kappa_T=2/p$; sin límite físico.
+
+\paso{Paso 1: diferencial total} Con \eqref{eq:derivadas}:
+\[
+  \dd\Vm=\pd{\Vm}{T}{p}\dd T+\pd{\Vm}{p}{T}\dd p=\Vm\alpha\,\dd T-\Vm\kappa_T\,\dd p.
+\]
+
+\paso{Paso 2: forma} $\alpha$ y $\kappa_T$ no contienen $\Vm$: se divide entre $\Vm$,
+$\dd\ln\Vm=\alpha\,\dd T-\kappa_T\,\dd p$.
+
+\paso{Paso 3: sustitución}
+\[
+  \dd\ln\Vm=\underbrace{\frac{3}{T}}_{M}\,\dd T\underbrace{-\frac{2}{p}}_{N}\,\dd p.
+\]
+
+\paso{Paso 4: exactitud}
+\[
+  \pd{M}{p}{T}=\frac{\partial}{\partial p}\Bigl(\frac3T\Bigr)=0,\qquad
+  \pd{N}{T}{p}=\frac{\partial}{\partial T}\Bigl(-\frac2p\Bigr)=0\quad\Longrightarrow\quad\text{exacta.}
+\]
+
+\paso{Paso 5: integración (caso A)} $M=M(T)$ y $N=N(p)$:
+\[
+  \ln\Vm=3\int\frac{\dd T}{T}-2\int\frac{\dd p}{p}=3\ln T-2\ln p+\ln K.
+\]
+
+\paso{Paso 6: quitar logaritmos} Con $3\ln T=\ln T^3$, $2\ln p=\ln p^2$ y $\ln x-\ln y=\ln(x/y)$:
+\[
+  \ln\Vm=\ln\frac{K\,T^3}{p^2}\quad\Longrightarrow\quad\Vm=\frac{K\,T^3}{p^2}\quad\Longrightarrow\quad
+  \boxed{\,p^2\Vm=\cte\cdot T^3\,}
+\]
+Si se hubiera escrito $+C$ en vez de $+\ln K$, tomando exponenciales
+$\Vm=\e^{\ln(T^3/p^2)+C}=\e^{C}\,T^3/p^2$, con $K=\e^C$.
+
+\paso{Paso 7: comprobación} Con $\Vm=KT^3p^{-2}$:
+\[
+  \alpha=\frac1\Vm\cdot\frac{3KT^2}{p^2}=\frac3T\chk\qquad
+  \kappa_T=-\frac1\Vm\cdot\Bigl(-\frac{2KT^3}{p^3}\Bigr)=\frac2p\chk
+\]
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.6cm,height=5.2cm,xmin=0,xmax=2,ymin=0,ymax=4,
+    xlabel={$T$ (u.\,arb.)},ylabel={$\Vm$ (u.\,arb.)}]
+  \addplot[acentoclaro,domain=0:2,samples=60] {x^3/0.5^2/4};
+  \addplot[acentomedio,domain=0:2,samples=60] {x^3/1^2/4};
+  \addplot[navy,domain=0:2,samples=60] {x^3/1.5^2/4};
+  \legend{$p=0{,}5$,$p=1$,$p=1{,}5$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.9. Isobaras $\Vm=KT^3/p^2$ ($K=1/4$). Su pendiente relativa,
+$\frac1\Vm\frac{\dd\Vm}{\dd T}=3/T$, es el coeficiente $\alpha$ del enunciado.}
+\label{fig:p19}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.10. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\kappa_T$}{kappa} (II)}
+% ---------------------------------------------------------------------
+\begin{problema}{1.10}{Gas con corrección lineal en $p$}
+Determínese la ecuación de estado de un gas con $\displaystyle\alpha=\frac{R}{p\Vm}$ y
+$\displaystyle\kappa_T=\frac{RT}{p^2\Vm}+\frac{B}{2\Vm}$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5. Multiplicando por $\Vm$ desaparece el volumen de los coeficientes y se integra
+$\dd\Vm$ directamente; las variables no están separadas (caso B).
+
+\paso{Paso 0: planteamiento} Incógnita $\Vm=\Vm(T,p)$; datos $\alpha$, $\kappa_T$; condición: para $B\to0$
+los coeficientes son los del gas ideal.
+
+\paso{Paso 1: diferencial total} $\dd\Vm=\Vm\alpha\,\dd T-\Vm\kappa_T\,\dd p$.
+
+\paso{Paso 2: forma} $\alpha$ y $\kappa_T$ llevan el factor $1/\Vm$: no se divide, se trabaja con $\dd\Vm$,
+y los productos $\Vm\alpha$, $\Vm\kappa_T$ ya no contienen $\Vm$. (Con $\dd\ln\Vm$ quedaría $\Vm$ en el
+segundo miembro y no podría integrarse.)
+
+\paso{Paso 3: sustitución}
+\[
+  \dd\Vm=\underbrace{\frac{R}{p}}_{M}\,\dd T\underbrace{-\Bigl(\frac{RT}{p^2}+\frac{B}{2}\Bigr)}_{N}\,\dd p.
+\]
+
+\paso{Paso 4: exactitud} Con la regla del cociente ($f=R$ constante, $g=p$, $g'=1$) y derivando
+$N$ término a término:
+\[
+  \pd{M}{p}{T}=\frac{0\cdot p-R\cdot1}{p^2}=-\frac{R}{p^2},\qquad
+  \pd{N}{T}{p}=-\frac{R}{p^2}-0=-\frac{R}{p^2}.
+\]
+Coinciden: exacta.
+
+\paso{Paso 5: integración (caso B)} $M=R/p$ depende de $p$, que multiplica a $\dd T$: no están separadas.
+
+\emph{5.1. Integrar en $T$ con $p$ fija:} $\displaystyle\Vm=\int\frac Rp\,\dd T=\frac{RT}{p}+g(p)$.
+
+\emph{5.2. Derivar respecto de $p$ e igualar a $N$:}
+\[
+  \pd{\Vm}{p}{T}=-\frac{RT}{p^2}+g'(p)\stackrel{!}{=}-\frac{RT}{p^2}-\frac B2
+  \quad\Longrightarrow\quad g'(p)=-\frac B2.
+\]
+Los términos en $T$ se cancelan, como debe ocurrir.
+
+\emph{5.3. Integrar $g'$:} $g(p)=-\frac B2\,p+\Vm_0$, y por tanto
+$\displaystyle\Vm=\frac{RT}{p}-\frac B2\,p+\Vm_0$.
+
+\paso{Paso 6: constante} Para $B\to0$ los coeficientes son los del gas ideal y debe recuperarse
+$p\Vm=RT$; como $p\Vm=RT+p\Vm_0$, eso exige $\Vm_0=0$. Multiplicando por $p$:
+\[
+  \boxed{\,p\Vm=RT-\tfrac12Bp^2\,}
+\]
+
+\paso{Paso 7: comprobación} Con $\Vm=RT/p-\tfrac B2p$:
+\[
+  \alpha=\frac1\Vm\cdot\frac Rp=\frac{R}{p\Vm}\chk\qquad
+  \kappa_T=-\frac1\Vm\Bigl(-\frac{RT}{p^2}-\frac B2\Bigr)=\frac{RT}{p^2\Vm}+\frac{B}{2\Vm}\chk
+\]
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.6cm,height=5.2cm,xmin=0,xmax=3,ymin=0,ymax=2.3,
+    xlabel={$p$ (u.\,arb.)},ylabel={$p\Vm$ (u.\,arb.)}]
+  \addplot[acentoclaro,domain=0:3,samples=40] {1-0.1*x^2};
+  \addplot[acentomedio,domain=0:3,samples=40] {1.5-0.1*x^2};
+  \addplot[navy,domain=0:3,samples=40] {2-0.1*x^2};
+  \addplot[rojo,densely dashed,domain=0:3,samples=2] {2};
+  \addplot[rojo,densely dashed,domain=0:3,samples=2,forget plot] {1.5};
+  \addplot[rojo,densely dashed,domain=0:3,samples=2,forget plot] {1};
+  \legend{$RT=1$,$RT=1{,}5$,$RT=2$,gas ideal}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.10. Diagrama de Amagat: $p\Vm=RT-\tfrac12Bp^2$ ($B=0{,}2$). Las isotermas son
+parábolas que parten de las rectas horizontales del gas ideal en $p\to0$.}
+\label{fig:p110}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.11. Ecuación de estado a partir de \texorpdfstring{$\beta$}{beta} y \texorpdfstring{$\kappa_T$}{kappa}}
+% ---------------------------------------------------------------------
+\begin{problema}{1.11}{$\beta=aT/(bp^2)$, $\kappa_T=bp/\Vm$}
+Determínese la ecuación de estado de un sistema hidrostático con $\displaystyle\beta=\frac{aT}{bp^2}$ y
+$\displaystyle\kappa_T=\frac{bp}{\Vm}$, siendo $a$ y $b$ constantes.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5: completar el par con $\alpha=p\beta\kappa_T$ y usar $\dd\Vm$.
+
+\paso{Paso 0: planteamiento} Incógnita $\Vm=\Vm(T,p)$. La diferencial de $\Vm$ necesita $\alpha$ y
+$\kappa_T$; falta $\alpha$.
+
+\paso{Paso 0 bis: tercer coeficiente} De la relación cíclica \eqref{eq:apbk}:
+\[
+  \alpha=p\,\beta\,\kappa_T=p\cdot\frac{aT}{bp^2}\cdot\frac{bp}{\Vm}=\frac{aT}{\Vm}.
+\]
+
+\paso{Paso 1--2: diferencial y forma} Los dos coeficientes llevan $1/\Vm$: se trabaja con $\dd\Vm$,
+\[
+  \dd\Vm=\Vm\alpha\,\dd T-\Vm\kappa_T\,\dd p.
+\]
+
+\paso{Paso 3: sustitución}
+\[
+  \dd\Vm=\underbrace{aT}_{M}\,\dd T\underbrace{-\,bp}_{N}\,\dd p.
+\]
+
+\paso{Paso 4: exactitud}
+\[
+  \pd{M}{p}{T}=\frac{\partial(aT)}{\partial p}=0,\qquad\pd{N}{T}{p}=\frac{\partial(-bp)}{\partial T}=0
+  \quad\Longrightarrow\quad\text{exacta.}
+\]
+
+\paso{Paso 5: integración (caso A)} $M=M(T)$, $N=N(p)$:
+\[
+  \Vm=\int aT\,\dd T-\int bp\,\dd p\quad\Longrightarrow\quad
+  \boxed{\,\Vm=\frac{aT^2}{2}-\frac{bp^2}{2}+\cte\,}
+\]
+
+\paso{Paso 6: constante} El enunciado no da ningún límite ni estado de referencia: queda libre.
+
+\paso{Paso 7: comprobación}
+\[
+  \alpha=\frac{aT}{\Vm}\chk\qquad\kappa_T=-\frac{1}{\Vm}(-bp)=\frac{bp}{\Vm}\chk\qquad
+  \beta=\frac{\alpha}{p\kappa_T}=\frac{aT/\Vm}{p\cdot bp/\Vm}=\frac{aT}{bp^2}\chk
+\]
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.2cm,height=5.4cm,xmin=0,xmax=3,ymin=0,ymax=3,
+    xlabel={$T$ (u.\,arb.)},ylabel={$p$ (u.\,arb.)}]
+  \addplot[acentoclaro,domain=1:3,samples=80] {sqrt(x^2-1)};
+  \addplot[acentomedio,domain=1.4142:3,samples=80] {sqrt(x^2-2)};
+  \addplot[navy,domain=2:3,samples=80] {sqrt(x^2-4)};
+  \addplot[rojo,densely dashed,domain=0:3,samples=2] {x};
+  \legend{$\Vm-\cte=0{,}5$,$\Vm-\cte=1$,$\Vm-\cte=2$,$\Vm-\cte=0$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.11. Isócoras en el plano $(T,p)$ con $a=b=1$: son las hipérbolas
+$T^2-p^2=2(\Vm-\cte)$. Su pendiente, $\dd p/\dd T=aT/(bp)=p\beta$, es la que fija $\beta$.}
+\label{fig:p111}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.12. Ecuación de estado a partir de \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\beta$}{beta}}
+% ---------------------------------------------------------------------
+\begin{problema}{1.12}{$\alpha$ y $\beta$ con denominador común}
+Determínese la ecuación de estado de un fluido con $\displaystyle\alpha=\frac{a}{A+aT-bp}$ y
+$\displaystyle\beta=\frac{a}{bp}$, siendo $A$, $a$ y $b$ constantes.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5. Tras hallar $\kappa_T$, la diferencial es la logarítmica de $A+aT-bp$. Se resuelve
+primero por el caso B, \emph{sin} ver el atajo, con la regla del cociente; el atajo se comenta al final.
+
+\paso{Paso 0: planteamiento} Incógnita $\Vm=\Vm(T,p)$. Abreviamos $D\equiv A+aT-bp$, con
+$\partial_TD=a$ y $\partial_pD=-b$.
+
+\paso{Paso 0 bis: tercer coeficiente} De $\alpha=p\beta\kappa_T$, $\kappa_T=\alpha/(p\beta)$:
+\[
+  \kappa_T=\frac{a/D}{p\cdot\dfrac{a}{bp}}=\frac{a/D}{a/b}=\frac{a\cdot b}{D\cdot a}=\frac{b}{D}.
+\]
+
+\paso{Paso 1--2: diferencial y forma} $\alpha$ y $\kappa_T$ no contienen $\Vm$: se usa
+$\dd\ln\Vm=\alpha\,\dd T-\kappa_T\,\dd p$.
+
+\paso{Paso 3: sustitución}
+\[
+  \dd\ln\Vm=\underbrace{\frac{a}{D}}_{M}\,\dd T+\underbrace{\frac{-b}{D}}_{N}\,\dd p.
+\]
+
+\paso{Paso 4: exactitud (regla del cociente)} En ambos casos el numerador es constante ($f'=0$) y
+$g=D$:
+\[
+  \pd{M}{p}{T}=\frac{0\cdot D-a\cdot(-b)}{D^2}=\frac{ab}{D^2},\qquad
+  \pd{N}{T}{p}=\frac{0\cdot D-(-b)\cdot a}{D^2}=\frac{ab}{D^2}.
+\]
+Coinciden: exacta.
+
+\paso{Paso 5: integración (caso B)} $M=a/D$ depende de $T$ y de $p$: no están separadas.
+
+\emph{5.1. Integrar en $T$ con $p$ fija.} $A-bp\equiv c$ es constante; con $u=c+aT$, $\dd u=a\,\dd T$
+(segunda primitiva de \eqref{eq:primitivas}):
+\[
+  \ln\Vm=\int\frac{a\,\dd T}{c+aT}+g(p)=\int\frac{\dd u}{u}+g(p)=\ln D+g(p)\qquad(D>0).
+\]
+
+\emph{5.2. Derivar respecto de $p$ e igualar a $N$.} $\partial_p\ln D=\partial_pD/D=-b/D$:
+\[
+  -\frac bD+g'(p)\stackrel{!}{=}-\frac bD\quad\Longrightarrow\quad g'(p)=0.
+\]
+
+\emph{5.3. Integrar $g'$.} $g$ es constante: $g=\ln K$.
+
+\paso{Paso 6: quitar logaritmos}
+\[
+  \ln\Vm=\ln D+\ln K=\ln(KD)\quad\Longrightarrow\quad\boxed{\,\Vm=K\,(A+aT-bp)\,}
+\]
+Sin límite físico en el enunciado, $K$ queda libre.
+
+\paso{Paso 7: comprobación} Con $\Vm=KD$, $\partial_T\Vm=Ka$ y $\partial_p\Vm=-Kb$:
+\[
+  \alpha=\frac{Ka}{KD}=\frac aD\chk\qquad\kappa_T=-\frac{-Kb}{KD}=\frac bD,\qquad
+  \beta=\frac{\alpha}{p\kappa_T}=\frac{a/D}{pb/D}=\frac{a}{bp}\chk
+\]
+\end{resolucion}
+
+\begin{observacion}[El atajo]
+Que salga $g'=0$ indica que toda la dependencia estaba ya en $\ln D$. En efecto, los coeficientes
+comparten el denominador $D$ y sus numeradores son $\partial_TD=a$ y $\partial_pD=-b$:
+\[
+  \dd\ln\Vm=\frac{a\,\dd T-b\,\dd p}{A+aT-bp}=\frac{\dd D}{D}=\dd\ln(A+aT-bp),
+\]
+que se integra en una línea. Las isócoras son rectas paralelas en el plano $(T,p)$ (figura~\ref{fig:p112}).
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.2cm,height=5.2cm,xmin=0,xmax=3,ymin=0,ymax=3.2,
+    xlabel={$T$ (u.\,arb.)},ylabel={$p$ (u.\,arb.)}]
+  \addplot[acentoclaro,domain=0:2.2,samples=2] {1+x-0.5};
+  \addplot[acentomedio,domain=0:2.2,samples=2] {1+x-1};
+  \addplot[navy,domain=0.5:3,samples=2] {1+x-1.5};
+  \legend{$\Vm/K=0{,}5$,$\Vm/K=1$,$\Vm/K=1{,}5$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.12. Isócoras $p=(A+aT-\Vm/K)/b$ con $A=a=b=1$: rectas paralelas de pendiente
+$a/b$. Al aumentar $\Vm$ se desplazan hacia abajo.}
+\label{fig:p112}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.13. ¿Se recupera el gas ideal?}
+% ---------------------------------------------------------------------
+\begin{problema}{1.13}{Coeficientes con $\Vm-A$}
+Un sistema hidrostático tiene $\displaystyle\alpha=\frac{\Vm-A}{2\Vm T}$ y
+$\displaystyle\kappa_T=\frac{\Vm-A}{p\Vm}$ ($A$ constante). Determínese la ecuación térmica de estado.
+¿Puede recuperarse el comportamiento de gas ideal?
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5. Al multiplicar por $\Vm$ aparece $\Vm-A$ en ambos términos: se integra
+$\dd\ln(\Vm-A)$.
+
+\paso{Paso 0: planteamiento} Incógnita $\Vm(T,p)$; datos $\alpha$, $\kappa_T$; se pregunta por el límite
+$\Vm\gg A$.
+
+\paso{Paso 1: diferencial total}
+\[
+  \dd\Vm=\Vm\alpha\,\dd T-\Vm\kappa_T\,\dd p=\frac{\Vm-A}{2T}\,\dd T-\frac{\Vm-A}{p}\,\dd p.
+\]
+
+\paso{Paso 2: forma} Los coeficientes contienen $\Vm-A$: se divide entre $\Vm-A$. Como $A$ es constante,
+$\dd(\Vm-A)=\dd\Vm$ y el primer miembro es una diferencial logarítmica:
+\[
+  \frac{\dd\Vm}{\Vm-A}=\dd\ln(\Vm-A)=\underbrace{\frac{1}{2T}}_{M}\,\dd T\underbrace{-\frac1p}_{N}\,\dd p.
+\]
+
+\paso{Paso 3: exactitud} $\partial_p(1/2T)=0=\partial_T(-1/p)$: exacta.
+
+\paso{Paso 4: integración (caso A)}
+\[
+  \ln(\Vm-A)=\frac12\ln T-\ln p+\ln K=\ln\frac{K\sqrt T}{p}
+  \quad\Longrightarrow\quad\boxed{\,p\,(\Vm-A)=K\sqrt T\,}
+\]
+
+\paso{Paso 5: comprobación} De $\Vm=A+K\sqrt T/p$:
+\[
+  \partial_T\Vm=\frac{K}{2p\sqrt T}=\frac{\Vm-A}{2T}\ \Rightarrow\ \alpha=\frac{\Vm-A}{2\Vm T}\chk\qquad
+  \partial_p\Vm=-\frac{K\sqrt T}{p^2}=-\frac{\Vm-A}{p}\ \Rightarrow\ \kappa_T=\frac{\Vm-A}{p\Vm}\chk
+\]
+
+\paso{Paso 6: límite} Para $\Vm\gg A$, $p\Vm\to K\sqrt T$, $\alpha\to1/(2T)$ y $\kappa_T\to1/p$. El gas ideal
+exige $p\Vm=RT$ y $\alpha=1/T$: ninguna elección de $K$ convierte $K\sqrt T$ en $RT$ para todo $T$.
+\textbf{No} se recupera el gas ideal en ningún límite, porque la dependencia en $T$ es $T^{1/2}$ y no $T$.
+\end{resolucion}
+
+\begin{observacion}[Lectura del enunciado]
+Si el coeficiente fuera $\alpha=(\Vm-A)/(\Vm T)$, el mismo procedimiento daría
+$\ln(\Vm-A)=\ln T-\ln p+\ln K$, es decir, $p(\Vm-A)=KT$: la ecuación de Clausius, que sí tiende al gas
+ideal para $\Vm\gg A$ con $K=R$ (figura~\ref{fig:p113}). Conviene comprobar siempre el límite:
+$\alpha\to1/T$ y $\kappa_T\to1/p$.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.4cm,height=5cm,xmin=1,xmax=20,ymin=0,ymax=1.15,
+    xlabel={$\Vm/A$},ylabel={$\alpha T$}]
+  \addplot[navy,domain=1:20,samples=80] {(1-1/x)/2};
+  \addplot[acento,domain=1:20,samples=80] {1-1/x};
+  \addplot[rojo,densely dashed,domain=1:20,samples=2] {1};
+  \legend{problema 1.13,Clausius,gas ideal}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.13. $\alpha T$ frente a $\Vm/A$: con el enunciado dado tiende a $1/2$, no a $1$; con
+$\alpha=(\Vm-A)/(\Vm T)$ (Clausius) sí tiende al valor ideal.}
+\label{fig:p113}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.14. Ecuación de Dieterici}
+% ---------------------------------------------------------------------
+\begin{problema}{1.14}{$p(T,\Vm)$ a partir de $\kappa_T$ y $\beta$}
+Un gas tiene $\displaystyle\kappa_T=\frac{RT\Vm(\Vm-b)}{p\,[RT\Vm^2-a(\Vm-b)]}$ y
+$\displaystyle\beta=\frac{RT\Vm+a}{RT^2\Vm}$. Hállese $p(T,\Vm)$ sabiendo que para $\Vm$ grande el gas se
+comporta como ideal.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5 para la incógnita $p(T,\Vm)$: se diferencia $p$, no $\Vm$, y se usa
+$\dd\ln p=\beta\,\dd T-\dd\Vm/(p\kappa_T\Vm)$, porque $\beta$ y $p\kappa_T$ no contienen $p$.
+
+\paso{Paso 0: planteamiento} Incógnita $p=p(T,\Vm)$; datos $\beta$, $\kappa_T$; condición $p\Vm\to RT$
+para $\Vm\to\infty$.
+
+\paso{Paso 1: diferencial total} La primera derivada es $p\beta$ por definición; la segunda está
+invertida respecto de la de $\kappa_T$ y se obtiene con la recíproca (ambas a $T$ constante):
+\[
+  \dd p=\pd{p}{T}{\Vm}\dd T+\pd{p}{\Vm}{T}\dd\Vm,\qquad
+  \pd{p}{\Vm}{T}=\frac{1}{\pd{\Vm}{p}{T}}=-\frac{1}{\Vm\kappa_T}
+  \quad\Longrightarrow\quad\dd p=p\beta\,\dd T-\frac{\dd\Vm}{\Vm\kappa_T}.
+\]
+
+\paso{Paso 2: forma} $\beta$ no contiene $p$ y $\kappa_T$ lleva el factor $1/p$, de modo que $p\kappa_T$
+tampoco lo contiene. Dividiendo entre $p$:
+\[
+  \dd\ln p=\beta\,\dd T-\frac{\dd\Vm}{p\kappa_T\Vm}.
+\]
+
+\paso{Paso 3: sustitución y simplificación} Se separa cada coeficiente en fracciones simples:
+\[
+  \beta=\frac{RT\Vm}{RT^2\Vm}+\frac{a}{RT^2\Vm}=\frac1T+\frac{a}{RT^2\Vm};\qquad
+  p\kappa_T\Vm=\frac{RT\Vm^2(\Vm-b)}{RT\Vm^2-a(\Vm-b)},
+\]
+\[
+  \frac{1}{p\kappa_T\Vm}=\frac{RT\Vm^2-a(\Vm-b)}{RT\Vm^2(\Vm-b)}
+  =\frac{RT\Vm^2}{RT\Vm^2(\Vm-b)}-\frac{a(\Vm-b)}{RT\Vm^2(\Vm-b)}=\frac{1}{\Vm-b}-\frac{a}{RT\Vm^2}.
+\]
+Por tanto
+\[
+  \dd\ln p=\underbrace{\Bigl(\frac1T+\frac{a}{RT^2\Vm}\Bigr)}_{M}\dd T
+  +\underbrace{\Bigl(-\frac{1}{\Vm-b}+\frac{a}{RT\Vm^2}\Bigr)}_{N}\dd\Vm.
+\]
+
+\paso{Paso 4: exactitud (regla del cociente)} Los términos $1/T$ y $-1/(\Vm-b)$ no dependen de la otra
+variable y dan derivada nula. Para los otros dos, $f=a$ ($f'=0$):
+\[
+  \pd{M}{\Vm}{T}=\frac{0-a\cdot RT^2}{(RT^2\Vm)^2}=-\frac{a}{RT^2\Vm^2},\qquad
+  \pd{N}{T}{\Vm}=\frac{0-a\cdot R\Vm^2}{(RT\Vm^2)^2}=-\frac{a}{RT^2\Vm^2}.
+\]
+Coinciden: exacta.
+
+\paso{Paso 5: integración (caso B)} $M$ depende de $T$ y de $\Vm$; la función auxiliar es ahora $g(\Vm)$.
+
+\emph{5.1. Integrar en $T$ con $\Vm$ fijo.} Con $\int T^{-2}\dd T=-T^{-1}$:
+\[
+  \ln p=\int\Bigl(\frac1T+\frac{a}{R\Vm}\,T^{-2}\Bigr)\dd T+g(\Vm)=\ln T-\frac{a}{RT\Vm}+g(\Vm).
+\]
+
+\emph{5.2. Derivar respecto de $\Vm$ e igualar a $N$.} Por la regla del cociente ($f=-a$, $g=RT\Vm$,
+$g'=RT$),
+\[
+  \frac{\partial}{\partial\Vm}\Bigl(\frac{-a}{RT\Vm}\Bigr)=\frac{0\cdot RT\Vm-(-a)\cdot RT}{(RT\Vm)^2}=\frac{a}{RT\Vm^2},
+\]
+de modo que
+\[
+  \frac{a}{RT\Vm^2}+g'(\Vm)\stackrel{!}{=}-\frac{1}{\Vm-b}+\frac{a}{RT\Vm^2}
+  \quad\Longrightarrow\quad g'(\Vm)=-\frac{1}{\Vm-b}.
+\]
+
+\emph{5.3. Integrar $g'$.} Con $u=\Vm-b$: $g(\Vm)=-\ln(\Vm-b)+\ln K$. Así,
+\[
+  \ln p=\ln T-\ln(\Vm-b)+\ln K-\frac{a}{RT\Vm}=\ln\frac{KT}{\Vm-b}-\frac{a}{RT\Vm}.
+\]
+
+\paso{Paso 6: quitar logaritmos y fijar la constante} Queda un término que no es logaritmo; con
+$\e^{\ln X+y}=X\e^y$:
+\[
+  p=\frac{KT}{\Vm-b}\,\exp\Bigl(-\frac{a}{RT\Vm}\Bigr).
+\]
+Para $\Vm\to\infty$: $\Vm-b\simeq\Vm$ y $\exp(-a/RT\Vm)\to\e^0=1$, luego $p\Vm\to KT$. El gas ideal exige
+$K=R$:
+\[
+  \boxed{\,p=\frac{RT}{\Vm-b}\,\exp\Bigl(-\frac{a}{RT\Vm}\Bigr)\,}\qquad\text{(ecuación de Dieterici)}
+\]
+
+\paso{Paso 7: comprobación} De $\ln p=\ln R+\ln T-\ln(\Vm-b)-a/(RT\Vm)$:
+\[
+  \pd{\ln p}{T}{\Vm}=\frac1T+\frac{a}{RT^2\Vm}=\beta\chk\qquad
+  \pd{\ln p}{\Vm}{T}=-\frac{1}{\Vm-b}+\frac{a}{RT\Vm^2}=N=-\frac{1}{p\kappa_T\Vm}\chk
+\]
+\end{resolucion}
+
+\begin{observacion}[Compresibilidad negativa y punto crítico]\label{obs:kneg}
+Como $\Vm>b$ y $p>0$, el signo de $\kappa_T$ es el de su denominador:
+\[
+  \kappa_T<0\iff RT\Vm^2-a(\Vm-b)<0\iff\pd{p}{\Vm}{T}>0.
+\]
+Un estado con $\kappa_T<0$ es \emph{mecánicamente inestable}: si el pistón de la figura~\ref{fig:piston}
+se desplaza hacia fuera ($\delta\Vm>0$), la presión del gas \emph{sube} y lo empuja aún más; con
+$\kappa_T>0$ baja y la perturbación se corrige. Equivalentemente, el equilibrio a $(T,\Vm)$ fijos es un
+mínimo de la energía libre de Helmholtz, que exige
+$\pdi{^2F}{\Vm^2}{T}=-\pdi{p}{\Vm}{T}=1/(\Vm\kappa_T)>0$.
+
+\paso{Espinodales} Los extremos de la isoterma son las raíces de $RT\Vm^2-a\Vm+ab=0$:
+\[
+  \Vm_\pm=\frac{a\pm\sqrt{a^2-4abRT}}{2RT},
+\]
+reales si y solo si $a\geq4bRT$, es decir, $T\leq T_c$ con
+\[
+  T_c=\frac{a}{4Rb},\qquad\Vm_c=\frac{a}{2RT_c}=2b,\qquad p_c=\frac{RT_c}{\Vm_c-b}\,\e^{-a/(RT_c\Vm_c)}=\frac{a}{4\e^2b^2}.
+\]
+En $T_c$ las dos raíces se juntan en un punto de inflexión horizontal: es el \emph{punto crítico}. Por
+debajo de $T_c$, entre $\Vm_-$ y $\Vm_+$ el fluido homogéneo es inestable y se separa en líquido y
+vapor a la presión de vapor, que se obtiene con la \emph{construcción de Maxwell} (áreas iguales). Con
+los valores de la figura~\ref{fig:p114}, $T_c\simeq\SI{304}{K}$, $\Vm_c\simeq\SI{0,093}{L/mol}$ y
+$p_c\simeq\SI{73,9}{bar}$; a \SI{270}{K}, $\Vm_-\simeq\SI{0,069}{L/mol}$, $\Vm_+\simeq\SI{0,139}{L/mol}$ y la
+presión de vapor es $\simeq\SI{52,2}{bar}$.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=8.6cm,height=6.2cm,xmin=0.04,xmax=0.6,ymin=0,ymax=130,
+    xtick={0.1,0.2,0.3,0.4,0.5,0.6},ytick={0,25,50,75,100,125},
+    xlabel={$\Vm$ (L/mol)},ylabel={$p$ (bar)},restrict y to domain=-10:600,
+    xticklabel style={/pgf/number format/fixed,/pgf/number format/precision=1}]
+  \fill[rojo!9] (axis cs:0.0694,0) rectangle (axis cs:0.1391,130);
+  \addplot[acentoclaro,domain=0.0485:0.6,samples=260] {0.08314*270/(x-0.0463)*exp(-4.68/(0.08314*270*x))};
+  \addplot[acento,domain=0.0485:0.6,samples=260] {0.08314*303.94/(x-0.0463)*exp(-4.68/(0.08314*303.94*x))};
+  \addplot[navy,domain=0.0485:0.6,samples=260] {0.08314*345/(x-0.0463)*exp(-4.68/(0.08314*345*x))};
+  \addplot[rojo,densely dotted,domain=0.21:0.6,samples=80] {0.08314*345/x};
+  \addplot[verde,densely dashed,thick,samples=2] coordinates {(0.0584,52.22) (0.1887,52.22)};
+  \fill[verde] (axis cs:0.0584,52.22) circle (1.5pt);
+  \fill[verde] (axis cs:0.1887,52.22) circle (1.5pt);
+  \fill[rojo] (axis cs:0.0694,48.18) circle (1.5pt);
+  \fill[rojo] (axis cs:0.1391,54.04) circle (1.5pt);
+  \fill[acento] (axis cs:0.0926,73.86) circle (1.8pt) node[above right,font=\scriptsize] {C};
+  \node[rojo,font=\scriptsize] at (axis cs:0.1043,20) {$\kappa_T<0$};
+  \legend{$T=\SI{270}{K}<T_c$,$T=T_c\simeq\SI{304}{K}$,$T=\SI{345}{K}$,ideal \SI{345}{K},Maxwell \SI{270}{K}}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.14. Isotermas de Dieterici con valores ilustrativos ($a=\SI{4,68}{bar.L^2/mol^2}$,
+$b=\SI{0,0463}{L/mol}$, $T_c=a/4Rb$). A volúmenes grandes tienden a la isoterma ideal (punteada). Por
+debajo de $T_c$ aparece el tramo sombreado con $\pdi{p}{\Vm}{T}>0$, es decir $\kappa_T<0$, entre las
+espinodales (puntos rojos); la recta de Maxwell (verde) es la isoterma real de coexistencia
+líquido--vapor. C es el punto crítico.}
+\label{fig:p114}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.15. Coeficiente de dilatación de un gas del virial}
+% ---------------------------------------------------------------------
+\begin{problema}{1.15}{$\alpha$ en un estado dado}
+Un gas tiene $\displaystyle\kappa_T=\frac{1}{RT\,(1/\Vm+2b/\Vm^2)}$ y $\displaystyle\beta=\frac1T$, con
+$b=\SI{4e-2}{L/mol}$. Calcúlese $\alpha$ cuando un mol ocupa \SI{1}{L} a \SI{300}{K}, sabiendo que para
+$\Vm$ grande el gas es ideal.
+\end{problema}
+
+\begin{resolucion}
+\idea $\alpha=p\beta\kappa_T$ exige conocer $p$ en ese estado, luego antes hay que reconstruir
+$p(T,\Vm)$ (método M5). Se integra primero la ecuación que no contiene la incógnita.
+
+\paso{Paso 0: planteamiento} Incógnita $p(T,\Vm)$; datos $\beta$, $\kappa_T$; condición $p\Vm\to RT$ para
+$\Vm\to\infty$; después, evaluar $\alpha$ en $\Vm=\SI{1}{L/mol}$, $T=\SI{300}{K}$.
+
+\paso{Paso 1: diferencial total} Por \eqref{eq:dp}, con
+$\frac{1}{\Vm\kappa_T}=\frac{RT}{\Vm}\bigl(\frac1\Vm+\frac{2b}{\Vm^2}\bigr)$:
+\[
+  \dd p=p\beta\,\dd T-\frac{\dd\Vm}{\kappa_T\Vm}
+  =\underbrace{\frac pT}_{M}\,\dd T\underbrace{-RT\Bigl(\frac{1}{\Vm^2}+\frac{2b}{\Vm^3}\Bigr)}_{N}\,\dd\Vm.
+\]
+
+\paso{Paso 2: forma y orden de integración} Aquí $\kappa_T$ no contiene $p$, pero $p\beta=p/T$ sí:
+$M$ depende de la incógnita. Por eso se integra primero $N$, que no la contiene, y después se usa
+$M$ para fijar la función auxiliar (que ahora depende de $T$).
+
+\paso{Paso 3: integración en \texorpdfstring{$\Vm$}{V} con \texorpdfstring{$T$}{T} fija} Con
+$\int\Vm^{-2}\dd\Vm=-\Vm^{-1}$ y $\int\Vm^{-3}\dd\Vm=-\tfrac12\Vm^{-2}$:
+\[
+  p=-RT\Bigl(-\frac1\Vm-\frac{2b}{2\Vm^2}\Bigr)+f(T)=RT\Bigl(\frac1\Vm+\frac{b}{\Vm^2}\Bigr)+f(T).
+\]
+
+\paso{Paso 4: imponer la ecuación en \texorpdfstring{$T$}{T}} Derivando a $\Vm$ fijo e igualando a $M=p/T$:
+\[
+  R\Bigl(\frac1\Vm+\frac b{\Vm^2}\Bigr)+f'(T)\stackrel{!}{=}\frac pT=R\Bigl(\frac1\Vm+\frac b{\Vm^2}\Bigr)+\frac{f(T)}{T}
+  \quad\Longrightarrow\quad f'(T)=\frac{f(T)}{T}.
+\]
+Separando variables, $\dd f/f=\dd T/T\Rightarrow\ln f=\ln T+\ln c$, es decir, $f=cT$.
+
+\paso{Paso 5: constante} $p\Vm=RT(1+b/\Vm)+cT\Vm$. Para $\Vm\to\infty$ el primer término tiende a $RT$,
+pero el segundo diverge salvo que $c=0$:
+\[
+  \boxed{\,p=\frac{RT}{\Vm}\Bigl(1+\frac{b}{\Vm}\Bigr)\,}
+\]
+
+\paso{Paso 6: comprobación}
+\begin{align*}
+  \pd{p}{T}{\Vm}&=\frac R\Vm\Bigl(1+\frac b\Vm\Bigr)=\frac pT &&\Longrightarrow\quad \beta=\frac1T\chk\\
+  \pd{p}{\Vm}{T}&=-RT\Bigl(\frac1{\Vm^2}+\frac{2b}{\Vm^3}\Bigr) &&\Longrightarrow\quad
+  \kappa_T=\frac{-1}{\Vm\,\pdi{p}{\Vm}{T}}=\frac{1}{RT(1/\Vm+2b/\Vm^2)}\chk
+\end{align*}
+
+\paso{Paso 7: coeficiente de dilatación} Multiplicando numerador y denominador por $\Vm^2$:
+\[
+  \alpha=p\beta\kappa_T=RT\Bigl(\frac1\Vm+\frac b{\Vm^2}\Bigr)\cdot\frac1T\cdot\frac{1}{RT(1/\Vm+2b/\Vm^2)}
+  =\frac{\Vm+b}{T\,(\Vm+2b)}.
+\]
+Con $\Vm=\SI{1}{L/mol}$ y $b=\SI{0,04}{L/mol}$ (mismas unidades, el cociente es adimensional):
+\[
+  \alpha=\frac{1{,}04}{300\cdot1{,}08}\ \si{1/K}\quad\Longrightarrow\quad\boxed{\,\alpha\simeq\SI{3,21e-3}{/K}\,}
+\]
+\end{resolucion}
+
+\begin{observacion}[Comparación con el gas ideal]
+El gas ideal daría $\alpha=1/T=\SI{3,33e-3}{/K}$; la corrección relativa es
+$\frac{\Vm+b}{\Vm+2b}-1=-\frac{b}{\Vm+2b}\simeq\SI{-3,7}{\percent}$, del orden de $b/\Vm$, como corresponde
+a un desarrollo del virial truncado (figura~\ref{fig:p115}).
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,leyenda fuera,width=7.4cm,height=5cm,xmin=0.1,xmax=2,ymin=2.4,ymax=3.5,
+    xlabel={$\Vm$ (L/mol)},ylabel={$\alpha$ ($10^{-3}$/K)}]
+  \addplot[navy,domain=0.1:2,samples=80] {1000*(x+0.04)/(300*(x+0.08))};
+  \addplot[rojo,densely dashed,domain=0.1:2,samples=2] {1000/300};
+  \fill[acento] (axis cs:1,3.2099) circle (1.8pt) node[below,font=\scriptsize] {$3{,}21$};
+  \legend{virial,gas ideal}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.15. Coeficiente de dilatación del gas del virial a \SI{300}{K} frente al volumen
+molar. El punto marca el estado del enunciado; para $\Vm\gg b$ se recupera $1/T$.}
+\label{fig:p115}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 1.16. Cobre calentado y comprimido}
+% ---------------------------------------------------------------------
+\begin{problema}{1.16}{Volumen final con coeficientes medios}
+Un kilogramo de cobre se calienta de \SI{300}{K} a \SI{500}{K} mientras su presión aumenta
+\SI{1000}{bar}. Con $\alpha=\SI{51,7e-6}{/K}$, $\kappa_T=\SI{0,8065e-11}{/Pa}$ (valores medios) y
+$v_0=\SI{111,5e-6}{m^3/kg}$, calcúlese el volumen final.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M3: integrar $\dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p$ con coeficientes constantes. Como
+$\ln V$ es función de estado, no importa en qué orden se calienta y se comprime (figura~\ref{fig:p116}).
+
+\paso{Paso 0: datos en SI} $\Delta T=\SI{200}{K}$; $\Delta p=\SI{1000}{bar}=\SI{e8}{Pa}$;
+$V_0=mv_0=\SI{111,5e-6}{m^3}$.
+
+\paso{Paso 1: integración} Por el camino rectangular, \eqref{eq:const}:
+\[
+  \ln\frac{V}{V_0}=\int_{T_0}^{T_0+\Delta T}\alpha\,\dd T-\int_{p_0}^{p_0+\Delta p}\kappa_T\,\dd p=\alpha\,\Delta T-\kappa_T\,\Delta p.
+\]
+
+\paso{Paso 2: cálculo de cada término}
+\[
+  \alpha\Delta T=\SI{51,7e-6}{/K}\cdot\SI{200}{K}=\num{1,034e-2},\qquad
+  \kappa_T\Delta p=\SI{0,8065e-11}{/Pa}\cdot\SI{e8}{Pa}=\num{8,065e-4},
+\]
+\[
+  \ln\frac{V}{V_0}=\num{1,034e-2}-\num{8,065e-4}=\num{9,534e-3}.
+\]
+
+\paso{Paso 3: volumen final} Tomando exponenciales, $\e^{\num{9,534e-3}}=1{,}009580$:
+\[
+  V=V_0\,\e^{\num{9,534e-3}}=\SI{111,5e-6}{m^3}\cdot1{,}009580\quad\Longrightarrow\quad
+  \boxed{\,V\simeq\SI{112,57e-6}{m^3}\,}
+\]
+\end{resolucion}
+
+\begin{observacion}[Competencia de efectos]
+La dilatación térmica ($+\SI{1,03}{\percent}$) domina sobre la compresión ($-\SI{0,08}{\percent}$). Como
+$\ln(V/V_0)\ll1$, la aproximación lineal \eqref{eq:pequenos},
+$\Delta V\simeq V_0(\alpha\Delta T-\kappa_T\Delta p)=\SI{1,063e-6}{m^3}$, da $V\simeq\SI{112,56e-6}{m^3}$: el
+mismo resultado con cuatro cifras.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,clip mode=individual,width=7.6cm,height=5.2cm,xmin=250,xmax=600,ymin=-200,ymax=1250,
+    xtick={300,500},ytick={0,1000},xlabel={$T$ (K)},ylabel={$p-p_0$ (bar)}]
+  \addplot[navy,thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}] coordinates {(300,0) (500,0)};
+  \addplot[acento,thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}] coordinates {(500,0) (500,1000)};
+  \addplot[gris,densely dotted] coordinates {(300,0) (300,1000) (500,1000)};
+  \fill[rojo] (axis cs:300,0) circle (1.8pt);
+  \fill[navy] (axis cs:500,0) circle (1.8pt);
+  \fill[rojo] (axis cs:500,1000) circle (1.8pt);
+  \node[font=\scriptsize,anchor=north east,fill=white,inner sep=1pt] at (axis cs:296,-30) {$111{,}50$};
+  \node[font=\scriptsize,anchor=north west,fill=white,inner sep=1pt] at (axis cs:504,-30) {$112{,}66$};
+  \node[font=\scriptsize,anchor=west,fill=white,inner sep=1pt] at (axis cs:508,1000) {$112{,}57$};
+  \node[font=\scriptsize,navy,anchor=south] at (axis cs:400,30) {$+\alpha\Delta T$};
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:508,500) {$-\kappa_T\Delta p$};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 1.16. Camino rectangular en el plano $(T,p)$: calentamiento isobaro y compresión
+isoterma. Junto a cada vértice, el volumen en $10^{-6}\,\mathrm{m^3}$. El camino punteado (comprimir
+primero) da el mismo volumen final.}
+\label{fig:p116}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestión 1}
+% ---------------------------------------------------------------------
+\begin{problema}{P.1}{Parcial 2025/26}
+Una sustancia hipotética tiene $\displaystyle\alpha=\frac{1}{T+A}$ y $\displaystyle\kappa_T=\frac1p$.
+(a) Calcule la ecuación de estado $p=p(T,V)$. (b) Compruebe explícitamente la relación cíclica entre
+$p$, $V$ y $T$. (c) En una expansión espontánea de este gas (presión inicial \SI{1}{bar}) hasta el
+equilibrio con unos alrededores a $p_{\mathrm{ext}}=\SI{2}{bar}$, ¿pueden usarse estos coeficientes
+para describir la curva del proceso?
+\end{problema}
+
+\begin{resolucion}
+\idea (a) Método M5; (b) método M4 sobre el resultado; (c) concepto de proceso cuasiestático.
+
+\paso{(a) Paso 0--2: planteamiento y forma} Aunque se pide $p(T,V)$, los datos son $\alpha$ y $\kappa_T$,
+que no contienen $V$: se integra $\dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p$ y al final se despeja $p$.
+
+\paso{(a) Paso 3--4: sustitución y exactitud}
+\[
+  \dd\ln V=\underbrace{\frac{1}{T+A}}_{M}\,\dd T\underbrace{-\frac{1}{p}}_{N}\,\dd p,\qquad
+  \pd{M}{p}{T}=0=\pd{N}{T}{p}\quad\Longrightarrow\quad\text{exacta.}
+\]
+
+\paso{(a) Paso 5--6: integración y despeje} Variables separadas (caso A); como $\dd(T+A)=\dd T$, la
+primitiva es $\int\dd T/(T+A)=\ln(T+A)$:
+\[
+  \ln V=\ln(T+A)-\ln p+\ln K=\ln\frac{K(T+A)}{p}
+  \quad\Longrightarrow\quad pV=K(T+A)\quad\Longrightarrow\quad\boxed{\,p=\frac{K\,(T+A)}{V}\,}
+\]
+
+\paso{(b) Relación cíclica} Despejando cada variable de $pV=K(T+A)$ y derivando:
+\begin{alignat*}{3}
+  p&=\frac{K(T+A)}{V} &\quad&\Longrightarrow\quad& \pd{p}{V}{T}&=-\frac{K(T+A)}{V^2}=-\frac pV,\\
+  V&=\frac{K(T+A)}{p} &&\Longrightarrow& \pd{V}{T}{p}&=\frac Kp,\\
+  T&=\frac{pV}{K}-A &&\Longrightarrow& \pd{T}{p}{V}&=\frac VK.
+\end{alignat*}
+Multiplicando las tres:
+\[
+  \pd{p}{V}{T}\pd{V}{T}{p}\pd{T}{p}{V}=\Bigl(-\frac pV\Bigr)\cdot\frac Kp\cdot\frac VK=-1\chk
+\]
+Equivalentemente, $\beta=\frac1p\pdi{p}{T}{V}=\frac1p\frac KV=\frac{1}{T+A}$ y
+$p\beta\kappa_T=p\cdot\frac{1}{T+A}\cdot\frac1p=\frac{1}{T+A}=\alpha$\chk
+
+\paso{(c) Proceso espontáneo} \textbf{No}. Una evolución espontánea con un desequilibrio finito de presión
+($p_{\mathrm{ext}}-p_i=\SI{1}{bar}$) es irreversible y no cuasiestática: los estados intermedios no son de
+equilibrio, $p$ y $T$ no están definidas uniformemente y el proceso no es una curva del espacio de
+estados. Los coeficientes (y la ecuación de estado) solo relacionan los estados \emph{inicial y final},
+ambos de equilibrio (figura~\ref{fig:pp1}).
+\end{resolucion}
+
+\begin{observacion}[Detalle del enunciado]
+Con $p_{\mathrm{ext}}>p_i$ el proceso espontáneo sería en realidad una \emph{compresión}; la respuesta no
+cambia, porque depende solo de que el proceso sea no cuasiestático. Tampoco la opción «solo si es
+adiabática» la salva: ser adiabático no lo hace cuasiestático.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.4cm,height=5.2cm,xmin=0.3,xmax=2.4,ymin=0.5,ymax=2.5,
+    xtick=\empty,ytick={1,2},xlabel={$V$},ylabel={$p$ (bar)}]
+  \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.6/x};
+  \addplot[acentoclaro,domain=0.45:2.4,samples=60] {1.2/x};
+  \fill[rojo] (axis cs:1.6,1) circle (2pt) node[below right,font=\scriptsize,black] {inicial};
+  \fill[rojo] (axis cs:0.6,2) circle (2pt) node[above right,font=\scriptsize,black] {final};
+  \draw[gris,densely dashed,-{Stealth[length=5pt]},decorate,decoration={snake,amplitude=2pt,segment length=9pt,post length=6pt}]
+     (axis cs:1.55,1.05) -- (axis cs:0.66,1.93);
+  \node[gris,font=\scriptsize,align=center] at (axis cs:1.55,1.9) {estados intermedios\\fuera de equilibrio};
+\end{axis}
+\end{tikzpicture}
+\caption{Parcial, cuestión 1(c). Solo los estados inicial y final (puntos) son de equilibrio y están
+sobre isotermas de la ecuación de estado; el proceso espontáneo (línea ondulada) no es una curva del
+diagrama $p$--$V$ y los coeficientes no describen su trayectoria.}
+\label{fig:pp1}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Resumen de resultados}
+% ---------------------------------------------------------------------
+\begin{table}[H]
+\centering
+\caption{Resultados de los seminarios del Tema 1.}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{lXc}
+\toprule
+Problema & Resultado & Método\\
+\midrule
+1.1 & $p_1(V_1-b)=p_2V_2^2/(V_2-b')$;\enspace $\theta_1=p_1(V_1-b)$, $\theta_2=p_2V_2^2/(V_2-b')$, $\theta_3=p_3V_3$ & M1\\
+1.2 & $p^3V=KT^2$ & M5\\
+1.3 & $p_2\simeq\SI{21,5}{kPa}$ & M2\\
+1.4 & $\alpha\simeq1{,}18$ & M2\\
+1.5 & se atrasa $\simeq\SI{14,7}{s/día}$ & M3\\
+1.6 & $\Delta L\simeq\SI{6,6}{cm}$ & M3\\
+1.7 & $\Delta p\simeq\SI{46,2}{bar}$ & M3\\
+1.8 & $\alpha=R/(RT+bp)$,\enspace $\kappa_T=RT/[p(RT+bp)]$ & M4\\
+1.9 & $p^2\Vm=\cte\cdot T^3$ & M5\\
+1.10 & $p\Vm=RT-\tfrac12Bp^2$ & M5\\
+1.11 & $\Vm=\tfrac12aT^2-\tfrac12bp^2+\cte$ & M5\\
+1.12 & $\Vm=\cte\cdot(A+aT-bp)$ & M5\\
+1.13 & $p(\Vm-A)=K\sqrt T$; no tiende al gas ideal & M5\\
+1.14 & $p=\dfrac{RT}{\Vm-b}\,\e^{-a/(RT\Vm)}$ (Dieterici);\enspace $T_c=a/4Rb$ & M5\\
+1.15 & $p=\frac{RT}{\Vm}\bigl(1+\frac b\Vm\bigr)$;\enspace $\alpha=\frac{\Vm+b}{T(\Vm+2b)}\simeq\SI{3,21e-3}{/K}$ & M5\\
+1.16 & $V\simeq\SI{112,57e-6}{m^3}$ & M3\\
+P.1 & $p=K(T+A)/V$; cíclica $=-1$; no (proceso no cuasiestático) & M5, M4\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{recuadro}{Lista de control antes de entregar}
+\begin{itemize}[label={\color{acento}$\blacktriangleright$},leftmargin=1.4em,itemsep=4pt]
+\item ¿Unidades homogéneas (\si{m^3}, \si{Pa}, \si{K})? En cocientes y en $\Delta T$ no hace falta convertir.
+\item En M5, ¿se ha elegido la forma ($\dd X$ o $\dd\ln X$) en la que la incógnita no aparece en los coeficientes?
+\item ¿Se ha comprobado la exactitud y, en el caso B, se cancelan los términos de la primera variable?
+\item ¿Se ha fijado la constante con un límite físico, o se ha dicho que queda libre?
+\item ¿El resultado recupera el gas ideal ($\alpha\to1/T$, $\kappa_T\to1/p$) cuando corresponde?
+\item ¿Se cumple $\alpha=p\beta\kappa_T$ con los coeficientes obtenidos? ¿Y $\kappa_T>0$ (estabilidad)?
+\item ¿El proceso es cuasiestático? Si no lo es, solo se pueden relacionar los estados extremos.
+\end{itemize}
+\end{recuadro}

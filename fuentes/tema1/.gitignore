@@ -1,0 +1,7 @@
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+log*.txt
+tema1.pdf

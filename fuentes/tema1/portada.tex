@@ -1,0 +1,106 @@
+% =============================== PORTADA ===============================
+\thispagestyle{empty}
+\setcounter{page}{0}
+\vspace*{-1.2cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+  \shade[left color=navy,right color=regla!60!white] (current page.south west) rectangle ([yshift=3.2mm]current page.south east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.15) rectangle (\textwidth,0.75);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.22\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.15\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.535\textwidth,0)
+    {{\color{navy}\large\espaciado[150]{Universidad de Salamanca}}\\[4pt]
+     {\color{acento}\espaciado[110]{Facultad de Ciencias}\enspace\textperiodcentered\enspace\espaciado[110]{Grado en Física}}};
+  \draw[regla,line width=0.6pt] (0,-1.1) -- (\textwidth,-1.1);
+\end{tikzpicture}
+
+\vspace{0.8cm}
+
+\noindent{\color{acento}\large\espaciado[150]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[150]{Tema 1}}\\[8pt]
+{\color{navy}\fontsize{30}{36}\selectfont\bfseries Conceptos básicos}\\[4pt]
+\begin{tikzpicture}
+  \shade[left color=navy,right color=white] (0,0) rectangle (0.62\textwidth,1.6mm);
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\noindent{\large\itshape Sistemas y paredes, equilibrio y procesos, ley cero y temperatura empírica, ecuaciones de estado y coeficientes de respuesta $\alpha$, $\kappa_T$ y $\beta$}
+
+\vspace{0.7cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Autor}}\\
+  {\large Daniel Martín Guerrero\,\textsuperscript{\color{acento}a}}
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Profesor}}\\
+  {\large Julián González Ayala\,\textsuperscript{\color{acento}a}}
+\end{minipage}
+
+\vspace{4pt}
+\noindent{\color{gris}\textsuperscript{a}\,Grado en Física, Facultad de Ciencias, Universidad de Salamanca, Plaza de la Merced s/n, 37008 Salamanca, España}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[cajabase,top=10pt,bottom=10pt]
+\begin{minipage}[t]{0.52\linewidth}
+  {\color{acento}\espaciado[200]{Resumen}}\par\smallskip
+  \small
+  Establecemos el lenguaje de la termodinámica de equilibrio: sistema, frontera y paredes,
+  variables extensivas e intensivas y la noción de estado. Distinguimos equilibrio de estado
+  estacionario y clasificamos los procesos (cuasiestático, reversible, irreversible). La ley cero
+  convierte el equilibrio térmico en una relación de equivalencia y garantiza la existencia de una
+  temperatura empírica. Por último, la ecuación de estado $f(p,V,T)=0$ y sus derivadas, los
+  coeficientes $\alpha$, $\kappa_T$ y $\beta$, ligados por $\alpha=p\beta\kappa_T$, permiten
+  reconstruir la ecuación de estado integrando una diferencial exacta. Los seminarios resuelven,
+  paso a paso y con todo el desarrollo simbólico, los dieciséis problemas del tema y la cuestión 1
+  del parcial.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.44\linewidth}\centering
+  \vspace{2pt}
+  \begin{tikzpicture}
+    \begin{axis}[width=6.2cm,height=4.7cm,axis lines=left,xmin=0,xmax=5.2,ymin=0,ymax=5.2,
+        xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},
+        xlabel style={at={(1,0)},anchor=north east},ylabel style={at={(0,1)},anchor=south east,rotate=-90},
+        axis line style={-{Stealth[length=5pt]},navy},clip mode=individual]
+      \foreach \k/\c in {1/acentoclaro,2/acento!70,3/acentomedio,4/navy}{
+        \edef\tmp{\noexpand\addplot[\c,thick,domain=0.55:4.4,samples=80] {(\k*0.75+0.6)/x};}\tmp
+      }
+      \node[font=\scriptsize,navy] at (axis cs:4.45,0.82) [anchor=west] {$T_4$};
+      \node[font=\scriptsize,acentoclaro!80!black] at (axis cs:4.45,0.31) [anchor=west] {$T_1$};
+      \addplot[rojo,dashed,thick,-{Stealth[length=4pt]}] coordinates {(1.0,2.1) (2.15,1.05)};
+      \fill[rojo] (axis cs:1.0,2.1) circle (1.6pt) node[left,font=\scriptsize] {1};
+      \fill[rojo] (axis cs:2.3,0.93) circle (1.6pt) node[below,font=\scriptsize] {2};
+    \end{axis}
+  \end{tikzpicture}\par
+  {\scriptsize\itshape\color{gris} Isotermas $pV=nRT$ del gas ideal ($T_1<\dots<T_4$) en el diagrama de Clapeyron; cada punto es un estado de equilibrio.\par}
+\end{minipage}
+\end{tcolorbox}
+
+\noindent{\color{acento}\espaciado[200]{Palabras clave}}\enspace
+sistema termodinámico\sepdot paredes y ligaduras\sepdot extensiva e intensiva\sepdot equilibrio\sepdot
+proceso cuasiestático\sepdot ley cero\sepdot temperatura empírica\sepdot ecuación de estado\sepdot
+coeficientes termomecánicos\sepdot relación cíclica\par
+\smallskip
+\noindent{\color{acento}\espaciado[200]{Clasificación PACS}}\enspace
+05.70.$-$a (Termodinámica), 05.70.Ce (Funciones termodinámicas y ecuaciones de estado), 65.40.De (Dilatación térmica)
+
+\vspace{0.4cm}
+{\color{regla}\hrule height 0.6pt}
+\vspace{2pt}
+\[
+  pV=nRT\qquad
+  \alpha=\frac1V\pd{V}{T}{p}\qquad
+  \kappa_T=-\frac1V\pd{V}{p}{T}\qquad
+  \alpha=p\,\beta\,\kappa_T\qquad
+  \dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p
+\]
+\vspace{-2pt}
+{\color{regla}\hrule height 0.6pt}
+
+\vfill
+\begin{center}
+  {\color{navy}\large\espaciado[220]{Apuntes formalizados con seminarios prácticos}}\\[4pt]
+  {\color{acento}\espaciado[200]{Salamanca, curso 2026/2027}}
+\end{center}
+\vspace*{0.1cm}
