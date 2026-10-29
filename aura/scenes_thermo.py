@@ -290,8 +290,8 @@ class PVCycle(Scene):
         g = self.gamma
         n = 120
         if kind == 'carnot':
-            Va, Vb = 1.0, 2.0
-            Th, Tc = 3.0, 1.7
+            Va, Vb = 1.0, 2.2
+            Th, Tc = 4.0, 2.6
             Vc = Vb * (Th / Tc) ** (1 / (g - 1)); Vd = Va * (Th / Tc) ** (1 / (g - 1))
             seg = [('iso', Va, Vb, Th), ('adi', Vb, Vc, Th * Vb ** (g - 1)), ('iso', Vc, Vd, Tc), ('adi', Vd, Va, Tc * Vd ** (g - 1))]
         elif kind == 'otto':
@@ -367,8 +367,8 @@ class PVCycle(Scene):
             cols = (0.15 + 0.85 * Tn)
             for i in range(k - 1):
                 c = _c('#3fa9ff') * (1 - cols[i]) + _c('#ff7a2f') * cols[i]
-                c = c * 2.2
-                line(img, X[i], Y[i], X[i + 1], Y[i + 1], c[0], c[1], c[2], 3.4, 9.0)
+                c = c * 1.3
+                line(img, X[i], Y[i], X[i + 1], Y[i + 1], c[0], c[1], c[2], 3.0, 6.0)
             hx, hy = X[-1], Y[-1]
             add_glow_point(img, hx, hy, _c('#ffffff', 1.2), 5.0)
         # área encerrada = trabajo neto

@@ -16,10 +16,10 @@ def entropia():
         name='01_entropia', grade='ember',
         music=('ambient', dict(key='E', mode='minor', bpm=60, seed=21)),
         shots=[
-            Shot(InkEntropy(seed=3, mode='drop', flow=0.10), 7.5, trans='cut'),
+            Shot(InkEntropy(seed=3, mode='drop', flow=0.10, gain=0.02, color_a='#ffa040', color_b='#2aa8ff'), 7.5, trans='cut'),
             Shot(HeatDiffusion(seed=4, diffusivity=0.2), 6.5, tdur=F),
             Shot(GasParticles(seed=2, histogram=False, n=900, init='mono'), 6.5, tdur=F),
-            Shot(InkEntropy(seed=7, mode='halves', color_a='#ff9a3c', color_b='#3fb4ff', flow=0.08), 7.0, tdur=F),
+            Shot(InkEntropy(seed=7, mode='halves', color_a='#ff9a3c', color_b='#3fb4ff', flow=0.08, gain=0.16), 7.0, tdur=F),
             Shot(HeatDeath(seed=6, start=0.3, end=1.0), 7.0, tdur=F),
             Shot(SpiralGalaxy(seed=4, tilt=(0.9, 1.1), dist=(2.4, 3.0)), 7.0, tdur=F),
         ],
@@ -46,7 +46,7 @@ def ciclos():
         shots=[
             Shot(GasParticles(seed=5, piston=(260, 60 / 126 * 4), histogram=False, n=700, v0=170, init='mb',
                               vref=420), 16, trans='cut'),
-            Shot(PVCycle(cycle='carnot', trace=0.55), 8, trans='flash', tdur=0.5),
+            Shot(PVCycle(cycle='carnot', trace=0.55, gamma=1.67), 8, trans='flash', tdur=0.5),
             Shot(GasParticles(seed=6, piston=(330, 60 / 126 * 2), histogram=False, n=650, v0=170, init='mb',
                               vref=420), 4, trans='zoom', tdur=0.35),
             Shot(PVCycle(cycle='brayton', trace=0.55), 8, trans='whip', tdur=0.35),
@@ -82,10 +82,10 @@ def de_1e23_a_pvt():
         music=('pulse', dict(bpm=bpm, key='E', seed=17, hits=(16 * b, 32 * b, 48 * b))),
         hit_flash=0.6,
         shots=[
-            Shot(GasParticles(seed=8, n=900, v0=150, init='mono', histogram=True), 16, trans='cut'),
+            Shot(GasParticles(seed=8, n=500, radius=4.0, v0=90, init='mono', histogram=True), 16, trans='cut'),
             Shot(HeatDiffusion(seed=12, diffusivity=0.18), 16, trans='flash', tdur=0.5),
             Shot(IdealGasSurface(), 16, trans='flash', tdur=0.5),
-            Shot(PVCycle(cycle='carnot', trace=0.5), 16, trans='flash', tdur=0.5),
+            Shot(PVCycle(cycle='carnot', trace=0.5, gamma=1.67), 16, trans='flash', tdur=0.5),
         ],
         texts=[
             Txt(0.6, 7.6, 'N ≈ 10²³ partículas', 'eq', pos=(540, 200)),
@@ -96,7 +96,7 @@ def de_1e23_a_pvt():
             Txt(24.4, 31.6, 'todo tiende al equilibrio térmico', 'cox'),
             Txt(32.4, 39.6, 'y bastan cuatro números', 'cox'),
             Txt(33.4, 47.6, 'p · V · T · n', 'eq', pos=(540, 300)),
-            Txt(40.4, 47.6, 'pV = nRT', 'title_gold', pos=(540, 1600)),
+            Txt(40.4, 47.6, 'pV = nRT', 'eq', pos=(540, 1600)),
             Txt(48.4, 55.6, 'ciclo de carnot', 'title', pos=(540, 230)),
             Txt(49.4, 63.6, 'el límite que ninguna máquina puede superar', 'cox', pos=(540, 1700)),
             Txt(58.0, 63.8, 'termodinámica · con aura', 'sig', pos=(540, 1820)),
