@@ -160,7 +160,8 @@ y el sistema entrega trabajo neto. En sentido antihorario, $W_{\mathrm{ciclo}}>0
   \fill[rojo] (axis cs:1,3) circle (1.8pt) node[left=2pt,font=\small,black] {$A$};
   \fill[rojo] (axis cs:2,2) circle (1.8pt) node[right=2pt,font=\small,black] {$B$};
   \node[navy,font=\small,anchor=south] at (axis cs:1.5,3.62) {$\gamma_1$};
-  \node[acento,font=\small,anchor=north] at (axis cs:1.5,1.58) {$\gamma_2$};
+  \draw[acento,line width=0.4pt] (axis cs:1.86,1.70) -- (axis cs:2.07,1.22);
+  \node[acento,font=\small,anchor=west,inner sep=1.5pt] at (axis cs:2.07,1.22) {$\gamma_2$};
 \end{axis}
 \end{tikzpicture}
 \caption{}
@@ -526,15 +527,17 @@ su energía interna, $T$ baja, y la presión cae por las dos causas a la vez.
 \begin{tikzpicture}
 \begin{axis}[graf,width=6.9cm,height=5.6cm,xmin=0.12,xmax=3.6,ymin=0,ymax=4.4,
     xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},clip=false]
-  \addplot[acentoclaro,densely dashed,domain=0.233:3.4,samples=80] {1/x};
-  \addplot[acento,densely dashed,domain=0.465:3.4,samples=80] {2/x};
-  \addplot[navy,densely dashed,domain=0.698:3.4,samples=80] {3/x};
-  \addplot[rojo,domain=0.40:2.6,samples=80] {0.9*x^(-1.4)};
-  \addplot[rojo,domain=0.58:2.6,samples=80] {1.8*x^(-1.4)};
-  \addplot[rojo,domain=0.80:2.6,samples=80] {3.0*x^(-1.4)};
-  \node[font=\scriptsize,acentoclaro!80!navy,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{1/3.4}) {$T_1$};
-  \node[font=\scriptsize,acento,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{2/3.4}) {$T_2$};
-  \node[font=\scriptsize,navy,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{3/3.4}) {$T_3$};
+  \addplot[acentoclaro,densely dashed,domain=0.2326:3.4,samples=90] {1/x};
+  \addplot[acento,densely dashed,domain=0.5116:3.4,samples=90] {2.2/x};
+  \addplot[navy,densely dashed,domain=0.8372:3.4,samples=90] {3.6/x};
+  \addplot[rojo,domain=0.3720:3.4,samples=90] {0.9*x^(-1.4)};
+  \addplot[rojo,domain=0.6136:3.4,samples=90] {1.8*x^(-1.4)};
+  \addplot[rojo,domain=0.8778:3.4,samples=90] {3.0*x^(-1.4)};
+  \node[font=\scriptsize,acentoclaro!80!navy,anchor=south,inner sep=2pt] at (axis cs:0.2326,4.3) {$T_1$};
+  \node[font=\scriptsize,acento,anchor=south,inner sep=2pt] at (axis cs:0.5116,4.3) {$T_2$};
+  \node[font=\scriptsize,navy,anchor=south,inner sep=2pt] at (axis cs:0.8372,4.3) {$T_3$};
+  \draw[gris,line width=0.4pt] (axis cs:2.2,{3.0*2.2^(-1.4)}) -- (axis cs:2.75,2.3)
+     node[anchor=south,inner sep=1.5pt,font=\scriptsize,rojo] {adiabáticas};
 \end{axis}
 \end{tikzpicture}
 \caption{}
