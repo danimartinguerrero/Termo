@@ -1,0 +1,789 @@
+% =====================================================================
+\section{Sistemas termodinámicos}
+% =====================================================================
+La termodinámica describe sistemas de $N\sim10^{23}$ partículas mediante unas pocas magnitudes
+macroscópicas ($p$, $V$, $T$, $n$, \dots). La clave es que las medidas macroscópicas son \emph{lentas} y
+\emph{gruesas} frente a las escalas atómicas: solo sobreviven al promedio estadístico las combinaciones
+de coordenadas que no fluctúan, y estas definen el \emph{macroestado} \cite{gonzalez1,gonzalez2}.
+
+\subsection{Sistema, frontera y paredes}
+
+\begin{definicion}[Magnitud y sistema termodinámico]
+Una \emph{magnitud termodinámica} es una propiedad macroscópica que describe el estado interno de un
+sistema. Un \emph{sistema termodinámico} es una región del espacio descrita por magnitudes
+termodinámicas, separada de sus \emph{alrededores} por una \emph{frontera} (real o conceptual, fija o
+móvil). Sistema, frontera y alrededores relevantes forman el \emph{universo termodinámico}.
+\end{definicion}
+
+\begin{definicion}[Aislado, cerrado, abierto]
+Un sistema es \emph{aislado} si no intercambia ni energía ni materia; \emph{cerrado} si intercambia
+energía pero no materia; \emph{abierto} si intercambia ambas.
+\end{definicion}
+
+La frontera se caracteriza por las \emph{paredes}, que permiten o impiden cada tipo de interacción
+(tabla~\ref{tab:paredes}). Una \emph{ligadura} elimina una interacción posible y reduce los cambios
+accesibles al sistema.
+
+\begin{table}[htbp]
+\centering
+\caption{Paredes e interacciones. Cada par restrictiva/permisiva controla una variable.}
+\label{tab:paredes}
+\small
+\begin{tabular}{llll}
+\toprule
+Interacción & Pared restrictiva & Pared permisiva & Consecuencia\\
+\midrule
+Mecánica & rígida & móvil & $V$ fijo o variable\\
+Térmica & adiabática & diatérmica & impide o permite el calor\\
+Material & impermeable & (semi)permeable & $n_i$ fijo o variable\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small]
+  \fill[fondo] (-3.3,-1.9) rectangle (6.0,2.3);
+  \node[acento,font=\small\itshape,anchor=north west] at (-3.2,2.2) {alrededores};
+  % cilindro
+  \draw[navy,line width=1.6pt] (-1.8,1.3) -- (-1.8,-1.2) -- (1.8,-1.2) -- (1.8,1.3);
+  \fill[fondomedio] (-1.75,-1.15) rectangle (1.75,0.62);
+  \fill[acentomedio] (-1.75,0.62) rectangle (1.75,0.95);
+  \draw[navy,line width=1.6pt] (0,0.95) -- (0,2.0);
+  \draw[acento,dashed] (-1.6,-1.0) rectangle (1.6,0.52);
+  \node[navy] at (0,-0.25) {gas: $p$, $V$, $T$, $n$};
+  \draw[rojo,-{Stealth[length=5pt]}] (0,3.0) -- (0,2.05) node[pos=0,above,font=\scriptsize] {$F_{\mathrm{ext}}$};
+  \draw[rojo,decorate,decoration={snake,amplitude=1.2pt,segment length=5pt}] (0,-1.9) -- (0,-1.45);
+  \draw[rojo,-{Stealth[length=4pt]}] (0,-1.5) -- (0,-1.28);
+  \node[rojo,font=\scriptsize,anchor=west] at (0.12,-1.65) {calor (pared diatérmica)};
+  \draw[acento] (1.6,-0.25) -- (1.95,-0.25) node[right,font=\scriptsize] {frontera};
+  \node[anchor=north west,align=left,font=\scriptsize] at (3.55,1.75)
+     {\textbf{\color{navy}Paredes}\\ pistón: móvil\\ base: diatérmica\\ resto: rígidas,\\ adiabáticas,\\ impermeables};
+\end{tikzpicture}
+\caption{El cilindro--pistón como caso conductor del tema: sistema \emph{cerrado}, con una pared móvil
+(interacción mecánica) y una diatérmica (interacción térmica). La línea discontinua delimita el sistema.}
+\label{fig:piston}
+\end{figure}
+
+\begin{definicion}[Fase, especie y componente]
+Un sistema es \emph{homogéneo} (monofásico) si sus propiedades son las mismas en toda su extensión;
+si consta de varias regiones homogéneas (\emph{fases}) separadas por interfaces, es \emph{heterogéneo}.
+Una \emph{especie química} es una entidad identificable por análisis químico; un \emph{componente} es
+una especie independiente necesaria para fijar la composición.
+\end{definicion}
+
+\subsection{Variables extensivas e intensivas}
+
+\begin{definicion}[Extensiva e intensiva]
+Una variable es \emph{extensiva} si es aditiva sobre las partes del sistema ($U$, $V$, $n$, $m$, $S$):
+al unir dos copias idénticas se duplica. Es \emph{intensiva} si es local y no aditiva ($T$, $p$, $\rho$):
+al duplicar el sistema no cambia.
+\end{definicion}
+
+El cociente de dos extensivas es intensivo. Con $n=m/M$ moles y $N=nN_A$ partículas
+($N_A=\num{6,022e23}/\mathrm{mol}$) se definen las magnitudes \emph{específicas} y \emph{molares}:
+\begin{equation}\label{eq:molar}
+  x\equiv\frac{X}{m}\quad(\text{p.\,ej. } v=V/m),\qquad
+  \bar X\equiv\frac{X}{n}\quad(\text{p.\,ej. } \Vm=V/n).
+\end{equation}
+
+\begin{definicion}[Sistema simple; postulado de estado]
+Un \emph{sistema simple} es homogéneo, isótropo, de composición fija, sin campos externos
+relevantes y con un único modo de trabajo. Su estado de equilibrio queda fijado por \emph{dos}
+variables independientes. En un sistema hidrostático, $p$, $V$ y $T$ están ligadas por $f(p,V,T)=0$.
+\end{definicion}
+
+\begin{table}[htbp]
+\centering
+\caption{Pares de trabajo generalizados. Toda la estructura matemática del tema se traslada sin
+cambios sustituyendo $(p,V)$ por el par conjugado correspondiente.}
+\small
+\begin{tabular}{lll}
+\toprule
+Sistema & Variable tipo fuerza (intensiva) & Variable tipo desplazamiento (extensiva)\\
+\midrule
+Hidrostático & presión $p$ & volumen $V$\\
+Hilo estirado & tensión $F$ & longitud $L$\\
+Lámina superficial & tensión superficial $\sigma$ & área $A$\\
+Pila eléctrica & fuerza electromotriz $\mathcal{E}$ & carga $q$\\
+Material magnético & campo $H$ & imanación $M$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\section{Equilibrio y procesos}
+% =====================================================================
+\subsection{Equilibrio termodinámico}
+
+\begin{definicion}[Equilibrio termodinámico]
+Un sistema está en \emph{equilibrio} cuando sus variables macroscópicas no cambian con el tiempo,
+no hay flujos macroscópicos internos y las ligaduras no permiten ninguna evolución espontánea
+adicional. Requiere, simultáneamente y en la medida en que las paredes lo permitan, equilibrio
+\emph{mecánico} (sin fuerzas ni gradientes de $p$ no compensados), \emph{térmico} ($T$ uniforme a
+través de paredes diatérmicas) y \emph{material} (sin difusión, reacción ni cambio de fase netos).
+\end{definicion}
+
+\begin{observacion}[Equilibrio frente a estado estacionario]
+La independencia temporal no basta: una barra entre dos focos alcanza un perfil $T(x)$ constante
+pero mantiene un flujo de calor, luego está en un \emph{estado estacionario}, no en equilibrio. Se
+habla además de equilibrio \emph{interno} (cada subsistema), \emph{mutuo} (dos sistemas a través de
+una pared permisiva) y \emph{ligado} (equilibrio interno, pero una ligadura impide el mutuo).
+\end{observacion}
+
+\subsection{Cambios de estado y procesos}
+
+\begin{definicion}[Cambio de estado, proceso y función de estado]
+Un \emph{cambio de estado} queda fijado por los estados inicial y final; un \emph{proceso} es el
+camino que los une en el espacio de estados. Una \emph{función de estado} $Z=Z(X,Y)$ toma un valor
+único en cada estado, de modo que $\Delta Z$ depende solo de los extremos y $\dd Z$ es una
+\emph{diferencial exacta}.
+\end{definicion}
+
+\begin{definicion}[Clasificación de procesos]
+Un proceso es \emph{cuasiestático} si es lo bastante lento como para aproximarse por una sucesión
+de estados de equilibrio (y por tanto representarse como una curva en el diagrama $p$--$V$);
+\emph{reversible} si sistema \emph{y} alrededores pueden regresar a su estado inicial mediante
+cambios infinitesimales; \emph{irreversible} en otro caso (gradientes finitos, fricción, expansión
+libre, \dots). Se cumple: reversible $\subset$ cuasiestático; la lentitud no elimina la disipación.
+\end{definicion}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm,height=5cm,xmin=0.6,xmax=4.4,ymin=0.6,ymax=4.4,
+    xtick={1,4},xticklabels={$V_1$,$V_2$},ytick={1.35,3.6},yticklabels={$p_2$,$p_1$},
+    xlabel={$V$},ylabel={$p$},tick label style={font=\scriptsize},label style={font=\small},
+    axis line style={navy}]
+  \addplot[navy,thick,domain=1:4,samples=60,postaction={decorate},
+     decoration={markings,mark=at position 0.3 with {\arrow{Stealth[length=5pt]}}}] {1.35+2.25*exp(-1.25*(x-1))-0.0525*(x-1)};
+  \addplot[acento,dashed,thick,postaction={decorate},
+     decoration={markings,mark=at position 0.3 with {\arrow{Stealth[length=5pt]}},mark=at position 0.8 with {\arrow{Stealth[length=5pt]}}}]
+     coordinates {(1,3.6) (4,3.6) (4,1.35)};
+  \fill[rojo] (axis cs:1,3.6) circle (1.8pt) node[above left,font=\footnotesize,black] {1};
+  \fill[rojo] (axis cs:4,1.35) circle (1.8pt) node[below right,font=\footnotesize,black] {2};
+  \node[acento,font=\footnotesize] at (axis cs:2.5,3.85) {$\gamma_2$};
+  \node[navy,font=\footnotesize] at (axis cs:1.8,1.75) {$\gamma_1$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.48\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm,height=5cm,xmin=0,xmax=7,ymin=0,ymax=1.1,
+    xtick={0,1,3,5,7},ytick={0.2,1},yticklabels={$X_{\mathrm{eq}}$,$X_0$},
+    xlabel={$t/\tau$},ylabel={observable $X$},tick label style={font=\scriptsize},label style={font=\small},
+    axis line style={navy}]
+  \addplot[navy,thick,domain=0:7,samples=80] {0.2+0.8*exp(-x)};
+  \addplot[acento,dashed,domain=0:7] {0.2};
+  \addplot[acento] coordinates {(0,1) (1,0.2)};
+  \fill[acento] (axis cs:1,0.2) circle (1.5pt);
+  \node[acento,font=\scriptsize,anchor=north] at (axis cs:1,0.17) {$t=\tau$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{(a) Dos procesos cuasiestáticos $\gamma_1$ (continuo) y $\gamma_2$ (isobaro + isócoro) entre los
+mismos estados: para una función de estado $\int_{\gamma_1}\dd Z=\int_{\gamma_2}\dd Z=Z(2)-Z(1)$; para las
+magnitudes de proceso, no. (b) Relajación de un sistema aislado hacia el equilibrio con tiempo
+característico $\tau$ (la tangente en $t=0$ corta $X_{\mathrm{eq}}$ en $t=\tau$): el criterio práctico de
+equilibrio depende del tiempo de observación.}
+\label{fig:procesos}
+\end{figure}
+
+% =====================================================================
+\section{Ley cero y temperatura}
+% =====================================================================
+\begin{teorema}[Ley cero de la termodinámica]\label{teo:leycero}
+Si dos sistemas $A$ y $B$ están, por separado, en equilibrio térmico con un tercero $C$, entonces
+$A$ y $B$ están en equilibrio térmico entre sí: $A\sim C$ y $B\sim C\Rightarrow A\sim B$.
+\end{teorema}
+
+Como todo sistema está en equilibrio consigo mismo (reflexividad) y la relación es simétrica, la
+ley cero aporta la \emph{transitividad}: el equilibrio térmico es una \emph{relación de equivalencia},
+y sus clases de equivalencia definen la temperatura.
+
+\begin{proposicion}[Existencia de la temperatura empírica]
+Sean tres sistemas simples $\Sigma_i$ de variables $(p_i,V_i)$, $i=1,2,3$. Supongamos que:
+\begin{enumerate}[label=(H\arabic*),leftmargin=2.6em]
+\item el equilibrio térmico $\Sigma_i\sim\Sigma_3$ $(i=1,2)$ se expresa por una relación
+  $F_{i3}(p_i,V_i,p_3,V_3)=0$ que puede despejarse de forma única en $p_3$ (basta
+  $\partial F_{i3}/\partial p_3\neq0$, por el teorema de la función implícita);
+\item se cumple la ley cero (teorema~\ref{teo:leycero}), junto con la reflexividad y la simetría del
+  equilibrio térmico.
+\end{enumerate}
+Entonces existen funciones $\theta_i(p_i,V_i)$ tales que el equilibrio térmico mutuo equivale a
+\begin{equation}\label{eq:theta}
+  \theta_1(p_1,V_1)=\theta_2(p_2,V_2)=\theta_3(p_3,V_3).
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+Se procede en cinco pasos. Los dos primeros solo usan álgebra; la ley cero entra en el segundo y la
+parte delicada (la separación de variables) se justifica en el tercero.
+
+\paso{Paso 1: despejar \texorpdfstring{$p_3$}{p3}} Por (H1), de las dos condiciones de equilibrio
+\[
+  F_{13}(p_1,V_1,p_3,V_3)=0,\qquad F_{23}(p_2,V_2,p_3,V_3)=0
+\]
+se obtiene la presión que debe tener $\Sigma_3$, de volumen $V_3$, para estar en equilibrio con cada
+sistema:
+\begin{equation}\label{eq:g}
+  p_3=g_{13}(p_1,V_1,V_3),\qquad p_3=g_{23}(p_2,V_2,V_3).
+\end{equation}
+Si $\Sigma_3$ está a la vez en equilibrio con $\Sigma_1$ y con $\Sigma_2$, ambas expresiones dan la
+misma presión, y necesariamente
+\begin{equation}\label{eq:gg}
+  g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3).
+\end{equation}
+Hasta aquí solo se ha despejado una variable y se han igualado dos expresiones de ella.
+
+\paso{Paso 2: dónde entra la ley cero} Si se cumple \eqref{eq:gg}, $\Sigma_1\sim\Sigma_3$ y
+$\Sigma_2\sim\Sigma_3$; por la ley cero, $\Sigma_1\sim\Sigma_2$, lo que se expresa mediante una relación
+\[
+  F_{12}(p_1,V_1,p_2,V_2)=0.
+\]
+Esta relación \emph{no contiene} $V_3$: el equilibrio entre $\Sigma_1$ y $\Sigma_2$ no puede depender
+del volumen del sistema auxiliar. Por tanto, fijados los estados de $\Sigma_1$ y $\Sigma_2$, la igualdad
+\eqref{eq:gg} debe cumplirse para \emph{todo} valor admisible de $V_3$ o para ninguno. Que $V_3$ «se
+cancele» significa exactamente esto, y no es aún una factorización: hay que construirla.
+
+\paso{Paso 3: construcción de \texorpdfstring{$\theta$}{theta} y de \texorpdfstring{$\psi$}{psi}} Se fija
+un volumen de referencia $V_3^*$ (es decir, se usa $\Sigma_3$ como \emph{termómetro de volumen
+constante}) y se define la temperatura empírica de $\Sigma_i$ como la presión que marca ese termómetro
+en equilibrio con él:
+\begin{equation}\label{eq:thetadef}
+  \theta_i(p_i,V_i)\equiv g_{i3}(p_i,V_i,V_3^*),\qquad i=1,2.
+\end{equation}
+A continuación se define, para cada $V_3$ y cada valor $\theta$,
+\begin{equation}\label{eq:psi}
+  \psi(V_3,\theta)\equiv\text{ presión de $\Sigma_3$ (volumen $V_3$) en equilibrio con un sistema de temperatura $\theta$.}
+\end{equation}
+Hay que comprobar que $\psi$ está bien definida, es decir, que no depende de qué sistema de
+temperatura $\theta$ se use. Sean $\Sigma_1$ y $\Sigma_2$ con $\theta_1=\theta_2=\theta$. Por
+\eqref{eq:thetadef}, el estado $(\theta,V_3^*)$ de $\Sigma_3$ está en equilibrio con ambos, luego por la
+ley cero $\Sigma_1\sim\Sigma_2$. Si ahora $\Sigma_3$, con volumen $V_3$, está en equilibrio con
+$\Sigma_1$, por la ley cero (y la simetría) también lo está con $\Sigma_2$, y por la unicidad de (H1)
+\[
+  g_{13}(p_1,V_1,V_3)=g_{23}(p_2,V_2,V_3).
+\]
+Así, la presión depende solo de $V_3$ y de $\theta$, y queda probada la separación
+\begin{equation}\label{eq:sep}
+  \boxed{\,g_{13}(p_1,V_1,V_3)=\psi\bigl(V_3,\theta_1(p_1,V_1)\bigr),\qquad
+  g_{23}(p_2,V_2,V_3)=\psi\bigl(V_3,\theta_2(p_2,V_2)\bigr)\,}
+\end{equation}
+con la \emph{misma} $\psi$ y con $\psi(V_3^*,\theta)=\theta$. Las dos variables desempeñan papeles
+distintos: $V_3$ describe el sistema auxiliar y $\theta_i$ identifica el estado térmico de $\Sigma_i$.
+
+\paso{Paso 4: inyectividad y \texorpdfstring{$\theta_1=\theta_2$}{theta1=theta2}} Sustituyendo
+\eqref{eq:sep} en \eqref{eq:gg}:
+\[
+  \psi(V_3,\theta_1)=\psi(V_3,\theta_2).
+\]
+La función $\psi(V_3,\cdot)$ es inyectiva en su segundo argumento: si
+$\psi(V_3,\theta_1)=\psi(V_3,\theta_2)$, el mismo estado de $\Sigma_3$ está en equilibrio con $\Sigma_1$
+y con $\Sigma_2$, luego $\Sigma_1\sim\Sigma_2$ por la ley cero; entonces el termómetro a $V_3^*$ en
+equilibrio con $\Sigma_1$ lo está también con $\Sigma_2$ y marca lo mismo, es decir,
+$\theta_1=\theta_2$. Por tanto
+\begin{equation}\label{eq:equiv12}
+  \boxed{\,\Sigma_1\sim\Sigma_2\iff\theta_1(p_1,V_1)=\theta_2(p_2,V_2).\,}
+\end{equation}
+Físicamente, la inyectividad dice que dos temperaturas distintas no pueden producir la misma presión
+del termómetro a un mismo volumen.
+
+\paso{Paso 5: temperatura del sistema auxiliar} Por \eqref{eq:g} y \eqref{eq:sep}, $\Sigma_3$ está en
+equilibrio con un sistema de temperatura $\theta$ si y solo si
+\[
+  p_3=\psi(V_3,\theta).
+\]
+Como $\psi(V_3,\cdot)$ es inyectiva, esta relación se invierte en su recorrido y define
+\begin{equation}\label{eq:theta3}
+  \theta_3(p_3,V_3)\equiv\psi(V_3,\cdot)^{-1}(p_3)\quad\Longrightarrow\quad
+  \Sigma_i\sim\Sigma_3\iff\theta_3(p_3,V_3)=\theta_i(p_i,V_i).
+\end{equation}
+Reuniendo \eqref{eq:equiv12} y \eqref{eq:theta3} se obtiene \eqref{eq:theta}.
+\end{demostracion}
+
+\begin{observacion}[Qué hay que retener]
+La ley cero permite construir una variable común a todos los sistemas en equilibrio térmico mutuo:
+la temperatura empírica. La construcción no es gratuita: requiere poder despejar $p_3$ (H1) y usa la
+ley cero tres veces (para que $V_3$ no intervenga, para que $\psi$ esté bien definida y para que sea
+inyectiva). La elección del termómetro ($\Sigma_3$ y $V_3^*$) es arbitraria; otra elección da
+$\tilde\theta=\phi(\theta)$ con $\phi$ inyectiva, y por eso $\theta$ solo está definida salvo una
+función inyectiva (monótona, si se quiere conservar el orden «más caliente que»).
+\end{observacion}
+
+\begin{ejemplo}[Los cinco pasos con los datos del problema~1.1]\label{ej:cinco}
+Con $p_1V_1-bp_1-p_3V_3=0$ y $p_2V_2-p_3V_3+b'p_3V_3/V_2=0$:
+\begin{alignat*}{2}
+&\text{Paso 1:}\quad && g_{13}=\frac{p_1(V_1-b)}{V_3},\qquad g_{23}=\frac{p_2V_2^2}{(V_2-b')\,V_3};\\
+&\text{Paso 2:}\quad && \frac{p_1(V_1-b)}{V_3}=\frac{p_2V_2^2}{(V_2-b')\,V_3}\iff p_1(V_1-b)=\frac{p_2V_2^2}{V_2-b'}\quad(V_3\text{ desaparece});\\
+&\text{Paso 3:}\quad && \theta_1=\frac{p_1(V_1-b)}{V_3^*},\quad \theta_2=\frac{p_2V_2^2}{(V_2-b')V_3^*},\quad \psi(V_3,\theta)=\frac{V_3^*}{V_3}\,\theta;\\
+&\text{Paso 4:}\quad && \psi(V_3,\cdot)\text{ es lineal con pendiente } V_3^*/V_3\neq0\text{, luego inyectiva: } \theta_1=\theta_2;\\
+&\text{Paso 5:}\quad && \theta_3=\frac{p_3V_3}{V_3^*}.
+\end{alignat*}
+Multiplicando todas por la constante $V_3^*$ (una función inyectiva) se recuperan las del
+problema~1.1: $\theta_1=p_1(V_1-b)$, $\theta_2=p_2V_2^2/(V_2-b')$ y $\theta_3=p_3V_3$.
+\end{ejemplo}
+
+\begin{observacion}[Lectura operativa]
+En la práctica, se reescribe cada condición de equilibrio aislando \emph{la misma} combinación de las
+variables del sistema común: $\theta_1(p_1,V_1)=\theta_3(p_3,V_3)=\theta_2(p_2,V_2)$. La función $\theta$
+está definida salvo una función inyectiva; las curvas $\theta_i(p_i,V_i)=\cte$ son las \emph{isotermas}
+del sistema $i$. Es el método M1 (problema~1.1).
+\end{observacion}
+
+\begin{definicion}[Temperatura absoluta]
+La \emph{temperatura termodinámica} $T$, de unidad el kelvin (K, sin signo de grado), es la escala
+absoluta. Se relaciona con la escala Celsius por $T/\mathrm{K}=t/{}^\circ\mathrm{C}+273{,}15$; un
+intervalo de \SI{1}{K} equivale a uno de \SI{1}{\celsius}, de modo que $\Delta T=\Delta t$.
+\end{definicion}
+
+% =====================================================================
+\section{Ecuaciones de estado y coeficientes de respuesta}
+% =====================================================================
+\subsection{Ecuación de estado}
+
+\begin{definicion}[Ecuación de estado]
+Una \emph{ecuación (térmica o empírica) de estado} es una relación $f(p,V,T,n)=0$ entre variables de
+equilibrio. Con $n$ fijo impone una ligadura: solo dos de las tres variables $p,V,T$ son
+independientes, y cada una puede expresarse como función de las otras dos.
+\end{definicion}
+
+El ejemplo canónico es el \emph{gas ideal},
+\begin{equation}\label{eq:gasideal}
+  pV=nRT\qquad\iff\qquad p\Vm=RT,\qquad R=\SI{8,314}{J/(mol.K)},
+\end{equation}
+válido a densidades bajas y lejos de la condensación. Otros modelos usuales, que reaparecen en los
+seminarios, se recogen en la tabla~\ref{tab:modelos}.
+
+\begin{table}[htbp]
+\centering
+\caption{Ecuaciones de estado de los seminarios. Todas tienden a $p\Vm=RT$ para $\Vm\to\infty$.}
+\label{tab:modelos}
+\small
+\renewcommand{\arraystretch}{1.75}
+\begin{tabular}{lll}
+\toprule
+Modelo & Ecuación & Problemas\\
+\midrule
+Gas ideal & $p\Vm=RT$ & 1.3, 1.10\\
+Clausius (covolumen) & $p(\Vm-b)=RT$ & 1.8\\
+Van der Waals & $\bigl(p+a/\Vm^2\bigr)(\Vm-b)=RT$ & ejemplo~\ref{ej:vdw}\\
+Dieterici & $p=\dfrac{RT}{\Vm-b}\,\e^{-a/(RT\Vm)}$ & 1.14\\
+Virial (2.º coeficiente) & $p=\dfrac{RT}{\Vm}\Bigl(1+\dfrac{b}{\Vm}\Bigr)$ & 1.15\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Coeficientes termomecánicos}
+
+\begin{definicion}[Coeficientes de respuesta]
+Para un sistema hidrostático cerrado se definen el coeficiente de \emph{dilatación cúbica}, el de
+\emph{compresibilidad isotérmica} y el \emph{piezotérmico}:
+\begin{equation}\label{eq:coef}
+  \alpha\equiv\frac1V\pd{V}{T}{p},\qquad
+  \kappa_T\equiv-\frac1V\pd{V}{p}{T},\qquad
+  \beta\equiv\frac1p\pd{p}{T}{V},
+\end{equation}
+o, de forma equivalente, $\alpha=\pdi{\ln V}{T}{p}$ y $\kappa_T=-\pdi{\ln V}{p}{T}$.
+\end{definicion}
+
+Son intensivos (por eso pueden calcularse con $V$ o con $\Vm$ indistintamente) y miden la sensibilidad
+\emph{relativa} del sistema (tabla~\ref{tab:coef}). En general dependen del estado, $\alpha=\alpha(T,p)$;
+tratarlos como constantes es solo una aproximación local.
+
+\begin{table}[htbp]
+\centering
+\caption{Interpretación de los coeficientes de respuesta.}
+\label{tab:coef}
+\small
+\begin{tabular}{clll}
+\toprule
+Coef. & Pregunta experimental & Signo & Unidad SI\\
+\midrule
+$\alpha$ & ¿cómo cambia $V$ con $T$ a $p$ fija? & normalmente $>0$ (agua: $<0$ entre 0 y \SI{4}{\celsius}) & \si{K^{-1}}\\
+$\kappa_T$ & ¿cómo cambia $V$ con $p$ a $T$ fija? & $>0$ (estabilidad mecánica) & \si{Pa^{-1}}\\
+$\beta$ & ¿cómo cambia $p$ con $T$ a $V$ fijo? & fijado por $\alpha=p\beta\kappa_T$ & \si{K^{-1}}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm,height=4.8cm,axis lines=left,xmin=0,xmax=5,ymin=0,ymax=5,
+   xtick=\empty,ytick=\empty,xlabel={$T$},ylabel={$V$},axis line style={navy,-{Stealth[length=4pt]}},clip=false]
+  \addplot[navy,thick,domain=0.5:4.8,samples=60] {1+0.08*x^2+0.25*x};
+  \addplot[rojo,domain=1.2:4,samples=2] {1+0.08*2.6^2+0.25*2.6+(0.16*2.6+0.25)*(x-2.6)};
+  \fill[rojo] (axis cs:2.6,2.1908) circle (1.5pt);
+  \node[navy,font=\scriptsize] at (axis cs:3.8,4.5) {isobara};
+  \node[rojo,font=\scriptsize,align=left,anchor=north west] at (axis cs:2.95,2.05) {pendiente\\$(\partial V/\partial T)_p=\alpha V$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.48\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=6.4cm,height=4.8cm,axis lines=left,xmin=0,xmax=5,ymin=0,ymax=5,
+   xtick=\empty,ytick=\empty,xlabel={$p$},ylabel={$V$},axis line style={navy,-{Stealth[length=4pt]}},clip=false]
+  \addplot[navy,thick,domain=0.75:4.9,samples=60] {3.4/x};
+  \addplot[rojo,domain=0.9:2.9,samples=2] {2-(3.4/1.7^2)*(x-1.7)};
+  \fill[rojo] (axis cs:1.7,2) circle (1.5pt);
+  \node[navy,font=\scriptsize,anchor=south] at (axis cs:4.2,1.2) {isoterma};
+  \node[rojo,font=\scriptsize,align=left,anchor=south west] at (axis cs:2.25,2.15) {pendiente\\$(\partial V/\partial p)_T=-\kappa_TV$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{Lectura geométrica de los coeficientes. (a) $\alpha$ es la pendiente relativa de la isobara
+$V(T)$. (b) $\kappa_T$ es menos la pendiente relativa de la isoterma $V(p)$; $\kappa_T>0$ porque el volumen
+disminuye al comprimir.}
+\label{fig:coef}
+\end{figure}
+
+\subsection{Herramientas de cálculo en varias variables}
+
+\begin{proposicion}[Relaciones recíproca y cíclica]
+Si $x,y,z$ están ligadas por $f(x,y,z)=0$, cada una es función diferenciable de las otras dos y se
+cumplen
+\begin{equation}\label{eq:reciclica}
+  \pd{x}{y}{z}=\frac{1}{\pd{y}{x}{z}}\quad\text{(recíproca)},\qquad
+  \pd{x}{y}{z}\pd{y}{z}{x}\pd{z}{x}{y}=-1\quad\text{(cíclica)}.
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+Se escriben las diferenciales totales de $x(y,z)$ y de $y(x,z)$:
+\[
+  \dd x=\pd{x}{y}{z}\dd y+\pd{x}{z}{y}\dd z,\qquad
+  \dd y=\pd{y}{x}{z}\dd x+\pd{y}{z}{x}\dd z.
+\]
+Sustituyendo la segunda en la primera y agrupando:
+\[
+  \dd x=\pd{x}{y}{z}\pd{y}{x}{z}\dd x+\left[\pd{x}{y}{z}\pd{y}{z}{x}+\pd{x}{z}{y}\right]\dd z.
+\]
+Como $x$ y $z$ son independientes, $\dd x$ y $\dd z$ son arbitrarios y los coeficientes deben
+coincidir a ambos lados. El de $\dd x$ da $\pdi{x}{y}{z}\pdi{y}{x}{z}=1$, que es la recíproca. El de
+$\dd z$ da
+\[
+  \pd{x}{y}{z}\pd{y}{z}{x}=-\pd{x}{z}{y}=-\frac{1}{\pd{z}{x}{y}},
+\]
+donde en el último paso se ha usado la recíproca; multiplicando por $\pdi{z}{x}{y}$ se obtiene la cíclica.
+\end{demostracion}
+
+Para usar estas reglas con $(p,V,T)$ basta despejar de las definiciones \eqref{eq:coef} cada derivada
+en función de su coeficiente,
+\begin{equation}\label{eq:derivadas}
+  \pd{V}{T}{p}=\alpha V,\qquad \pd{V}{p}{T}=-\kappa_TV,\qquad \pd{p}{T}{V}=p\beta,
+\end{equation}
+y, cuando la derivada aparece «dada la vuelta», aplicar la recíproca:
+\begin{equation}\label{eq:inversas}
+  \pd{T}{V}{p}=\frac{1}{\alpha V},\qquad \pd{p}{V}{T}=-\frac{1}{\kappa_TV},\qquad \pd{T}{p}{V}=\frac{1}{p\beta}.
+\end{equation}
+
+\begin{proposicion}[Relación entre coeficientes]
+Los tres coeficientes no son independientes:
+\begin{equation}\label{eq:apbk}
+  \alpha=p\,\beta\,\kappa_T.
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+La relación cíclica \eqref{eq:reciclica} con $(x,y,z)=(V,T,p)$ se escribe
+\[
+  \pd{V}{T}{p}\pd{T}{p}{V}\pd{p}{V}{T}=-1.
+\]
+Sustituyendo la primera derivada de \eqref{eq:derivadas} y las dos últimas de \eqref{eq:inversas}:
+\[
+  (\alpha V)\cdot\frac{1}{p\beta}\cdot\left(-\frac{1}{\kappa_TV}\right)=-1
+  \quad\Longrightarrow\quad -\frac{\alpha}{p\beta\kappa_T}=-1
+  \quad\Longrightarrow\quad \alpha=p\beta\kappa_T.
+\]
+\end{demostracion}
+
+Por eso basta conocer dos coeficientes: el tercero se calcula con \eqref{eq:apbk}.
+
+\begin{teorema}[Criterio de exactitud]\label{teo:exactitud}
+La forma $\delta z=M\,\dd x+N\,\dd y$, con $M=M(x,y)$ y $N=N(x,y)$, es la diferencial exacta de una
+función $z(x,y)$ si y solo si
+\begin{equation}\label{eq:exacta}
+  \pd{M}{y}{x}=\pd{N}{x}{y}.
+\end{equation}
+En tal caso $z$ se obtiene integrando $M$ respecto de $x$, $z=\int M\,\dd x+g(y)$, y fijando $g(y)$ con
+la condición $\partial z/\partial y=N$.
+\end{teorema}
+
+\subsection{Ecuación diferencial de estado}
+
+Toda la sección consiste en escribir la diferencial total de una de las tres variables en función de
+las otras dos y sustituir las derivadas por \eqref{eq:derivadas} y \eqref{eq:inversas}. Hay tres
+elecciones posibles.
+
+\paso{(a) Volumen: \texorpdfstring{$V=V(T,p)$}{V=V(T,p)}} Diferencial total y sustitución de \eqref{eq:derivadas}:
+\[
+  \dd V=\pd{V}{T}{p}\dd T+\pd{V}{p}{T}\dd p=\alpha V\,\dd T-\kappa_TV\,\dd p.
+\]
+Dividiendo entre $V$ y usando $\dd V/V=\dd\ln V$:
+\begin{equation}\label{eq:dlnV}
+  \dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p.
+\end{equation}
+
+\paso{(b) Presión: \texorpdfstring{$p=p(T,V)$}{p=p(T,V)}} La primera derivada es directamente $p\beta$; la
+segunda está invertida respecto de la de $\kappa_T$ y se obtiene con la recíproca,
+$\pdi{p}{V}{T}=1/\pdi{V}{p}{T}=-1/(\kappa_TV)$:
+\begin{equation}\label{eq:dp}
+  \dd p=\pd{p}{T}{V}\dd T+\pd{p}{V}{T}\dd V=p\beta\,\dd T-\frac{\dd V}{\kappa_TV}.
+\end{equation}
+
+\paso{(c) Temperatura: \texorpdfstring{$T=T(p,V)$}{T=T(p,V)}} Las dos derivadas están invertidas; por \eqref{eq:inversas},
+\begin{equation}\label{eq:dT}
+  \dd T=\pd{T}{V}{p}\dd V+\pd{T}{p}{V}\dd p=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}.
+\end{equation}
+
+\begin{observacion}[Una sola información escrita de tres maneras]
+Las tres expresiones son equivalentes. Por ejemplo, despejando $\dd V$ de \eqref{eq:dp} se obtiene
+$\dd V=\kappa_TV\,p\beta\,\dd T-\kappa_TV\,\dd p$, que coincide con \eqref{eq:dlnV} precisamente porque
+$p\beta\kappa_T=\alpha$. Se elige la que tenga como variable dependiente la magnitud pedida: $\dd\ln V$
+si se dan $\alpha$ y $\kappa_T$; $\dd p$ si se pide $p(T,V)$.
+\end{observacion}
+
+En resumen:
+\begin{equation}\label{eq:resumen}
+  \boxed{\;\dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p,\qquad
+  \dd p=p\beta\,\dd T-\frac{\dd V}{\kappa_TV},\qquad
+  \dd T=\frac{\dd V}{\alpha V}+\frac{\dd p}{p\beta}\;}
+\end{equation}
+Conocidos dos coeficientes, la ecuación de estado se reconstruye integrando cualquiera de ellas: es
+el método M5, que se detalla paso a paso en la sección~\ref{sec:receta}.
+
+\subsection{Integración por un camino rectangular}
+
+Como $\ln V$ es función de estado, $\dd\ln V$ es exacta y su integral entre dos estados no depende del
+camino. Se elige el más cómodo: un rectángulo en el plano $(T,p)$ en el que, en cada tramo, se anula
+uno de los dos términos de \eqref{eq:dlnV} (figura~\ref{fig:rect}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=7.2cm,height=5cm,xmin=0.3,xmax=4.2,ymin=0.4,ymax=3.4,
+   xtick={1,3.4},xticklabels={$T_a$,$T_b$},ytick={1.2,2.6},yticklabels={$p_a$,$p_b$},
+   xlabel={$T$},ylabel={$p$},axis line style={navy},tick label style={font=\scriptsize}]
+  \addplot[navy,thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}] coordinates {(1,1.2) (3.4,1.2)};
+  \addplot[acento,thick,postaction={decorate},decoration={markings,mark=at position 0.6 with {\arrow{Stealth[length=5pt]}}}] coordinates {(3.4,1.2) (3.4,2.6)};
+  \addplot[navy,densely dotted] coordinates {(1,1.2) (1,2.6) (3.4,2.6)};
+  \fill[rojo] (axis cs:1,1.2) circle (1.8pt) node[below left,font=\footnotesize,black] {$a$};
+  \fill[rojo] (axis cs:3.4,2.6) circle (1.8pt) node[above right,font=\footnotesize,black] {$b$};
+  \node[navy,font=\scriptsize] at (axis cs:2.2,0.95) {tramo 1: $\dd p=0$};
+  \node[acento,font=\scriptsize,anchor=east] at (axis cs:3.3,1.9) {tramo 2: $\dd T=0$};
+\end{axis}
+\end{tikzpicture}
+\caption{Camino de integración de $\dd\ln V$ entre $a=(T_a,p_a)$ y $b=(T_b,p_b)$: primero isobaro y luego
+isotermo. Cualquier otro camino, como el punteado, da el mismo resultado.}
+\label{fig:rect}
+\end{figure}
+
+\paso{Tramo 1: \texorpdfstring{$(T_a,p_a)\to(T_b,p_a)$}{tramo 1}} La presión está fija en $p_a$, luego
+$\dd p=0$ y solo sobrevive el término en $\alpha$, evaluado a $p=p_a$:
+\[
+  \int_{\text{tramo 1}}\dd\ln V=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T.
+\]
+
+\paso{Tramo 2: \texorpdfstring{$(T_b,p_a)\to(T_b,p_b)$}{tramo 2}} La temperatura está fija en $T_b$, luego
+$\dd T=0$ y solo sobrevive el término en $\kappa_T$, evaluado a $T=T_b$:
+\[
+  \int_{\text{tramo 2}}\dd\ln V=-\int_{p_a}^{p_b}\kappa_T(T_b,p)\,\dd p.
+\]
+
+\paso{Suma de los tramos} La integral total de $\dd\ln V$ es $\ln V_b-\ln V_a=\ln(V_b/V_a)$, luego
+\begin{equation}\label{eq:rect}
+  \ln\frac{V_b}{V_a}=\int_{T_a}^{T_b}\alpha(T,p_a)\,\dd T-\int_{p_a}^{p_b}\kappa_T(T_b,p)\,\dd p.
+\end{equation}
+
+\paso{Coeficientes constantes} Si $\alpha$ y $\kappa_T$ no dependen de $T$ ni de $p$, salen de las integrales:
+\begin{equation}\label{eq:const}
+  \ln\frac{V_b}{V_a}=\alpha\,(T_b-T_a)-\kappa_T\,(p_b-p_a)=\alpha\,\Delta T-\kappa_T\,\Delta p.
+\end{equation}
+
+\paso{Cambios pequeños} Escribiendo $V_b=V_a+\Delta V$ y usando
+$\ln(1+x)=x-\tfrac12x^2+\dots\simeq x$ para $|x|\ll1$:
+\begin{equation}\label{eq:pequenos}
+  \ln\frac{V_b}{V_a}=\ln\Bigl(1+\frac{\Delta V}{V_a}\Bigr)\simeq\frac{\Delta V}{V_a}
+  \quad\Longrightarrow\quad \frac{\Delta V}{V_a}\simeq\alpha\,\Delta T-\kappa_T\,\Delta p,
+\end{equation}
+con un error relativo del orden de $\tfrac12\,\Delta V/V_a$.
+
+\begin{observacion}[Resumen de la sección]
+\eqref{eq:resumen} es la diferencial total con las derivadas sustituidas por $\alpha$, $\beta$ o
+$\kappa_T$, usando la recíproca cuando la derivada aparece invertida; \eqref{eq:apbk} es la relación
+cíclica; \eqref{eq:rect} es la integral de \eqref{eq:dlnV} por un camino en el que, en cada tramo, se
+anula uno de los dos términos.
+\end{observacion}
+
+\subsection{Dilatación lineal de sólidos}
+
+En un sólido no se mide el volumen sino una longitud (una barra, un puente, un péndulo), y lo que se
+tabula es el coeficiente lineal.
+
+\begin{definicion}[Coeficiente de dilatación lineal]
+Para una dimensión lineal $L$ de un sólido se define
+\begin{equation}\label{eq:alphal}
+  \alpha_l\equiv\frac1L\pd{L}{T}{p}=\pd{\ln L}{T}{p}.
+\end{equation}
+\end{definicion}
+
+\begin{proposicion}[Relación entre \texorpdfstring{$\alpha$}{alpha} y \texorpdfstring{$\alpha_l$}{alpha l}]
+En un sólido isótropo, $\alpha=3\alpha_l$.
+\end{proposicion}
+
+\begin{demostracion}
+Se toma un bloque de aristas $L_1,L_2,L_3$, de modo que $V=L_1L_2L_3$. Tomando logaritmos y diferenciando,
+\[
+  \ln V=\ln L_1+\ln L_2+\ln L_3\quad\Longrightarrow\quad \dd\ln V=\dd\ln L_1+\dd\ln L_2+\dd\ln L_3.
+\]
+Dividiendo por $\dd T$ a presión constante, cada término es, por \eqref{eq:alphal}, el coeficiente lineal
+en esa dirección; por isotropía los tres son iguales:
+\[
+  \alpha=\pd{\ln V}{T}{p}=\alpha_{l,1}+\alpha_{l,2}+\alpha_{l,3}=3\alpha_l.
+\]
+\end{demostracion}
+
+\paso{Cambio finito de longitud} Con $\alpha_l$ constante, integrando \eqref{eq:alphal} a presión fija
+entre $T_0$ y $T_0+\Delta T$:
+\begin{equation}\label{eq:Lexp}
+  \ln\frac{L}{L_0}=\alpha_l\,\Delta T\quad\Longrightarrow\quad
+  L=L_0\,\e^{\alpha_l\Delta T}=L_0\Bigl(1+\alpha_l\Delta T+\tfrac12(\alpha_l\Delta T)^2+\dots\Bigr).
+\end{equation}
+Como en la práctica $\alpha_l\Delta T\sim10^{-4}$--$10^{-3}$, el término cuadrático es despreciable y
+\begin{equation}\label{eq:DL}
+  \boxed{\Delta L\simeq\alpha_l\,L_0\,\Delta T}\qquad(\alpha_l\Delta T\ll1).
+\end{equation}
+
+\paso{De la longitud al volumen} Con las tres aristas dilatadas en el mismo factor,
+$L=L_0(1+\varepsilon)$ con $\varepsilon\equiv\alpha_l\Delta T$, desarrollando el cubo:
+\begin{equation}\label{eq:cubo}
+  V=L_0^3(1+\varepsilon)^3=V_0\bigl(1+3\varepsilon+3\varepsilon^2+\varepsilon^3\bigr)
+  \quad\Longrightarrow\quad
+  \frac{\Delta V}{V_0}=\underbrace{3\varepsilon}_{\text{caras}}+\underbrace{3\varepsilon^2}_{\text{aristas}}
+  +\underbrace{\varepsilon^3}_{\text{vértice}}\simeq3\alpha_l\Delta T=\alpha\,\Delta T.
+\end{equation}
+La figura~\ref{fig:cubo} da la lectura geométrica de cada término.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[c]{0.4\textwidth}\centering
+\begin{tikzpicture}[scale=0.95]
+  \fill[fondomedio!80!acentoclaro] (0,3) rectangle (3.4,3.55);
+  \fill[fondomedio!80!acentoclaro] (3,0) rectangle (3.55,3);
+  \fill[rojo!55] (3,3) rectangle (3.55,3.55);
+  \draw[acento,dashed] (0,0) rectangle (3.55,3.55);
+  \fill[fondo] (0,0) rectangle (3,3);
+  \draw[navy,thick] (0,0) rectangle (3,3);
+  \node[navy] at (1.5,1.5) {$L_0^2$};
+  \node[navy,font=\scriptsize] at (1.5,3.27) {$L_0\,\Delta L$};
+  \node[navy,font=\scriptsize,rotate=90] at (3.27,1.5) {$L_0\,\Delta L$};
+  \draw[rojo] (3.3,3.3) -- (3.9,4.0) node[above right,font=\scriptsize] {$(\Delta L)^2$};
+  \draw[{Stealth[length=3pt]}-{Stealth[length=3pt]},gris] (0,-0.4) -- (3,-0.4) node[midway,below,font=\scriptsize] {$L_0$};
+  \draw[{Stealth[length=3pt]}-{Stealth[length=3pt]},gris] (3,-0.4) -- (3.55,-0.4) node[midway,below,font=\scriptsize] {$\Delta L$};
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[c]{0.52\textwidth}\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+Pieza añadida & Volumen & Orden en $\varepsilon$\\
+\midrule
+3 láminas (caras) & $3L_0^2\,\Delta L$ & $3\varepsilon$\\
+3 barras (aristas) & $3L_0\,(\Delta L)^2$ & $3\varepsilon^2$\\
+1 cubito (vértice) & $(\Delta L)^3$ & $\varepsilon^3$\\
+\bottomrule
+\end{tabular}
+\vspace{1.2cm}
+\caption{}
+\end{subfigure}
+\caption{Dilatación de un cubo de arista $L_0$ (escala muy exagerada). (a) Sección: al crecer cada arista
+$\Delta L$ se añaden franjas de área $L_0\Delta L$ (primer orden, azul) y una esquina $(\Delta L)^2$
+(segundo orden, rojo). (b) En tres dimensiones, las láminas sobre las tres caras dan el término
+$3\varepsilon$ de \eqref{eq:cubo}; aristas y vértice son despreciables, de ahí $\alpha\simeq3\alpha_l$.}
+\label{fig:cubo}
+\end{figure}
+
+\begin{observacion}[Orden de magnitud]
+Para el puente del problema~1.6, $\varepsilon=11\cdot10^{-6}\cdot60=6{,}6\cdot10^{-4}$: el término de
+aristas, $3\varepsilon^2\simeq1{,}3\cdot10^{-6}$, es unas 1500 veces menor que el de caras. Por eso
+\eqref{eq:DL} se usa sin más en los problemas~1.5 y~1.6.
+\end{observacion}
+
+\subsection{Calentamiento a volumen constante}
+
+Si el sistema está encerrado en un recipiente rígido, al calentarlo no puede dilatarse y lo que
+aumenta es la presión. Basta imponer $\dd V=0$ en \eqref{eq:dlnV}:
+\[
+  0=\alpha\,\dd T-\kappa_T\,\dd p\quad\Longrightarrow\quad\kappa_T\,\dd p=\alpha\,\dd T
+  \quad\Longrightarrow\quad\boxed{\pd{p}{T}{V}=\frac{\alpha}{\kappa_T}}
+\]
+Es la misma derivada que define $\beta$: por \eqref{eq:derivadas}, $\pdi{p}{T}{V}=p\beta$, y la igualdad
+$p\beta=\alpha/\kappa_T$ es otra vez $\alpha=p\beta\kappa_T$. Con coeficientes constantes, integrando
+entre $T$ y $T+\Delta T$,
+\begin{equation}\label{eq:Dp}
+  \Delta p=\frac{\alpha}{\kappa_T}\,\Delta T.
+\end{equation}
+
+\paso{Lectura en dos etapas} El resultado se entiende descomponiendo el proceso por el camino
+rectangular de la sección anterior (figura~\ref{fig:dosetapas}): primero se calienta a presión
+constante, y el sistema se dilata $\Delta V_1=+\alpha V\Delta T$; después se comprime a temperatura
+constante hasta recuperar el volumen inicial, lo que exige $\Delta V_2=-\kappa_TV\Delta p$. Como el
+volumen final es el inicial,
+\[
+  \Delta V_1+\Delta V_2=0\quad\Longrightarrow\quad\alpha V\Delta T=\kappa_TV\Delta p
+  \quad\Longrightarrow\quad\Delta p=\frac{\alpha}{\kappa_T}\,\Delta T.
+\]
+La presión que aparece es la necesaria para «deshacer» la dilatación térmica comprimiendo: grande si
+el sistema se dilata mucho ($\alpha$ grande) y es poco compresible ($\kappa_T$ pequeño).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small,
+   caja/.style={draw=navy,fill=fondo,align=center,inner sep=4pt,minimum width=2.6cm}]
+  \node[caja] (A) at (0,0) {$T,\ p$\\volumen $V$};
+  \node[caja] (B) at (4.6,1.6) {$T+\Delta T,\ p$\\volumen $V+\alpha V\Delta T$};
+  \node[caja,draw=rojo] (C) at (9.2,0) {$T+\Delta T,\ p+\Delta p$\\volumen $V$};
+  \draw[navy,-{Stealth[length=5pt]}] (A.north) |- (B.west) node[pos=0.75,above,font=\scriptsize,acento,align=center] {(1) calentar a $p$ cte\\$\Delta V_1=+\alpha V\Delta T$};
+  \draw[navy,-{Stealth[length=5pt]}] (B.east) -| (C.north) node[pos=0.25,above,font=\scriptsize,acento,align=center] {(2) comprimir a $T$ cte\\$\Delta V_2=-\kappa_TV\Delta p$};
+  \draw[rojo,dashed,-{Stealth[length=5pt]}] (A.east) -- (C.west) node[midway,below,font=\scriptsize,align=center] {proceso real: calentar a $V$ constante\\$\Delta V_1+\Delta V_2=0$};
+\end{tikzpicture}
+\caption{Calentamiento isócoro descompuesto en dos etapas con el mismo estado inicial y final. Como
+$\ln V$ es función de estado, el camino de dos etapas y el real dan el mismo balance de volumen, y de
+él sale $\Delta p=(\alpha/\kappa_T)\Delta T$.}
+\label{fig:dosetapas}
+\end{figure}
+
+\begin{observacion}[Líquidos y sólidos]
+Para el mercurio (problema~1.7), $\alpha/\kappa_T\simeq\SI{4,6e6}{Pa/K}$: un solo kelvin produce unos
+\SI{46}{bar}. En líquidos y sólidos $\kappa_T$ es tan pequeño que impedir la dilatación térmica
+requiere presiones enormes; en un gas ideal, en cambio, $\alpha/\kappa_T=(1/T)/(1/p)=p/T$, y a
+\SI{1}{bar} y \SI{300}{K} solo da unos \SI{3,3}{mbar/K}.
+\end{observacion}
+
+\begin{ejemplo}[Coeficientes del gas de van der Waals]\label{ej:vdw}
+De $\bigl(p+a/\Vm^2\bigr)(\Vm-b)=RT$ no es práctico despejar $\Vm$ (cúbica), pero sí $T$ y $p$:
+\[
+  T=\frac1R\Bigl(p+\frac{a}{\Vm^2}\Bigr)(\Vm-b),\qquad p=\frac{RT}{\Vm-b}-\frac{a}{\Vm^2}.
+\]
+Derivando la primera a $p$ constante (regla del producto) y la segunda a $T$ constante, y aplicando la
+regla recíproca \eqref{eq:inversas}:
+\[
+  \frac{1}{\Vm\alpha}=\pd{T}{\Vm}{p}=\frac1R\Bigl(p-\frac{a}{\Vm^2}+\frac{2ab}{\Vm^3}\Bigr),\qquad
+  -\frac{1}{\Vm\kappa_T}=\pd{p}{\Vm}{T}=-\frac{RT}{(\Vm-b)^2}+\frac{2a}{\Vm^3}.
+\]
+Eliminando $p$ con la ecuación de estado ($p-a/\Vm^2+2ab/\Vm^3=RT/(\Vm-b)-2a(\Vm-b)/\Vm^3$) y
+reduciendo a común denominador,
+\[
+  \alpha=\frac{R\Vm^2(\Vm-b)}{RT\Vm^3-2a(\Vm-b)^2},\qquad
+  \kappa_T=\frac{\Vm^2(\Vm-b)^2}{RT\Vm^3-2a(\Vm-b)^2}.
+\]
+Con $a=b=0$ se recuperan los del gas ideal, $\alpha=1/T$ y $\kappa_T=1/p$.
+\end{ejemplo}

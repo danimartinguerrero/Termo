@@ -1,0 +1,122 @@
+% =============================== PORTADA ===============================
+\thispagestyle{empty}
+\setcounter{page}{0}
+\vspace*{-1.2cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+  \shade[left color=navy,right color=regla!60!white] (current page.south west) rectangle ([yshift=3.2mm]current page.south east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.15) rectangle (\textwidth,0.75);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.22\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.15\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.535\textwidth,0)
+    {{\color{navy}\large\espaciado[150]{Universidad de Salamanca}}\\[4pt]
+     {\color{acento}\espaciado[110]{Facultad de Ciencias}\enspace\textperiodcentered\enspace\espaciado[110]{Grado en Física}}};
+  \draw[regla,line width=0.6pt] (0,-1.1) -- (\textwidth,-1.1);
+\end{tikzpicture}
+
+\vspace{0.8cm}
+
+\noindent{\color{acento}\large\espaciado[150]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[150]{Tema 1}}\\[8pt]
+{\color{navy}\fontsize{30}{36}\selectfont\bfseries Conceptos básicos}\\[4pt]
+\begin{tikzpicture}
+  \shade[left color=navy,right color=white] (0,0) rectangle (0.62\textwidth,1.6mm);
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\noindent{\large\itshape Sistemas y paredes, equilibrio y procesos, ley cero y temperatura empírica, ecuaciones de estado y coeficientes de respuesta $\alpha$, $\kappa_T$ y $\beta$}
+
+\vspace{0.7cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Autor}}\\
+  {\large Daniel Martín Guerrero\,\textsuperscript{\color{acento}a}}
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Profesor}}\\
+  {\large Julián González Ayala\,\textsuperscript{\color{acento}a}}
+\end{minipage}
+
+\vspace{4pt}
+\noindent{\color{gris}\textsuperscript{a}\,Grado en Física, Facultad de Ciencias, Universidad de Salamanca, Plaza de la Merced s/n, 37008 Salamanca, España}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[cajabase,top=10pt,bottom=10pt]
+\begin{minipage}[t]{0.52\linewidth}
+  {\color{acento}\espaciado[200]{Resumen}}\par\smallskip
+  \small
+  Establecemos el lenguaje de la termodinámica de equilibrio: sistema, frontera y paredes,
+  variables extensivas e intensivas y la noción de estado. Distinguimos equilibrio de estado
+  estacionario y clasificamos los procesos (cuasiestático, reversible, irreversible). La ley cero
+  convierte el equilibrio térmico en una relación de equivalencia y garantiza la existencia de una
+  temperatura empírica. Por último, la ecuación de estado $f(p,V,T)=0$ y sus derivadas, los
+  coeficientes $\alpha$, $\kappa_T$ y $\beta$, ligados por $\alpha=p\beta\kappa_T$, permiten
+  reconstruir la ecuación de estado integrando una diferencial exacta. Los seminarios resuelven,
+  paso a paso y con todo el desarrollo simbólico, los dieciséis problemas del tema y la cuestión 1
+  del parcial.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.44\linewidth}\centering
+  \vspace{2pt}
+  \begin{tikzpicture}
+  \begin{axis}[view={32}{24},width=6.9cm,height=6.7cm,
+     xmin=0.75,xmax=4,ymin=1,ymax=4,zmin=0,zmax=6.6,
+     xtick=\empty,ytick=\empty,ztick=\empty,
+     axis lines=left,axis line style={navy,-{Stealth[length=5pt]}},
+     xlabel={$V$},ylabel={$T$},zlabel={$p$},ylabel style={anchor=north west},zlabel style={rotate=-90},
+     colormap={estado}{rgb255(0cm)=(236,242,250); rgb255(1cm)=(176,198,222); rgb255(2cm)=(96,138,186); rgb255(3cm)=(40,80,130); rgb255(4cm)=(11,37,69)},
+     point meta min=0.25,point meta max=5.4,clip=false]
+    % superficie p = T/V parametrizada por (V,T): la cuadrícula son isotermas e isócoras
+    \addplot3[surf,z buffer=sort,shader=faceted interp,faceted color=white!55!acentoclaro,line width=0.15pt,
+       domain=0.75:4,y domain=1:4,samples=27,samples y=13] {y/x};
+    % isotermas destacadas
+    \pgfplotsinvokeforeach{1.75,2.5,3.25}{
+      \addplot3[white,line width=1.3pt,domain=0.75:4,samples=70,samples y=1] (x,#1,{#1/x});
+    }
+    % contorno de la superficie
+    \addplot3[navy,line width=0.6pt,domain=0.75:4,samples=60,samples y=1] (x,1,{1/x});
+    \addplot3[navy,line width=0.6pt,domain=0.75:4,samples=60,samples y=1] (x,4,{4/x});
+    \addplot3[navy,line width=0.6pt,domain=1:4,samples=2,samples y=1] (0.75,x,{x/0.75});
+    \addplot3[navy,line width=0.6pt,domain=1:4,samples=2,samples y=1] (4,x,{x/4});
+    % isobara p = 2
+    \addplot3[rojo,line width=1.4pt,domain=1.5:4,samples=2,samples y=1] ({x/2},x,2);
+    \fill[rojo] (axis cs:0.75,1.5,2) circle (1.5pt);
+    \fill[rojo] (axis cs:2,4,2) circle (1.5pt);
+    \coordinate (iso) at (axis cs:3.3,3.25,{3.25/3.3});
+    \coordinate (isob) at (axis cs:1.6,3.2,2);
+  \end{axis}
+  \draw[gris,line width=0.4pt] (iso) -- ++(0.5,0.7) node[anchor=south west,inner sep=1pt,font=\scriptsize,navy] {isotermas};
+  \draw[gris,line width=0.4pt] (isob) -- ++(0.8,1.35) node[anchor=south west,inner sep=1pt,font=\scriptsize,rojo] {isobara};
+  \end{tikzpicture}\par
+  {\scriptsize\itshape\color{gris} Superficie de estado $pV=nRT$ del gas ideal: cada punto es un estado de
+  equilibrio; sus cortes a $T$ constante son las isotermas y a $p$ constante, las isobaras.\par}
+\end{minipage}
+\end{tcolorbox}
+
+\noindent{\color{acento}\espaciado[200]{Palabras clave}}\enspace
+sistema termodinámico\sepdot paredes y ligaduras\sepdot extensiva e intensiva\sepdot equilibrio\sepdot
+proceso cuasiestático\sepdot ley cero\sepdot temperatura empírica\sepdot ecuación de estado\sepdot
+coeficientes termomecánicos\sepdot relación cíclica\par
+\smallskip
+\noindent{\color{acento}\espaciado[200]{Clasificación PACS}}\enspace
+05.70.$-$a (Termodinámica), 05.70.Ce (Funciones termodinámicas y ecuaciones de estado), 65.40.De (Dilatación térmica)
+
+\vspace{0.4cm}
+{\color{regla}\hrule height 0.6pt}
+\vspace{2pt}
+\[
+  pV=nRT\qquad
+  \alpha=\frac1V\pd{V}{T}{p}\qquad
+  \kappa_T=-\frac1V\pd{V}{p}{T}\qquad
+  \alpha=p\,\beta\,\kappa_T\qquad
+  \dd\ln V=\alpha\,\dd T-\kappa_T\,\dd p
+\]
+\vspace{-2pt}
+{\color{regla}\hrule height 0.6pt}
+
+\vfill
+\begin{center}
+  {\color{navy}\large\espaciado[220]{Apuntes formalizados con seminarios prácticos}}\\[4pt]
+  {\color{acento}\espaciado[200]{Salamanca, curso 2026/2027}}
+\end{center}
+\vspace*{0.1cm}
