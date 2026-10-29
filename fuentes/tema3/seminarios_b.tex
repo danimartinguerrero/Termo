@@ -1,0 +1,321 @@
+% ---------------------------------------------------------------------
+\subsection{Problema 36. Ciclo con una adiabática irreversible}
+% ---------------------------------------------------------------------
+\begin{problema}{36}{Temperaturas y entropía generada}
+Un mol de gas perfecto diatómico está a $p_1=\SI{1}{atm}$ y $T_1=\SI{300}{K}$. Se comprime reversible y
+adiabáticamente hasta $5p_1$ (estado 2); después, en un isóbaro reversible, absorbe \SI{10}{kJ} (estado 3); desde ahí
+se expande adiabática e irreversiblemente contra una presión exterior constante $p_1=p_4$ (estado 4); por último,
+un isóbaro reversible a $p_1$ cierra el ciclo. (a) Esquematice el ciclo y calcule la temperatura de cada estado.
+(b) Calcule la variación de entropía en $3\to4$.
+\end{problema}
+
+\begin{resolucion}
+\idea $T_2$ sale de Poisson (adiabática reversible); $T_3$, del calor del isóbaro; $T_4$, del balance de energía de la
+expansión irreversible contra $p_1$ (Tema 2), no de Poisson. $\Delta S_{34}$ se calcula por un camino reversible
+(M2).
+
+\paso{(a) Paso 1: estado 2} Con $(\gamma-1)/\gamma=2/7$:
+$T_2=T_1\,5^{2/7}=300\cdot1{,}5838\ \mathrm K=\boxed{\SI{475,1}{K}}$.
+
+\paso{(a) Paso 2: estado 3} Isóbaro: $Q_{23}=n\bar C_p(T_3-T_2)$ con $\bar C_p=\tfrac72R=\SI{29,10}{J/(mol.K)}$:
+\[
+  T_3=T_2+\frac{Q_{23}}{n\bar C_p}=475{,}1+\frac{10\,000}{29{,}10}\ \mathrm K=475{,}1+343{,}7=\boxed{\SI{818,8}{K}}.
+\]
+
+\paso{(a) Paso 3: estado 4} Adiabático ($Q=0$) contra $p_{\mathrm{ext}}=p_1$, y el gas termina en $p_4=p_1$. Balance:
+$\Delta U=W$, es decir $n\bar C_V(T_4-T_3)=-p_1(V_4-V_3)$, con $V_4=nRT_4/p_1$ y $V_3=nRT_3/(5p_1)$:
+\[
+  \tfrac52R\,(T_4-T_3)=-RT_4+\frac{RT_3}{5}
+  \quad\Longrightarrow\quad
+  \tfrac72T_4=\Bigl(\tfrac52+\tfrac15\Bigr)T_3
+  \quad\Longrightarrow\quad
+  T_4=\frac{2{,}7}{3{,}5}\,T_3=\boxed{\SI{631,6}{K}}.
+\]
+
+\paso{(a) Paso 4: cierre} El isóbaro $4\to1$ a $p_1$ enfría el gas de \SI{631,6}{K} a \SI{300}{K}. Volúmenes
+($V=nRT/p$): $V_1=\SI{24,6}{L}$, $V_2=\SI{7,80}{L}$, $V_3=\SI{13,4}{L}$, $V_4=\SI{51,8}{L}$ (figura~\ref{fig:p36}).
+
+\paso{(b) Entropía en $3\to4$} Camino reversible auxiliar entre $(T_3,5p_1)$ y $(T_4,p_1)$ con \eqref{eq:Sgas}:
+\[
+  \Delta S_{34}=n\bar C_p\ln\frac{T_4}{T_3}-nR\ln\frac{p_4}{p_3}
+  =29{,}10\ln\frac{2{,}7}{3{,}5}+8{,}314\ln5
+  =-7{,}55+13{,}38=\boxed{\SI{5,83}{J/K}}.
+\]
+Es positivo, como debe ser en un proceso adiabático irreversible: $\Delta S=S_{\mathrm{gen}}>0$.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=8.4cm,height=5.8cm,xmin=0,xmax=58,ymin=0,ymax=6.6,
+    xtick={7.80,13.44,24.62,51.83},xticklabels={$V_2$,$V_3$,$V_1$,$V_4$},ytick={1,5},yticklabels={$p_1$,$5p_1$},
+    xlabel={$V$ (L)},ylabel={$p$ (atm)},clip=false]
+  \addplot[navy,line width=1.1pt,domain=7.80:24.62,samples=80] {(24.62/x)^1.4};
+  \addplot[rojo,line width=1.1pt] coordinates {(7.80,5) (13.44,5)};
+  \addplot[gris,line width=1.1pt,densely dashed] coordinates {(13.44,5) (51.83,1)};
+  \addplot[acento,line width=1.1pt] coordinates {(51.83,1) (24.62,1)};
+  \draw[navy,-{Stealth[length=5pt]}] (axis cs:15,{(24.62/15)^1.4}) -- (axis cs:12,{(24.62/12)^1.4});
+  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:9.8,5) -- (axis cs:11.4,5);
+  \draw[acento,-{Stealth[length=5pt]}] (axis cs:40,1) -- (axis cs:36,1);
+  \fill[black] (axis cs:24.62,1) circle (1.6pt) node[anchor=north,font=\scriptsize,inner sep=3pt] {1};
+  \fill[black] (axis cs:7.80,5) circle (1.6pt) node[anchor=east,font=\scriptsize,inner sep=3pt] {2};
+  \fill[black] (axis cs:13.44,5) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
+  \fill[black] (axis cs:51.83,1) circle (1.6pt) node[anchor=north,font=\scriptsize,inner sep=3pt] {4};
+  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:10.6,5.45) {$Q_{23}=\SI{10}{kJ}$};
+  \node[font=\scriptsize,gris,anchor=south west,align=left] at (axis cs:31,3.2) {adiabática\\irreversible};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 36. La expansión $3\to4$ es irreversible: no tiene trayectoria en el plano $p$--$V$ y solo se
+marcan sus extremos (la línea discontinua es esquemática). Los demás tramos son reversibles.}
+\label{fig:p36}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 37. Calentamiento con muchos focos y con uno}
+% ---------------------------------------------------------------------
+\begin{problema}{37}{Entropía del universo con focos}
+Un sistema con $U=nAT$ ($A>0$) se calienta reversiblemente a volumen constante de $T_1$ a $T_2$ en contacto con
+infinitos focos de temperaturas entre $T_1$ y $T_2$, y después se enfría a volumen constante hasta $T_1$ con un único
+foco a $T_1$. (a) Calcule los cambios de entropía del sistema, de los focos y del universo. (b) Repítalo si el
+calentamiento se hubiera hecho con un único foco a $T_2$.
+\end{problema}
+
+\begin{resolucion}
+\idea $C_V=\dd U/\dd T=nA$ es constante; a volumen fijo $\dbar Q=nA\,\dd T$. El sistema hace un ciclo, así que su
+$\Delta S$ total es cero; todo el balance está en los focos (M3).
+
+\paso{Paso 0: sistema} En cada tramo, por la tabla~\ref{tab:dS}, $\Delta S_{\mathrm{sis}}=\pm nA\ln(T_2/T_1)$; en el
+conjunto, $\Delta S_{\mathrm{sis}}=0$.
+
+\paso{(a) Calentamiento con infinitos focos} En cada instante el sistema y el foco están a la misma $T$: es
+reversible. Cada foco cede $nA\,\dd T$ a su temperatura $T$:
+\[
+  \Delta S_{\mathrm{focos}}=-\int_{T_1}^{T_2}\frac{nA\,\dd T}{T}=-nA\ln\frac{T_2}{T_1},\qquad \Delta S_{\mathrm{univ}}=0 .
+\]
+
+\paso{(a) Enfriamiento con un foco a $T_1$} El foco recibe $nA(T_2-T_1)$ a $T_1$:
+\[
+  \Delta S_{T_1}=\frac{nA(T_2-T_1)}{T_1},\qquad
+  \Delta S_{\mathrm{univ}}=nA\Bigl[\frac{T_2}{T_1}-1-\ln\frac{T_2}{T_1}\Bigr]>0,
+\]
+positivo porque $x-1>\ln x$ para $x=T_2/T_1>1$. Es también el total del apartado (a).
+
+\paso{(b) Calentamiento con un foco a $T_2$} El foco cede $nA(T_2-T_1)$ a $T_2$:
+\[
+  \Delta S_{T_2}=-\frac{nA(T_2-T_1)}{T_2},\qquad
+  \Delta S_{\mathrm{univ}}^{\mathrm{calent.}}=nA\Bigl[\ln\frac{T_2}{T_1}-\Bigl(1-\frac{T_1}{T_2}\Bigr)\Bigr]>0 .
+\]
+Sumando el enfriamiento, el $\ln$ se cancela:
+\[
+  \Delta S_{\mathrm{univ}}^{\mathrm{total}}=nA\Bigl[\frac{T_2}{T_1}-2+\frac{T_1}{T_2}\Bigr]=\boxed{nA\,\frac{(T_2-T_1)^2}{T_1T_2}}>0 .
+\]
+\end{resolucion}
+
+\begin{observacion}[Lectura]
+Con infinitos focos el calentamiento no genera entropía: la diferencia de temperatura con el foco es siempre
+infinitesimal. Con un solo foco, cada intercambio a través de una diferencia finita de $T$ genera entropía.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 38. Trabajo máximo entre dos cuerpos}
+% ---------------------------------------------------------------------
+\begin{problema}{38}{Motor entre cuerpos finitos}
+Dos cuerpos idénticos de capacidades $C_1=C_2=C$, a 400 y \SI{300}{K}, se usan como focos de un motor; están a presión
+constante y sin cambios de fase. Determine (a) el trabajo máximo y la temperatura de cada cuerpo cuando se obtiene;
+(b) el rendimiento en esas condiciones. (Aplicación: $C=\SI{2}{kJ/K}$, es decir, $c=\SI{2}{kJ/(kg.K)}$ para \SI{1}{kg}
+de cada cuerpo.)
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: el trabajo es máximo si el conjunto es reversible, $\Delta S_{\mathrm{univ}}=0$. El motor hace
+ciclos ($\Delta S_{\mathrm{motor}}=0$) y los dos cuerpos acaban a la misma $T_f$, cuando ya no hay diferencia de
+temperatura que aprovechar.
+
+\paso{(a) Paso 1: temperatura final}
+\[
+  \Delta S_{\mathrm{univ}}=C\ln\frac{T_f}{400}+C\ln\frac{T_f}{300}=C\ln\frac{T_f^2}{400\cdot300}=0
+  \quad\Longrightarrow\quad T_f=\sqrt{400\cdot300}=\boxed{\SI{346,4}{K}} .
+\]
+
+\paso{(a) Paso 2: trabajo} El cuerpo caliente cede $C(400-T_f)$ y el frío recibe $C(T_f-300)$; la diferencia es el
+trabajo:
+\[
+  |W|_{\max}=C(400-T_f)-C(T_f-300)=C\,(700-2T_f)=2000\cdot7{,}18\ \mathrm J=\boxed{\SI{14,4}{kJ}} .
+\]
+
+\paso{(b) Rendimiento} $Q_{\mathrm{abs}}=C(400-T_f)=\SI{107,2}{kJ}$ y
+\[
+  \eta=\frac{700-2T_f}{400-T_f}=\frac{(\sqrt{400}-\sqrt{300})^2}{\sqrt{400}\,(\sqrt{400}-\sqrt{300})}
+      =1-\sqrt{\frac{300}{400}}=\boxed{0{,}134}.
+\]
+\end{resolucion}
+
+\begin{observacion}[Comparación]
+El rendimiento es menor que el de Carnot entre las temperaturas iniciales, $1-300/400=0{,}25$, porque los focos se
+acercan en temperatura mientras el motor trabaja. Si los cuerpos se pusieran en contacto directo, $T_f=\SI{350}{K}$,
+$W=0$ y $\Delta S_{\mathrm{univ}}=C\ln\frac{49}{48}>0$.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 39. Radiación térmica}
+% ---------------------------------------------------------------------
+\begin{problema}{39}{Gas de fotones}
+La radiación térmica en un volumen $V$ a temperatura $T$ cumple $U=aVT^4$ y $p=U/(3V)$, con $a$ constante. Calcule
+(a) la entropía $S(T,V)$; (b) la ecuación de las adiabáticas. Represente en un diagrama $pV$ el ciclo de Carnot de la
+radiación y calcule su rendimiento.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5: $\dd S=(\dd U+p\,\dd V)/T$ con las dos ecuaciones dadas; la adiabática es $S=\cte$.
+
+\paso{(a) Paso 1: diferencial} $\dd U=4aVT^3\dd T+aT^4\dd V$ y $p\,\dd V=\tfrac13aT^4\dd V$, luego
+\[
+  \dd S=\frac{\dd U+p\,\dd V}{T}=4aVT^2\,\dd T+\tfrac43aT^3\,\dd V .
+\]
+
+\paso{(a) Paso 2: exactitud} $\partial_V(4aVT^2)=4aT^2=\partial_T\bigl(\tfrac43aT^3\bigr)$. \chk
+
+\paso{(a) Paso 3: integración} Respecto de $T$: $S=\tfrac43aVT^3+g(V)$; derivando respecto de $V$,
+$\tfrac43aT^3+g'=\tfrac43aT^3$, así que $g'=0$. Tomando $S\to0$ cuando $T\to0$ (tercera ley):
+\[
+  \boxed{S=\tfrac43\,aVT^3}.
+\]
+
+\paso{(b) Adiabáticas} $S=\cte$ da $VT^3=\cte$. Como $p=\tfrac13aT^4$, $T\propto p^{1/4}$ y
+$Vp^{3/4}=\cte$, es decir,
+\[
+  \boxed{pV^{4/3}=\cte}.
+\]
+
+\paso{Ciclo de Carnot} Como $p$ solo depende de $T$, las \emph{isotermas son isóbaras}: rectas horizontales en el plano
+$pV$ (figura~\ref{fig:p39}). En la isoterma caliente, de $V_1$ a $V_2$:
+$Q_h=\Delta U+p\,\Delta V=aT_h^4\Delta V+\tfrac13aT_h^4\Delta V=\tfrac43aT_h^4(V_2-V_1)$, y análogamente
+$Q_c=-\tfrac43aT_c^4(V_3-V_4)$. Las adiabáticas dan $V_2T_h^3=V_3T_c^3$ y $V_1T_h^3=V_4T_c^3$, así que
+$V_3-V_4=(T_h/T_c)^3(V_2-V_1)$ y
+\[
+  \frac{Q_c}{Q_h}=-\frac{T_c^4}{T_h^4}\Bigl(\frac{T_h}{T_c}\Bigr)^3=-\frac{T_c}{T_h}
+  \quad\Longrightarrow\quad\boxed{\eta=1-\frac{T_c}{T_h}},
+\]
+el de Carnot, como exige el teorema para cualquier sustancia.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% T_h = 1,25 (p_h = 2,441), T_c = 1 (p_c = 1); V1 = 1, V2 = 2, V3 = 3,906, V4 = 1,953
+\begin{axis}[graf,width=7.6cm,height=5.4cm,xmin=0,xmax=4.6,ymin=0,ymax=3.1,
+    xtick=\empty,ytick={1,2.441},yticklabels={$p_c$,$p_h$},xlabel={$V$},ylabel={$p$}]
+  \fill[fondomedio] (axis cs:1,2.441) -- (axis cs:2,2.441) -- plot[domain=2:3.906,samples=60] (\x,{2.441*(2/\x)^(4/3)})
+     -- (axis cs:1.953,1) -- plot[domain=1.953:1,samples=60] (\x,{2.441*(1/\x)^(4/3)}) -- cycle;
+  \addplot[rojo,line width=1.1pt] coordinates {(1,2.441) (2,2.441)};
+  \addplot[navy,line width=1.1pt,domain=2:3.906,samples=80] {2.441*(2/x)^(4/3)};
+  \addplot[acento,line width=1.1pt] coordinates {(3.906,1) (1.953,1)};
+  \addplot[navy,line width=1.1pt,domain=1:1.953,samples=80] {2.441*(1/x)^(4/3)};
+  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.4,2.441) -- (axis cs:1.6,2.441);
+  \draw[acento,-{Stealth[length=5pt]}] (axis cs:3.0,1) -- (axis cs:2.8,1);
+  \fill[black] (axis cs:1,2.441) circle (1.6pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {1};
+  \fill[black] (axis cs:2,2.441) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {2};
+  \fill[black] (axis cs:3.906,1) circle (1.6pt) node[anchor=north west,font=\scriptsize,inner sep=2pt] {3};
+  \fill[black] (axis cs:1.953,1) circle (1.6pt) node[anchor=north east,font=\scriptsize,inner sep=2pt] {4};
+  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.5,2.55) {isoterma $T_h$};
+  \node[font=\scriptsize,acento,anchor=north] at (axis cs:2.9,0.9) {isoterma $T_c$};
+  \node[font=\scriptsize,navy,anchor=west] at (axis cs:3.05,1.6) {$pV^{4/3}=\cte$};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 39. Ciclo de Carnot de la radiación térmica: las isotermas son horizontales porque $p=\tfrac13aT^4$
+solo depende de $T$; las adiabáticas son $pV^{4/3}=\cte$.}
+\label{fig:p39}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestión 3}
+% ---------------------------------------------------------------------
+\begin{problema}{P.3}{Entropía del gas y del foco}
+Un mol de gas ideal se expande isoterma y reversiblemente desde $(p_i,V_i)$ hasta $p_i/2$, en contacto con un foco a
+$T_i$. (a) ¿Cuál es el cambio de energía y de entropía del gas? (b) ¿Cuál es el cambio de entropía del foco?
+\end{problema}
+
+\begin{resolucion}
+\idea Es el caso (a) del problema 35: mismos estados $(p_i,V_i)\to(p_i/2,2V_i)$ a $T_i$.
+
+\paso{(a)} $\Delta U=0$ (gas ideal isotermo) y $\Delta S_{\mathrm{gas}}=R\ln\frac{V_f}{V_i}=\boxed{R\ln2}$; el gas absorbe
+$Q=RT_i\ln2$.
+
+\paso{(b)} El foco cede ese calor a $T_i$: $\Delta S_F=-\dfrac{RT_i\ln2}{T_i}=\boxed{-R\ln2}$, y
+$\Delta S_{\mathrm{univ}}=0$, como corresponde a un proceso reversible.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestión 4(b) y 4(c)}
+% ---------------------------------------------------------------------
+\begin{problema}{P.4}{Entropía del universo y teorema de Carnot}
+Un gas perfecto monoatómico se calienta adiabática y reversiblemente de $T_1$ a $T_2$ reduciendo su volumen a la
+mitad ($1\to2$); se expande en contacto con un foco a $T_2$ hasta su volumen inicial ($2\to3$); y vuelve al estado 1 en
+contacto con un foco a $T_1$ por un proceso irreversible a volumen constante ($3\to1$). (b) ¿Cuál es el cambio de
+entropía del universo? (c) ¿Se cumple el teorema de Carnot? (Dato: $\frac{x^n-1}{\ln x^n}>1$ para $x>1$, $n>0$.)
+\end{problema}
+
+\begin{resolucion}
+\idea El gas hace un ciclo, $\Delta S_{\mathrm{gas}}=0$: todo el cambio está en los dos focos (M3). Para (c) se
+compara $\eta=|W|/Q_{\mathrm{abs}}$ (M1) con $\eta_C=1-T_1/T_2$.
+
+\paso{Paso 0: datos} Por Poisson con $\gamma-1=\tfrac23$ y $V_1/V_2=2$: $x\equiv T_2/T_1=2^{2/3}=1{,}587$, de modo que
+$\ln2=\tfrac32\ln x$. Calores: $Q_{12}=0$; $Q_{23}=nRT_2\ln2$ (isoterma reversible, absorbe);
+$Q_{31}=\tfrac32nR(T_1-T_2)$ (isócoro, cede; cuestión 4(a), Tema 2).
+
+\paso{(b) Entropía del universo} Foco a $T_2$: cede $Q_{23}$, $\Delta S_{T_2}=-nR\ln2=-\tfrac32nR\ln x$. Foco a $T_1$:
+recibe $\tfrac32nR(T_2-T_1)$, $\Delta S_{T_1}=\tfrac32nR(x-1)$. Así
+\[
+  \Delta S_{\mathrm{univ}}=\tfrac32nR\,\bigl[(x-1)-\ln x\bigr]=\tfrac32nR\,(0{,}587-0{,}462)=\boxed{0{,}188\,nR}>0,
+\]
+positivo por el dato del enunciado (con $n=1$ en la potencia, $x-1>\ln x$): el isócoro con una diferencia finita de
+temperatura es irreversible.
+
+\paso{(c) Teorema de Carnot} $|W|=Q_{23}+Q_{31}$ y $Q_{\mathrm{abs}}=Q_{23}$:
+\[
+  \eta=1-\frac{\tfrac32nR(T_2-T_1)}{nRT_2\ln2}=1-\frac{T_2-T_1}{T_2\ln x}=1-\frac{1-1/x}{\ln x}=1-0{,}801=0{,}199 .
+\]
+Con $\eta_C=1-T_1/T_2=1-1/x=0{,}370$,
+\[
+  \eta<\eta_C\iff\frac{1-1/x}{\ln x}>\frac1x\iff\frac{x-1}{\ln x}>1,
+\]
+que es el dato. \textbf{Sí se cumple}: $0{,}199<0{,}370$.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Resumen de resultados}
+% ---------------------------------------------------------------------
+\begin{table}[H]
+\centering
+\caption{Resultados de los seminarios del Tema 3.}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{lXc}
+\toprule
+Problema & Resultado & Método\\
+\midrule
+31 & $\eta=6{,}697/22{,}5=0{,}298$ & M1\\
+32 & $T_2=3{,}314\,T_1$;\enspace $\eta=0{,}418$ & M1\\
+33 & $T_2=0{,}631\,T_1$;\enspace $\eta=0{,}198$ & M1\\
+34 & $T_f=\SI{335,5}{K}$;\enspace $\Delta U_r=\SI{151}{J}$, $\Delta U_a=\SI{14849}{J}$;\enspace $\Delta S_r=\SI{0,475}{J/K}$, $\Delta S_a=\SI{46,8}{J/K}$, $\Delta S_{\mathrm{univ}}=\SI{47,3}{J/K}$ & M2, M3\\
+35 & $\Delta S_{\mathrm{gas}}=R\ln2$;\enspace (a) $\Delta S_F=-R\ln2$, $\Delta S_{\mathrm{univ}}=0$;\enspace (b) $\Delta S_F=-R/2$, $\Delta S_{\mathrm{univ}}=\SI{1,61}{J/K}$ & M2, M3\\
+36 & $T_2=\SI{475,1}{K}$, $T_3=\SI{818,8}{K}$, $T_4=\SI{631,6}{K}$;\enspace $\Delta S_{34}=\SI{5,83}{J/K}$ & M1, M2\\
+37 & (a) $\Delta S_{\mathrm{univ}}=nA[x-1-\ln x]$;\enspace (b) $nA(T_2-T_1)^2/(T_1T_2)$, con $x=T_2/T_1$ & M3\\
+38 & $T_f=\sqrt{T_1T_2}=\SI{346,4}{K}$;\enspace $|W|_{\max}=\SI{14,4}{kJ}$;\enspace $\eta=1-\sqrt{3/4}=0{,}134$ & M4\\
+39 & $S=\tfrac43aVT^3$;\enspace $pV^{4/3}=\cte$;\enspace $\eta=1-T_c/T_h$ & M5\\
+P.3 & $\Delta U=0$, $\Delta S_{\mathrm{gas}}=R\ln2$;\enspace $\Delta S_F=-R\ln2$ & M2, M3\\
+P.4 & $\Delta S_{\mathrm{univ}}=\tfrac32nR(x-1-\ln x)=0{,}188\,nR$;\enspace $\eta=0{,}199<\eta_C=0{,}370$ & M3, M1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{recuadro}{Lista de control antes de entregar}
+\begin{itemize}[label={\color{acento}$\blacktriangleright$},leftmargin=1.4em,itemsep=4pt]
+\item En un rendimiento, ¿se divide entre el calor \emph{absorbido} y no entre el calor neto?
+\item ¿Se ha comprobado $\sum Q_i=-W_{\mathrm{neto}}$ en el ciclo?
+\item ¿La entropía del sistema se ha calculado por un camino reversible, y no con $Q_{\mathrm{real}}/T$?
+\item ¿El calor del foco lleva el signo cambiado, $Q_F=-Q_{\mathrm{sis}}$, y se divide por la $T$ del foco?
+\item ¿Sale $\Delta S_{\mathrm{univ}}\geq0$? Si es negativo, hay un error de signo.
+\item ¿Se ha usado Poisson solo en adiabáticas \emph{reversibles}?
+\end{itemize}
+\end{recuadro}

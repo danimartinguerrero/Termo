@@ -1,0 +1,433 @@
+% =====================================================================
+\section{Máquinas térmicas}
+% =====================================================================
+La primera ley no prohíbe que el calor pase de un cuerpo frío a uno caliente ni que un motor convierta
+íntegro en trabajo el calor de un único foco; la experiencia dice que no ocurre. La segunda ley fija el
+\emph{sentido} de los procesos y \emph{limita} el trabajo útil \cite{gonzalez1,gonzalez2}. Su terreno natural
+son las máquinas cíclicas: en un ciclo $\Delta U=0$, luego $Q_{\mathrm{ciclo}}=-W_{\mathrm{ciclo}}$.
+
+\begin{definicion}[Motor, refrigerador y bomba de calor]
+Sean dos focos a $T_h>T_c$ y una sustancia que recorre un ciclo; los signos son los del sistema
+(figura~\ref{fig:maquinas}).
+\begin{itemize}[leftmargin=1.4em]
+\item Un \emph{motor} absorbe $Q_h>0$ del foco caliente, cede $Q_c<0$ al frío y entrega trabajo, $W<0$.
+\item Un \emph{refrigerador} extrae $Q_c>0$ del foco frío, recibe trabajo $W>0$ y cede $Q_h<0$ al caliente.
+\item Una \emph{bomba de calor} es el mismo dispositivo que el refrigerador, pero su objetivo es el calor
+  $-Q_h$ que entrega al foco caliente.
+\end{itemize}
+\end{definicion}
+
+\begin{definicion}[Rendimiento y coeficientes de operación]
+El rendimiento es la energía útil entre la energía que hay que aportar. Con $\Delta U=0$, $W=-(Q_h+Q_c)$ y
+\begin{equation}\label{eq:rendimientos}
+  \eta\equiv\frac{-W}{Q_h}=1+\frac{Q_c}{Q_h},\qquad
+  \varepsilon\equiv\frac{Q_c}{W}=\frac{1}{-1-Q_h/Q_c},\qquad
+  \nu\equiv\frac{-Q_h}{W}=\varepsilon+1 .
+\end{equation}
+Si el ciclo tiene más de dos tramos con calor, $Q_h$ se sustituye por el \emph{calor total absorbido}
+$Q_{\mathrm{abs}}=\sum_{Q_i>0}Q_i$, y $\eta=|W_{\mathrm{neto}}|/Q_{\mathrm{abs}}$.
+\end{definicion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small,
+   foco/.style={draw=navy,fill=fondomedio,minimum width=2.7cm,minimum height=0.62cm,inner sep=2pt},
+   maq/.style={draw=navy,fill=white,circle,minimum size=0.95cm,inner sep=0pt,font=\small\bfseries},
+   fl/.style={-{Stealth[length=5pt]},line width=1pt}]
+  \foreach \x/\nom/\tit/\dir in {0/M/Motor/1,4.6/R/Refrigerador/-1,9.2/B/Bomba de calor/-1}{
+    \node[foco] (h\nom) at (\x,2.4) {foco caliente $T_h$};
+    \node[foco] (c\nom) at (\x,-0.4) {foco frío $T_c$};
+    \node[maq] (m\nom) at (\x,1.0) {\nom};
+    \node[font=\small\bfseries,navy] at (\x,3.25) {\tit};
+  }
+  % motor
+  \draw[fl,rojo] (hM.south) -- (mM.north) node[midway,left=1pt] {$Q_h>0$};
+  \draw[fl,acento] (mM.south) -- (cM.north) node[midway,left=1pt] {$Q_c<0$};
+  \draw[fl,navy] (mM.east) -- ++(1.0,0) node[right] {$W<0$};
+  % refrigerador
+  \draw[fl,rojo] (mR.north) -- (hR.south) node[midway,left=1pt] {$Q_h<0$};
+  \draw[fl,acento] (cR.north) -- (mR.south) node[midway,left=1pt] {$Q_c>0$};
+  \draw[fl,navy] ($(mR.east)+(1.0,0)$) node[right] {$W>0$} -- (mR.east);
+  % bomba
+  \draw[fl,rojo,line width=1.5pt] (mB.north) -- (hB.south) node[midway,left=1pt] {$Q_h<0$};
+  \draw[fl,acento] (cB.north) -- (mB.south) node[midway,left=1pt] {$Q_c>0$};
+  \draw[fl,navy] ($(mB.east)+(1.0,0)$) node[right] {$W>0$} -- (mB.east);
+  \node[font=\footnotesize,gris] at (0,-1.1) {objetivo: $-W$};
+  \node[font=\footnotesize,gris] at (4.6,-1.1) {objetivo: $Q_c$};
+  \node[font=\footnotesize,gris] at (9.2,-1.1) {objetivo: $-Q_h$};
+\end{tikzpicture}
+\caption{Las tres máquinas cíclicas entre dos focos, con los signos del sistema. Motor: $\eta=-W/Q_h$;
+refrigerador: $\varepsilon=Q_c/W$; bomba de calor: $\nu=-Q_h/W$.}
+\label{fig:maquinas}
+\end{figure}
+
+\begin{observacion}[Un COP mayor que 1 no viola nada]
+Un refrigerador que consume \SI{100}{J} y extrae \SI{300}{J} del foco frío tiene $\varepsilon=3$ y cede
+$-Q_h=\SI{400}{J}$, de modo que como bomba $\nu=4$. El trabajo no se convierte en calor extraído: solo lo
+\emph{transporta}.
+\end{observacion}
+
+% =====================================================================
+\section{Segunda ley y entropía}
+% =====================================================================
+
+\subsection{Enunciados de la segunda ley}
+
+\begin{teorema}[Enunciados equivalentes de la segunda ley]
+\begin{enumerate}[leftmargin=1.6em,label=(\arabic*)]
+\item \emph{Clausius.} Es imposible un dispositivo cíclico cuyo único efecto sea pasar calor de un foco a otro
+  de mayor temperatura.
+\item \emph{Kelvin--Planck.} Es imposible un dispositivo cíclico cuyo único efecto sea extraer calor de un foco
+  y convertirlo íntegro en trabajo (móvil perpetuo de segunda especie).
+\item \emph{Carnot.} Ningún motor que opere entre dos focos tiene un rendimiento mayor que el del ciclo de
+  Carnot entre ellos.
+\item \emph{Aumento de la entropía.} La entropía de un sistema aislado nunca disminuye: $\Delta S\geq0$.
+\end{enumerate}
+\end{teorema}
+
+La equivalencia se demuestra en cadena, $(1)\Rightarrow(4)\Rightarrow(3)\Rightarrow(2)\Rightarrow(1)$, negando
+cada enunciado y construyendo una máquina que viola el anterior \cite{gonzalez1}. El enunciado (4) es el
+general: no se limita a ciclos y es el que se usa en los problemas.
+
+\subsection{Entropía}
+
+\begin{definicion}[Entropía]
+El calor reversible es una diferencial inexacta con factor integrante $1/T$: $\dbar Q_{\mathrm{rev}}/T$ es
+exacta y define la \emph{entropía} $S$, función de estado extensiva en \si{J/K}:
+\begin{equation}\label{eq:dS}
+  \dd S=\frac{\dbar Q_{\mathrm{rev}}}{T},\qquad
+  \Delta S=S_B-S_A=\int_{A,\ \mathrm{rev}}^{B}\frac{\dbar Q}{T}.
+\end{equation}
+\end{definicion}
+
+\begin{proposicion}[Exactitud de $\dbar Q_{\mathrm{rev}}/T$]
+Para un sistema hidrostático, $\dbar Q_{\mathrm{rev}}/T$ es exacta si y solo si
+\begin{equation}\label{eq:energetica}
+  \pd UVT=T\pd pTV-p,
+\end{equation}
+la \emph{ecuación termodinámica de la energía}. Para el gas ideal, $T(\partial p/\partial T)_V=nRT/V=p$ y
+$\pdi UVT=0$: la ley de Joule es una consecuencia de la segunda ley.
+\end{proposicion}
+
+\begin{demostracion}
+Con $\dbar Q_{\mathrm{rev}}=\dd U+p\,\dd V$ y $\dd U=C_V\dd T+\pdi UVT\dd V$,
+\[
+  \frac{\dbar Q_{\mathrm{rev}}}{T}=\underbrace{\frac{C_V}{T}}_{M}\dd T+\underbrace{\frac1T\Bigl[\pd UVT+p\Bigr]}_{N}\dd V .
+\]
+Derivadas cruzadas: $\partial_VM=\frac1T\frac{\partial^2U}{\partial V\partial T}$ y
+$\partial_TN=\frac1T\Bigl[\frac{\partial^2U}{\partial T\partial V}+\pd pTV\Bigr]-\frac{1}{T^2}\Bigl[\pd UVT+p\Bigr]$.
+Las segundas derivadas de $U$ son iguales (Schwarz) y se cancelan; igualar $\partial_VM=\partial_TN$ deja
+$\frac1T\pdi pTV=\frac1{T^2}\bigl[\pdi UVT+p\bigr]$, que es \eqref{eq:energetica}.
+\end{demostracion}
+
+\begin{teorema}[Desigualdad de Clausius y balance de entropía]
+En un ciclo cualquiera, con $T_F$ la temperatura del foco en cada intercambio, $\oint\dbar Q/T_F\leq0$, con
+igualdad solo si el ciclo es reversible. Para un proceso cualquiera entre $A$ y $B$,
+\begin{equation}\label{eq:balance}
+  \Delta S=\int_A^B\frac{\dbar Q}{T_F}+S_{\mathrm{gen}},\qquad S_{\mathrm{gen}}\geq0,
+\end{equation}
+donde el primer término es la entropía que transporta el calor y $S_{\mathrm{gen}}$ la que producen las
+irreversibilidades (fricción, disipación, expansión libre, diferencias finitas de $T$).
+\end{teorema}
+
+\begin{proposicion}[Principio de aumento de la entropía]
+Para el universo termodinámico (sistema más entorno, aislado en conjunto),
+\begin{equation}\label{eq:universo}
+  \Delta S_{\mathrm{univ}}=\Delta S_{\mathrm{sis}}+\Delta S_{\mathrm{ent}}=S_{\mathrm{gen}}\geq0,
+\end{equation}
+con igualdad si y solo si todo el proceso es reversible. En un proceso adiabático $\Delta S_{\mathrm{sis}}=S_{\mathrm{gen}}$:
+reversible, $\Delta S=0$ (isoentrópico); irreversible, $\Delta S>0$.
+\end{proposicion}
+
+\begin{observacion}[$Q=0$ no implica $\Delta S=0$]
+En la expansión libre de un gas ideal ($V\to2V$, recipiente rígido y adiabático) $Q=W=\Delta U=0$ y
+$T_2=T_1$, pero $\Delta S=nR\ln2>0$ ($\SI{5,76}{J/K}$ para un mol): toda esa entropía es generada.
+\end{observacion}
+
+% =====================================================================
+\section{Cálculo de cambios de entropía}
+% =====================================================================
+
+\begin{recuadro}{Regla de oro}
+$S$ es función de estado: $\Delta S_{\mathrm{sis}}$ solo depende de los estados inicial y final. Si el proceso
+real es irreversible, se calcula $\Delta S$ por \emph{cualquier camino reversible} que una los mismos estados.
+El calor del proceso real solo sirve para la entropía del \emph{entorno}.
+\end{recuadro}
+
+\subsection{Sistema: gas ideal y cuerpos}
+
+\begin{proposicion}[Entropía del gas ideal]
+\begin{equation}\label{eq:Sgas}
+  \Delta S=\int_{T_1}^{T_2}\frac{C_V}{T}\,\dd T+nR\ln\frac{V_2}{V_1}
+          =\int_{T_1}^{T_2}\frac{C_p}{T}\,\dd T-nR\ln\frac{p_2}{p_1},
+\end{equation}
+y para el gas perfecto las integrales valen $C_V\ln(T_2/T_1)$ y $C_p\ln(T_2/T_1)$.
+\end{proposicion}
+
+\begin{demostracion}
+Con $\dd U=C_V\dd T$ y $p=nRT/V$: $\dd S=(\dd U+p\,\dd V)/T=C_V\frac{\dd T}{T}+nR\frac{\dd V}{V}$. Para la segunda
+forma se sustituye $\frac{\dd V}{V}=\frac{\dd T}{T}-\frac{\dd p}{p}$ (de $\ln V=\ln nR+\ln T-\ln p$) y se usa
+$C_V+nR=C_p$.
+\end{demostracion}
+
+\begin{table}[htbp]
+\centering
+\caption{Cambios de entropía que aparecen en los seminarios.}
+\label{tab:dS}
+\small
+\renewcommand{\arraystretch}{1.75}
+\begin{tabular}{ll}
+\toprule
+Sistema o proceso & $\Delta S$\\
+\midrule
+Gas perfecto, isotermo (o expansión libre) & $nR\ln\dfrac{V_2}{V_1}=nR\ln\dfrac{p_1}{p_2}$\\
+Gas perfecto, isócoro / isóbaro & $C_V\ln\dfrac{T_2}{T_1}$\ /\ $C_p\ln\dfrac{T_2}{T_1}$\\
+Gas perfecto, adiabático reversible & $0$\\
+Cuerpo de capacidad $C$ constante, $T_1\to T_2$ & $C\ln\dfrac{T_2}{T_1}$\\
+Foco térmico a $T_F$ que recibe $Q_F=-Q_{\mathrm{sis}}$ & $\dfrac{Q_F}{T_F}=-\dfrac{Q_{\mathrm{sis}}}{T_F}$\\
+Foco mecánico, fuente de trabajo eléctrico & $0$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Entorno: focos y cuerpos finitos}
+
+Un \emph{foco térmico} no cambia de temperatura, así que su calor es reversible desde su lado:
+$\Delta S_F=Q_F/T_F$, con $Q_F=-Q_{\mathrm{sis}}$. Un \emph{cuerpo finito} sí cambia de temperatura, y su entropía se
+calcula como la de un sistema, $C\ln(T_f/T_i)$. Las fuentes de trabajo (foco mecánico, generador) no cambian
+de entropía; una resistencia o un freno que disipa trabajo sí la produce.
+
+\begin{ejemplo}[Tres casos tipo]
+\emph{(i) Calor entre focos}: \SI{1,20}{kJ} pasan de un foco a \SI{400}{K} a otro a \SI{300}{K}:
+$\Delta S_{\mathrm{univ}}=-\frac{1200}{400}+\frac{1200}{300}=-3+4=\SI{1}{J/K}>0$.
+\emph{(ii) Dos cuerpos iguales} ($C=\SI{1}{kJ/K}$) a 400 y \SI{300}{K} en contacto: $T_f=\SI{350}{K}$ y
+$\Delta S_{\mathrm{univ}}=C\ln\frac{350^2}{400\cdot300}=C\ln\frac{49}{48}=\SI{20,6}{J/K}$.
+\emph{(iii) Disipación}: una resistencia que entrega $W$ a un cuerpo rígido y adiabático de capacidad $C$
+produce $\Delta S_{\mathrm{univ}}=C\ln(T_f/T_i)$ con $C(T_f-T_i)=W$.
+\end{ejemplo}
+
+% =====================================================================
+\section{Ciclo y teorema de Carnot}
+% =====================================================================
+
+\begin{definicion}[Ciclo de Carnot]
+Dos isotermas reversibles a $T_h$ y $T_c$ unidas por dos adiabáticas reversibles: $1\to2$ isoterma a $T_h$
+(absorbe $Q_h$), $2\to3$ adiabática, $3\to4$ isoterma a $T_c$ (cede $Q_c$), $4\to1$ adiabática
+(figura~\ref{fig:carnot}).
+\end{definicion}
+
+\begin{proposicion}[Rendimiento de Carnot]
+Para cualquier sustancia,
+\begin{equation}\label{eq:carnot}
+  \eta_C=1-\frac{T_c}{T_h},\qquad \varepsilon_C=\frac{T_c}{T_h-T_c},\qquad \nu_C=\frac{T_h}{T_h-T_c}.
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+En el plano $T$--$S$ el ciclo es un rectángulo: las adiabáticas reversibles son isoentrópicas
+($\Delta S=0$, verticales). Con $\Delta S=S_2-S_1=S_3-S_4$,
+$Q_h=\int T\,\dd S=T_h\Delta S$ y $Q_c=-T_c\Delta S$, luego $\eta_C=1+Q_c/Q_h=1-T_c/T_h$. No se ha usado
+ninguna ecuación de estado. Para un gas ideal en el plano $p$--$V$ se llega a lo mismo: las adiabáticas
+dan $T_hV_2^{\gamma-1}=T_cV_3^{\gamma-1}$ y $T_hV_1^{\gamma-1}=T_cV_4^{\gamma-1}$, de donde $V_2/V_1=V_3/V_4$ y
+$Q_c/Q_h=\frac{nRT_c\ln(V_4/V_3)}{nRT_h\ln(V_2/V_1)}=-\frac{T_c}{T_h}$.
+\end{demostracion}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+% T_h = 1,5 ; T_c = 1 ; gamma = 5/3 ; V1 = 1, V2 = 2,5, V3 = 2,5*1,5^1,5 = 4,593, V4 = 1,5^1,5 = 1,837
+\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.5,xmax=5.2,ymin=0,ymax=1.75,
+    xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},clip=false]
+  \fill[fondomedio] plot[domain=1:2.5,samples=50] (\x,{1.5/\x})
+    -- plot[domain=2.5:4.593,samples=60] (\x,{0.6*(2.5/\x)^(5/3)})
+    -- plot[domain=4.593:1.837,samples=60] (\x,{1/\x})
+    -- plot[domain=1.837:1,samples=60] (\x,{0.54433*(1.837/\x)^(5/3)}) -- cycle;
+  \addplot[rojo,line width=1.1pt,domain=1:2.5,samples=60] {1.5/x};
+  \addplot[navy,line width=1.1pt,domain=2.5:4.593,samples=60] {0.6*(2.5/x)^(5/3)};
+  \addplot[acento,line width=1.1pt,domain=1.837:4.593,samples=60] {1/x};
+  \addplot[navy,line width=1.1pt,domain=1:1.837,samples=60] {0.54433*(1.837/x)^(5/3)};
+  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.5,1.0) -- (axis cs:1.75,{1.5/1.75});
+  \draw[acento,-{Stealth[length=5pt]}] (axis cs:3.6,{1/3.6}) -- (axis cs:3.2,{1/3.2});
+  \fill[black] (axis cs:1,1.5) circle (1.5pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {1};
+  \fill[black] (axis cs:2.5,0.6) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {2};
+  \fill[black] (axis cs:4.593,0.21772) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
+  \fill[black] (axis cs:1.837,0.54433) circle (1.5pt) node[anchor=north east,font=\scriptsize,inner sep=2pt] {4};
+  \node[font=\scriptsize,rojo,anchor=south west] at (axis cs:1.75,0.92) {$T_h$, $Q_h>0$};
+  \node[font=\scriptsize,acento,anchor=north] at (axis cs:3.0,0.27) {$T_c$, $Q_c<0$};
+  \node[font=\scriptsize,navy] at (axis cs:2.3,0.54) {$|W|$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.4,xmax=3.2,ymin=0,ymax=1.9,
+    xtick={1,2.4},xticklabels={$S_1$,$S_2$},ytick={1,1.5},yticklabels={$T_c$,$T_h$},
+    xlabel={$S$},ylabel={$T$},clip=false]
+  \fill[fondomedio] (axis cs:1,1) rectangle (axis cs:2.4,1.5);
+  \fill[pattern=north east lines,pattern color=acentoclaro] (axis cs:1,0) rectangle (axis cs:2.4,1);
+  \draw[rojo,line width=1.1pt] (axis cs:1,1.5) -- (axis cs:2.4,1.5);
+  \draw[acento,line width=1.1pt] (axis cs:2.4,1) -- (axis cs:1,1);
+  \draw[navy,line width=1.1pt] (axis cs:2.4,1.5) -- (axis cs:2.4,1);
+  \draw[navy,line width=1.1pt] (axis cs:1,1) -- (axis cs:1,1.5);
+  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.55,1.5) -- (axis cs:1.85,1.5);
+  \draw[acento,-{Stealth[length=5pt]}] (axis cs:1.85,1) -- (axis cs:1.55,1);
+  \node[font=\scriptsize,anchor=south east,inner sep=2pt] at (axis cs:1,1.5) {1};
+  \node[font=\scriptsize,anchor=south west,inner sep=2pt] at (axis cs:2.4,1.5) {2};
+  \node[font=\scriptsize,anchor=north west,inner sep=2pt] at (axis cs:2.4,1) {3};
+  \node[font=\scriptsize,anchor=north east,inner sep=2pt] at (axis cs:1,1) {4};
+  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.7,1.55) {$Q_h=T_h\,\Delta S$};
+  \node[font=\scriptsize,navy] at (axis cs:1.7,1.25) {$|W|$};
+  \node[font=\scriptsize,acento,fill=white,inner sep=1pt] at (axis cs:1.7,0.5) {$|Q_c|=T_c\,\Delta S$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{Ciclo de Carnot de un gas perfecto. (a) Plano del trabajo: dos isotermas (roja, caliente; azul, fría)
+y dos adiabáticas reversibles; el área encerrada es $|W|$. (b) Plano del calor: las adiabáticas son verticales
+y el ciclo es un rectángulo; el área bajo cada isoterma es su calor.}
+\label{fig:carnot}
+\end{figure}
+
+\begin{observacion}[Temperatura termodinámica]
+Todos los motores reversibles entre los mismos focos tienen el mismo rendimiento, así que
+$(Q_c/Q_h)_{\mathrm{rev}}=-T_c/T_h$ no depende de la sustancia. Esto define la escala absoluta de temperaturas
+sin referirse a ningún termómetro: $T_c=T_h\,|Q_c/Q_h|_{\mathrm{rev}}$.
+\end{observacion}
+
+\begin{ejemplo}[Límites entre \SI{600}{K} y \SI{300}{K}]
+Un motor tiene $\eta\leq1-\frac{300}{600}=0{,}50$: con $Q_h=\SI{1}{kJ}$ entrega como mucho \SI{0,50}{kJ}. Un
+refrigerador, $\varepsilon\leq\frac{300}{300}=1$; una bomba de calor, $\nu\leq\frac{600}{300}=2$. La igualdad exige
+que la máquina y sus intercambios con los focos sean reversibles.
+\end{ejemplo}
+
+% =====================================================================
+\section{Ecuaciones prácticas}
+% =====================================================================
+
+Uniendo la primera ley con $\dbar Q_{\mathrm{rev}}=T\,\dd S$ se obtiene la \emph{relación fundamental}
+\begin{equation}\label{eq:fundamental}
+  \dd U=T\,\dd S-p\,\dd V,\qquad T=\pd USV,\qquad p=-\pd UVS .
+\end{equation}
+Es una identidad entre estados de equilibrio, así que vale aunque el proceso real sea irreversible.
+
+\begin{proposicion}[Ecuaciones $T\,\dd S$]
+Para un sistema hidrostático,
+\begin{equation}\label{eq:TdS}
+  \dd S=\frac{C_V}{T}\,\dd T+\pd pTV\dd V,\qquad
+  \dd S=\frac{C_p}{T}\,\dd T-\pd VTp\dd p,
+\end{equation}
+es decir, los coeficientes calorimétricos del Tema 2 valen $l=T\pdi pTV$ y $h=-T\pdi VTp$, y
+\begin{equation}\label{eq:CpCVgeneral}
+  C_p-C_V=T\pd pTV\pd VTp=\frac{TV\alpha^2}{\kappa_T}\geq0 .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+La primera es $\dd S=\dbar Q_{\mathrm{rev}}/T=(C_V\dd T+l\,\dd V)/T$ con $l=\pdi UVT+p=T\pdi pTV$ por
+\eqref{eq:energetica}. La segunda sale igual con $\dbar Q_{\mathrm{rev}}=C_p\dd T+h\,\dd p$ e imponiendo la
+exactitud de $\dd H=T\,\dd S+V\dd p$, que da $h=-T\pdi VTp$. Por último, $C_p-C_V=l\pdi VTp$ (Tema 2), con
+$\pdi pTV=\alpha/\kappa_T$ y $\pdi VTp=\alpha V$.
+\end{demostracion}
+
+\begin{observacion}[Qué aportan]
+Permiten calcular $\Delta S$ y la adiabática ($\dd S=0$) de \emph{cualquier} sistema con solo su ecuación de
+estado y $C_V$ (problema~39), y dan la forma general de $C_p-C_V$, siempre no negativa: el agua a \SI{4}{\celsius},
+con $\alpha=0$, tiene $C_p=C_V$.
+\end{observacion}
+
+% =====================================================================
+\section{Ciclos Otto y Joule--Brayton}
+% =====================================================================
+
+Ambos ciclos usan un gas perfecto (aire estándar) con dos adiabáticas reversibles; difieren en los tramos con
+calor: isócoros en Otto (motor de explosión) e isóbaros en Brayton (turbina de gas). Como $Q_{12}=Q_{34}=0$,
+basta con los dos calores:
+\begin{equation}\label{eq:otto}
+\begin{aligned}
+  &\text{Otto:} && Q_{\mathrm{in}}=C_V(T_3-T_2), && Q_{\mathrm{out}}=C_V(T_1-T_4),\\
+  &\text{Brayton:} && Q_{\mathrm{in}}=C_p(T_3-T_2), && Q_{\mathrm{out}}=C_p(T_1-T_4).
+\end{aligned}
+\end{equation}
+En los dos, las adiabáticas dan $T_2/T_1=T_3/T_4$ (o, equivalentemente, $\Delta S_{\mathrm{ciclo}}=0$ da
+$T_3T_1=T_2T_4$), y
+\begin{equation}\label{eq:etaotto}
+  \eta=1-\frac{T_4-T_1}{T_3-T_2}=1-\frac{T_1}{T_2}
+  =\begin{cases}1-r^{1-\gamma}, & r=V_1/V_2\ \text{(Otto)},\\[2pt] 1-r_p^{(1-\gamma)/\gamma}, & r_p=p_2/p_1\ \text{(Brayton)}.\end{cases}
+\end{equation}
+Para $r=8$ y $\gamma=1{,}4$, $\eta_{\mathrm{Otto}}=1-8^{-0,4}=0{,}565$.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+% Otto: V1=4, V2=1 (r=4), gamma=1.4 ; p1=1 -> p2=4^1.4=6.964 ; p3=12, p4=12*4^-1.4=1.723
+\begin{axis}[graf,width=6.9cm,height=5.2cm,xmin=0.4,xmax=4.8,ymin=0,ymax=13.5,
+    xtick={1,4},xticklabels={$V_2$,$V_1$},ytick=\empty,xlabel={$V$},ylabel={$p$}]
+  \addplot[navy,line width=1pt,domain=1:4,samples=60] {(4/x)^1.4};
+  \addplot[navy,line width=1pt,domain=1:4,samples=60] {12*(1/x)^1.4};
+  \addplot[rojo,line width=1.2pt] coordinates {(1,6.964) (1,12)};
+  \addplot[acento,line width=1.2pt] coordinates {(4,1.723) (4,1)};
+  \fill[black] (axis cs:4,1) circle (1.5pt) node[anchor=north west,font=\scriptsize,inner sep=2.5pt] {1};
+  \fill[black] (axis cs:1,6.964) circle (1.5pt) node[anchor=east,font=\scriptsize,inner sep=2.5pt] {2};
+  \fill[black] (axis cs:1,12) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2.5pt] {3};
+  \fill[black] (axis cs:4,1.723) circle (1.5pt) node[anchor=west,font=\scriptsize,inner sep=2.5pt] {4};
+  \node[font=\scriptsize,rojo,anchor=east] at (axis cs:0.95,9.5) {$Q_{\mathrm{in}}$};
+  \node[font=\scriptsize,acento,anchor=west] at (axis cs:4.05,3.0) {$Q_{\mathrm{out}}$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+% Brayton: p1=1, p2=6 ; V1=4 -> V2=4*6^(-1/1.4)=1.111 ; V3=2.2 ; V4=2.2*6^(1/1.4)=7.92
+\begin{axis}[graf,width=6.9cm,height=5.2cm,xmin=0,xmax=9,ymin=0,ymax=7.5,
+    xtick=\empty,ytick={1,6},yticklabels={$p_1$,$p_2$},xlabel={$V$},ylabel={$p$}]
+  \addplot[navy,line width=1pt,domain=1.111:4,samples=60] {(4/x)^1.4};
+  \addplot[navy,line width=1pt,domain=2.2:7.92,samples=60] {6*(2.2/x)^1.4};
+  \addplot[rojo,line width=1.2pt] coordinates {(1.111,6) (2.2,6)};
+  \addplot[acento,line width=1.2pt] coordinates {(7.92,1) (4,1)};
+  \fill[black] (axis cs:4,1) circle (1.5pt) node[anchor=north,font=\scriptsize,inner sep=2.5pt] {1};
+  \fill[black] (axis cs:1.111,6) circle (1.5pt) node[anchor=south east,font=\scriptsize,inner sep=2.5pt] {2};
+  \fill[black] (axis cs:2.2,6) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2.5pt] {3};
+  \fill[black] (axis cs:7.92,1) circle (1.5pt) node[anchor=north,font=\scriptsize,inner sep=2.5pt] {4};
+  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.65,6.45) {$Q_{\mathrm{in}}$};
+  \node[font=\scriptsize,acento,anchor=south] at (axis cs:6.0,1.15) {$Q_{\mathrm{out}}$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{(a) Ciclo Otto: el calor entra y sale a volumen constante. (b) Ciclo Joule--Brayton: entra y sale a
+presión constante. En ambos, $1\to2$ y $3\to4$ son adiabáticas reversibles.}
+\label{fig:ottobrayton}
+\end{figure}
+
+% =====================================================================
+\section{Trabajo perdido y trabajo máximo}
+% =====================================================================
+
+\begin{proposicion}[Trabajo perdido]
+Para un motor entre dos focos, con $S_{\mathrm{gen}}=-Q_h/T_h-Q_c/T_c\geq0$,
+\begin{equation}\label{eq:perdido}
+  |W|=\Bigl(1-\frac{T_c}{T_h}\Bigr)Q_h-T_cS_{\mathrm{gen}},\qquad
+  W_{\mathrm{perdido}}\equiv|W|_{\max}-|W|=T_cS_{\mathrm{gen}} .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+Despejando $Q_c=-T_c(S_{\mathrm{gen}}+Q_h/T_h)$ y llevándolo a $|W|=Q_h+Q_c$ se obtiene la primera expresión;
+el máximo, con $S_{\mathrm{gen}}=0$, es el de Carnot.
+\end{demostracion}
+
+\begin{ejemplo}[Cuánto trabajo se pierde]
+Un motor entre 600 y \SI{300}{K} absorbe \SI{1}{kJ} y entrega \SI{0,40}{kJ}, luego cede \SI{0,60}{kJ}:
+$S_{\mathrm{gen}}=-\frac{1000}{600}+\frac{600}{300}=\SI{0,333}{J/K}$ y $W_{\mathrm{perdido}}=300\cdot\tfrac13=\SI{100}{J}$, la
+diferencia con los \SI{0,50}{kJ} de Carnot.
+\end{ejemplo}
+
+\begin{observacion}[Trabajo máximo con cuerpos finitos]
+Si los focos son cuerpos de capacidad finita, su temperatura cambia y no hay un $\eta_C$ fijo. El trabajo máximo
+se obtiene igualmente imponiendo reversibilidad, $\Delta S_{\mathrm{univ}}=0$, que fija la temperatura final; la
+energía sale después de la primera ley (problema~38).
+\end{observacion}
