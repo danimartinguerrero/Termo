@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+logs/
+renders/*.wav
+renders/*.ass
