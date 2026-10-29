@@ -146,7 +146,7 @@ def build_ass(texts, path):
         text = tx.text
         if s.get('lower'):
             text = text.lower() if not any(c in text for c in '=∮∂γτ') else text
-        if s.get('upper'):
+        if s.get('upper') and '=' not in text:
             text = text.upper()
         fi, fo = s.get('fade', (300, 300))
         tags = f'\\fad({fi},{fo})'
