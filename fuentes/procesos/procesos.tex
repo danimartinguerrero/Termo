@@ -1,0 +1,292 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\numtema}{2}
+\usepackage{estilo}
+\renewcommand{\cabeceraizq}{\espaciado[60]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[60]{Temas 1 y 2}}
+\newcommand{\Cv}{\bar C_V}
+\newcommand{\Cp}{\bar C_p}
+
+\begin{document}
+
+% ============================ CABECERA ============================
+\thispagestyle{empty}
+\vspace*{-1.2cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.15) rectangle (\textwidth,0.75);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.22\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.15\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.535\textwidth,0)
+    {{\color{navy}\large\espaciado[150]{Universidad de Salamanca}}\\[4pt]
+     {\color{acento}\espaciado[110]{Facultad de Ciencias}\enspace\textperiodcentered\enspace\espaciado[110]{Grado en Física}}};
+  \draw[regla,line width=0.6pt] (0,-1.1) -- (\textwidth,-1.1);
+\end{tikzpicture}
+
+\vspace{0.6cm}
+\noindent{\color{acento}\large\espaciado[150]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[150]{Temas 1 y 2}}\\[6pt]
+{\color{navy}\fontsize{26}{32}\selectfont\bfseries Procesos del gas perfecto}\\[4pt]
+\begin{tikzpicture}
+  \shade[left color=navy,right color=white] (0,0) rectangle (0.62\textwidth,1.6mm);
+\end{tikzpicture}
+
+\vspace{0.3cm}
+\noindent{\large\itshape Tablas de consulta: ecuaciones de cada proceso, trabajo, calor, energía interna,
+entalpía, capacidad calorífica y signos}
+
+\vspace{0.3cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Autor}}\enspace Daniel Martín Guerrero
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Profesor}}\enspace Julián González Ayala
+\end{minipage}
+
+\vspace{0.2cm}
+\begin{recuadro}{Hipótesis y notación}
+Todas las expresiones son para $n$ moles de \emph{gas perfecto}: $pV=nRT$, $U=U(T)$ y capacidades molares
+$\Cv$ y $\Cp$ constantes, con $\Cp-\Cv=R$ (Mayer) y $\gamma=\Cp/\Cv$. Monoatómico: $\Cv=\tfrac32R$,
+$\gamma=\tfrac53$; diatómico: $\Cv=\tfrac52R$, $\gamma=\tfrac75$. El proceso va del estado $1$ al $2$ y es
+\emph{reversible} salvo en la tabla~\ref{tab:irrev}. Convención del curso: $Q>0$ y $W>0$ si la energía
+\emph{entra} en el gas, de modo que $\Delta U=Q+W$ y $W=-\int p\,\dd V$. El exponente politrópico se
+escribe $m$ para no confundirlo con el número de moles $n$; $\Delta T=T_2-T_1$.
+\end{recuadro}
+
+% ============================ 1. ECUACIONES ============================
+\section{Ecuaciones de cada proceso}
+
+Todo proceso reversible elemental del gas perfecto es un caso de la \emph{politrópica} $pV^m=\cte$
+(tabla~\ref{tab:ecuaciones}). Con la ecuación de estado, $pV^m=\cte$ se reescribe en las otras dos parejas de
+variables:
+\begin{equation}\label{eq:politropica}
+  pV^m=\cte\iff TV^{m-1}=\cte\iff Tp^{(1-m)/m}=\cte .
+\end{equation}
+\emph{Deducción}: con $p=nRT/V$, $pV^m=nRTV^{m-1}$, y con $V=nRT/p$, $pV^m=p(nRT/p)^m\propto T^mp^{1-m}$;
+elevando a $1/m$ se obtiene la tercera forma.
+
+\begin{table}[htbp]
+\centering
+\caption{Ecuación de cada proceso, exponente politrópico $m$ y capacidad calorífica molar del proceso.}
+\label{tab:ecuaciones}
+\small
+\renewcommand{\arraystretch}{1.75}
+\begin{tabular}{llccc}
+\toprule
+Proceso & Condición & Relación entre los estados 1 y 2 & $m$ & $\bar C_{\mathrm{proc}}$\\
+\midrule
+Isócoro & $V=\cte$ & $\dfrac{p_1}{T_1}=\dfrac{p_2}{T_2}$ & $\infty$ & $\Cv$\\
+Isóbaro & $p=\cte$ & $\dfrac{V_1}{T_1}=\dfrac{V_2}{T_2}$ & $0$ & $\Cp$\\
+Isotermo & $T=\cte$ & $p_1V_1=p_2V_2$ & $1$ & $\pm\infty$\\
+Adiabático reversible & $\dbar Q=0$ & $p_1V_1^{\gamma}=p_2V_2^{\gamma},\ \ T_1V_1^{\gamma-1}=T_2V_2^{\gamma-1}$ & $\gamma$ & $0$\\
+Politrópico & $pV^m=\cte$ & $p_1V_1^{m}=p_2V_2^{m},\ \ T_1V_1^{m-1}=T_2V_2^{m-1}$ & $m$ & $\Cv\,\dfrac{m-\gamma}{m-1}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{observacion}[Capacidad del proceso politrópico]
+Por la primera ley, $\dbar Q=n\Cv\,\dd T+p\,\dd V$. A lo largo de $pV^m=\cte$, de \eqref{eq:politropica},
+$p\,\dd V=-\dfrac{nR}{m-1}\dd T$ (diferenciando $pV=nRT$ y $pV^m=\cte$). Así
+\[
+  \dbar Q=n\Bigl(\Cv-\frac{R}{m-1}\Bigr)\dd T\quad\Longrightarrow\quad
+  \bar C_m=\Cv-\frac{R}{m-1}=\Cv\,\frac{m-\gamma}{m-1},
+\]
+que reproduce $\Cp$ ($m=0$), $\infty$ ($m=1$), $0$ ($m=\gamma$) y $\Cv$ ($m\to\infty$). Para $1<m<\gamma$,
+$\bar C_m<0$: el gas recibe calor y se enfría.
+\end{observacion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=8.4cm,height=6.2cm,xmin=0.3,xmax=2.6,ymin=0,ymax=3.4,
+    xtick={1},xticklabels={$V_1$},ytick={1},yticklabels={$p_1$},
+    grid=major,grid style={regla!55,line width=0.3pt},
+    xlabel={$V$},ylabel={$p$},leyenda fuera]
+  \addplot[acento,line width=1pt,domain=0.35:2.5,samples=2] {1};
+  \addplot[navy,line width=1pt,densely dashed,domain=0.3:2.5,samples=80] {1/x};
+  \addplot[rojo,line width=1pt,domain=0.42:2.5,samples=80] {x^(-1.4)};
+  \addplot[verde,line width=1pt,domain=0.62:2.5,samples=80] {x^(-2.5)};
+  \addplot[gris,line width=1pt] coordinates {(1,0) (1,3.4)};
+  \fill[black] (axis cs:1,1) circle (1.8pt);
+  \legend{isóbaro ($m=0$),isotermo ($m=1$),adiabático ($m=\gamma=1{,}4$),politrópico ($m=2{,}5$),isócoro ($m=\infty$)}
+\end{axis}
+\end{tikzpicture}
+\caption{Procesos reversibles del gas perfecto que pasan por el estado $(V_1,p_1)$. A la derecha del punto,
+expansiones; a la izquierda, compresiones. Cuanto mayor es $m$, más empinada es la curva: la isóbara ($m=0$)
+es horizontal y la isócora ($m\to\infty$), vertical.}
+\label{fig:procesos}
+\end{figure}
+
+% ============================ 2. ENERGÍA ============================
+\section{Trabajo, calor, energía interna y entalpía}
+
+La columna del trabajo sale de $W=-\int p\,\dd V$ con la $p(V)$ del proceso; $\Delta U=n\Cv\Delta T$ y
+$\Delta H=n\Cp\Delta T$ valen \emph{siempre}, porque son funciones de estado y solo dependen de $T$; el calor
+sale del balance $Q=\Delta U-W$ (tabla~\ref{tab:energia}).
+
+\begin{table}[htbp]
+\centering
+\caption{Balance de energía de los procesos reversibles del gas perfecto.}
+\label{tab:energia}
+\small
+\renewcommand{\arraystretch}{1.9}
+\begin{tabular}{lcccc}
+\toprule
+Proceso & Trabajo $W$ & Calor $Q$ & $\Delta U$ & $\Delta H$\\
+\midrule
+Isócoro & $0$ & $n\Cv\Delta T$ & $n\Cv\Delta T$ & $n\Cp\Delta T$\\
+Isóbaro & $-p(V_2-V_1)=-nR\,\Delta T$ & $n\Cp\Delta T$ & $n\Cv\Delta T$ & $n\Cp\Delta T$\\
+Isotermo & $-nRT\ln\dfrac{V_2}{V_1}=-nRT\ln\dfrac{p_1}{p_2}$ & $-W$ & $0$ & $0$\\
+Adiabático reversible & $\dfrac{p_2V_2-p_1V_1}{\gamma-1}=n\Cv\Delta T$ & $0$ & $n\Cv\Delta T$ & $n\Cp\Delta T$\\
+Politrópico & $\dfrac{p_2V_2-p_1V_1}{m-1}=\dfrac{nR\,\Delta T}{m-1}$ & $n\Cv\dfrac{m-\gamma}{m-1}\,\Delta T$ & $n\Cv\Delta T$ & $n\Cp\Delta T$\\
+Lineal $p=a+bV$ & $-\dfrac{p_1+p_2}{2}\,(V_2-V_1)$ & $\Delta U-W$ & $n\Cv\Delta T$ & $n\Cp\Delta T$\\
+Cíclico & $-\oint p\,\dd V$ & $-W$ & $0$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paso{Isócoro} Con $\dd V=0$ no hay trabajo de frontera, y toda la energía entra como calor:
+$Q=\Delta U=n\Cv\Delta T$.
+
+\paso{Isóbaro} La presión sale de la integral, $W=-p(V_2-V_1)$, y con $pV=nRT$ a $p$ fija,
+$p\,\Delta V=nR\,\Delta T$. Entonces $Q=\Delta U-W=n(\Cv+R)\Delta T=n\Cp\Delta T=\Delta H$.
+
+\paso{Isotermo} Con $p=nRT/V$ y $T$ fija, $W=-nRT\int_{V_1}^{V_2}\frac{\dd V}{V}=-nRT\ln\frac{V_2}{V_1}$; por
+$p_1V_1=p_2V_2$, $V_2/V_1=p_1/p_2$. Como $\Delta T=0$, $\Delta U=0$ y $Q=-W$: el calor absorbido se entrega
+íntegro como trabajo.
+
+\paso{Adiabático reversible} Con $Q=0$, $W=\Delta U=n\Cv\Delta T$, y con $n\Cv=nR/(\gamma-1)$ y $nRT=pV$,
+$W=(p_2V_2-p_1V_1)/(\gamma-1)$. Es la fila politrópica con $m=\gamma$.
+
+\paso{Politrópico} Con $p=CV^{-m}$ y $C=p_1V_1^m=p_2V_2^m$,
+\[
+  W=-C\,\frac{V_2^{1-m}-V_1^{1-m}}{1-m}=\frac{p_2V_2-p_1V_1}{m-1}=\frac{nR\,\Delta T}{m-1},
+\]
+y $Q=\Delta U-W=n\bigl(\Cv-\tfrac{R}{m-1}\bigr)\Delta T=n\bar C_m\Delta T$.
+
+\paso{Lineal} El área bajo una recta en el plano $p$--$V$ es un trapecio de alturas $p_1$ y $p_2$.
+
+\begin{observacion}[Qué valores conviene recordar]
+Para un gas perfecto basta saber tres cosas: $\Delta U=n\Cv\Delta T$ en \emph{cualquier} proceso; el
+trabajo de la columna correspondiente; y $Q=\Delta U-W$. Todo lo demás de la tabla~\ref{tab:energia} se
+deduce de ellas.
+\end{observacion}
+
+% ============================ 3. IRREVERSIBLES ============================
+\section{Procesos irreversibles frecuentes}
+
+En un proceso irreversible el gas no pasa por estados de equilibrio: el trabajo se calcula con la presión
+\emph{exterior}, $W=-\int p_{\mathrm{ext}}\,\dd V$, y $\Delta U$, que solo depende de los estados extremos,
+sigue siendo $n\Cv\Delta T$ (tabla~\ref{tab:irrev}).
+
+\begin{table}[htbp]
+\centering
+\caption{Procesos irreversibles: estado final, trabajo, calor y energía interna.}
+\label{tab:irrev}
+\small
+\renewcommand{\arraystretch}{1.9}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.9cm}>{\centering\arraybackslash}Xccc}
+\toprule
+Proceso & Estado final & $W$ & $Q$ & $\Delta U$\\
+\midrule
+Expansión libre (al vacío, adiabática) & $T_2=T_1$ & $0$ & $0$ & $0$\\
+Contra $p_{\mathrm{ext}}$ fija, en contacto con un foco a $T_1$ & $T_2=T_1$,\ $p_2=p_{\mathrm{ext}}$ & $-p_{\mathrm{ext}}(V_2-V_1)$ & $-W$ & $0$\\
+Contra $p_{\mathrm{ext}}$ fija, adiabática & $T_2=T_1\,\dfrac{\Cv+R\,p_{\mathrm{ext}}/p_1}{\Cp}$ si $p_2=p_{\mathrm{ext}}$ & $-p_{\mathrm{ext}}(V_2-V_1)$ & $0$ & $W$\\
+Contra $p_{\mathrm{ext}}$ fija hasta $V_2$ dado (topes) & $T_2=T_1+\dfrac{W}{n\Cv}$ & $-p_{\mathrm{ext}}(V_2-V_1)$ & $0$ & $W$\\
+Isócoro con un foco & $p_2/T_2=p_1/T_1$ & $0$ & $n\Cv\Delta T$ & $n\Cv\Delta T$\\
+Agitación a $V$ fijo, adiabática & $T_2=T_1+\dfrac{W_{\mathrm{dis}}}{n\Cv}$ & $W_{\mathrm{dis}}>0$ & $0$ & $W_{\mathrm{dis}}$\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paso{Contra $p_{\mathrm{ext}}$ fija, adiabática} Con $Q=0$, $n\Cv(T_2-T_1)=-p_{\mathrm{ext}}(V_2-V_1)$. Si el gas
+acaba en equilibrio mecánico, $p_2=p_{\mathrm{ext}}$ y $V_2=nRT_2/p_{\mathrm{ext}}$, $V_1=nRT_1/p_1$:
+\[
+  n\Cv(T_2-T_1)=-nRT_2+nRT_1\frac{p_{\mathrm{ext}}}{p_1}
+  \quad\Longrightarrow\quad
+  T_2(\Cv+R)=T_1\Bigl(\Cv+R\,\frac{p_{\mathrm{ext}}}{p_1}\Bigr),
+\]
+y como $\Cv+R=\Cp$ se obtiene la fila de la tabla. Si en cambio el volumen final está fijado por unos
+topes (problema 29 del Tema 2), $W$ se calcula directamente y $T_2$ sale del balance.
+
+\begin{observacion}[Mismos estados, distinto proceso]
+Entre los mismos estados extremos, $\Delta U$ y $\Delta H$ son iguales para todos los procesos, reversibles o
+no; $Q$ y $W$ no. Por ejemplo, en una expansión isoterma de $p_1$ a $p_2<p_1$ contra $p_{\mathrm{ext}}=p_2$,
+$|W|=nRT(1-p_2/p_1)$, menor que el reversible $nRT\ln(p_1/p_2)$: el proceso reversible es el que más
+trabajo entrega.
+\end{observacion}
+
+% ============================ 4. SIGNOS ============================
+\section{Signos en expansión y compresión}
+
+\begin{table}[htbp]
+\centering
+\caption{Signos de $W$, $Q$ y $\Delta U$ y evolución de $T$ en una expansión ($V_2>V_1$). En una compresión todos
+los signos se invierten.}
+\label{tab:signos}
+\small
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{lccccl}
+\toprule
+Proceso (expansión) & $W$ & $Q$ & $\Delta U$ & $T$ & Lectura\\
+\midrule
+Isóbaro & $<0$ & $>0$ & $>0$ & sube & el calor paga el trabajo y además calienta\\
+Isotermo & $<0$ & $>0$ & $0$ & fija & el calor absorbido sale íntegro como trabajo\\
+Politrópico, $1<m<\gamma$ & $<0$ & $>0$ & $<0$ & baja & recibe calor, pero entrega más trabajo\\
+Adiabático & $<0$ & $0$ & $<0$ & baja & el trabajo sale de la energía interna\\
+Politrópico, $m>\gamma$ & $<0$ & $<0$ & $<0$ & baja & cede calor y trabajo\\
+\midrule
+Isócoro (calentamiento) & $0$ & $>0$ & $>0$ & sube & todo el calor aumenta $U$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================ 5. ENTROPÍA ============================
+\section{Avance del Tema 3: variación de entropía}
+
+Para completar la tabla del parcial (temas 1--3) se recoge aquí el cambio de entropía del gas,
+$\Delta S=n\Cv\ln\frac{T_2}{T_1}+nR\ln\frac{V_2}{V_1}=n\Cp\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}$, que solo depende de
+los estados y por tanto vale también para los procesos irreversibles de la tabla~\ref{tab:irrev}. Su
+deducción corresponde al Tema 3.
+
+\begin{table}[htbp]
+\centering
+\caption{Cambio de entropía del gas perfecto en cada proceso.}
+\label{tab:entropia}
+\small
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{lc}
+\toprule
+Proceso & $\Delta S$\\
+\midrule
+Isócoro & $n\Cv\ln\dfrac{T_2}{T_1}=n\Cv\ln\dfrac{p_2}{p_1}$\\
+Isóbaro & $n\Cp\ln\dfrac{T_2}{T_1}=n\Cp\ln\dfrac{V_2}{V_1}$\\
+Isotermo, o expansión libre & $nR\ln\dfrac{V_2}{V_1}=nR\ln\dfrac{p_1}{p_2}$\\
+Adiabático reversible & $0$\\
+Politrópico & $n\bar C_m\ln\dfrac{T_2}{T_1}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================ REFERENCIAS ============================
+\needspace{8\baselineskip}
+\begingroup
+\titleformat{\section}{\Large\bfseries\color{navy}}{}{0em}{}[\vspace{2pt}{\color{navy}\titlerule[0.9pt]}]
+\renewcommand{\refname}{Referencias}
+\makeatletter
+\renewenvironment{thebibliography}[1]
+  {\section*{\refname}\markboth{\refname}{}%
+   \list{\@biblabel{\@arabic\c@enumiv}}{\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\itemsep 4pt\usecounter{enumiv}\let\p@enumiv\@empty
+     \renewcommand\theenumiv{\@arabic\c@enumiv}}\sloppy}
+  {\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}\endlist}
+\makeatother
+\begin{thebibliography}{9}
+\bibitem{martin2} D.~Martín Guerrero. \emph{Primera ley (Termodinámica I, Tema 2)}. Apuntes formalizados con
+  seminarios prácticos. Grado en Física, Universidad de Salamanca, 2026.
+\bibitem{gonzalez} J.~González Ayala. \emph{Termodinámica I}, capítulos 1 y 2, y transparencias de los temas 1 y 2.
+  Universidad de Salamanca, curso 2026--27.
+\end{thebibliography}
+\endgroup
+
+\end{document}
