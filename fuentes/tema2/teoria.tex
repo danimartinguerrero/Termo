@@ -223,6 +223,18 @@ agitar el fluido, pero el fluido no puede devolver ese trabajo. El trabajo total
 \end{equation}
 \end{definicion}
 
+\begin{observacion}[Frontera reversible y proceso irreversible]
+Si el pistón se mueve de forma cuasiestática y sin rozamiento, en cada instante hay equilibrio mecánico,
+$p_{\mathrm{ext}}=p\pm\dd p$, y el trabajo de configuración se calcula con la presión del gas,
+\[
+  W_{\mathrm{conf}}=-\int_{V_1}^{V_2}p(V)\,\dd V,
+\]
+como en \eqref{eq:Wrev}. Pero mover la frontera de forma reversible no hace reversible el proceso: si hay
+agitador, el término $W_{\mathrm{dis}}$ sigue presente y el proceso completo es irreversible. Un proceso
+totalmente reversible no tiene trabajo disipativo, y entonces $W=W_{\mathrm{conf}}=-\int p\,\dd V$. En el
+problema~22 las dos lecturas coinciden: el pistón sin rozamiento está en equilibrio y $p=p_{\mathrm{ext}}$.
+\end{observacion}
+
 % =====================================================================
 \section{Calor y primera ley}\label{sec:primera}
 % =====================================================================
@@ -300,6 +312,36 @@ trabajo de configuración sin que cambie su presión: $\Delta U_{\mathrm{FM}}=-p
 La atmósfera es un foco mecánico a $p_{\mathrm{atm}}$; un baño grande, un foco térmico.
 \end{definicion}
 
+Las dos fórmulas salen de aplicar la primera ley \emph{al propio foco}, como si fuera otro sistema, y de
+que la energía que cruza la pared común sale de uno y entra en el otro.
+
+\paso{Foco térmico} Sus paredes son rígidas, así que no hay trabajo de configuración, $W_{\mathrm{FT}}=0$, y
+la primera ley da $\Delta U_{\mathrm{FT}}=Q_{\mathrm{FT}}$. El calor que cruza la pared entre $\Sigma$ y el foco es
+una única transferencia contada con signo desde cada lado: si $\Sigma$ recibe $Q_\Sigma$, el foco cede esa misma
+cantidad,
+\[
+  Q_{\mathrm{FT}}=-Q_\Sigma\quad\Longrightarrow\quad\Delta U_{\mathrm{FT}}=Q_{\mathrm{FT}}=-Q_\Sigma .
+\]
+Su temperatura no cambia porque su capacidad calorífica es enorme: $\Delta T_{\mathrm{FT}}\simeq
+Q_{\mathrm{FT}}/C_{\mathrm{FT}}\to0$ cuando $C_{\mathrm{FT}}\to\infty$ con $Q$ finito.
+
+\paso{Foco mecánico} Es adiabático ($Q_{\mathrm{FM}}=0$) y solo intercambia trabajo de configuración a la
+presión constante $p_{\mathrm{FM}}$, que sale de la integral:
+\[
+  \Delta U_{\mathrm{FM}}=W_{\mathrm{FM}}=-\int p_{\mathrm{FM}}\,\dd V_{\mathrm{FM}}=-p_{\mathrm{FM}}\,\Delta V_{\mathrm{FM}} .
+\]
+El volumen que gana el foco es el que pierde el sistema, $\Delta V_{\mathrm{FM}}=-\Delta V_\Sigma$, y la presión
+que siente el sistema es $p_{\mathrm{ext}}=p_{\mathrm{FM}}$, así que $W_\Sigma=-p_{\mathrm{FM}}\Delta V_\Sigma$ y
+\[
+  W_{\mathrm{FM}}=-p_{\mathrm{FM}}\Delta V_{\mathrm{FM}}=+p_{\mathrm{FM}}\Delta V_\Sigma=-W_\Sigma .
+\]
+
+\paso{Balance conjunto} El sistema más los focos, aislado del resto, conserva la energía:
+\[
+  \Delta U_\Sigma+\Delta U_{\mathrm{FT}}+\Delta U_{\mathrm{FM}}=(Q_\Sigma+W_\Sigma)-Q_\Sigma-W_\Sigma=0 .
+\]
+Los focos son la contrapartida del sistema: lo que entra en uno sale del otro.
+
 % =====================================================================
 \section{Energía interna y capacidades caloríficas}
 % =====================================================================
@@ -333,6 +375,19 @@ Son extensivas, en \si{J/K}; las molares $\bar C=C/n$, en \si{J/(mol.K)}, y las 
 \si{J/(kg.K)}, son intensivas.
 \end{definicion}
 
+\begin{observacion}[Por qué $\bar C$ y $c$ son intensivas]
+Si se juntan $\lambda$ copias idénticas del sistema en el mismo estado, cada una necesita el mismo $\dbar Q$
+para el mismo $\dd T$, y $\dd T$ no cambia porque $T$ es intensiva; luego
+$C(\lambda\ \text{copias})=\lambda\,\dbar Q/\dd T=\lambda C$: $C$ es extensiva (también se ve en
+$C_V=\pdi UTV$, derivada de una extensiva respecto de una intensiva). Como $n\to\lambda n$ y $m\to\lambda m$,
+\[
+  \bar C=\frac{C}{n}\;\to\;\frac{\lambda C}{\lambda n}=\frac{C}{n},\qquad c=\frac{C}{m}\;\to\;\frac{\lambda C}{\lambda m}=\frac{C}{m}:
+\]
+el factor de tamaño se cancela. En general, el cociente de dos extensivas (homogéneas de grado 1 en el
+tamaño) es homogéneo de grado 0, es decir, intensivo, como $\Vm=V/n$ o $\rho=m/V$ (Tema 1). Por eso las
+tablas dan $\bar C$ y $c$, que describen la sustancia y no un objeto concreto.
+\end{observacion}
+
 \begin{proposicion}[$C_V$ y $C_p$ a partir de $U$]
 \begin{equation}\label{eq:CV}
   C_V=\pd{U}{T}{V},\qquad
@@ -349,6 +404,26 @@ $\dd V=\pdi{V}{T}{p}\dd T+\pdi{V}{p}{T}\dd p$, y con $\dd p=0$ solo queda el pri
 \emph{Entalpía}: diferenciando $H=U+pV$, $\dd H=\dd U+p\,\dd V+V\dd p=\dbar Q+V\dd p$ en un proceso reversible;
 con $\dd p=0$, $\dd H=\dbar Q$ y $C_p=\pdi{H}{T}{p}$.
 \end{demostracion}
+
+\begin{observacion}[Derivación directa de la entalpía]
+La igualdad $\pdi HTp=C_V+\bigl[\pdi UVT+p\bigr]\pdi VTp$ también sale derivando $H=U+pV$ sin pasar por
+$\dbar Q$. A $p$ constante, $p$ sale de la derivada del producto:
+\[
+  \pd HTp=\pd UTp+p\pd VTp .
+\]
+La ecuación energética está en variables $(T,V)$; a presión fija el volumen depende de $T$, así que se
+escribe $U\bigl(T,V(T,p)\bigr)$ y se aplica la regla de la cadena:
+\[
+  \pd UTp=\pd UTV+\pd UVT\pd VTp=C_V+\pd UVT\pd VTp .
+\]
+El primer término es la variación de $U$ con $T$ a volumen fijo; el segundo, la que añade la dilatación al
+calentar a $p$ constante. Sumando y agrupando los términos en $\pdi VTp$:
+\[
+  \pd HTp=C_V+\left[\pd UVT+p\right]\pd VTp,
+\]
+la expresión central de \eqref{eq:CV}. Para el gas ideal, $H=U(T)+nRT$ depende solo de $T$ y
+$C_p=\dd H/\dd T=\dd U/\dd T+nR=C_V+nR$: la relación de Mayer en una línea.
+\end{observacion}
 
 \begin{proposicion}[Diferencia de capacidades]
 En general, $C_p-C_V=\bigl[\pdi{U}{V}{T}+p\bigr]\pdi{V}{T}{p}$. Si $U=U(T)$ (ley de Joule),
