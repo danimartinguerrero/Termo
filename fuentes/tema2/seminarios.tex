@@ -1,0 +1,399 @@
+% =====================================================================
+\section{Seminarios prácticos}
+% =====================================================================
+Esta sección resuelve los catorce problemas de la lista \#2 del tema \cite{gonzalez1}, con su numeración
+original (17--30), y las cuestiones del parcial de 2025/26 \cite{parcial} que corresponden a la primera
+ley. Cada problema sigue la misma estructura que en el Tema 1: el \emph{enunciado}, la \emph{idea} que guía la
+resolución, la \emph{resolución} paso a paso con todo el desarrollo simbólico y, cuando aporta, una
+\emph{observación} y una figura. Salvo indicación contraria, $R=\SI{8,314}{J/(mol.K)}$,
+$\SI{1}{bar}=\SI{e5}{Pa}$ y $\SI{1}{atm}=\SI{101325}{Pa}$.
+
+\subsection{Cómo plantear un problema del Tema 2}
+
+Los problemas del tema se reducen a cinco tareas (tabla~\ref{tab:metodos}). La primera decisión es si el
+proceso es \emph{reversible}, porque eso decide qué presión entra en el trabajo.
+
+\begin{table}[htbp]
+\centering
+\caption{Mapa de decisión: qué método conviene según lo que pide el enunciado.}
+\label{tab:metodos}
+\small
+\begin{tabularx}{\textwidth}{Xlr}
+\toprule
+Lo que da / pide el enunciado & Método & Problemas\\
+\midrule
+Proceso reversible con $p(V)$ conocida; hallar $W$ & M1. Trabajo reversible & 17--19, 21, 23\\
+Expansión o compresión contra $p_{\mathrm{ext}}$ fija, por etapas & M2. Trabajo irreversible & 22, 27, 29\\
+Dos de $\Delta U$, $Q$, $W$ conocidos; hallar el tercero & M3. Balance de energía & 21--23, 29, P.3, P.4\\
+$U$ y ecuación de estado dadas; hallar $C_V$, $C_p$, $\gamma$, $Q$ & M4. Calorimetría & 24, 25, 28(a), 30, P.2\\
+Adiabática reversible; hallar $T$, $p$, $V$ o $n$ & M5. Adiabáticas & 20, 26, 28(b)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{recuadro}{Los cinco métodos}
+\begin{enumerate}[label=\textbf{\color{navy}M\arabic*.},leftmargin=2.2em,itemsep=4pt]
+\item \emph{Trabajo reversible.} Escribir $p$ como función de $V$ a lo largo del proceso y calcular
+  $W=-\int_{V_1}^{V_2}p(V)\,\dd V$ (tabla~\ref{tab:trabajos}). En un gas ideal isotermo, $p=nRT/V$.
+\item \emph{Trabajo irreversible.} En cada etapa, $W=-p_{\mathrm{ext}}(V_f-V_i)$ con la presión
+  \emph{exterior}, no la del gas; los volúmenes extremos salen de la ecuación de estado.
+\item \emph{Balance de energía.} Fijar signos (entra $>0$) y aplicar $\Delta U=Q+W$. Si el gas es ideal,
+  $\Delta U=nC_V\Delta T$ en cualquier proceso; si hay agitador, $W=W_{\mathrm{conf}}+W_{\mathrm{dis}}$.
+\item \emph{Calorimetría.} $C_V=\pdi UTV$; $C_p=C_V+l\,\pdi VTp$ con $l=\pdi UVT+p$; $Q=\int C\,\dd T$
+  a lo largo del proceso correspondiente.
+\item \emph{Adiabáticas.} Gas perfecto: ecuaciones de Poisson \eqref{eq:poisson2} y $W=\Delta U$. Gas
+  cualquiera: $C_V\dd T+l\,\dd V=0$, separar variables e integrar.
+\end{enumerate}
+\end{recuadro}
+
+\subsection{El balance de energía paso a paso}\label{sec:receta}
+
+Casi todos los problemas del tema son un balance de energía. Escribir explícitamente la secuencia
+siguiente es lo que demuestra en el examen que se sabe resolver el problema.
+
+\paso{Paso 0: sistema y frontera} Decir qué es el sistema (el gas, el gas más el agitador\dots) y qué
+paredes tiene: rígida o móvil, adiabática o diatérmica.
+
+\paso{Paso 1: proceso} Clasificarlo: ¿reversible o no? ¿Isotermo, isóbaro, isócoro, adiabático,
+politrópico, contra $p_{\mathrm{ext}}$ fija, cíclico? Cada restricción elimina una incógnita
+(tabla~\ref{tab:procesos}).
+
+\paso{Paso 2: estados} Completar $(p,V,T)$ de los estados inicial y final con la ecuación de estado y,
+si el proceso es adiabático reversible, con Poisson. Pasar todo a unidades SI.
+
+\paso{Paso 3: trabajo} Reversible: $W=-\int p\,\dd V$ con la $p(V)$ del proceso (M1). Irreversible:
+$W=-\int p_{\mathrm{ext}}\,\dd V$ (M2). Añadir el trabajo disipativo si lo hay.
+
+\paso{Paso 4: energía interna} $\Delta U$ sale de la ecuación energética y solo depende de los estados:
+para un gas perfecto, $\Delta U=nC_V\Delta T$, aunque el proceso no sea isócoro.
+
+\paso{Paso 5: balance} Despejar la magnitud que falta de $\Delta U=Q+W$.
+
+\paso{Paso 6: comprobación} Signos: expansión, $W<0$; calor cedido, $Q<0$. Si el mismo cambio de estado
+se recorre por dos caminos, $\Delta U$ debe coincidir aunque $Q$ y $W$ no lo hagan.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\footnotesize,
+   p/.style={draw=navy,fill=fondo,align=center,rounded corners=1pt,inner sep=3pt,text width=2.55cm,minimum height=1.0cm},
+   d/.style={draw=acento,fill=white,diamond,aspect=2.4,align=center,inner sep=1pt,font=\scriptsize},
+   f/.style={-{Stealth[length=4pt]},navy}]
+  \node[p] (s0) at (0,0) {\textbf{0} Sistema\\ y paredes};
+  \node[p] (s1) at (3.15,0) {\textbf{1} Proceso\\ y restricciones};
+  \node[p] (s2) at (6.3,0) {\textbf{2} Estados\\ $(p,V,T)$ en SI};
+  \node[d] (dd) at (9.6,0) {¿reversible?};
+  \node[p,text width=3.0cm] (sA) at (12.55,0.95) {\textbf{3A} Reversible, M1\\ $W=-\!\int p\,\dd V$};
+  \node[p,text width=3.0cm] (sB) at (12.55,-0.95) {\textbf{3B} Irreversible, M2\\ $W=-\!\int p_{\mathrm{ext}}\dd V$};
+  \node[p] (s4) at (9.6,-2.6) {\textbf{4} $\Delta U$ de la\\ ec. energética};
+  \node[p] (s5) at (6.3,-2.6) {\textbf{5} Balance\\ $\Delta U=Q+W$};
+  \node[p] (s6) at (3.15,-2.6) {\textbf{6} Signos y\\ comprobación};
+  \draw[f] (s0) -- (s1); \draw[f] (s1) -- (s2); \draw[f] (s2) -- (dd);
+  \draw[f] (dd.north) |- node[pos=0.25,left=2pt,font=\scriptsize\bfseries,acento] {sí} (sA.west);
+  \draw[f] (dd.south) |- node[pos=0.25,left=2pt,font=\scriptsize\bfseries,acento] {no} (sB.west);
+  \draw[f] (sA.east) -- ++(0.4,0) |- (s4.east);
+  \draw[navy] (sB.east) -- ++(0.4,0);
+  \draw[f] (s4) -- (s5); \draw[f] (s5) -- (s6);
+\end{tikzpicture}
+\caption{Esquema del balance de energía. La única bifurcación es la reversibilidad, que decide si el trabajo
+se calcula con la presión del gas o con la exterior; $\Delta U$ no depende de ella.}
+\label{fig:receta}
+\end{figure}
+
+\begin{observacion}[El error más frecuente]
+Usar $-\int p\,\dd V$ con la presión del gas en un proceso irreversible. Si el gas se expande contra una
+presión exterior fija, solo $p_{\mathrm{ext}}$ está definida durante el proceso; la presión del gas solo se
+conoce en los estados de equilibrio inicial y final (problemas 27 y 29).
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 17. Compresión con \texorpdfstring{$p=a+bV$}{p = a + bV}}
+% ---------------------------------------------------------------------
+\begin{problema}{17}{Proceso lineal en el plano $p$--$V$}
+En un cilindro--pistón se comprime reversiblemente un gas desde \SI{0,5}{MPa} y \SI{25e-3}{m^3} hasta
+\SI{2,0}{MPa} y \SI{5e-3}{m^3}, según $p=a+bV$. (a) Calcúlense $a$ y $b$. (b) Calcúlese el trabajo, en julios.
+\end{problema}
+
+\begin{resolucion}
+\idea Dos estados fijan la recta; el trabajo es método M1 con $p(V)$ lineal.
+
+\paso{Paso 1: constantes} Imponiendo la recta en los dos estados,
+\[
+  \left.\begin{aligned}0{,}5&=a+25\cdot10^{-3}\,b\\ 2{,}0&=a+5\cdot10^{-3}\,b\end{aligned}\right\}
+  \;\Longrightarrow\;
+  b=\frac{2{,}0-0{,}5}{(5-25)\cdot10^{-3}}=\frac{1{,}5}{-0{,}02}=\boxed{-\SI{75}{MPa/m^3}},
+\]
+y sustituyendo en la primera, $a=0{,}5-25\cdot10^{-3}\cdot(-75)=0{,}5+1{,}875=\boxed{\SI{2,375}{MPa}}$.
+
+\paso{Paso 2: trabajo} Integrando la recta entre $V_1=\SI{0,025}{m^3}$ y $V_2=\SI{0,005}{m^3}$:
+\[
+  W=-\int_{V_1}^{V_2}(a+bV)\,\dd V=-\Bigl[a(V_2-V_1)+\frac b2\bigl(V_2^2-V_1^2\bigr)\Bigr].
+\]
+Con $V_2-V_1=-0{,}02$ y $V_2^2-V_1^2=(25-625)\cdot10^{-6}=-6\cdot10^{-4}\ \mathrm{m^6}$:
+\[
+  W=-\bigl[2{,}375\cdot10^{6}\cdot(-0{,}02)+(-37{,}5\cdot10^{6})(-6\cdot10^{-4})\bigr]
+   =-\bigl[-47\,500+22\,500\bigr]=\boxed{\SI{25}{kJ}}.
+\]
+
+\paso{Paso 3: comprobación} El área bajo una recta es la de un trapecio:
+$|W|=\tfrac12(p_1+p_2)|V_2-V_1|=\tfrac12(2{,}5\cdot10^{6})(0{,}02)=\SI{25}{kJ}$. El signo es positivo porque
+es una compresión: el entorno realiza trabajo sobre el gas.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.6cm,height=5.4cm,xmin=0,xmax=30,ymin=0,ymax=2.6,
+    xtick={5,25},ytick={0.5,2},yticklabels={0{,}5,2{,}0},
+    xlabel={$V$ (L)},ylabel={$p$ (MPa)}]
+  \addplot[draw=none,fill=fondomedio,domain=5:25,samples=2] {2.375-0.075*x} \closedcycle;
+  \addplot[draw=none,pattern=north east lines,pattern color=acentoclaro,domain=5:25,samples=2] {2.375-0.075*x} \closedcycle;
+  \addplot[navy,domain=5:25,samples=2] {2.375-0.075*x};
+  \draw[navy,-{Stealth[length=5pt]}] (axis cs:19,{2.375-0.075*19+0.17}) -- (axis cs:13,{2.375-0.075*13+0.17});
+  \fill[rojo] (axis cs:25,0.5) circle (1.8pt) node[right=2pt,font=\scriptsize,black] {1};
+  \fill[rojo] (axis cs:5,2) circle (1.8pt) node[above right=1pt,font=\scriptsize,black] {2};
+  \node[font=\small,navy] at (axis cs:15,0.55) {$W=+\SI{25}{kJ}$};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 17. Compresión a lo largo de la recta $p=a+bV$; el trabajo es el área del trapecio, positiva
+porque el volumen disminuye.}
+\label{fig:p17}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 18. Expansiones politrópicas}
+% ---------------------------------------------------------------------
+\begin{problema}{18}{Tres exponentes}
+Un gas se expande reversiblemente desde \SI{3}{bar} y \SI{0,1}{m^3} hasta \SI{0,2}{m^3}, con $pV^a=\cte$.
+Calcúlese, en kJ, el trabajo para (a) $a=0$, (b) $a=1$ y (c) $a=1{,}5$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M1 con las tres filas de la tabla~\ref{tab:trabajos}. Datos: $p_1=\SI{3e5}{Pa}$,
+$V_1=\SI{0,1}{m^3}$, $V_2=\SI{0,2}{m^3}$, luego $p_1V_1=\SI{30}{kJ}$ y $V_2/V_1=2$.
+
+\paso{(a) $a=0$, isóbaro}
+$W=-p_1(V_2-V_1)=-3\cdot10^{5}\cdot0{,}1=\boxed{-\SI{30}{kJ}}$.
+
+\paso{(b) $a=1$, $pV=\cte$} Con $p=p_1V_1/V$,
+\[
+  W=-p_1V_1\int_{V_1}^{V_2}\frac{\dd V}{V}=-p_1V_1\ln\frac{V_2}{V_1}=-30\ln2\ \mathrm{kJ}=\boxed{-\SI{20,79}{kJ}}.
+\]
+
+\paso{(c) $a=1{,}5$} Primero la presión final, $p_2=p_1(V_1/V_2)^{1{,}5}=3\cdot2^{-1{,}5}=\SI{1,0607}{bar}$, de
+modo que $p_2V_2=\SI{21,213}{kJ}$. Con la fórmula del politrópico,
+\[
+  W=\frac{p_2V_2-p_1V_1}{a-1}=\frac{21{,}213-30}{0{,}5}\ \mathrm{kJ}=\boxed{-\SI{17,57}{kJ}}.
+\]
+
+\paso{Comprobación} Cuanto mayor es $a$, más deprisa cae $p$ y menor es el área bajo la curva:
+$|W_a|>|W_b|>|W_c|$ (figura~\ref{fig:p18}). Los tres son negativos: el gas entrega trabajo.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.6cm,height=5.4cm,xmin=0.08,xmax=0.22,ymin=0,ymax=3.6,
+    xtick={0.1,0.15,0.2},xticklabels={0{,}10,0{,}15,0{,}20},ytick={1.0607,1.5,3},yticklabels={1{,}06,1{,}5,3},
+    xlabel={$V$ (m$^3$)},ylabel={$p$ (bar)},leyenda abajo]
+  \addplot[navy,domain=0.1:0.2,samples=2] {3};
+  \addplot[acento,densely dashed,domain=0.1:0.2,samples=60] {0.3/x};
+  \addplot[rojo,domain=0.1:0.2,samples=60] {3*(0.1/x)^1.5};
+  \fill[black] (axis cs:0.1,3) circle (1.6pt);
+  \legend{(a) $a=0$,(b) $a=1$,(c) $a=1{,}5$}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 18. Las tres expansiones parten del mismo estado; el trabajo entregado es el área bajo cada
+curva entre \SI{0,1}{m^3} y \SI{0,2}{m^3}.}
+\label{fig:p18}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 19. Expansión isoterma de gases reales}
+% ---------------------------------------------------------------------
+\begin{problema}{19}{Trabajo isotermo con tres ecuaciones de estado}
+Calcúlese el trabajo realizado por $n$ moles en una expansión isoterma reversible de $V_0$ a $2V_0$ si su
+ecuación de estado es (1) $p(V-nb)=nRT$; (2) $pV=nRT\bigl(1+\frac{nB}{V}\bigr)$; (3)
+$\bigl(p+\frac{n^2a}{V^2}\bigr)(V-nb)=nRT$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M1: despejar $p(V)$ a $T$ fija e integrar término a término. Primitivas que aparecen:
+$\int\frac{\dd V}{V-c}=\ln(V-c)$ y $\int V^{-2}\dd V=-V^{-1}$.
+
+\paso{(1) Clausius} $p=\dfrac{nRT}{V-nb}$:
+\[
+  W=-nRT\int_{V_0}^{2V_0}\frac{\dd V}{V-nb}=\boxed{-nRT\ln\frac{2V_0-nb}{V_0-nb}}.
+\]
+
+\paso{(2) Virial} $p=\dfrac{nRT}{V}+\dfrac{n^2BRT}{V^2}$:
+\[
+  W=-nRT\ln\frac{2V_0}{V_0}-n^2BRT\Bigl[-\frac1V\Bigr]_{V_0}^{2V_0}
+   =-nRT\ln2-n^2BRT\Bigl(\frac1{V_0}-\frac1{2V_0}\Bigr),
+\]
+es decir,
+\[
+  \boxed{W=-nRT\Bigl(\ln2+\frac{nB}{2V_0}\Bigr)}.
+\]
+
+\paso{(3) Van der Waals} $p=\dfrac{nRT}{V-nb}-\dfrac{n^2a}{V^2}$: el primer término es el de (1) y el segundo
+cambia de signo al integrar,
+\[
+  W=-nRT\ln\frac{2V_0-nb}{V_0-nb}+n^2a\Bigl(\frac1{V_0}-\frac1{2V_0}\Bigr)
+   =\boxed{-nRT\ln\frac{2V_0-nb}{V_0-nb}+\frac{n^2a}{2V_0}}.
+\]
+
+\paso{Comprobación} Con $b=B=a=0$ los tres dan $-nRT\ln2$, el gas ideal. El término $+n^2a/(2V_0)$ reduce
+el trabajo entregado: las atracciones moleculares disminuyen la presión del gas.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 20. Expansión adiabática del argón}
+% ---------------------------------------------------------------------
+\begin{problema}{20}{Moles a partir del trabajo adiabático}
+Cierta cantidad de Ar, gas perfecto, se expande reversible y adiabáticamente desde \SI{37}{\celsius} hasta
+triplicar su volumen, produciendo un trabajo de \SI{3600}{J}. ¿Cuántos moles se expanden?
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5: Poisson da $T_2$; el balance con $Q=0$ liga el trabajo con $n$.
+
+\paso{Paso 0: datos} Ar monoatómico: $\bar C_V=\tfrac32R$, $\gamma=5/3$. $T_1=\SI{310,15}{K}$, $V_2=3V_1$. El gas
+\emph{produce} trabajo, luego con la convención del curso $W=-\SI{3600}{J}$.
+
+\paso{Paso 1: temperatura final} De \eqref{eq:poisson2} con $\gamma-1=2/3$:
+\[
+  T_2=T_1\Bigl(\frac{V_1}{V_2}\Bigr)^{\gamma-1}=310{,}15\cdot3^{-2/3}\ \mathrm{K}
+     =\frac{310{,}15}{2{,}0801}\ \mathrm{K}=\SI{149,10}{K}.
+\]
+
+\paso{Paso 2: balance} Con $Q=0$, $W=\Delta U=n\bar C_V(T_2-T_1)$, y despejando $n$:
+\[
+  n=\frac{W}{\bar C_V(T_2-T_1)}=\frac{-3600}{\tfrac32\cdot8{,}314\cdot(149{,}10-310{,}15)}\ \mathrm{mol}
+   =\frac{3600}{12{,}471\cdot161{,}05}\ \mathrm{mol}=\boxed{\SI{1,793}{mol}}.
+\]
+
+\paso{Comprobación} $\Delta U<0$ y $T_2<T_1$: el gas se enfría porque el trabajo que entrega sale de su
+energía interna.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 21. Proceso \texorpdfstring{$pV^2=\cte$}{pV2 = cte} con calor}
+% ---------------------------------------------------------------------
+\begin{problema}{21}{Energía interna a partir de $Q$ y $W$}
+Un gas a \SI{6}{bar} y \SI{0,05}{m^3} sigue un proceso reversible con $pV^2=\cte$ hasta \SI{1,5}{bar}. Calcúlese
+$\Delta U$ si recibe \SI{5}{kJ} de calor.
+\end{problema}
+
+\begin{resolucion}
+\idea Métodos M1 (trabajo del politrópico) y M3 (balance).
+
+\paso{Paso 1: volumen final} De $p_1V_1^2=p_2V_2^2$:
+$V_2=V_1\sqrt{p_1/p_2}=0{,}05\sqrt{4}=\SI{0,1}{m^3}$.
+
+\paso{Paso 2: trabajo} Con $m=2$: $p_1V_1=\SI{30}{kJ}$ y $p_2V_2=1{,}5\cdot10^{5}\cdot0{,}1=\SI{15}{kJ}$, luego
+\[
+  W=\frac{p_2V_2-p_1V_1}{m-1}=\frac{15-30}{1}\ \mathrm{kJ}=-\SI{15}{kJ}.
+\]
+Directamente: $W=-p_1V_1^2\int_{V_1}^{V_2}V^{-2}\dd V=-p_1V_1^2\bigl(\tfrac1{V_1}-\tfrac1{V_2}\bigr)
+=-1500\cdot(20-10)\ \mathrm J=-\SI{15}{kJ}$.
+
+\paso{Paso 3: balance}
+$\Delta U=Q+W=5-15\ \mathrm{kJ}=\boxed{-\SI{10}{kJ}}$. El gas entrega más trabajo del calor que recibe.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 22. Pistón con agitador}
+% ---------------------------------------------------------------------
+\begin{problema}{22}{Trabajo de configuración y disipativo}
+Un cilindro vertical contiene un gas comprimido por un pistón sin rozamiento de \SI{3000}{N} de peso y
+\SI{50e-4}{m^2} de área; fuera, $p_{\mathrm{atm}}=\SI{0,95}{bar}$. Un agitador comunica al gas \SI{6800}{J}. Si el gas
+cede \SI{8,7}{kJ} de calor y $\Delta U=-\SI{1}{kJ}$, ¿cuánto se mueve el pistón?
+\end{problema}
+
+\begin{resolucion}
+\idea Método M3 con $W=W_{\mathrm{conf}}+W_{\mathrm{dis}}$; el trabajo de configuración es contra la presión
+exterior constante (M2), que incluye el peso del pistón.
+
+\paso{Paso 0: sistema y signos} Sistema: el gas. $W_{\mathrm{dis}}=+\SI{6800}{J}$ (el agitador da trabajo),
+$Q=-\SI{8700}{J}$ (cede calor), $\Delta U=-\SI{1000}{J}$.
+
+\paso{Paso 1: trabajo total} Del balance,
+$W=\Delta U-Q=-1000+8700\ \mathrm J=\SI{7700}{J}$.
+
+\paso{Paso 2: trabajo de configuración}
+$W_{\mathrm{conf}}=W-W_{\mathrm{dis}}=7700-6800\ \mathrm J=\SI{900}{J}>0$: el pistón baja.
+
+\paso{Paso 3: presión exterior} El pistón está en equilibrio bajo la atmósfera y su peso:
+\[
+  p_{\mathrm{ext}}=p_{\mathrm{atm}}+\frac{mg}{A}=95\,000+\frac{3000}{0{,}005}\ \mathrm{Pa}=\SI{695000}{Pa}.
+\]
+
+\paso{Paso 4: desplazamiento} Con $W_{\mathrm{conf}}=-p_{\mathrm{ext}}\Delta V$ y $\Delta V=A\,\Delta z$:
+\[
+  \Delta z=-\frac{W_{\mathrm{conf}}}{p_{\mathrm{ext}}A}=-\frac{900}{695\,000\cdot0{,}005}\ \mathrm m
+         =\boxed{-\SI{0,259}{m}},
+\]
+es decir, el pistón desciende \SI{25,9}{cm}.
+\end{resolucion}
+
+\begin{observacion}[Por qué baja]
+El agitador aporta \SI{6,8}{kJ} pero el gas cede \SI{8,7}{kJ} de calor: si $\Delta U$ solo baja \SI{1}{kJ}, el entorno
+tiene que aportar los \SI{0,9}{kJ} restantes comprimiendo el gas.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 23. Tres caminos entre dos estados}
+% ---------------------------------------------------------------------
+\begin{problema}{23}{Isoterma, recta y quebrada}
+Dos moles de O$_2$, gas perfecto, pasan reversiblemente de presión $p$ a $3p$, ambos a la misma temperatura
+$T$, por (a) una isoterma, (b) una recta en el diagrama $pV$ y (c) un isócoro seguido de un isóbaro.
+Calcúlense, en función de $T$, los trabajos y los calores.
+\end{problema}
+
+\begin{resolucion}
+\idea Los tres caminos tienen los mismos extremos y $T_1=T_2$, luego $\Delta U=0$ en los tres (gas ideal) y
+$Q=-W$. Solo hay que calcular tres áreas (método M1).
+
+\paso{Paso 0: estados} $V_1=\dfrac{2RT}{p}$, y como la temperatura es la misma, $V_2=\dfrac{2RT}{3p}=\dfrac{V_1}3$.
+Además $pV_1=2RT$.
+
+\paso{(a) Isoterma}
+\[
+  W_a=-nRT\ln\frac{V_2}{V_1}=-2RT\ln\frac13=\boxed{2RT\ln3\simeq2{,}20\,RT},\qquad Q_a=-W_a .
+\]
+
+\paso{(b) Recta} El área bajo una recta es un trapecio de alturas $p$ y $3p$:
+\[
+  W_b=-\frac{p+3p}{2}\,(V_2-V_1)=-2p\Bigl(-\frac{2V_1}{3}\Bigr)=\frac43\,pV_1=\boxed{\frac83\,RT\simeq2{,}67\,RT},\qquad Q_b=-W_b .
+\]
+
+\paso{(c) Isócoro + isóbaro} El isócoro ($V_1$, de $p$ a $3p$) no hace trabajo; el isóbaro a $3p$ de $V_1$ a
+$V_1/3$ sí:
+\[
+  W_c=0-3p\Bigl(\frac{V_1}{3}-V_1\Bigr)=2pV_1=\boxed{4RT},\qquad Q_c=-W_c .
+\]
+
+\paso{Comprobación} $W_a<W_b<W_c$: cuanto más alta va la curva, mayor es el área (figura~\ref{fig:p23}).
+$\Delta U=0$ en los tres, pero $Q$ y $W$ dependen del camino.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.4cm,height=5.6cm,xmin=0.2,xmax=1.15,ymin=0.5,ymax=3.5,
+    xtick={0.3333,1},xticklabels={$V_1/3$,$V_1$},ytick={1,3},yticklabels={$p$,$3p$},
+    xlabel={$V$},ylabel={$p$},leyenda fuera]
+  \addplot[navy,domain=0.3333:1,samples=60] {1/x};
+  \addplot[acento,densely dashed,domain=0.3333:1,samples=2] {1+3*(1-x)};
+  \addplot[rojo,densely dotted,line width=1.1pt] coordinates {(1,1) (1,3) (0.3333,3)};
+  \fill[black] (axis cs:1,1) circle (1.7pt) node[below right=1pt,font=\scriptsize] {1};
+  \fill[black] (axis cs:0.3333,3) circle (1.7pt) node[above left=1pt,font=\scriptsize] {2};
+  \legend{(a) isoterma,(b) recta,(c) isócoro + isóbaro}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 23. Tres caminos reversibles entre los mismos estados. El trabajo recibido es el área bajo
+cada uno: $W_a=2{,}20\,RT<W_b=2{,}67\,RT<W_c=4\,RT$.}
+\label{fig:p23}
+\end{figure}
+
+\input{seminarios_b}

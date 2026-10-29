@@ -1,0 +1,463 @@
+% ---------------------------------------------------------------------
+\subsection{Problema 24. Calor con \texorpdfstring{$\bar C_p$}{Cp} variable}
+% ---------------------------------------------------------------------
+\begin{problema}{24}{Integral de la capacidad calorífica}
+El calor molar a presión constante de un gas es $\bar C_p=a+bT-c/T^2$. ¿Qué calor recibe el gas en un proceso
+isóbaro reversible en el que \SI{2}{mol} pasan de $T$ a $2T$?
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: a presión constante $\dbar Q=n\bar C_p\,\dd T$ (definición \eqref{eq:CVCp}), y se integra
+término a término.
+
+\paso{Paso 1: integral} Con primitivas $aT'$, $\tfrac12bT'^2$ y $+c/T'$ (porque $\int T'^{-2}\dd T'=-T'^{-1}$):
+\[
+  Q=n\int_{T}^{2T}\Bigl(a+bT'-\frac{c}{T'^2}\Bigr)\dd T'
+   =n\Bigl[aT'+\frac b2T'^2+\frac c{T'}\Bigr]_{T}^{2T}.
+\]
+
+\paso{Paso 2: evaluación} Con $n=2$:
+\[
+  Q=2\Bigl[a(2T-T)+\frac b2\bigl(4T^2-T^2\bigr)+c\Bigl(\frac1{2T}-\frac1T\Bigr)\Bigr]
+   =2\Bigl[aT+\frac32bT^2-\frac{c}{2T}\Bigr]=\boxed{2aT+3bT^2-\frac cT}.
+\]
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 25. Capacidades del gas de Van der Waals}
+% ---------------------------------------------------------------------
+\begin{problema}{25}{$\bar C_V$ y $\bar C_p$ con ecuación energética}
+Un gas obedece la ecuación de Van der Waals, $(p+a/\Vm^2)(\Vm-b)=RT$, y su ecuación energética es
+$\bar U=cT-a/\Vm$, con $c$ constante. Calcúlense $\bar C_V$ y $\bar C_p$.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: $\bar C_V$ directo de $\bar U$; $\bar C_p=\bar C_V+l\,\pdi{\Vm}{T}{p}$ con
+$l=\pdi{\bar U}{\Vm}{T}+p$ \eqref{eq:CV}.
+
+\paso{Paso 1: $\bar C_V$} $\bar C_V=\pdi{\bar U}{T}{\Vm}=\boxed{c}$, constante.
+
+\paso{Paso 2: coeficiente $l$} $\pdi{\bar U}{\Vm}{T}=\dfrac{a}{\Vm^2}$, y por la ecuación de estado
+\[
+  l=\frac{a}{\Vm^2}+p=\frac{RT}{\Vm-b}.
+\]
+
+\paso{Paso 3: derivada $\pdi{\Vm}{T}{p}$} No se despeja $\Vm$ (cúbica); se despeja $T$ y se usa la recíproca
+(Tema 1). De $T=\frac1R(p+a/\Vm^2)(\Vm-b)$, derivando a $p$ fija con la regla del producto,
+\[
+  \pd{T}{\Vm}{p}=\frac1R\Bigl[\Bigl(p+\frac a{\Vm^2}\Bigr)-\frac{2a}{\Vm^3}(\Vm-b)\Bigr]
+   =\frac1R\Bigl[\frac{RT}{\Vm-b}-\frac{2a(\Vm-b)}{\Vm^3}\Bigr]
+   =\frac{RT\Vm^3-2a(\Vm-b)^2}{R\Vm^3(\Vm-b)},
+\]
+luego $\pdi{\Vm}{T}{p}=\dfrac{R\Vm^3(\Vm-b)}{RT\Vm^3-2a(\Vm-b)^2}$.
+
+\paso{Paso 4: $\bar C_p$} El factor $\Vm-b$ se simplifica:
+\[
+  \bar C_p=c+\frac{RT}{\Vm-b}\cdot\frac{R\Vm^3(\Vm-b)}{RT\Vm^3-2a(\Vm-b)^2}
+  =\boxed{c+\frac{R^2T\Vm^3}{RT\Vm^3-2a(\Vm-b)^2}}.
+\]
+
+\paso{Comprobación} Con $a=0$: $\bar C_p=c+R$, la relación de Mayer. Para $a>0$, $\bar C_p-\bar C_V>R$.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 26. Adiabáticas de un gas de Clausius}
+% ---------------------------------------------------------------------
+\begin{problema}{26}{Adiabática con ecuaciones no ideales}
+Hállese la ecuación de las adiabáticas en un diagrama $p\Vm$ de un gas con $p(\Vm-b)=AT$ y $\bar U=CT+D$,
+siendo $b$, $A$, $C$ y $D$ constantes positivas.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M5 general \eqref{eq:adgeneral}: $\bar C_V\dd T+l\,\dd\Vm=0$, separar variables e integrar.
+
+\paso{Paso 1: coeficientes} $\bar C_V=\pdi{\bar U}{T}{\Vm}=C$ y, como $\bar U$ no depende de $\Vm$,
+$l=0+p=\dfrac{AT}{\Vm-b}$.
+
+\paso{Paso 2: separación} Dividiendo $C\,\dd T+\dfrac{AT}{\Vm-b}\,\dd\Vm=0$ entre $CT$:
+\[
+  \frac{\dd T}{T}+\frac AC\,\frac{\dd\Vm}{\Vm-b}=0 .
+\]
+
+\paso{Paso 3: integración}
+$\ln T+\frac AC\ln(\Vm-b)=\cte$, es decir $T(\Vm-b)^{A/C}=\cte$.
+
+\paso{Paso 4: paso al plano $p\Vm$} Con $T=p(\Vm-b)/A$ y absorbiendo $A$ en la constante:
+\[
+  p(\Vm-b)\,(\Vm-b)^{A/C}=\cte\quad\Longrightarrow\quad\boxed{p\,(\Vm-b)^{\frac{C+A}{C}}=\cte}.
+\]
+
+\paso{Comprobación} Con $b=0$, $A=R$ y $C=\bar C_V$ el exponente es $(\bar C_V+R)/\bar C_V=\gamma$: se recupera
+$p\Vm^{\gamma}=\cte$.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 27. Expansión isoterma por etapas}
+% ---------------------------------------------------------------------
+\begin{problema}{27}{Del proceso irreversible al reversible}
+Determínese el trabajo en la expansión isoterma de \SI{1}{mol} de gas ideal a \SI{300}{K} de \SI{10}{bar} a
+\SI{1}{bar}: (a) en una etapa contra $p_{\mathrm{ext}}=\SI{1}{bar}$; (b) en dos etapas, $10\to5$ contra \SI{5}{bar} y
+$5\to1$ contra \SI{1}{bar}; (c) en tres etapas, $10\to5\to2\to1$ contra 5, 2 y \SI{1}{bar}; (d) en infinitas etapas,
+con $p_{\mathrm{ext}}$ ligeramente inferior a la presión del gas. Compárense los resultados.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M2 por etapas: en cada una, la presión exterior es la presión \emph{final} de la etapa y los
+volúmenes son los de equilibrio a \SI{300}{K}. El límite de infinitas etapas es el proceso reversible (M1).
+
+\paso{Paso 0: datos} $RT=8{,}314\cdot300=\SI{2494,2}{J}$. Volúmenes de equilibrio $V=RT/p$: 2,494, 4,988,
+12,471 y \SI{24,942}{L} a 10, 5, 2 y \SI{1}{bar}.
+
+\paso{Paso 1: una etapa genérica} De $p_i$ a $p_f$ contra $p_{\mathrm{ext}}=p_f$:
+\[
+  W=-p_f\bigl(V_f-V_i\bigr)=-p_f\Bigl(\frac{RT}{p_f}-\frac{RT}{p_i}\Bigr)=-RT\Bigl(1-\frac{p_f}{p_i}\Bigr).
+\]
+
+\paso{Paso 2: los cuatro casos}
+\begin{align*}
+  W_a&=-RT\Bigl(1-\tfrac{1}{10}\Bigr)=-0{,}9\,RT=\boxed{-\SI{2,24}{kJ}},\\
+  W_b&=-RT\Bigl[\Bigl(1-\tfrac{5}{10}\Bigr)+\Bigl(1-\tfrac15\Bigr)\Bigr]=-1{,}3\,RT=\boxed{-\SI{3,24}{kJ}},\\
+  W_c&=-RT\Bigl[\Bigl(1-\tfrac{5}{10}\Bigr)+\Bigl(1-\tfrac25\Bigr)+\Bigl(1-\tfrac12\Bigr)\Bigr]=-1{,}6\,RT=\boxed{-\SI{3,99}{kJ}},\\
+  W_d&=-RT\ln\frac{p_1}{p_2}=-RT\ln10=-2{,}303\,RT=\boxed{-\SI{5,74}{kJ}}.
+\end{align*}
+
+\paso{Paso 3: calores} En los cuatro casos el estado final es el mismo y $T$ no cambia, luego $\Delta U=0$ y
+$Q=-W$: el gas absorbe del foco \num{2,24}, \num{3,24}, \num{3,99} y \SI{5,74}{kJ}.
+
+\paso{Comparación} $|W_a|<|W_b|<|W_c|<|W_d|$. Cada etapa añadida acerca $p_{\mathrm{ext}}$ a la presión del gas y
+aumenta el área de los rectángulos bajo la isoterma (figura~\ref{fig:p27}); el trabajo entregado es máximo en el
+proceso reversible.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 2,horizontal sep=1.5cm,vertical sep=2.3cm},
+    graf,width=6.4cm,height=4.5cm,xmin=0,xmax=27,ymin=0,ymax=11,
+    xtick={2.494,12.471,24.942},xticklabels={2{,}5,12{,}5,24{,}9},ytick={1,2,5,10},
+    xlabel={$V$ (L)},ylabel={$p$ (bar)},title style={font=\small,yshift=-4pt}]
+\nextgroupplot[title={(a) una etapa: $W=-0{,}9\,RT$}]
+  \addplot[draw=navy,fill=fondomedio] coordinates {(2.494,0) (2.494,1) (24.942,1) (24.942,0)} \closedcycle;
+  \addplot[acento,densely dashed,domain=2.494:24.942,samples=80] {24.942/x};
+\nextgroupplot[title={(b) dos etapas: $W=-1{,}3\,RT$}]
+  \addplot[draw=navy,fill=fondomedio] coordinates {(2.494,0) (2.494,5) (4.988,5) (4.988,1) (24.942,1) (24.942,0)} \closedcycle;
+  \addplot[acento,densely dashed,domain=2.494:24.942,samples=80] {24.942/x};
+\nextgroupplot[title={(c) tres etapas: $W=-1{,}6\,RT$}]
+  \addplot[draw=navy,fill=fondomedio] coordinates {(2.494,0) (2.494,5) (4.988,5) (4.988,2) (12.471,2) (12.471,1) (24.942,1) (24.942,0)} \closedcycle;
+  \addplot[acento,densely dashed,domain=2.494:24.942,samples=80] {24.942/x};
+\nextgroupplot[title={(d) reversible: $W=-2{,}30\,RT$}]
+  \addplot[draw=none,fill=fondomedio,domain=2.494:24.942,samples=80] {24.942/x} \closedcycle;
+  \addplot[navy,domain=2.494:24.942,samples=80] {24.942/x};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Problema 27. El trabajo entregado es el área bajo la presión exterior (rellena). La isoterma del gas
+(discontinua) solo es la trayectoria real en el caso reversible (d); en los demás, la presión del gas no está
+definida durante cada etapa.}
+\label{fig:p27}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 28. Coeficientes calorimétricos y adiabáticas}
+% ---------------------------------------------------------------------
+\begin{problema}{28}{Gas perfecto diatómico}
+(a) Determínense a \SI{1}{bar} y \SI{0}{\celsius} los coeficientes calorimétricos de un mol de gas perfecto diatómico.
+(b) Hállense, para un gas perfecto, las ecuaciones de las adiabáticas reversibles en los diagramas $(V,T)$,
+$(p,T)$ y $(p,V)$.
+\end{problema}
+
+\begin{resolucion}
+\idea (a) Método M4 con la tabla~\ref{tab:calorim}; (b) método M5, ecuaciones de Poisson.
+
+\paso{(a) Paso 1: estado} $T=\SI{273,15}{K}$, $p=\SI{e5}{Pa}$,
+$\Vm=RT/p=8{,}314\cdot273{,}15/10^{5}=\SI{2,2711e-2}{m^3/mol}$. Diatómico: $\bar C_V=\tfrac52R=\SI{20,79}{J/(mol.K)}$,
+$\bar C_p=\tfrac72R=\SI{29,10}{J/(mol.K)}$.
+
+\paso{(a) Paso 2: coeficientes} De la tabla~\ref{tab:calorim} con $n=1$:
+\begin{align*}
+  l&=p=\boxed{\SI{1,000e5}{Pa}}, &
+  h&=-\Vm=\boxed{-\SI{2,271e-2}{m^3}},\\
+  \lambda&=\frac{\bar C_V\Vm}{R}=\tfrac52\Vm=\boxed{\SI{5,678e-2}{m^3}}, &
+  \mu&=\frac{\bar C_p\,p}{R}=\tfrac72p=\boxed{\SI{3,500e5}{Pa}}.
+\end{align*}
+Las unidades son las de \eqref{eq:calorim}: $l$ y $\mu$ en \si{J/m^3}$=$\si{Pa}; $h$ y $\lambda$ en \si{J/Pa}$=$\si{m^3}.
+
+\paso{(b) Adiabáticas} Por \eqref{eq:poisson}, con $\gamma=7/5$ para el diatómico:
+\[
+  (V,T):\ TV^{2/5}=\cte,\qquad (p,T):\ Tp^{-2/7}=\cte,\qquad (p,V):\ pV^{7/5}=\cte,
+\]
+que son $TV^{\gamma-1}$, $Tp^{(1-\gamma)/\gamma}$ y $pV^{\gamma}$ con $\gamma-1=\tfrac25$ y $(1-\gamma)/\gamma=-\tfrac27$.
+La deducción completa está en la sección de adiabáticas reversibles.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 29. Expansión adiabática irreversible}
+% ---------------------------------------------------------------------
+\begin{problema}{29}{Mismos estados, procesos irreversible y reversible}
+Dos moles de gas perfecto diatómico, a $p_1=\SI{4}{atm}$ y $T_1=\SI{300}{K}$, se expanden adiabáticamente contra
+$p_0=\SI{1}{atm}$ constante hasta triplicar su volumen. Calcúlense $T_2$, $Q$, $W$ y $\Delta U$. Repítase para un
+proceso reversible entre los mismos estados formado por una isoterma hasta el volumen final y un isócoro
+hasta la presión final.
+\end{problema}
+
+\begin{resolucion}
+\idea Proceso irreversible: el trabajo se calcula con $p_0$ (M2) y, como $Q=0$, el balance da $\Delta U$ y de él
+$T_2$ (M3). Camino reversible: $\Delta U$ es el mismo porque los estados son los mismos; $Q$ y $W$ no.
+
+\paso{Paso 0: estado inicial} $nRT_1=2\cdot8{,}314\cdot300=\SI{4988,4}{J}$ y
+$V_1=nRT_1/p_1=4988{,}4/405\,300=\SI{1,2308e-2}{m^3}$; $V_2=3V_1=\SI{3,6924e-2}{m^3}$.
+
+\paso{Proceso irreversible. Trabajo} Contra presión exterior fija,
+\[
+  W=-p_0(V_2-V_1)=-p_0\cdot2V_1=-2\,\frac{p_0}{p_1}\,nRT_1=-\frac{nRT_1}{2}=\boxed{-\SI{2494}{J}}.
+\]
+
+\paso{Proceso irreversible. Balance} $Q=0$ (adiabático), luego $\Delta U=W=-\SI{2494}{J}$. Como
+$\Delta U=n\bar C_V\Delta T$ con $\bar C_V=\tfrac52R$:
+\[
+  \Delta T=\frac{W}{n\cdot\frac52R}=\frac{-nRT_1/2}{\frac52nR}=-\frac{T_1}{5}=-\SI{60}{K}
+  \quad\Longrightarrow\quad\boxed{T_2=\SI{240}{K}}.
+\]
+La presión final es $p_2=nRT_2/V_2=p_1\,\frac{T_2}{T_1}\,\frac{V_1}{V_2}=4\cdot0{,}8\cdot\tfrac13=\SI{1,067}{atm}$.
+
+\paso{Proceso reversible. Isoterma a $T_1$} $\Delta U_1=0$ y
+\[
+  W_1=-nRT_1\ln\frac{V_2}{V_1}=-4988{,}4\ln3\ \mathrm J=-\SI{5480}{J},\qquad Q_1=-W_1=+\SI{5480}{J}.
+\]
+
+\paso{Proceso reversible. Isócoro hasta $p_2$} $W_2=0$ y $Q_2=\Delta U_2=n\bar C_V(T_2-T_1)=-\SI{2494}{J}$.
+
+\paso{Proceso reversible. Totales} $W=-\SI{5480}{J}$, $Q=5480-2494=\SI{2986}{J}$, $\Delta U=Q+W=\boxed{-\SI{2494}{J}}$,
+el mismo que en el proceso irreversible, y $T_2=\SI{240}{K}$ por construcción.
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=7.6cm,height=5.4cm,xmin=8,xmax=48,ymin=0,ymax=4.6,
+    xtick={12.308,36.924},xticklabels={$V_1$,$V_2=3V_1$},ytick={1,1.0667,1.3333,4},yticklabels={,,,4},
+    extra y ticks={1},extra y tick labels={$p_0=1$},
+    xlabel={$V$ (L)},ylabel={$p$ (atm)},leyenda fuera]
+  \addplot[draw=none,pattern=north east lines,pattern color=acentoclaro,forget plot] coordinates {(12.308,0) (12.308,1) (36.924,1) (36.924,0)} \closedcycle;
+  \addplot[rojo,densely dashed] coordinates {(12.308,1) (36.924,1)};
+  \addplot[navy,domain=12.308:36.924,samples=60] {4*12.308/x};
+  \addplot[acento,line width=1.1pt] coordinates {(36.924,1.3333) (36.924,1.0667)};
+  \fill[black] (axis cs:12.308,4) circle (1.7pt) node[right=2pt,font=\scriptsize] {1 (\SI{300}{K})};
+  \fill[black] (axis cs:36.924,1.0667) circle (1.7pt) node[right=2pt,font=\scriptsize] {2 (\SI{240}{K})};
+  \legend{$p_{\mathrm{ext}}=p_0$ (irrev.),isoterma \SI{300}{K},isócoro}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 29. El proceso irreversible no tiene trayectoria en el plano $p$--$V$; su trabajo es el área bajo
+$p_0$ (rayada), $|W|=\SI{2,49}{kJ}$. El camino reversible (isoterma más isócoro) entrega más trabajo,
+\SI{5,48}{kJ}, y recibe calor; $\Delta U$ es el mismo.}
+\label{fig:p29}
+\end{figure}
+
+\begin{observacion}[Presión final]
+$p_2=\SI{1,067}{atm}>p_0$: el gas no ha alcanzado el equilibrio mecánico con el exterior. El enunciado fija el
+volumen final ($3V_1$), lo que exige unos topes que detengan el pistón.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Problema 30. Capacidad calorífica de un proceso}
+% ---------------------------------------------------------------------
+\begin{problema}{30}{Capacidad calorífica a lo largo de $\Pi$}
+Demuéstrese para un sistema hidrostático
+\[
+  \frac{\bar C_\Pi}{\bar C_V}=\frac{\kappa_T-\gamma\kappa_\Pi}{\kappa_T-\kappa_\Pi},
+\]
+donde $\bar C_\Pi$ es el calor molar a lo largo de un proceso $\Pi$, $\gamma=\bar C_p/\bar C_V$ y
+$\kappa_\Pi\equiv-\frac1{\Vm}\pdi{\Vm}{p}{\Pi}$. Aplíquese al proceso $\Pi:\ p=b+m\Vm$ ($b>0$, $m<0$) de un gas
+perfecto monoatómico.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: escribir $\dbar Q=\bar C_V\dd T+l\,\dd\Vm$ y dividir por $\dd T$ \emph{a lo largo de $\Pi$}; la
+derivada $\pdi{\Vm}{T}{\Pi}$ se obtiene combinando la ecuación diferencial de estado con la definición de
+$\kappa_\Pi$.
+
+\paso{Paso 1: capacidad del proceso} Por definición, $\bar C_\Pi=(\dbar Q/\dd T)_\Pi$, y con la primera forma de
+\eqref{eq:calorim},
+\[
+  \bar C_\Pi=\bar C_V+l\,\pd{\Vm}{T}{\Pi}.
+\]
+
+\paso{Paso 2: el coeficiente $l$} De \eqref{eq:calorimrel}, $\bar C_p=\bar C_V+l\alpha\Vm$, luego
+$l=\dfrac{\bar C_p-\bar C_V}{\alpha\Vm}$.
+
+\paso{Paso 3: derivada a lo largo de $\Pi$} En cualquier cambio de estado,
+$\dd\Vm=\alpha\Vm\,\dd T-\kappa_T\Vm\,\dd p$ (Tema 1). A lo largo de $\Pi$, además,
+$\dd\Vm=-\kappa_\Pi\Vm\,\dd p$, es decir $\dd p=-\dd\Vm/(\kappa_\Pi\Vm)$. Sustituyendo:
+\[
+  \dd\Vm=\alpha\Vm\,\dd T+\frac{\kappa_T}{\kappa_\Pi}\,\dd\Vm
+  \quad\Longrightarrow\quad
+  \dd\Vm\Bigl(1-\frac{\kappa_T}{\kappa_\Pi}\Bigr)=\alpha\Vm\,\dd T
+  \quad\Longrightarrow\quad
+  \pd{\Vm}{T}{\Pi}=\frac{\alpha\Vm\,\kappa_\Pi}{\kappa_\Pi-\kappa_T}.
+\]
+
+\paso{Paso 4: resultado} Llevando los pasos 2 y 3 al 1, el factor $\alpha\Vm$ se cancela:
+\[
+  \bar C_\Pi=\bar C_V+(\bar C_p-\bar C_V)\frac{\kappa_\Pi}{\kappa_\Pi-\kappa_T}
+  \;\Longrightarrow\;
+  \frac{\bar C_\Pi}{\bar C_V}=1+(\gamma-1)\frac{\kappa_\Pi}{\kappa_\Pi-\kappa_T}
+  =\frac{\gamma\kappa_\Pi-\kappa_T}{\kappa_\Pi-\kappa_T}
+  =\boxed{\frac{\kappa_T-\gamma\kappa_\Pi}{\kappa_T-\kappa_\Pi}}.
+\]
+Comprobaciones: isóbaro, $\kappa_\Pi\to\infty$ y $\bar C_\Pi\to\gamma\bar C_V=\bar C_p$; isócoro, $\kappa_\Pi=0$ y
+$\bar C_\Pi=\bar C_V$; isotermo, $\kappa_\Pi=\kappa_T$ y $\bar C_\Pi\to\infty$.
+
+\paso{Paso 5: aplicación} Gas perfecto monoatómico: $\gamma=5/3$, $\bar C_V=\tfrac32R$, $\kappa_T=1/p$. Para
+$p=b+m\Vm$, $\pdi{\Vm}{p}{\Pi}=1/m$ y $\kappa_\Pi=-\dfrac{1}{m\Vm}$. Multiplicando numerador y denominador por
+$pm\Vm$:
+\[
+  \frac{\bar C_\Pi}{\bar C_V}=\frac{\frac1p+\frac{5}{3m\Vm}}{\frac1p+\frac{1}{m\Vm}}
+  =\frac{m\Vm+\frac53p}{m\Vm+p}
+  \;\xrightarrow{\;p=b+m\Vm\;}\;
+  \frac{\frac83m\Vm+\frac53b}{2m\Vm+b}
+  \quad\Longrightarrow\quad
+  \boxed{\bar C_\Pi=\frac R2\,\frac{8m\Vm+5b}{2m\Vm+b}}.
+\]
+\end{resolucion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=8.0cm,height=5.6cm,xmin=0,xmax=1,ymin=-6,ymax=8,
+    xtick={0,0.5,0.625,1},xticklabels={0,$\tfrac12$,$\tfrac58$,1},ytick={-4,0,4,8},
+    xlabel={$u=-m\Vm/b$},ylabel={$\bar C_\Pi/R$}]
+  \draw[gris,densely dotted] (axis cs:0.5,-6) -- (axis cs:0.5,8);
+  \draw[gris,line width=0.4pt] (axis cs:0,0) -- (axis cs:1,0);
+  \addplot[navy,domain=0:0.478,samples=80] {(5-8*x)/(2*(1-2*x))};
+  \addplot[navy,domain=0.522:1,samples=80] {(5-8*x)/(2*(1-2*x))};
+  \fill[rojo] (axis cs:0.625,0) circle (1.6pt);
+  \fill[navy] (axis cs:0,2.5) circle (1.6pt) node[anchor=north west,font=\scriptsize,inner sep=2pt] {$\bar C_p$};
+  \fill[navy] (axis cs:1,1.5) circle (1.6pt) node[anchor=north east,font=\scriptsize,inner sep=2pt] {$\bar C_V$};
+  \node[font=\scriptsize,anchor=south west,align=left] at (axis cs:0.04,5.2) {absorbe calor,\\$T$ sube};
+  \node[font=\scriptsize,anchor=north,align=center] at (axis cs:0.6,-0.9) {absorbe,\\$T$ baja};
+  \node[font=\scriptsize,anchor=south,align=center] at (axis cs:0.8,4.4) {cede calor,\\$T$ baja};
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 30. Capacidad molar a lo largo de la recta $p=b+m\Vm$ en función de $u=-m\Vm/b\in(0,1)$.
+En $u=\tfrac12$ la temperatura es máxima ($T\propto p\Vm$) y $\bar C_\Pi$ diverge; en $u=\tfrac58$ la recta es tangente a
+una adiabática y $\bar C_\Pi=0$. Para $u\to0$ el proceso es casi isóbaro y $\bar C_\Pi\to\bar C_p=\tfrac52R$.}
+\label{fig:p30}
+\end{figure}
+
+\begin{observacion}[Lectura del signo]
+Con $\dbar Q=\bar C_\Pi\,\dd T$: para $u<\tfrac12$, $\dd T>0$ y $\bar C_\Pi>0$, el gas absorbe calor; entre
+$\tfrac12$ y $\tfrac58$, $\dd T<0$ y $\bar C_\Pi<0$, sigue absorbiendo aunque se enfríe; a partir de
+$u=\tfrac58$ cede calor. Una capacidad calorífica negativa no es un error: describe un proceso en el que el gas
+entrega más trabajo del calor que recibe.
+\end{observacion}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestión 2}
+% ---------------------------------------------------------------------
+\begin{problema}{P.2}{Coeficiente adiabático de un gas no ideal}
+Un gas tiene $pV=AT+B$ y $U=CT+DV$, con $A$, $B$, $C$ y $D$ constantes positivas. (a) Calcule $\gamma\equiv C_p/C_V$.
+(b) Muestre que para presiones grandes tiene un valor constante mayor que 1.
+\end{problema}
+
+\begin{resolucion}
+\idea Método M4: $C_V$ de $U$; $C_p=C_V+l\,\pdi VTp$ con $l=\pdi UVT+p$.
+
+\paso{(a) Paso 1: $C_V$} $C_V=\pdi UTV=C$.
+
+\paso{(a) Paso 2: $l$ y la derivada} $\pdi UVT=D$, luego $l=D+p$. De $V=(AT+B)/p$, a $p$ fija,
+$\pdi VTp=A/p$.
+
+\paso{(a) Paso 3: $C_p$ y $\gamma$}
+\[
+  C_p=C+(D+p)\frac Ap=C+A+\frac{AD}p
+  \quad\Longrightarrow\quad
+  \boxed{\gamma=\frac{C_p}{C_V}=1+\frac AC+\frac{AD}{Cp}=\frac{(C+A)\,p+AD}{C\,p}}.
+\]
+
+\paso{(b) Límite} Para $p\to\infty$ el último término se anula:
+\[
+  \gamma\;\longrightarrow\;1+\frac AC=\frac{C+A}{C},
+\]
+constante y mayor que 1 porque $A,C>0$. Es el mismo exponente que en el problema 26.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Parcial 2025/26, cuestiones 3(a) y 4(a)}
+% ---------------------------------------------------------------------
+\begin{problema}{P.3(a)}{Expansión isoterma: la parte de la primera ley}
+Un mol de gas ideal se expande isoterma y reversiblemente desde $(p_i,V_i)$ hasta $p_i/2$, en contacto con un
+foco a $T_i$. ¿Cuál es su cambio de energía? (El cambio de entropía se trata en el Tema 3.)
+\end{problema}
+
+\begin{resolucion}
+\idea Gas ideal isotermo: $\Delta U=0$ y $Q=-W$ (tabla~\ref{tab:procesos}).
+
+\paso{Paso 1} Por la ley de Joule, $\boxed{\Delta U=0}$. Con $p_iV_i=p_fV_f$, $V_f=2V_i$.
+
+\paso{Paso 2} $W=-RT_i\ln(V_f/V_i)=-RT_i\ln2$ y $Q=-W=RT_i\ln2>0$: el gas absorbe del foco exactamente el
+trabajo que entrega.
+\end{resolucion}
+
+\begin{problema}{P.4(a)}{Calor en el isócoro de un ciclo}
+Un gas perfecto monoatómico se calienta adiabática y reversiblemente de $T_1$ a $T_2$ reduciendo su volumen a la
+mitad ($1\to2$); se expande en contacto con un foco a $T_2$ hasta su volumen inicial ($2\to3$); y vuelve al estado
+inicial en contacto con un foco a $T_1$ mediante un proceso irreversible a volumen constante ($3\to1$). ¿Cuál es el
+calor intercambiado en $3\to1$?
+\end{problema}
+
+\begin{resolucion}
+\idea Aunque $3\to1$ sea irreversible, es isócoro: $W=0$ y $Q=\Delta U$, que solo depende de los estados.
+
+\paso{Paso 1: temperaturas} $T_3=T_2$ (isoterma) y, por Poisson con $\gamma-1=2/3$ y $V_1/V_2=2$,
+$T_2=T_1\cdot2^{2/3}=1{,}587\,T_1$.
+
+\paso{Paso 2: balance del isócoro} Con $W_{31}=0$,
+\[
+  Q_{31}=\Delta U_{31}=n\bar C_V(T_1-T_3)=\boxed{\tfrac32nR\,(T_1-T_2)}=\tfrac32nRT_1\bigl(1-2^{2/3}\bigr)\simeq-0{,}881\,nRT_1 .
+\]
+Es negativo: el gas cede calor al foco frío. El cambio de entropía del universo y el teorema de Carnot,
+apartados (b) y (c), se tratan en el Tema 3.
+\end{resolucion}
+
+% ---------------------------------------------------------------------
+\subsection{Resumen de resultados}
+% ---------------------------------------------------------------------
+\begin{table}[H]
+\centering
+\caption{Resultados de los seminarios del Tema 2.}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{lXc}
+\toprule
+Problema & Resultado & Método\\
+\midrule
+17 & $a=\SI{2,375}{MPa}$, $b=-\SI{75}{MPa/m^3}$;\enspace $W=+\SI{25}{kJ}$ & M1\\
+18 & $W=-30$; $-20{,}79$; $-\SI{17,57}{kJ}$ para $a=0$; 1; 1,5 & M1\\
+19 & $-nRT\ln\frac{2V_0-nb}{V_0-nb}$;\enspace $-nRT\bigl(\ln2+\frac{nB}{2V_0}\bigr)$;\enspace $-nRT\ln\frac{2V_0-nb}{V_0-nb}+\frac{n^2a}{2V_0}$ & M1\\
+20 & $T_2=\SI{149,1}{K}$;\enspace $n=\SI{1,793}{mol}$ & M5, M3\\
+21 & $W=-\SI{15}{kJ}$;\enspace $\Delta U=-\SI{10}{kJ}$ & M1, M3\\
+22 & $W_{\mathrm{conf}}=\SI{900}{J}$;\enspace $\Delta z=-\SI{0,259}{m}$ (baja) & M2, M3\\
+23 & $W=-Q$: $2RT\ln3$;\enspace $\tfrac83RT$;\enspace $4RT$ & M1, M3\\
+24 & $Q=2aT+3bT^2-c/T$ & M4\\
+25 & $\bar C_V=c$;\enspace $\bar C_p=c+\dfrac{R^2T\Vm^3}{RT\Vm^3-2a(\Vm-b)^2}$ & M4\\
+26 & $p(\Vm-b)^{(C+A)/C}=\cte$ & M5\\
+27 & $W=-0{,}9RT$; $-1{,}3RT$; $-1{,}6RT$; $-RT\ln10$ ($-2{,}24$; $-3{,}24$; $-3{,}99$; $-\SI{5,74}{kJ}$) & M2, M1\\
+28 & $l=\SI{e5}{Pa}$, $h=-\SI{2,27e-2}{m^3}$, $\lambda=\SI{5,68e-2}{m^3}$, $\mu=\SI{3,5e5}{Pa}$;\enspace $TV^{2/5}$, $Tp^{-2/7}$, $pV^{7/5}$ & M4, M5\\
+29 & Irrev.: $T_2=\SI{240}{K}$, $Q=0$, $W=\Delta U=-\SI{2494}{J}$.\enspace Rev.: $W=-\SI{5480}{J}$, $Q=\SI{2986}{J}$ & M2, M3\\
+30 & $\bar C_\Pi/\bar C_V=(\kappa_T-\gamma\kappa_\Pi)/(\kappa_T-\kappa_\Pi)$;\enspace $\bar C_\Pi=\frac R2\frac{8m\Vm+5b}{2m\Vm+b}$ & M4\\
+P.2 & $\gamma=1+A/C+AD/(Cp)\to1+A/C>1$ & M4\\
+P.3(a) & $\Delta U=0$;\enspace $Q=-W=RT_i\ln2$ & M3\\
+P.4(a) & $Q_{31}=\tfrac32nR(T_1-T_2)\simeq-0{,}881\,nRT_1$ & M3, M5\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{recuadro}{Lista de control antes de entregar}
+\begin{itemize}[label={\color{acento}$\blacktriangleright$},leftmargin=1.4em,itemsep=4pt]
+\item ¿Signos con la convención del curso? Expansión, $W<0$; calor cedido, $Q<0$.
+\item ¿El proceso es reversible? Si no, el trabajo va con $p_{\mathrm{ext}}$, nunca con la presión del gas.
+\item ¿Unidades SI (\si{Pa}, \si{m^3}, \si{K})? $\SI{1}{L}=\SI{e-3}{m^3}$, $\SI{1}{bar}=\SI{e5}{Pa}$; en $\Delta T$, °C y K coinciden.
+\item ¿Se ha usado $\Delta U=nC_V\Delta T$ en un gas perfecto aunque el proceso no sea isócoro? Es correcto.
+\item En calorimetría, ¿se ha incluido $\pdi UVT$ en $l$ si el gas no es ideal?
+\item ¿Se ha comprobado un límite (gas ideal, Mayer, $\gamma$) o el mismo $\Delta U$ por dos caminos?
+\end{itemize}
+\end{recuadro}

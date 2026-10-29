@@ -1,0 +1,584 @@
+% =====================================================================
+\section{Procesos y trabajo}
+% =====================================================================
+Dos procesos distintos pueden unir los mismos estados $A$ y $B$. La primera ley separa lo que solo
+depende de los extremos, la energía interna $U$, de las dos transferencias que dependen del camino, el
+trabajo $W$ y el calor $Q$ \cite{gonzalez1,gonzalez2}.
+
+\subsection{Convención de signos}
+
+\begin{definicion}[Convención del curso]
+Toda transferencia se cuenta desde el sistema: es \emph{positiva si la energía entra} en él. Así,
+$Q>0$ si el sistema recibe calor y $W>0$ si el entorno realiza trabajo sobre el sistema. Con esta
+convención la primera ley se escribe $\Delta U=Q+W$ (sección~\ref{sec:primera}).
+\end{definicion}
+
+\begin{observacion}[Otra convención]
+Algunos textos (y la ingeniería) usan el trabajo \emph{realizado por} el sistema, $W'=-W$, y escriben
+$\Delta U=Q-W'$. Los dos convenios dan los mismos resultados físicos; basta no mezclarlos. En estos
+apuntes, una expansión tiene $W<0$ y una compresión $W>0$.
+\end{observacion}
+
+\subsection{Trabajo de frontera}
+
+Sea un gas en un cilindro cerrado por un pistón de área $A$ (figura~\ref{fig:piston}). El entorno
+empuja el pistón hacia dentro con una fuerza $F_{\mathrm{ext}}=p_{\mathrm{ext}}A$, donde $p_{\mathrm{ext}}$
+incluye la atmósfera, el peso del pistón y cualquier carga.
+
+\begin{proposicion}[Trabajo de frontera]
+Si el pistón se desplaza $\dd x$ hacia fuera, el trabajo que el entorno realiza sobre el gas es
+\begin{equation}\label{eq:dW}
+  \dbar W=-p_{\mathrm{ext}}\,\dd V,
+\end{equation}
+y en un proceso finito $\gamma$ entre $A$ y $B$,
+\begin{equation}\label{eq:W}
+  W(A\to B;\gamma)=-\int_{\gamma}p_{\mathrm{ext}}\,\dd V .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+La fuerza del entorno apunta hacia dentro, en sentido opuesto al desplazamiento $\dd x>0$; su trabajo es
+$\dbar W=-F_{\mathrm{ext}}\,\dd x=-p_{\mathrm{ext}}A\,\dd x$. Como el volumen aumenta $\dd V=A\,\dd x$, queda
+$\dbar W=-p_{\mathrm{ext}}\,\dd V$. Si el pistón se mueve hacia dentro, $\dd x<0$ y $\dd V<0$, y la misma
+expresión da $\dbar W>0$. Sumando los desplazamientos elementales a lo largo de $\gamma$ se obtiene
+\eqref{eq:W}.
+\end{demostracion}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.0,font=\small]
+  % cilindro
+  \fill[fondo] (0,0) rectangle (3.4,2.0);
+  \draw[navy,line width=1.2pt] (0,2.6) -- (0,0) -- (3.4,0) -- (3.4,2.6);
+  \fill[acentoclaro] (0.03,2.0) rectangle (3.37,2.32);
+  \draw[navy] (0.03,2.0) rectangle (3.37,2.32);
+  \fill[acentoclaro!50] (0.03,2.32) rectangle (3.37,2.62);
+  \draw[navy,densely dotted] (0.03,2.32) -- (3.37,2.32);
+  \draw[navy] (0.03,2.62) -- (3.37,2.62);
+  \node[navy] at (1.7,1.0) {gas: $p,\ V,\ T$};
+  % fuerza exterior
+  \draw[-{Stealth[length=6pt]},rojo,line width=1pt] (1.7,3.6) -- (1.7,2.7);
+  \node[rojo,anchor=west] at (1.8,3.3) {$F_{\mathrm{ext}}=p_{\mathrm{ext}}A$};
+  % desplazamiento
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]},acento] (3.75,2.0) -- (3.75,2.32);
+  \node[acento,anchor=west] at (3.85,2.16) {$\dd x$};
+  \draw[{Stealth[length=4pt]}-{Stealth[length=4pt]},gris] (0.03,-0.3) -- (3.37,-0.3);
+  \node[gris,anchor=north] at (1.7,-0.32) {área $A$};
+  % ecuaciones
+  \node[anchor=west,align=left] at (5.3,1.6) {$\dd V=A\,\dd x$\\[3pt] $\dbar W=-F_{\mathrm{ext}}\,\dd x=-p_{\mathrm{ext}}\,\dd V$};
+  \node[anchor=west,align=left,font=\footnotesize,gris] at (5.3,0.5) {posición inicial del pistón: continua\\ posición final: punteada};
+\end{tikzpicture}
+\caption{Trabajo de frontera. Al subir el pistón $\dd x$, el volumen crece $\dd V=A\,\dd x$ y el entorno,
+que empuja hacia dentro, realiza sobre el gas un trabajo negativo.}
+\label{fig:piston}
+\end{figure}
+
+\begin{definicion}[Trabajo reversible]
+En un proceso reversible el pistón está en equilibrio mecánico en cada instante, $p_{\mathrm{ext}}=p\pm\dd p$,
+y a primer orden
+\begin{equation}\label{eq:Wrev}
+  \dbar W_{\mathrm{rev}}=-p\,\dd V,\qquad W_{\mathrm{rev}}=-\int_{V_A}^{V_B}p(V)\,\dd V .
+\end{equation}
+Solo entonces el trabajo se calcula con la presión \emph{del sistema}; en un proceso irreversible hay que
+usar $p_{\mathrm{ext}}$, porque $p$ no está definida (el gas no está en equilibrio).
+\end{definicion}
+
+\begin{observacion}[Signo y área]
+En el plano $p$--$V$, $|W_{\mathrm{rev}}|$ es el área bajo la curva $p(V)$. Expansión: $\dd V>0\Rightarrow W<0$.
+Compresión: $\dd V<0\Rightarrow W>0$. Isócoro: $\dd V=0\Rightarrow W=0$, incluso si el proceso es irreversible.
+\end{observacion}
+
+\subsection{Trabajo en procesos frecuentes}
+
+Cada fila de la tabla~\ref{tab:trabajos} sale de \eqref{eq:W} o \eqref{eq:Wrev} sustituyendo $p(V)$.
+
+\paso{Isóbaro, o contra $p_{\mathrm{ext}}$ constante} La presión sale de la integral:
+\[
+  W=-p_{\mathrm{ext}}\int_{V_1}^{V_2}\dd V=-p_{\mathrm{ext}}(V_2-V_1).
+\]
+
+\paso{Isotermo de un gas ideal} Con $p=nRT/V$ y $T$ fija,
+\[
+  W=-nRT\int_{V_1}^{V_2}\frac{\dd V}{V}=-nRT\ln\frac{V_2}{V_1}=-nRT\ln\frac{p_1}{p_2},
+\]
+donde en el último paso se ha usado $p_1V_1=p_2V_2$.
+
+\paso{Politrópico $pV^m=C$, $m\neq1$} Con $p=CV^{-m}$ y la primitiva $\int V^{-m}\dd V=V^{1-m}/(1-m)$:
+\[
+  W=-C\,\frac{V_2^{1-m}-V_1^{1-m}}{1-m}
+   =-\frac{p_2V_2^{m}V_2^{1-m}-p_1V_1^{m}V_1^{1-m}}{1-m}
+   =\frac{p_2V_2-p_1V_1}{m-1},
+\]
+usando $C=p_1V_1^m=p_2V_2^m$. Para $m=1$ es la isoterma; para $m=0$, la isobara.
+
+\begin{table}[htbp]
+\centering
+\caption{Trabajo sobre el sistema en los procesos más frecuentes.}
+\label{tab:trabajos}
+\small
+\renewcommand{\arraystretch}{1.55}
+\begin{tabular}{llll}
+\toprule
+Proceso & Condición & Trabajo $W$ & Validez\\
+\midrule
+Isócoro & $V=\cte$ & $0$ & siempre\\
+Contra presión exterior fija & $p_{\mathrm{ext}}=\cte$ & $-p_{\mathrm{ext}}(V_2-V_1)$ & siempre\\
+Isóbaro reversible & $p=\cte$ & $-p(V_2-V_1)$ & reversible\\
+Isotermo, gas ideal & $T=\cte$ & $-nRT\ln(V_2/V_1)$ & reversible\\
+Politrópico & $pV^m=\cte$, $m\neq1$ & $\dfrac{p_2V_2-p_1V_1}{m-1}$ & reversible\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{El trabajo depende del camino}
+
+\begin{definicion}[Diferencial inexacta]
+Una forma $\dbar X$ es \emph{inexacta} si su integral entre dos estados depende del camino; no existe una
+función $X(\text{estado})$ cuya diferencial sea $\dbar X$, y en un ciclo $\oint\dbar X\neq0$ en general. El
+trabajo y el calor son inexactos: se escriben $\dbar W$ y $\dbar Q$. Matemáticamente son
+\emph{funcionales} del proceso, no funciones del estado.
+\end{definicion}
+
+La figura~\ref{fig:camino} lo muestra. En (a) los caminos $\gamma_1$ y $\gamma_2$ unen los mismos estados
+pero encierran áreas distintas, luego $W_1\neq W_2$, mientras que $\Delta U_1=\Delta U_2$. En (b), en un
+ciclo recorrido en sentido horario el área de la expansión supera a la de la compresión:
+\begin{equation}\label{eq:Wciclo}
+  W_{\mathrm{ciclo}}=-\oint p\,\dd V<0\quad\text{(horario)},
+\end{equation}
+y el sistema entrega trabajo neto. En sentido antihorario, $W_{\mathrm{ciclo}}>0$.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.75,xmax=2.3,ymin=0,ymax=4.3,
+    xtick={1,2},xticklabels={$V_A$,$V_B$},ytick=\empty,xlabel={$V$},ylabel={$p$}]
+  \addplot[draw=none,fill=fondomedio,domain=1:2,samples=60,forget plot] {3-(x-1)+1.1*sin(deg(pi*(x-1)))} \closedcycle;
+  \addplot[draw=none,pattern=north east lines,pattern color=acento,domain=1:2,samples=60,forget plot] {3-(x-1)-0.9*sin(deg(pi*(x-1)))} \closedcycle;
+  \addplot[navy,domain=1:2,samples=80] {3-(x-1)+1.1*sin(deg(pi*(x-1)))};
+  \addplot[acento,densely dashed,domain=1:2,samples=80] {3-(x-1)-0.9*sin(deg(pi*(x-1)))};
+  \fill[rojo] (axis cs:1,3) circle (1.8pt) node[left=2pt,font=\small,black] {$A$};
+  \fill[rojo] (axis cs:2,2) circle (1.8pt) node[right=2pt,font=\small,black] {$B$};
+  \node[navy,font=\small,anchor=south] at (axis cs:1.5,3.62) {$\gamma_1$};
+  \node[acento,font=\small,anchor=north] at (axis cs:1.5,1.58) {$\gamma_2$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.75,xmax=2.3,ymin=0,ymax=4.3,
+    xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$}]
+  \addplot[draw=none,fill=fondomedio,domain=0:360,samples=90,variable=\t] ({1.5+0.5*cos(t)},{2+1.0*sin(t)});
+  \addplot[navy,domain=0:360,samples=120,variable=\t] ({1.5+0.5*cos(t)},{2+1.0*sin(t)});
+  \draw[navy,-{Stealth[length=6pt]}] (axis cs:1.44,{2+1.0*sin(96.9)}) -- (axis cs:1.56,{2+1.0*sin(83.1)});
+  \draw[navy,-{Stealth[length=6pt]}] (axis cs:1.56,{2-1.0*sin(83.1)}) -- (axis cs:1.44,{2-1.0*sin(96.9)});
+  \node[font=\small,navy] at (axis cs:1.5,2) {$W_{\mathrm{ciclo}}<0$};
+  \node[font=\scriptsize,gris,anchor=south] at (axis cs:1.5,3.08) {expansión a $p$ alta};
+  \node[font=\scriptsize,gris,anchor=north] at (axis cs:1.5,0.92) {compresión a $p$ baja};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{(a) Dos procesos reversibles entre los mismos estados: $|W_1|$ es el área bajo $\gamma_1$ (relleno) y
+$|W_2|$ la que queda bajo $\gamma_2$ (rayado); $W_1\neq W_2$ aunque $\Delta U_1=\Delta U_2$. (b) Ciclo
+recorrido en sentido horario: el área encerrada es $|W_{\mathrm{ciclo}}|$ y el sistema realiza trabajo neto
+sobre el entorno.}
+\label{fig:camino}
+\end{figure}
+
+\subsection{Trabajo generalizado y trabajo disipativo}
+
+El trabajo de frontera es un caso de un esquema general: cada modo de trabajo reversible es el producto de
+una variable intensiva por la variación de su extensiva conjugada (tabla~\ref{tab:pares}),
+\begin{equation}\label{eq:Wgen}
+  \dbar W_{\mathrm{rev}}=\sum_i Y_i\,\dd X_i .
+\end{equation}
+
+\begin{table}[htbp]
+\centering
+\caption{Pares conjugados de trabajo reversible.}
+\label{tab:pares}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llll}
+\toprule
+Interacción & Extensiva $X$ & Intensiva $Y$ & $\dbar W_{\mathrm{rev}}$\\
+\midrule
+Hidrostática & volumen $V$ & $-p$ & $-p\,\dd V$\\
+Hilo elástico & longitud $L$ & tensión $F$ & $F\,\dd L$\\
+Pila eléctrica & carga $q$ & f.e.m. $\mathcal E$ & $\mathcal E\,\dd q$\\
+Material magnético & imanación $M$ & $\mu_0H$ & $\mu_0H\,\dd M$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{definicion}[Trabajo disipativo]
+Un agitador, una resistencia eléctrica o la fricción transfieren al sistema un trabajo $W_{\mathrm{dis}}$ que
+no está asociado a una variable de configuración. Siempre es $W_{\mathrm{dis}}\geq0$: el entorno puede
+agitar el fluido, pero el fluido no puede devolver ese trabajo. El trabajo total es
+\begin{equation}\label{eq:Wdis}
+  W=W_{\mathrm{conf}}+W_{\mathrm{dis}},\qquad W_{\mathrm{conf}}=-\int p_{\mathrm{ext}}\,\dd V .
+\end{equation}
+\end{definicion}
+
+% =====================================================================
+\section{Calor y primera ley}\label{sec:primera}
+% =====================================================================
+
+\subsection{Trabajo adiabático y energía interna}
+
+\begin{definicion}[Paredes adiabática y diatérmica]
+Una pared \emph{adiabática} impide la transferencia de calor ($Q=0$), como en un vaso Dewar; una
+\emph{diatérmica} la permite cuando hay una diferencia de temperatura.
+\end{definicion}
+
+\begin{teorema}[Postulado del trabajo adiabático]
+Si un sistema rodeado de paredes adiabáticas pasa de $A$ a $B$, el trabajo realizado sobre él es el mismo
+para todos los procesos que unen esos estados. Existe por tanto una función de estado, la
+\emph{energía interna} $U$, definida salvo una constante por
+\begin{equation}\label{eq:Uad}
+  U(B)-U(A)\equiv W_{\mathrm{ad}}(A\to B).
+\end{equation}
+\end{teorema}
+
+\begin{definicion}[Calor]
+En un proceso cualquiera, no adiabático, el \emph{calor} es la energía transferida que no es trabajo:
+\begin{equation}\label{eq:Qdef}
+  Q\equiv\Delta U-W .
+\end{equation}
+Se mide en julios; la caloría antigua vale $\SI{1}{cal}=\SI{4,1858}{J}$. Un sistema no «contiene» calor ni
+trabajo: contiene energía interna.
+\end{definicion}
+
+\subsection{La primera ley}
+
+\begin{teorema}[Primera ley para un sistema cerrado]
+Para todo proceso de un sistema cerrado,
+\begin{equation}\label{eq:primera}
+  \Delta U=Q+W,\qquad \dd U=\dbar Q+\dbar W .
+\end{equation}
+$\dd U$ es exacta ($\oint\dd U=0$); $\dbar Q$ y $\dbar W$ no lo son, pero su suma sí.
+\end{teorema}
+
+\begin{observacion}[Móvil perpetuo de primera especie]
+En un ciclo $\Delta U=0$, luego $Q_{\mathrm{ciclo}}=-W_{\mathrm{ciclo}}$: ninguna máquina cíclica puede entregar
+trabajo ($W<0$) sin absorber una cantidad equivalente de calor. Es otra forma de enunciar la primera ley.
+\end{observacion}
+
+\begin{table}[htbp]
+\centering
+\caption{La primera ley en procesos particulares.}
+\label{tab:procesos}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{llll}
+\toprule
+Proceso & Restricción & Primera ley & Lectura\\
+\midrule
+Adiabático & $Q=0$ & $\Delta U=W$ & $U$ cambia solo por trabajo\\
+Isócoro (sin $W_{\mathrm{dis}}$) & $W=0$ & $\Delta U=Q$ & $U$ cambia solo por calor\\
+Cíclico & $\Delta U=0$ & $Q=-W$ & las transferencias netas se compensan\\
+Isotermo de un gas ideal & $\Delta U=0$ & $Q=-W$ & $U$ solo depende de $T$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{ejemplo}[Un balance de energía]
+Un gas recibe \SI{5}{kJ} de calor y, al expandirse, realiza \SI{12}{kJ} de trabajo sobre el entorno. Con la
+convención del curso, $Q=+\SI{5}{kJ}$ y $W=-\SI{12}{kJ}$, luego $\Delta U=Q+W=-\SI{7}{kJ}$: la energía interna
+disminuye, porque el gas entrega más energía de la que recibe.
+\end{ejemplo}
+
+\subsection{Focos térmicos y mecánicos}
+
+\begin{definicion}[Focos]
+Un \emph{foco térmico} intercambia cualquier cantidad finita de calor sin que cambien su temperatura ni sus
+demás variables intensivas: $\Delta U_{\mathrm{FT}}=Q_{\mathrm{FT}}=-Q_\Sigma$. Un \emph{foco mecánico} intercambia
+trabajo de configuración sin que cambie su presión: $\Delta U_{\mathrm{FM}}=-p_{\mathrm{FM}}\Delta V_{\mathrm{FM}}=-W_\Sigma$.
+La atmósfera es un foco mecánico a $p_{\mathrm{atm}}$; un baño grande, un foco térmico.
+\end{definicion}
+
+% =====================================================================
+\section{Energía interna y capacidades caloríficas}
+% =====================================================================
+
+\subsection{Ecuación energética de estado}
+
+La termodinámica no fija la forma de $U$; la dan la física estadística o el experimento. Para un sistema
+hidrostático se toma $U=U(T,V)$, la \emph{ecuación energética de estado}, cuya diferencial es exacta.
+
+\begin{proposicion}[Calor en un proceso reversible]
+En un proceso reversible de un sistema hidrostático,
+\begin{equation}\label{eq:dQ}
+  \dbar Q=\pd{U}{T}{V}\dd T+\left[\pd{U}{V}{T}+p\right]\dd V .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+De la primera ley con $\dbar W_{\mathrm{rev}}=-p\,\dd V$, $\dbar Q=\dd U-\dbar W=\dd U+p\,\dd V$. Sustituyendo
+la diferencial total $\dd U=\pdi{U}{T}{V}\dd T+\pdi{U}{V}{T}\dd V$ y agrupando los términos en $\dd V$ se
+obtiene \eqref{eq:dQ}.
+\end{demostracion}
+
+\subsection{Capacidades caloríficas}
+
+\begin{definicion}[Capacidades caloríficas]
+Las \emph{capacidades caloríficas} a volumen y a presión constantes son
+\begin{equation}\label{eq:CVCp}
+  C_V\equiv\left(\frac{\dbar Q}{\dd T}\right)_{\!V},\qquad C_p\equiv\left(\frac{\dbar Q}{\dd T}\right)_{\!p}.
+\end{equation}
+Son extensivas, en \si{J/K}; las molares $\bar C=C/n$, en \si{J/(mol.K)}, y las específicas $c=C/m$, en
+\si{J/(kg.K)}, son intensivas.
+\end{definicion}
+
+\begin{proposicion}[$C_V$ y $C_p$ a partir de $U$]
+\begin{equation}\label{eq:CV}
+  C_V=\pd{U}{T}{V},\qquad
+  C_p=C_V+\left[\pd{U}{V}{T}+p\right]\pd{V}{T}{p}=\pd{H}{T}{p},\qquad H\equiv U+pV .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+\emph{$C_V$}: a volumen constante $\dd V=0$ en \eqref{eq:dQ}, y dividiendo por $\dd T$ queda
+$C_V=\pdi{U}{T}{V}$.
+\emph{$C_p$}: a presión constante el volumen sí cambia. Con $V=V(T,p)$,
+$\dd V=\pdi{V}{T}{p}\dd T+\pdi{V}{p}{T}\dd p$, y con $\dd p=0$ solo queda el primer término. Sustituyendo en
+\eqref{eq:dQ} y dividiendo por $\dd T$ se obtiene la expresión central.
+\emph{Entalpía}: diferenciando $H=U+pV$, $\dd H=\dd U+p\,\dd V+V\dd p=\dbar Q+V\dd p$ en un proceso reversible;
+con $\dd p=0$, $\dd H=\dbar Q$ y $C_p=\pdi{H}{T}{p}$.
+\end{demostracion}
+
+\begin{proposicion}[Diferencia de capacidades]
+En general, $C_p-C_V=\bigl[\pdi{U}{V}{T}+p\bigr]\pdi{V}{T}{p}$. Si $U=U(T)$ (ley de Joule),
+\begin{equation}\label{eq:CpCV}
+  C_p-C_V=p\pd{V}{T}{p}=\alpha pV=\frac{\alpha^2V}{\beta\kappa_T},
+\end{equation}
+y para el gas ideal, con $\alpha=1/T$ y $pV=nRT$, se obtiene la \emph{relación de Mayer}
+\begin{equation}\label{eq:mayer}
+  C_p-C_V=nR,\qquad \bar C_p-\bar C_V=R .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+La primera igualdad es \eqref{eq:CV}. Con $\pdi{U}{V}{T}=0$ el corchete se reduce a $p$, y
+$\pdi{V}{T}{p}=\alpha V$ por la definición de $\alpha$; la última forma usa $p=\alpha/(\beta\kappa_T)$ (Tema 1).
+Para el gas ideal, $\alpha pV=\frac1T\,nRT=nR$.
+\end{demostracion}
+
+\begin{observacion}[Por qué $C_p>C_V$]
+A volumen constante todo el calor aumenta $U$. A presión constante parte del calor acompaña a la expansión,
+porque el gas realiza el trabajo $p\,\dd V$, y hace falta más calor para el mismo $\dd T$. Como casi siempre
+$\alpha>0$, $C_p>C_V$.
+\end{observacion}
+
+\subsection{Coeficientes calorimétricos}
+
+El calor reversible \eqref{eq:dQ} es una forma lineal en dos diferenciales; según el par de variables que se
+elija aparecen distintos coeficientes.
+
+\begin{definicion}[Coeficientes calorimétricos]
+Se definen $l$, $h$, $\lambda$ y $\mu$ por
+\begin{equation}\label{eq:calorim}
+  \dbar Q=C_V\,\dd T+l\,\dd V=C_p\,\dd T+h\,\dd p=\lambda\,\dd p+\mu\,\dd V .
+\end{equation}
+\end{definicion}
+
+\begin{proposicion}[Relaciones entre coeficientes]
+\begin{equation}\label{eq:calorimrel}
+  l=\pd UVT+p,\qquad C_p=C_V+l\,\alpha V,\qquad h=-l\,\kappa_TV,\qquad
+  \lambda=\frac{C_V}{p\beta},\qquad \mu=\frac{C_p}{\alpha V}.
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+$l$ se lee comparando \eqref{eq:dQ} con la primera forma. \emph{Variables $(T,p)$}: se sustituye
+$\dd V=\alpha V\dd T-\kappa_TV\dd p$ en la primera forma,
+\[
+  \dbar Q=C_V\dd T+l(\alpha V\dd T-\kappa_TV\dd p)=(C_V+l\alpha V)\,\dd T-l\kappa_TV\,\dd p,
+\]
+e igualando con la segunda forma se obtienen $C_p$ y $h$. \emph{Variables $(p,V)$}: se sustituye
+$\dd T=\dfrac{\dd p}{p\beta}+\dfrac{\dd V}{\alpha V}$ (Tema 1),
+\[
+  \dbar Q=\frac{C_V}{p\beta}\,\dd p+\Bigl(\frac{C_V}{\alpha V}+l\Bigr)\dd V,
+\]
+y como $l=(C_p-C_V)/(\alpha V)$, el paréntesis vale $C_p/(\alpha V)$.
+\end{demostracion}
+
+\begin{table}[htbp]
+\centering
+\caption{Coeficientes calorimétricos del gas ideal ($\alpha=\beta=1/T$, $\kappa_T=1/p$, $\pdi UVT=0$).}
+\label{tab:calorim}
+\small
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lcccc}
+\toprule
+Coeficiente & $l$ & $h$ & $\lambda$ & $\mu$\\
+\midrule
+Expresión & $p$ & $-V$ & $\dfrac{C_VT}{p}=\dfrac{C_VV}{nR}$ & $\dfrac{C_pT}{V}=\dfrac{C_pp}{nR}$\\
+Unidades & \si{Pa} & \si{m^3} & \si{m^3} & \si{Pa}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gas ideal y gas perfecto}
+
+\begin{definicion}[Gas ideal y gas perfecto]
+Un \emph{gas ideal} cumple a la vez $pV=nRT$ y la \emph{ley de Joule}, $U=U(T)$, es decir
+$\pdi{U}{V}{T}=0$. Un \emph{gas perfecto} es un gas ideal con $C_V$ constante: $U=U_0+C_VT$.
+\end{definicion}
+
+Para el gas ideal $C_V=\dd U/\dd T$ depende solo de $T$ e, integrando,
+\begin{equation}\label{eq:UT}
+  U(T)=U(T_0)+\int_{T_0}^{T}C_V(T')\,\dd T'\quad\xrightarrow{\ \text{perfecto}\ }\quad \Delta U=C_V\,\Delta T .
+\end{equation}
+Esta expresión vale para \emph{cualquier} proceso del gas, no solo a volumen constante, porque $U$ es función
+de estado y solo depende de $T$. El coeficiente $\gamma\equiv C_p/C_V$ depende de los grados de libertad
+activos (tabla~\ref{tab:gdl}).
+
+\begin{table}[htbp]
+\centering
+\caption{Capacidades molares de los gases perfectos según los modos activos.}
+\label{tab:gdl}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{llccc}
+\toprule
+Gas & Modos activos & $\bar C_V$ & $\bar C_p$ & $\gamma$\\
+\midrule
+Monoatómico (He, Ar) & 3 traslación & $\tfrac32R$ & $\tfrac52R$ & $5/3$\\
+Diatómico (N$_2$, O$_2$, CO) & 3 traslación + 2 rotación & $\tfrac52R$ & $\tfrac72R$ & $7/5$\\
+Poliatómico, o $T$ alta & + vibración & $a+bT+cT^2+\dots$ & $\bar C_V+R$ & $\gamma(T)$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{ejemplo}[Calor con capacidad variable]
+A presión constante, $Q_p=\int_{T_1}^{T_2}C_p(T)\,\dd T$; si $C_p$ es constante, $Q_p=C_p(T_2-T_1)$. Para
+\SI{2}{mol} con $\bar C_p=\SI{29,1}{J/(mol.K)}$ entre \SI{300}{K} y \SI{500}{K},
+$Q_p=2\cdot29{,}1\cdot200\ \mathrm{J}=\SI{11,64}{kJ}$.
+\end{ejemplo}
+
+% =====================================================================
+\section{Adiabáticas reversibles}
+% =====================================================================
+
+\subsection{Ecuaciones de Poisson}
+
+\begin{proposicion}[Ecuaciones de Poisson]
+Para un gas ideal con $\gamma$ constante, a lo largo de una adiabática reversible
+\begin{equation}\label{eq:poisson}
+  TV^{\gamma-1}=\cte,\qquad pV^{\gamma}=\cte,\qquad Tp^{(1-\gamma)/\gamma}=\cte .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+\paso{Hipótesis} Gas ideal ($pV=nRT$, $\dd U=C_V\dd T$), proceso reversible ($\dbar W=-p\,\dd V$) y $\gamma$
+constante.
+\paso{Primera ley} Por \eqref{eq:dQ} con $\pdi{U}{V}{T}=0$, $\dbar Q=C_V\,\dd T+p\,\dd V$, y en la adiabática
+$\dbar Q=0$:
+\[
+  0=C_V\,\dd T+p\,\dd V .
+\]
+\paso{Separación de variables} Se sustituye $p=nRT/V$ y se divide entre $C_VT$:
+\[
+  \frac{\dd T}{T}+\frac{nR}{C_V}\,\frac{\dd V}{V}=0 .
+\]
+Por Mayer, $nR=C_p-C_V$, así que $nR/C_V=\gamma-1$ y
+\[
+  \frac{\dd T}{T}+(\gamma-1)\frac{\dd V}{V}=0 .
+\]
+\paso{Integración} Con $\gamma$ constante, $\ln T+(\gamma-1)\ln V=\cte$, es decir
+$\ln\bigl(TV^{\gamma-1}\bigr)=\cte$ y $TV^{\gamma-1}=\cte$.
+\paso{Otras formas} Con $T=pV/(nR)$: $pV\cdot V^{\gamma-1}=pV^{\gamma}=\cte$. Con $V=nRT/p$:
+$T(T/p)^{\gamma-1}=T^{\gamma}p^{1-\gamma}=\cte$, y elevando a $1/\gamma$, $Tp^{(1-\gamma)/\gamma}=\cte$.
+\end{demostracion}
+
+Entre dos estados de la misma adiabática:
+\begin{equation}\label{eq:poisson2}
+  \frac{p_2}{p_1}=\Bigl(\frac{V_1}{V_2}\Bigr)^{\gamma},\qquad
+  \frac{T_2}{T_1}=\Bigl(\frac{V_1}{V_2}\Bigr)^{\gamma-1},\qquad
+  \frac{T_2}{T_1}=\Bigl(\frac{p_2}{p_1}\Bigr)^{(\gamma-1)/\gamma}.
+\end{equation}
+Se elige la forma que contiene las variables conocidas.
+
+\subsection{Isotermas y adiabáticas en el plano \texorpdfstring{$p$--$V$}{p-V}}
+
+\begin{proposicion}[Pendientes]
+Por un mismo punto del plano $p$--$V$,
+\begin{equation}\label{eq:pendientes}
+  \pd pVT=-\frac pV,\qquad \pd pV{\mathrm{ad}}=-\gamma\frac pV=\gamma\pd pVT .
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+Diferenciando $pV=\cte$: $p\,\dd V+V\dd p=0$, luego $\dd p/\dd V=-p/V$. Diferenciando $pV^\gamma=\cte$:
+$V^\gamma\dd p+\gamma pV^{\gamma-1}\dd V=0$, y dividiendo por $V^\gamma\dd V$, $\dd p/\dd V=-\gamma p/V$.
+\end{demostracion}
+
+Como $\gamma>1$, la adiabática cae más deprisa que la isoterma (figura~\ref{fig:poisson}). En una expansión
+isoterma el gas recibe calor y mantiene $T$; en una adiabática no recibe calor, el trabajo que entrega sale de
+su energía interna, $T$ baja, y la presión cae por las dos causas a la vez.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=6.9cm,height=5.6cm,xmin=0.12,xmax=3.6,ymin=0,ymax=4.4,
+    xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},clip=false]
+  \addplot[acentoclaro,densely dashed,domain=0.233:3.4,samples=80] {1/x};
+  \addplot[acento,densely dashed,domain=0.465:3.4,samples=80] {2/x};
+  \addplot[navy,densely dashed,domain=0.698:3.4,samples=80] {3/x};
+  \addplot[rojo,domain=0.40:2.6,samples=80] {0.9*x^(-1.4)};
+  \addplot[rojo,domain=0.58:2.6,samples=80] {1.8*x^(-1.4)};
+  \addplot[rojo,domain=0.80:2.6,samples=80] {3.0*x^(-1.4)};
+  \node[font=\scriptsize,acentoclaro!80!navy,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{1/3.4}) {$T_1$};
+  \node[font=\scriptsize,acento,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{2/3.4}) {$T_2$};
+  \node[font=\scriptsize,navy,anchor=west,inner sep=1.5pt] at (axis cs:3.4,{3/3.4}) {$T_3$};
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}\centering
+\begin{tikzpicture}
+\begin{axis}[graf,width=6.9cm,height=5.6cm,xmin=0.4,xmax=3.6,ymin=0,ymax=4.4,
+    ymax=6.2,xtick={1},xticklabels={$V_0$},ytick={2},yticklabels={$p_0$},xlabel={$V$},ylabel={$p$},
+    legend style={at={(0.97,0.97)},anchor=north east}]
+  \addplot[acento,densely dashed,domain=0.47:3.4,samples=80] {2/x};
+  \addplot[navy,domain=0.6:3.4,samples=80] {2*x^(-1.4)};
+  \addplot[rojo,domain=0.65:3.4,samples=80] {2*x^(-5/3)};
+  \fill[black] (axis cs:1,2) circle (1.6pt);
+  \legend{isoterma ($\gamma=1$),diatómico ($\gamma=7/5$),monoatómico ($\gamma=5/3$)}
+\end{axis}
+\end{tikzpicture}
+\caption{}
+\end{subfigure}
+\caption{(a) Isotermas $T_1<T_2<T_3$ (discontinuas) y adiabáticas reversibles (continuas, en rojo): al
+expandirse, cada adiabática corta isotermas cada vez más frías. (b) Por un mismo punto, cuanto mayor es
+$\gamma$ más empinada es la adiabática; la isoterma es el caso límite $\gamma=1$.}
+\label{fig:poisson}
+\end{figure}
+
+\subsection{Trabajo en una adiabática reversible}
+
+\begin{proposicion}[Trabajo adiabático]
+Para un gas perfecto que sigue una adiabática reversible de $1$ a $2$,
+\begin{equation}\label{eq:Wad}
+  W_{1\to2}=\Delta U=C_V(T_2-T_1)=\frac{p_2V_2-p_1V_1}{\gamma-1}.
+\end{equation}
+\end{proposicion}
+
+\begin{demostracion}
+Con $Q=0$, la primera ley da $W=\Delta U$, y por \eqref{eq:UT}, $\Delta U=C_V(T_2-T_1)$. Por Mayer,
+$C_V=nR/(\gamma-1)$, y con $nRT=pV$, $C_V(T_2-T_1)=(p_2V_2-p_1V_1)/(\gamma-1)$. Es la fila del politrópico de
+la tabla~\ref{tab:trabajos} con $m=\gamma$, como debe ser.
+\end{demostracion}
+
+\subsection{Adiabática de un gas no ideal}
+
+Si el gas no es ideal, la misma idea funciona con \eqref{eq:calorim}: la adiabática reversible es
+$\dbar Q=0$, es decir
+\begin{equation}\label{eq:adgeneral}
+  C_V\,\dd T+l\,\dd V=0,\qquad l=\pd UVT+p .
+\end{equation}
+Se sustituyen $C_V$, $l$ y la ecuación de estado, se separan variables y se integra (problema~26).

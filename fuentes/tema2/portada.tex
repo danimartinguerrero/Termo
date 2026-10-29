@@ -1,0 +1,120 @@
+% =============================== PORTADA ===============================
+\thispagestyle{empty}
+\setcounter{page}{0}
+\vspace*{-1.2cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+  \shade[left color=navy,right color=regla!60!white] (current page.south west) rectangle ([yshift=3.2mm]current page.south east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.15) rectangle (\textwidth,0.75);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.22\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.15\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.535\textwidth,0)
+    {{\color{navy}\large\espaciado[150]{Universidad de Salamanca}}\\[4pt]
+     {\color{acento}\espaciado[110]{Facultad de Ciencias}\enspace\textperiodcentered\enspace\espaciado[110]{Grado en Física}}};
+  \draw[regla,line width=0.6pt] (0,-1.1) -- (\textwidth,-1.1);
+\end{tikzpicture}
+
+\vspace{0.8cm}
+
+\noindent{\color{acento}\large\espaciado[150]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[150]{Tema 2}}\\[8pt]
+{\color{navy}\fontsize{30}{36}\selectfont\bfseries Primera ley}\\[4pt]
+\begin{tikzpicture}
+  \shade[left color=navy,right color=white] (0,0) rectangle (0.62\textwidth,1.6mm);
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\noindent{\large\itshape Trabajo de frontera, calor y energía interna, balance de energía, capacidades
+caloríficas y coeficientes calorimétricos, gas ideal y gas perfecto, adiabáticas reversibles}
+
+\vspace{0.7cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Autor}}\\
+  {\large Daniel Martín Guerrero\,\textsuperscript{\color{acento}a}}
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Profesor}}\\
+  {\large Julián González Ayala\,\textsuperscript{\color{acento}a}}
+\end{minipage}
+
+\vspace{4pt}
+\noindent{\color{gris}\textsuperscript{a}\,Grado en Física, Facultad de Ciencias, Universidad de Salamanca, Plaza de la Merced s/n, 37008 Salamanca, España}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[cajabase,top=10pt,bottom=10pt]
+\begin{minipage}[t]{0.52\linewidth}
+  {\color{acento}\espaciado[200]{Resumen}}\par\smallskip
+  \small
+  El trabajo de frontera, $W=-\int p_{\mathrm{ext}}\,\dd V$, y el calor son transferencias de energía que
+  dependen del proceso; la energía interna $U$, definida a partir del trabajo adiabático, es una función
+  de estado. La primera ley, $\Delta U=Q+W$, liga las tres. Con la ecuación energética de estado
+  $U(T,V)$ se obtienen las capacidades caloríficas $C_V$ y $C_p$, su diferencia general y la relación de
+  Mayer del gas ideal, y los coeficientes calorimétricos. Para el gas perfecto, la condición
+  $\dbar Q=0$ da las ecuaciones de Poisson de la adiabática reversible. Los seminarios resuelven, paso a
+  paso y con todo el desarrollo simbólico, los catorce problemas del tema y las cuestiones del parcial
+  que corresponden a la primera ley.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.44\linewidth}\centering
+  \vspace{2pt}
+  \begin{tikzpicture}
+  \begin{axis}[width=6.6cm,height=5.6cm,xmin=0.55,xmax=3.6,ymin=0,ymax=3.6,
+     axis lines=left,axis line style={navy,-{Stealth[length=5pt]}},
+     xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},
+     xlabel style={at={(1,0)},anchor=north east},ylabel style={at={(0,1)},anchor=north east,rotate=-90},
+     clip=false]
+    % área bajo la adiabática (trabajo)
+    \addplot[draw=none,fill=fondomedio,domain=1:3,samples=60] {3*x^(-1.4)} \closedcycle;
+    \addplot[draw=none,pattern=north east lines,pattern color=acentoclaro,domain=1:3,samples=60] {3*x^(-1.4)} \closedcycle;
+    % isotermas
+    \foreach \T/\c in {1/acentoclaro,2/acento,3/navy}{
+      \edef\tmp{\noexpand\addplot[\c,densely dashed,line width=0.9pt,domain={\T/3.3}:3.3,samples=80] {\T/x};}\tmp
+    }
+    % adiabática
+    \addplot[rojo,line width=1.4pt,domain=0.85:3.3,samples=80] {3*x^(-1.4)};
+    \fill[navy] (axis cs:1,3) circle (1.6pt);
+    \fill[navy] (axis cs:3,{3*3^(-1.4)}) circle (1.6pt);
+    \node[font=\scriptsize,anchor=south west,inner sep=1.5pt] at (axis cs:1,3) {$1$};
+    \node[font=\scriptsize,anchor=south west,inner sep=1.5pt] at (axis cs:3,{3*3^(-1.4)}) {$2$};
+    \node[font=\scriptsize,navy,anchor=west] at (axis cs:3.32,{3/3.3}) {$T_3$};
+    \node[font=\scriptsize,acento,anchor=west] at (axis cs:3.32,{2/3.3+0.04}) {$T_2$};
+    \node[font=\scriptsize,acentoclaro!80!navy,anchor=west] at (axis cs:3.32,{1/3.3-0.04}) {$T_1$};
+    \draw[gris,line width=0.4pt] (axis cs:1.55,{3*1.55^(-1.4)}) -- (axis cs:2.05,2.55)
+       node[anchor=south,inner sep=1pt,font=\scriptsize,rojo] {$\dbar Q=0$};
+    \node[font=\scriptsize,navy] at (axis cs:2.0,0.42) {$|W|$};
+  \end{axis}
+  \end{tikzpicture}\par
+  {\scriptsize\itshape\color{gris} Expansión adiabática reversible $1\to2$ (continua) entre isotermas del gas
+  perfecto (discontinuas): el gas se enfría y el trabajo que entrega, el área sombreada, sale de su energía
+  interna.\par}
+\end{minipage}
+\end{tcolorbox}
+
+\noindent{\color{acento}\espaciado[200]{Palabras clave}}\enspace
+trabajo de frontera\sepdot diferencial inexacta\sepdot calor\sepdot energía interna\sepdot primera ley\sepdot
+focos térmicos\sepdot capacidades caloríficas\sepdot entalpía\sepdot relación de Mayer\sepdot
+coeficientes calorimétricos\sepdot gas perfecto\sepdot ecuaciones de Poisson\par
+\smallskip
+\noindent{\color{acento}\espaciado[200]{Clasificación PACS}}\enspace
+05.70.$-$a (Termodinámica), 05.70.Ce (Funciones termodinámicas y ecuaciones de estado), 65.40.Ba (Capacidad calorífica)
+
+\vspace{0.4cm}
+{\color{regla}\hrule height 0.6pt}
+\vspace{2pt}
+\[
+  \Delta U=Q+W\qquad
+  W=-\int_\gamma p_{\mathrm{ext}}\,\dd V\qquad
+  C_V=\pd{U}{T}{V}\qquad
+  C_p-C_V=nR\qquad
+  pV^{\gamma}=\cte
+\]
+\vspace{-2pt}
+{\color{regla}\hrule height 0.6pt}
+
+\vfill
+\begin{center}
+  {\color{navy}\large\espaciado[220]{Apuntes formalizados con seminarios prácticos}}\\[4pt]
+  {\color{acento}\espaciado[200]{Salamanca, curso 2026/2027}}
+\end{center}
+\vspace*{0.1cm}

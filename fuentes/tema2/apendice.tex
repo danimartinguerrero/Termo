@@ -1,0 +1,74 @@
+% =====================================================================
+\needspace{0.62\textheight}
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\section{Formulario del Tema 2}
+% =====================================================================
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.85}
+\newcommand{\grupo}[1]{\multicolumn{3}{l}{\color{acento}\espaciado[200]{#1}}\\[-2pt]}
+\noindent
+\begin{tabularx}{\textwidth}{@{}l>{\centering\arraybackslash}Xr@{}}
+\toprule
+Magnitud o resultado & Expresión & Referencia\\
+\midrule
+\grupo{Trabajo}
+Trabajo de frontera & $\dbar W=-p_{\mathrm{ext}}\,\dd V,\quad W=-\int_\gamma p_{\mathrm{ext}}\,\dd V$ & ec.~\eqref{eq:W}\\
+Trabajo reversible & $\dbar W_{\mathrm{rev}}=-p\,\dd V$ & ec.~\eqref{eq:Wrev}\\
+Isóbaro, $p_{\mathrm{ext}}$ fija & $W=-p(V_2-V_1)$ & tabla~\ref{tab:trabajos}\\
+Isotermo, gas ideal & $W=-nRT\ln(V_2/V_1)=-nRT\ln(p_1/p_2)$ & tabla~\ref{tab:trabajos}\\
+Politrópico $pV^m=\cte$ & $W=(p_2V_2-p_1V_1)/(m-1)$ & tabla~\ref{tab:trabajos}\\
+Ciclo & $W=-\oint p\,\dd V<0$ en sentido horario & ec.~\eqref{eq:Wciclo}\\
+Disipativo & $W=W_{\mathrm{conf}}+W_{\mathrm{dis}},\quad W_{\mathrm{dis}}\geq0$ & ec.~\eqref{eq:Wdis}\\
+\midrule
+\grupo{Primera ley}
+Energía interna & $U(B)-U(A)=W_{\mathrm{ad}}(A\to B)$ & ec.~\eqref{eq:Uad}\\
+Primera ley & $\Delta U=Q+W,\quad\dd U=\dbar Q+\dbar W$ & ec.~\eqref{eq:primera}\\
+Calor reversible & $\dbar Q=C_V\,\dd T+\bigl[\pdi UVT+p\bigr]\dd V$ & ec.~\eqref{eq:dQ}\\
+\midrule
+\grupo{Calorimetría}
+Capacidades & $C_V=\pdi UTV,\quad C_p=\pdi HTp,\quad H=U+pV$ & ec.~\eqref{eq:CV}\\
+Diferencia & $C_p-C_V=\bigl[\pdi UVT+p\bigr]\pdi VTp\ \xrightarrow{U(T)}\ \alpha pV$ & ec.~\eqref{eq:CpCV}\\
+Mayer & $C_p-C_V=nR$ & ec.~\eqref{eq:mayer}\\
+Coef.\ calorimétricos & $\dbar Q=C_V\dd T+l\,\dd V=C_p\dd T+h\,\dd p=\lambda\,\dd p+\mu\,\dd V$ & ec.~\eqref{eq:calorim}\\
+Gas ideal & $l=p,\quad h=-V,\quad\lambda=C_VT/p,\quad\mu=C_pT/V$ & tabla~\ref{tab:calorim}\\
+Gas perfecto & $\Delta U=C_V\Delta T$ en cualquier proceso;\ $\bar C_V=\tfrac32R,\ \tfrac52R$ & ec.~\eqref{eq:UT}\\
+Capacidad de un proceso & $\bar C_\Pi/\bar C_V=(\kappa_T-\gamma\kappa_\Pi)/(\kappa_T-\kappa_\Pi)$ & probl.~30\\
+\midrule
+\grupo{Adiabáticas}
+Poisson & $TV^{\gamma-1}=\cte,\quad pV^\gamma=\cte,\quad Tp^{(1-\gamma)/\gamma}=\cte$ & ec.~\eqref{eq:poisson}\\
+Pendientes & $\pdi pV{\mathrm{ad}}=\gamma\pdi pVT=-\gamma p/V$ & ec.~\eqref{eq:pendientes}\\
+Trabajo adiabático & $W=\Delta U=C_V(T_2-T_1)=(p_2V_2-p_1V_1)/(\gamma-1)$ & ec.~\eqref{eq:Wad}\\
+Gas no ideal & $C_V\,\dd T+l\,\dd V=0$ & ec.~\eqref{eq:adgeneral}\\
+\bottomrule
+\end{tabularx}
+\endgroup
+
+% =====================================================================
+\begingroup
+\titleformat{\section}{\Large\bfseries\color{navy}}{}{0em}{}[\vspace{2pt}{\color{navy}\titlerule[0.9pt]}]
+\renewcommand{\refname}{Referencias}
+\makeatletter
+\renewenvironment{thebibliography}[1]
+  {\section*{\refname}\addcontentsline{toc}{section}{\refname}\markboth{\refname}{}%
+   \list{\@biblabel{\@arabic\c@enumiv}}{\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\itemsep 4pt\usecounter{enumiv}\let\p@enumiv\@empty
+     \renewcommand\theenumiv{\@arabic\c@enumiv}}\sloppy}
+  {\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}\endlist}
+\makeatother
+\clearpage
+\begin{thebibliography}{9}
+\bibitem{gonzalez1} J.~González Ayala. \emph{Termodinámica I}, capítulo 2: Primera ley, y Lista de
+  problemas \#2. Apuntes de la asignatura. Grado en Física, Universidad de Salamanca, 2026.
+\bibitem{gonzalez2} J.~González Ayala. \emph{Tema 2. Primera ley: calor, trabajo y balances de energía}.
+  Transparencias. Universidad de Salamanca, curso 2026--27.
+\bibitem{parcial} \emph{Termodinámica I. Prueba de evaluación continua (temas 1--3)}. Universidad de
+  Salamanca, 31 de octubre de 2025.
+\bibitem{martin1} D.~Martín Guerrero. \emph{Conceptos básicos (Termodinámica I, Tema 1)}. Apuntes formalizados
+  con seminarios prácticos. Grado en Física, Universidad de Salamanca, 2026.
+\bibitem{callen} H.~B.~Callen. \emph{Thermodynamics and an Introduction to Thermostatistics}, 2.ª ed. Wiley, 1985.
+\bibitem{zemansky} M.~W.~Zemansky y R.~H.~Dittman. \emph{Calor y termodinámica}, 6.ª ed. McGraw-Hill, 1990.
+\bibitem{aguilar} J.~Aguilar Peris. \emph{Curso de termodinámica}. Alhambra, 1981.
+\end{thebibliography}
+\endgroup
