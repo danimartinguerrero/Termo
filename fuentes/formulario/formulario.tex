@@ -1,0 +1,195 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\numtema}{3}
+\usepackage{estilo}
+\usepackage{needspace}
+\newgeometry{top=1.9cm,bottom=1.9cm,left=1.6cm,right=1.6cm,headheight=15pt,headsep=0.6cm}
+\renewcommand{\cabeceraizq}{\espaciado[60]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[60]{Temas 1--3}}
+\newcommand{\Cv}{\bar C_V}
+\newcommand{\Cp}{\bar C_p}
+\setlength{\columnsep}{0.8cm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{regla}}
+\newcommand{\tema}[1]{\par\needspace{7\baselineskip}\vspace{6pt}\noindent{\color{navy}\large\bfseries #1}\par\vspace{1pt}{\color{navy}\hrule height 0.8pt}\vspace{3pt}}
+\newcommand{\bloque}[1]{\par\needspace{5\baselineskip}\vspace{4pt}\noindent{\color{acento}\espaciado[120]{#1}}\par\vspace{1pt}}
+\setlength{\abovedisplayskip}{3pt}\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{2pt}
+\setlength{\parindent}{0pt}
+\newcommand{\pdc}[3]{\bigl(\tfrac{\partial #1}{\partial #2}\bigr)_{#3}}
+
+\begin{document}
+\thispagestyle{empty}
+\vspace*{-1.0cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.0) rectangle (\textwidth,0.7);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.17\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.12\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.52\textwidth,0.05)
+    {{\color{navy}\fontsize{22}{26}\selectfont\bfseries Formulario}\\[3pt]
+     {\color{acento}\espaciado[110]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[110]{Temas 1, 2 y 3}}\\[2pt]
+     {\small Daniel Martín Guerrero\enspace\textperiodcentered\enspace Prof.\ Julián González Ayala}};
+  \draw[regla,line width=0.6pt] (0,-0.95) -- (\textwidth,-0.95);
+\end{tikzpicture}
+
+\vspace{0.1cm}
+{\small\noindent\textbf{Convención:} $Q>0$, $W>0$ si la energía \emph{entra} en el sistema: $\Delta U=Q+W$,
+$W=-\int p\,\dd V$. Gas perfecto con $\Cv$, $\Cp$ constantes; $n$ moles.}
+
+\raggedcolumns
+\begin{multicols}{2}
+\small
+% =================================== TEMA 1
+\tema{Tema 1 · Conceptos básicos}
+\bloque{Ecuaciones de estado}
+\vspace{-0.85\baselineskip}
+\[
+  pV=nRT,\qquad R=8{,}314\ \mathrm{J\,mol^{-1}K^{-1}},
+\]
+\[
+  \Bigl(p+\frac{an^2}{V^2}\Bigr)(V-nb)=nRT\quad\text{(Van der Waals)}.
+\]
+\bloque{Coeficientes térmicos}
+\vspace{-0.85\baselineskip}
+\[
+  \alpha=\frac1V\pd{V}{T}{p},\qquad \beta=\frac1p\pd{p}{T}{V}\qquad [\mathrm K^{-1}],
+\]
+\[
+  \kappa_T=-\frac1V\pd{V}{p}{T}\qquad [\mathrm{Pa}^{-1}].
+\]
+Relación: $\alpha=p\,\beta\,\kappa_T$. Gas ideal: $\alpha=\beta=1/T$, $\kappa_T=1/p$.
+\bloque{Ecuación de estado diferencial}
+\vspace{-0.85\baselineskip}
+\[
+  \frac{\dd V}{V}=\alpha\,\dd T-\kappa_T\,\dd p\ \Rightarrow\
+  \ln\frac{V_2}{V_1}=\alpha\Delta T-\kappa_T\Delta p .
+\]
+Calentamiento a $V$ constante: $\Delta p=(\alpha/\kappa_T)\,\Delta T$.
+\bloque{Derivadas parciales}
+\vspace{-0.85\baselineskip}
+\[
+  \pdc{x}{y}{z}=\frac{1}{\pdc{y}{x}{z}},\qquad
+  \pdc{x}{y}{z}\pdc{y}{z}{x}\pdc{z}{x}{y}=-1 .
+\]
+$M\,\dd x+N\,\dd y$ exacta $\iff\pdc{M}{y}{x}=\pdc{N}{x}{y}$.
+
+% =================================== TEMA 2
+\tema{Tema 2 · Primera ley}
+\bloque{Primera ley, trabajo, entalpía}
+\vspace{-0.85\baselineskip}
+\[
+  \Delta U=Q+W,\quad W=-\!\int p\,\dd V,\quad H=U+pV,
+\]
+\[
+  C_V=\pd{U}{T}{V},\qquad C_p=\pd{H}{T}{p}.
+\]
+Presión exterior constante: $W=-p_{\mathrm{ext}}\Delta V$. Expansión libre: $Q=W=\Delta U=0$.
+\bloque{Gas perfecto}
+$U=n\Cv T$ (ley de Joule), $\Cp-\Cv=R$ (Mayer), $\gamma=\Cp/\Cv$.\\
+Monoatómico: $\Cv=\tfrac32R$, $\gamma=\tfrac53$. Diatómico: $\Cv=\tfrac52R$, $\gamma=\tfrac75$.
+\needspace{15\baselineskip}\bloque{Procesos del gas perfecto}
+{\renewcommand{\arraystretch}{1.55}\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+& $W$ & $Q$ & $\Delta U$\\
+\midrule
+$V$ cte & $0$ & $n\Cv\Delta T$ & $n\Cv\Delta T$\\
+$p$ cte & $-nR\Delta T$ & $n\Cp\Delta T$ & $n\Cv\Delta T$\\
+$T$ cte & $-nRT\ln\frac{V_2}{V_1}$ & $-W$ & $0$\\
+Adiab.\ rev. & $\frac{p_2V_2-p_1V_1}{\gamma-1}$ & $0$ & $n\Cv\Delta T$\\
+$pV^m$ & $\frac{p_2V_2-p_1V_1}{m-1}$ & $n\bar C_m\Delta T$ & $n\Cv\Delta T$\\
+\bottomrule
+\end{tabular}}
+\[
+  \bar C_m=\Cv\,\frac{m-\gamma}{m-1}
+\]
+Casos: $m=0$ da $\Cp$; $m\to\infty$ da $\Cv$; $m=\gamma$ da $0$.
+\bloque{Poisson (adiabática reversible)}
+\vspace{-0.85\baselineskip}
+\[
+  pV^\gamma=\cte,\qquad TV^{\gamma-1}=\cte,\qquad Tp^{(1-\gamma)/\gamma}=\cte .
+\]
+\bloque{Coeficientes calorimétricos}
+\vspace{-0.85\baselineskip}
+\[
+  \dbar Q=C_V\,\dd T+l\,\dd V=C_p\,\dd T+h\,\dd p,
+\]
+\[
+  l=\pd{U}{V}{T}+p,\qquad h=\pd{H}{p}{T}-V,
+\]
+\[
+  C_p-C_V=\Bigl[\pd{U}{V}{T}+p\Bigr]\pd{V}{T}{p}.
+\]
+Gas ideal: $l=p$, $h=-V$.
+\bloque{Calorimetría}
+$Q=mc\,\Delta T$; cambio de fase $Q=mL$; recinto aislado $\sum_iQ_i=0$.
+
+% =================================== TEMA 3
+\tema{Tema 3 · Segunda ley}
+\bloque{Máquinas térmicas}
+{\renewcommand{\arraystretch}{1.6}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+& Rendimiento & Carnot\\
+\midrule
+Motor & $\eta=\frac{|W|}{Q_{\mathrm{abs}}}=1-\frac{|Q_c|}{Q_h}$ & $1-\dfrac{T_c}{T_h}$\\
+Refrigerador & $\varepsilon=\dfrac{Q_c}{W}$ & $\dfrac{T_c}{T_h-T_c}$\\
+Bomba & $\nu=\dfrac{|Q_h|}{W}=\varepsilon+1$ & $\dfrac{T_h}{T_h-T_c}$\\
+\bottomrule
+\end{tabular}}
+\par\vspace{3pt}
+Ciclo: $W_{\mathrm{neto}}=-\sum_iQ_i$; $W<0$ (horario) $\Rightarrow$ motor. Carnot:
+$Q_h/T_h+Q_c/T_c=0$.
+\[
+  \eta_{\mathrm{Otto}}=1-r^{1-\gamma},\qquad \eta_{\mathrm{Brayton}}=1-r_p^{(1-\gamma)/\gamma}.
+\]
+\bloque{Clausius y entropía}
+\vspace{-0.85\baselineskip}
+\[
+  \oint\frac{\dbar Q}{T_F}\le0,\qquad \dd S=\frac{\dbar Q_{\mathrm{rev}}}{T},
+\]
+\[
+  \Delta S=\int\frac{\dbar Q}{T_F}+S_{\mathrm{gen}},\quad S_{\mathrm{gen}}\ge0;\qquad
+  \Delta S_{\mathrm{univ}}\ge0 .
+\]
+\bloque{Entropía del gas perfecto}
+\vspace{-0.85\baselineskip}
+\[
+  \Delta S=n\Cv\ln\frac{T_2}{T_1}+nR\ln\frac{V_2}{V_1}
+  =n\Cp\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}
+\]
+\[
+  \phantom{\Delta S}=n\Cv\ln\frac{p_2}{p_1}+n\Cp\ln\frac{V_2}{V_1}.
+\]
+Adiabático reversible: $0$. Expansión libre: $nR\ln\frac{V_2}{V_1}>0$.
+\bloque{Cuerpos y focos}
+Cuerpo $C$: $C\ln\frac{T_f}{T_i}$. Fase: $\frac{mL}{T}$. Foco térmico: $-\frac{Q_{\mathrm{sis}}}{T_F}$.
+Foco mecánico: $0$.
+\bloque{Trabajo máximo}
+Se impone $\Delta S_{\mathrm{univ}}=0$. Dos cuerpos iguales de capacidad $C$:
+\[
+  T_f=\sqrt{T_1T_2},\qquad |W|_{\max}=C\bigl(T_1+T_2-2\sqrt{T_1T_2}\bigr).
+\]
+\needspace{11\baselineskip}\bloque{Ecuaciones $T\,\dd S$}
+\vspace{-0.85\baselineskip}
+\[
+  T\,\dd S=C_V\,\dd T+T\pd{p}{T}{V}\dd V=C_p\,\dd T-T\pd{V}{T}{p}\dd p,
+\]
+\[
+  l=T\pd{p}{T}{V}=\frac{T\alpha}{\kappa_T},\qquad h=-TV\alpha,
+\]
+\[
+  \pd{U}{V}{T}=T\pd{p}{T}{V}-p,\qquad C_p-C_V=\frac{TV\alpha^2}{\kappa_T}.
+\]
+
+\bloque{Errores típicos}
+\begin{enumerate}[leftmargin=1.2em,itemsep=0pt,topsep=1pt]
+  \item Compresión $\Rightarrow W>0$, porque $W=-\int p\,\dd V$.
+  \item Irreversible: $\Delta S\neq Q_{\mathrm{real}}/T$; usar un camino reversible auxiliar.
+  \item Expansión libre: $Q=0$ pero $\Delta S>0$.
+  \item $\eta$ se divide entre $Q_{\mathrm{abs}}$, no entre $Q_{\mathrm{neto}}$.
+  \item $1-T_c/T_h$ solo es exacto en Carnot; en otros ciclos es cota.
+\end{enumerate}
+\end{multicols}
+\end{document}
