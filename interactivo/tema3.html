@@ -1,0 +1,524 @@
+<title>Termodinámica I · Tema 3</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: barra de pestañas fija + columna de lectura; laboratorios con lienzos p–V y T–S */
+:root{
+  --bg:#F5F8FC; --surface:#FFFFFF; --ink:#0E2140; --muted:#4E607A; --rule:#CAD8EA;
+  --accent:#1F4E89; --accent-2:#3A6EA5; --soft:#E7EFF9; --warm:#B5523B; --cold:#2F6DB0;
+  --ok:#2F7A57; --okbg:#E5F3EC; --badbg:#F8E9E4;
+  --f-text:"STIX Two Text","STIX Two",Cambria,Georgia,serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2.25rem; --s7:3.5rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1320; --surface:#111C2D; --ink:#DDE6F2; --muted:#94A6BF; --rule:#26385A;
+  --accent:#8FB6E6; --accent-2:#6E9BD2; --soft:#16253B; --warm:#E58E76; --cold:#7FB0EA;
+  --ok:#6CC59A; --okbg:#13291F; --badbg:#2E1A15; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1320; --surface:#111C2D; --ink:#DDE6F2; --muted:#94A6BF; --rule:#26385A;
+  --accent:#8FB6E6; --accent-2:#6E9BD2; --soft:#16253B; --warm:#E58E76; --cold:#7FB0EA;
+  --ok:#6CC59A; --okbg:#13291F; --badbg:#2E1A15; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-text);font-size:1.08rem;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3,h4{font-family:var(--f-text);line-height:1.2;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select{font:inherit}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+mjx-container{color:inherit}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding-block:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--rule)}
+.top-in{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s3) 0;display:flex;flex-direction:column;gap:var(--s2)}
+.brand{display:flex;align-items:baseline;gap:var(--s3);flex-wrap:wrap}
+.brand .eyebrow{font-family:var(--f-ui);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2)}
+.brand h1{font-size:1.35rem;font-weight:700}
+.brand .prog{margin-left:auto;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.tabs{display:flex;gap:var(--s1);overflow-x:auto;scrollbar-width:none}
+.tabs a{font-family:var(--f-ui);font-size:.9rem;font-weight:500;color:var(--muted);text-decoration:none;padding:var(--s2) var(--s3);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabs a:hover{color:var(--ink)}
+
+main{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:var(--s5) var(--s7)}
+.view{display:flex;flex-direction:column;gap:var(--s5)}
+.col{max-width:76ch;min-width:0;display:flex;flex-direction:column;gap:var(--s5)}
+.wide{min-width:0;display:flex;flex-direction:column;gap:var(--s5)}
+.intro{display:flex;flex-direction:column;gap:var(--s3);padding-bottom:var(--s4);border-bottom:1px solid var(--rule);max-width:76ch}
+.intro h2{font-size:1.9rem}
+.intro p{color:var(--muted)}
+h3{font-size:1.35rem}
+h4{font-size:1.05rem;color:var(--accent)}
+.def{background:linear-gradient(90deg,var(--soft),transparent 140%);border-left:3px solid var(--ink);padding:var(--s3) var(--s4)}
+.key{border:1px solid var(--rule);background:var(--surface);padding:var(--s3) var(--s4)}
+.small{font-size:.92rem;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-family:var(--f-ui);font-weight:600;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+/* Tarjetas de procesos */
+.procs{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:var(--s3)}
+.proc{border:1px solid var(--rule);background:var(--surface);padding:var(--s3) var(--s4);display:flex;flex-direction:column;gap:var(--s2);cursor:pointer;text-align:left;color:var(--ink);font-family:var(--f-text);font-size:1rem}
+.proc .t{font-family:var(--f-ui);font-weight:600;font-size:.9rem;color:var(--accent)}
+.proc[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.proc:hover{border-color:var(--accent-2)}
+
+.lab{border:1px solid var(--rule);background:var(--surface);display:flex;flex-direction:column}
+.lab-h{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s4);border-bottom:1px solid var(--rule);font-family:var(--f-ui);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2)}
+.lab-b{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s4)}
+.row{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:var(--s3)}
+.fields label{display:flex;flex-direction:column;gap:4px;font-family:var(--f-ui);font-size:.8rem;color:var(--muted)}
+.fields input,.fields select{padding:6px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);font-family:var(--f-mono);font-size:.95rem;min-width:0}
+.steps{display:flex;flex-direction:column;gap:var(--s2)}
+.step{border-left:2px solid var(--rule);padding-left:var(--s3)}
+.step b{color:var(--accent)}
+.res{display:inline-block;border:1px solid var(--ink);padding:2px 10px}
+.chip{display:inline-block;font-family:var(--f-ui);font-size:.78rem;font-weight:600;letter-spacing:.04em;padding:3px 10px;border:1px solid currentColor}
+.chip.ok{color:var(--ok)} .chip.bad{color:var(--warm)} .chip.mid{color:var(--accent-2)}
+.seg{display:inline-flex;border:1px solid var(--rule);flex-wrap:wrap}
+.seg button{background:transparent;color:var(--muted);border:0;padding:6px 12px;cursor:pointer;font-family:var(--f-ui);font-size:.85rem}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.btn{font-family:var(--f-ui);font-size:.88rem;font-weight:500;padding:7px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+.canvases{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+@media (max-width:760px){.canvases{grid-template-columns:1fr}}
+.canvases figure{margin:0;display:flex;flex-direction:column;gap:var(--s1);min-width:0}
+.canvases figcaption{font-family:var(--f-ui);font-size:.8rem;color:var(--muted)}
+canvas{width:100%;height:auto;display:block;background:var(--surface);border:1px solid var(--rule)}
+.verdict{display:flex;flex-direction:column;gap:var(--s1);border-left:3px solid var(--accent);padding-left:var(--s3)}
+.verdict .big{font-size:1.35rem;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:var(--s4);font-family:var(--f-ui);font-size:.8rem;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:18px;height:3px;margin-right:6px;vertical-align:middle;background:currentColor}
+.legend .abs{color:var(--warm)} .legend .ced{color:var(--cold)} .legend .ad{color:var(--ink)}
+
+.q{display:flex;flex-direction:column;gap:var(--s3)}
+.q .meta{font-family:var(--f-ui);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.opts{display:flex;flex-direction:column;gap:var(--s2)}
+.opt{display:flex;gap:var(--s3);align-items:flex-start;text-align:left;width:100%;padding:8px 12px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer;font-family:var(--f-text);font-size:1rem}
+.opt .k{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px}
+.opt:hover:not(:disabled){border-color:var(--accent-2)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--warm);background:var(--badbg)}
+.expl{border-left:3px solid var(--ok);padding:var(--s2) var(--s3);background:var(--okbg);font-size:.97rem}
+.expl.no{border-left-color:var(--warm);background:var(--badbg)}
+.meter{height:6px;background:var(--rule);position:relative}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.score{display:flex;flex-direction:column;gap:var(--s2);border:1px solid var(--rule);background:var(--surface);padding:var(--s4)}
+.score .big{font-family:var(--f-mono);font-size:2rem}
+.quizbar{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.quizbar select{padding:6px 8px;border:1px solid var(--rule);background:var(--surface);color:var(--ink)}
+.answer{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;font-family:var(--f-ui);font-size:.88rem}
+.answer input{width:8rem;padding:6px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);font-family:var(--f-mono)}
+.fb{font-family:var(--f-ui);font-size:.86rem}
+.fb.ok{color:var(--ok)} .fb.no{color:var(--warm)}
+@media (prefers-reduced-motion:no-preference){.opt,.btn,.proc{transition:background .15s,border-color .15s}}
+</style>
+
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],
+  macros:{dd:'\\mathrm{d}',dbar:'\\delta',Cv:'C_V',Cp:'C_p'}},svg:{fontCache:'global'},startup:{typeset:true}};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <span class="eyebrow">Termodinámica I · Tema 3</span>
+      <h1>Entropía y ciclos</h1>
+      <span class="prog" id="prog">mejor test —</span>
+    </div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#entropia" data-v="entropia">Entropía proceso a proceso</a>
+      <a href="#ciclos" data-v="ciclos">¿Motor o refrigerador?</a>
+      <a href="#test" data-v="test">Test</a>
+      <a href="#resumen" data-v="resumen">Resumen</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ============================ ENTROPÍA ============================ -->
+<div class="view" id="v-entropia">
+  <div class="intro">
+    <h2>Entropía proceso a proceso</h2>
+    <p>Todo sale de una sola fórmula. Elige un proceso para ver por qué se simplifica y calcula su \(\Delta S\) con tus datos, paso a paso.</p>
+  </div>
+  <div class="col">
+    <div class="def">
+      <p><strong>Punto de partida.</strong> \(\dd S=\dfrac{\dbar Q_{\rm rev}}{T}=\dfrac{\dd U+p\,\dd V}{T}\). Para un gas ideal, \(\dd U=C_V\dd T\) y \(p/T=nR/V\):</p>
+      \[\Delta S=C_V\ln\frac{T_2}{T_1}+nR\ln\frac{V_2}{V_1}=C_p\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}.\]
+      <p class="small">\(\Delta S\) solo depende de los estados inicial y final. Si el proceso real es irreversible, se calcula por un camino reversible auxiliar entre los mismos estados.</p>
+    </div>
+  </div>
+  <div class="procs" id="procs"></div>
+  <div class="lab">
+    <div class="lab-h" id="calcHead">Calculadora</div>
+    <div class="lab-b">
+      <div id="procInfo" class="steps"></div>
+      <div class="fields" id="fields"></div>
+      <div class="steps" id="calcOut" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ CICLOS ============================ -->
+<div class="view" id="v-ciclos" hidden>
+  <div class="intro">
+    <h2>¿Motor o refrigerador?</h2>
+    <p>Elige un ciclo e inviértelo. La página calcula \(Q\), \(W\) y \(\Delta S\) de cada tramo, los dibuja en los planos \(p\)–\(V\) y \(T\)–\(S\) y te dice qué tipo de máquina es y por qué. Antes de mirar el veredicto, intenta deducirlo tú por el sentido de recorrido.</p>
+  </div>
+  <div class="wide">
+    <div class="row">
+      <div class="seg" id="cycSel" role="group" aria-label="Ciclo"></div>
+      <button class="btn ghost" type="button" id="cycRev">Invertir sentido</button>
+      <button class="btn ghost" type="button" id="cycHide">Ocultar veredicto</button>
+    </div>
+    <div class="lab">
+      <div class="lab-h" id="cycHead">Ciclo</div>
+      <div class="lab-b">
+        <p class="small" id="cycDesc"></p>
+        <div class="canvases">
+          <figure><canvas id="cvPV" width="560" height="380" aria-label="Diagrama p–V del ciclo"></canvas><figcaption>Plano del trabajo, \(p\)–\(V\): el área encerrada es \(|W_{\rm neto}|\).</figcaption></figure>
+          <figure><canvas id="cvTS" width="560" height="380" aria-label="Diagrama T–S del ciclo"></canvas><figcaption>Plano del calor, \(T\)–\(S\): el área encerrada es \(Q_{\rm neto}\).</figcaption></figure>
+        </div>
+        <div class="legend"><span class="abs">absorbe calor (\(Q>0\))</span><span class="ced">cede calor (\(Q<0\))</span><span class="ad">adiabático (\(Q=0\))</span></div>
+        <div class="tablewrap"><table id="cycTable"></table></div>
+        <div class="verdict" id="cycVerdict"></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="key">
+        <h4>Los dos criterios</h4>
+        <p><strong>1. Sentido de recorrido.</strong> En \(p\)–\(V\) (y también en \(T\)–\(S\)): <em>horario</em> → motor (\(W_{\rm neto}<0\)); <em>antihorario</em> → refrigerador o bomba de calor (\(W_{\rm neto}>0\)). En horario la expansión va por arriba, a presión alta, y la compresión por abajo.</p>
+        <p><strong>2. Signo del trabajo.</strong> Como \(\Delta U_{\rm ciclo}=0\), \(W_{\rm neto}=-\sum_iQ_i\). Si \(\sum Q_i>0\), es motor y \(\eta=|W|/Q_{\rm abs}\). Si \(\sum Q_i<0\), es máquina inversa: \(\varepsilon=Q_{\rm abs}/W\) (refrigerador) y \(\nu=|Q_{\rm ced}|/W\) (bomba).</p>
+        <p class="small">Comprobación: en cualquier ciclo, \(\sum_i\Delta S_i=0\), porque \(S\) es función de estado.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ TEST ============================ -->
+<div class="view" id="v-test" hidden>
+  <div class="intro">
+    <h2>Test</h2>
+    <p>Diez preguntas al azar sobre entropía y ciclos, con la explicación de cada respuesta. Algunas son numéricas: escribe el resultado (vale coma o punto decimal).</p>
+  </div>
+  <div class="col">
+    <div class="quizbar">
+      <label for="qTag" class="small">Bloque</label>
+      <select id="qTag">
+        <option value="all">Todo</option>
+        <option value="s">Entropía</option>
+        <option value="c">Ciclos y máquinas</option>
+        <option value="n">Numéricas</option>
+      </select>
+      <button class="btn" type="button" id="qNew">Nuevo test</button>
+      <span class="small mono" id="qCount"></span>
+    </div>
+    <div class="meter" aria-hidden="true"><i id="qMeter" style="width:0%"></i></div>
+    <div id="qBox" class="q"></div>
+    <div class="row"><button class="btn" type="button" id="qNext" hidden>Siguiente</button></div>
+  </div>
+</div>
+
+<!-- ============================ RESUMEN ============================ -->
+<div class="view" id="v-resumen" hidden>
+  <div class="intro"><h2>Resumen</h2><p>Lo imprescindible para los ejercicios.</p></div>
+  <div class="col">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Proceso o parte</th><th>\(\Delta S\)</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Isócoro</td><td>\(C_V\ln\frac{T_2}{T_1}\)</td><td>\(\ln\frac{V_2}{V_1}=0\)</td></tr>
+        <tr><td>Isóbaro</td><td>\(C_p\ln\frac{T_2}{T_1}\)</td><td>\(\ln\frac{p_2}{p_1}=0\)</td></tr>
+        <tr><td>Isotermo</td><td>\(nR\ln\frac{V_2}{V_1}=nR\ln\frac{p_1}{p_2}\)</td><td>\(=Q_{\rm rev}/T\)</td></tr>
+        <tr><td>Adiabático reversible</td><td>\(0\)</td><td>isoentrópico</td></tr>
+        <tr><td>Politrópico \(pV^m\)</td><td>\(n\bar C_m\ln\frac{T_2}{T_1}\)</td><td>\(\bar C_m=\bar C_V\frac{m-\gamma}{m-1}\)</td></tr>
+        <tr><td>Expansión libre</td><td>\(nR\ln\frac{V_2}{V_1}>0\)</td><td>\(Q=0\) pero \(\Delta S>0\)</td></tr>
+        <tr><td>Cuerpo de capacidad \(C\)</td><td>\(C\ln\frac{T_f}{T_i}\)</td><td>integrar \(C\,\dd T/T\)</td></tr>
+        <tr><td>Foco térmico a \(T_F\)</td><td>\(-Q_{\rm sis}/T_F\)</td><td>el signo se invierte</td></tr>
+        <tr><td>Foco mecánico, batería</td><td>\(0\)</td><td>solo trabajo</td></tr>
+        <tr><td>Universo</td><td>\(\Delta S_{\rm sis}+\sum\Delta S_{\rm focos}\ge0\)</td><td>\(=0\) si es reversible</td></tr>
+      </tbody></table></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Ciclo</th><th>Sentido</th><th>\(W_{\rm neto}\)</th><th>Rendimiento</th></tr></thead>
+      <tbody>
+        <tr><td>Motor</td><td>horario</td><td>\(<0\)</td><td>\(\eta=|W|/Q_{\rm abs}\le1-T_c/T_h\)</td></tr>
+        <tr><td>Refrigerador</td><td>antihorario</td><td>\(>0\)</td><td>\(\varepsilon=Q_c/W\le T_c/(T_h-T_c)\)</td></tr>
+        <tr><td>Bomba de calor</td><td>antihorario</td><td>\(>0\)</td><td>\(\nu=|Q_h|/W=\varepsilon+1\)</td></tr>
+      </tbody></table></div>
+  </div>
+</div>
+</main>
+
+<script>
+(function(){
+"use strict";
+const R=8.314;
+const $=id=>document.getElementById(id);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const tex=(x,d)=>{ if(!isFinite(x)) return "\\infty"; const s=Math.abs(x)>=1e4||(Math.abs(x)<1e-3&&x!==0)?x.toExponential(d).replace(/e([+-]?)(\d+)/,(m,s1,e)=>"\\cdot10^{"+(s1==="-"?"-":"")+e+"}"):x.toFixed(d); return s.replace(".","{,}"); };
+const fmt=(x,d)=>{const s=x.toFixed(d); return (/^-0[.,]?0*$/.test(s)?s.slice(1):s).replace(".",",");};
+function typeset(el){ if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise(el?[el]:undefined).catch(()=>{}); }
+function parseNum(s){ if(s==null) return NaN; s=String(s).trim().replace(/\s/g,"").replace(",","."); return Number(s); }
+let store={best:null};
+try{const s=JSON.parse(localStorage.getItem("termo3")||"null"); if(s) store=Object.assign(store,s);}catch(e){}
+function save(){try{localStorage.setItem("termo3",JSON.stringify(store));}catch(e){}}
+function prog(){ $("prog").textContent="mejor test "+(store.best==null?"—":store.best+"/10"); }
+
+/* ---------------- Navegación ---------------- */
+const views=["entropia","ciclos","test","resumen"];
+function route(){
+  const h=(location.hash||"#entropia").slice(1); const v=views.includes(h)?h:"entropia";
+  views.forEach(x=>$("v-"+x).hidden=(x!==v));
+  document.querySelectorAll(".tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
+  if(v==="ciclos") drawCycle();
+  if(v==="test"&&!quiz.list.length) newQuiz();
+}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
+
+/* =================== 1. ENTROPÍA PROCESO A PROCESO =================== */
+const gasF=[{k:"n",l:"n (mol)",v:1},{k:"gas",l:"Gas",sel:[["mono","monoatómico (C̄V = 3R/2)"],["di","diatómico (C̄V = 5R/2)"]]}];
+function cvOf(g){return g==="di"?2.5:1.5;}
+const P=[
+ {id:"isoc",t:"Isócoro",f:"\\(C_V\\ln\\frac{T_2}{T_1}\\)",
+  why:"A volumen constante \\(\\ln\\frac{V_2}{V_1}=0\\) y solo queda el término térmico: \\(\\Delta S=C_V\\ln\\frac{T_2}{T_1}=C_V\\ln\\frac{p_2}{p_1}\\) (a \\(V\\) fijo, \\(p/T\\) es constante). Si se calienta, \\(\\Delta S>0\\).",
+  fields:[...gasF,{k:"T1",l:"T₁ (K)",v:300},{k:"T2",l:"T₂ (K)",v:600}],
+  calc(d){const C=d.n*cvOf(d.gas)*R; const r=d.T2/d.T1; const S=C*Math.log(r);
+    return [`\\(C_V=n\\bar C_V=${tex(d.n,2)}\\cdot${d.gas==="di"?"\\tfrac52":"\\tfrac32"}R=${tex(C,3)}\\ \\mathrm{J/K}\\)`,
+      `\\(\\Delta S=C_V\\ln\\frac{T_2}{T_1}=${tex(C,3)}\\ln\\frac{${tex(d.T2,1)}}{${tex(d.T1,1)}}=${tex(C,3)}\\cdot${tex(Math.log(r),4)}\\)`,S];}},
+ {id:"isob",t:"Isóbaro",f:"\\(C_p\\ln\\frac{T_2}{T_1}\\)",
+  why:"Con la segunda forma, a presión constante \\(\\ln\\frac{p_2}{p_1}=0\\): \\(\\Delta S=C_p\\ln\\frac{T_2}{T_1}=C_p\\ln\\frac{V_2}{V_1}\\). Se usa \\(C_p\\), no \\(C_V\\), porque a \\(p\\) constante \\(\\dbar Q=C_p\\dd T\\).",
+  fields:[...gasF,{k:"T1",l:"T₁ (K)",v:300},{k:"T2",l:"T₂ (K)",v:450}],
+  calc(d){const C=d.n*(cvOf(d.gas)+1)*R; const r=d.T2/d.T1;
+    return [`\\(C_p=n(\\bar C_V+R)=${tex(C,3)}\\ \\mathrm{J/K}\\)`,`\\(\\Delta S=C_p\\ln\\frac{T_2}{T_1}=${tex(C,3)}\\cdot\\ln${tex(r,4)}=${tex(C,3)}\\cdot${tex(Math.log(r),4)}\\)`,C*Math.log(r)];}},
+ {id:"isot",t:"Isotermo",f:"\\(nR\\ln\\frac{V_2}{V_1}\\)",
+  why:"Con \\(T\\) constante, \\(\\ln\\frac{T_2}{T_1}=0\\): \\(\\Delta S=nR\\ln\\frac{V_2}{V_1}=nR\\ln\\frac{p_1}{p_2}\\). Si es reversible coincide con \\(Q/T\\), porque \\(Q=nRT\\ln\\frac{V_2}{V_1}\\). Expansión: \\(\\Delta S>0\\); compresión: \\(\\Delta S<0\\).",
+  fields:[{k:"n",l:"n (mol)",v:1},{k:"r",l:"V₂/V₁",v:2}],
+  calc(d){return [`\\(nR=${tex(d.n*R,3)}\\ \\mathrm{J/K}\\)`,`\\(\\Delta S=nR\\ln\\frac{V_2}{V_1}=${tex(d.n*R,3)}\\cdot\\ln${tex(d.r,3)}\\)`,d.n*R*Math.log(d.r)];}},
+ {id:"adia",t:"Adiabático reversible",f:"\\(0\\)",
+  why:"Si \\(\\dbar Q_{\\rm rev}=0\\) en cada paso, \\(\\dd S=0\\): proceso isoentrópico. Comprobación: con Poisson \\(T_2/T_1=(V_1/V_2)^{\\gamma-1}\\), el término \\(C_V\\ln\\frac{T_2}{T_1}=-nR\\ln\\frac{V_2}{V_1}\\) cancela exactamente el de volumen.",
+  fields:[...gasF,{k:"T1",l:"T₁ (K)",v:300},{k:"r",l:"V₂/V₁",v:2}],
+  calc(d){const cv=cvOf(d.gas),g=(cv+1)/cv; const T2=d.T1*Math.pow(1/d.r,g-1); const a=d.n*cv*R*Math.log(T2/d.T1), b=d.n*R*Math.log(d.r);
+    return [`Poisson: \\(T_2=T_1(V_1/V_2)^{\\gamma-1}=${tex(T2,2)}\\ \\mathrm K\\) con \\(\\gamma=${tex(g,3)}\\)`,`\\(C_V\\ln\\frac{T_2}{T_1}=${tex(a,4)}\\ \\mathrm{J/K}\\), \\(\\ nR\\ln\\frac{V_2}{V_1}=${tex(b,4)}\\ \\mathrm{J/K}\\)`,a+b];}},
+ {id:"libre",t:"Expansión libre",f:"\\(nR\\ln\\frac{V_2}{V_1}>0\\)",
+  why:"Al vacío y en un recipiente adiabático: \\(Q=W=\\Delta U=0\\), así que \\(T_2=T_1\\). Es irreversible, de modo que no vale \\(\\int\\dbar Q/T=0\\). Se toma un isotermo reversible auxiliar entre los mismos estados. Toda la entropía es generada.",
+  fields:[{k:"n",l:"n (mol)",v:1},{k:"r",l:"V₂/V₁",v:2}],
+  calc(d){return [`\\(Q=0\\) pero el proceso es irreversible: camino auxiliar isotermo`,`\\(\\Delta S=nR\\ln\\frac{V_2}{V_1}=${tex(d.n*R,3)}\\ln${tex(d.r,3)}\\)`,d.n*R*Math.log(d.r)];}},
+ {id:"gen",t:"Cualquier proceso del gas",f:"\\(C_V\\ln\\frac{T_2}{T_1}+nR\\ln\\frac{V_2}{V_1}\\)",
+  why:"Para un proceso irreversible, o uno que no sea elemental, calcula primero los estados extremos (primera ley y ecuación de estado) y sustituye en la fórmula general. Nunca \\(Q_{\\rm real}/T\\).",
+  fields:[...gasF,{k:"T1",l:"T₁ (K)",v:300},{k:"T2",l:"T₂ (K)",v:240},{k:"r",l:"V₂/V₁",v:3}],
+  calc(d){const C=d.n*cvOf(d.gas)*R; const a=C*Math.log(d.T2/d.T1), b=d.n*R*Math.log(d.r);
+    return [`\\(C_V\\ln\\frac{T_2}{T_1}=${tex(C,3)}\\ln\\frac{${tex(d.T2,1)}}{${tex(d.T1,1)}}=${tex(a,4)}\\ \\mathrm{J/K}\\)`,`\\(nR\\ln\\frac{V_2}{V_1}=${tex(d.n*R,3)}\\ln${tex(d.r,3)}=${tex(b,4)}\\ \\mathrm{J/K}\\)`,a+b];}},
+ {id:"cuerpo",t:"Cuerpo de capacidad C",f:"\\(C\\ln\\frac{T_f}{T_i}\\)",
+  why:"Sólido o líquido sin cambio de fase: \\(\\dbar Q=C\\,\\dd T\\), luego \\(\\Delta S=\\int_{T_i}^{T_f}\\frac{C\\,\\dd T}{T}=C\\ln\\frac{T_f}{T_i}\\), sea cual sea el proceso real (agua calentada por una resistencia, contacto entre cuerpos…).",
+  fields:[{k:"C",l:"C (J/K)",v:418.6},{k:"Ti",l:"T_i (K)",v:300},{k:"Tf",l:"T_f (K)",v:335.47}],
+  calc(d){return [`\\(\\Delta S=C\\ln\\frac{T_f}{T_i}=${tex(d.C,2)}\\ln\\frac{${tex(d.Tf,2)}}{${tex(d.Ti,2)}}=${tex(d.C,2)}\\cdot${tex(Math.log(d.Tf/d.Ti),5)}\\)`,"",d.C*Math.log(d.Tf/d.Ti)];}},
+ {id:"foco",t:"Foco térmico",f:"\\(-Q_{\\rm sis}/T_F\\)",
+  why:"Su temperatura no cambia, así que para él el intercambio es reversible: \\(\\Delta S_F=Q_F/T_F\\). El calor del foco es el del sistema con el signo cambiado, \\(Q_F=-Q_{\\rm sis}\\).",
+  fields:[{k:"Q",l:"Q del sistema (J)",v:1729},{k:"TF",l:"T_F (K)",v:300}],
+  calc(d){return [`\\(Q_F=-Q_{\\rm sis}=${tex(-d.Q,1)}\\ \\mathrm J\\)`,`\\(\\Delta S_F=\\frac{Q_F}{T_F}=\\frac{${tex(-d.Q,1)}}{${tex(d.TF,1)}}\\)`,-d.Q/d.TF];}}
+];
+let curP=P[0];
+const procs=$("procs");
+P.forEach(p=>{const b=document.createElement("button"); b.type="button"; b.className="proc"; b.dataset.id=p.id;
+  b.innerHTML=`<span class="t">${p.t}</span><span>\\(\\Delta S=\\)${p.f}</span>`; b.addEventListener("click",()=>selectP(p.id)); procs.appendChild(b);});
+function selectP(id){
+  curP=P.find(p=>p.id===id);
+  procs.querySelectorAll(".proc").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id?"true":"false"));
+  $("calcHead").textContent="Calculadora · "+curP.t;
+  $("procInfo").innerHTML=`<div class="step"><b>Por qué.</b> ${curP.why}</div>`;
+  const F=$("fields"); F.innerHTML="";
+  curP.fields.forEach(f=>{const L=document.createElement("label"); L.textContent=f.l;
+    let el; if(f.sel){el=document.createElement("select"); f.sel.forEach(([v,t])=>{const o=document.createElement("option"); o.value=v; o.textContent=t; el.appendChild(o);});}
+    else {el=document.createElement("input"); el.inputMode="decimal"; el.value=String(f.v).replace(".",",");}
+    el.id="f-"+f.k; el.addEventListener("input",runCalc); L.appendChild(el); F.appendChild(L);});
+  runCalc(); typeset($("procInfo")); typeset(procs);
+}
+function runCalc(){
+  const d={}; let bad=false;
+  curP.fields.forEach(f=>{const el=$("f-"+f.k); if(f.sel) d[f.k]=el.value; else {d[f.k]=parseNum(el.value); if(!isFinite(d[f.k])||(f.k!=="Q"&&d[f.k]<=0)) bad=true;}});
+  const out=$("calcOut");
+  if(bad){out.innerHTML='<span class="chip bad">Revisa los datos: deben ser números positivos.</span>';return;}
+  const [a,b,S]=curP.calc(d); const z=Math.abs(S)<1e-9?0:S;
+  const sign=z>0?'<span class="chip ok">ΔS &gt; 0</span>':z<0?'<span class="chip bad">ΔS &lt; 0</span>':'<span class="chip mid">ΔS = 0</span>';
+  out.innerHTML=`<div class="step"><b>Paso 1.</b> ${a}</div>${b?`<div class="step"><b>Paso 2.</b> ${b}</div>`:""}
+    <div class="step"><b>Resultado.</b> <span class="res">\\(\\Delta S=${tex(z,3)}\\ \\mathrm{J/K}\\)</span> ${sign}</div>`;
+  typeset(out);
+}
+
+/* =================== 2. CICLOS =================== */
+/* nR = 1; T = pV. Tramos: iT (isoterma), iP (isóbaro), iV (isócoro), ad (adiabática) */
+const CY={
+  carnot:{n:"Carnot",g:5/3,d:"Gas perfecto monoatómico entre \\(T_h=1{,}5\\) y \\(T_c=1\\) (unidades arbitrarias): dos isotermas y dos adiabáticas reversibles.",
+    v:[[1,1.5],[2.5,0.6],[4.593,0.21772],[1.837,0.54433]],s:["iT","ad","iT","ad"]},
+  p31:{n:"Problema 31",g:5/3,d:"Ar: compresión isoterma de \\(p_1\\) a \\(10p_1\\), isóbaro hasta \\(V_1\\) e isócoro de vuelta.",
+    v:[[1,1],[0.1,10],[1,10]],s:["iT","iP","iV"]},
+  p32:{n:"Problema 32",g:5/3,d:"Ar: compresión adiabática hasta \\(20p_1\\), isoterma hasta \\(V_1\\) e isócoro.",
+    v:[[1,1],[0.1657,20],[1,3.314]],s:["ad","iT","iV"]},
+  p33:{n:"Problema 33",g:1.4,d:"Diatómico: compresión isóbara, compresión adiabática hasta \\(5p_{\\min}\\) y expansión isoterma.",
+    v:[[1,1],[0.6314,1],[0.2,5]],s:["iP","ad","iT"]},
+  otto:{n:"Otto",g:1.4,d:"Aire (diatómico), relación de compresión \\(r=4\\): dos adiabáticas y dos isócoros.",
+    v:[[4,1],[1,6.964],[1,12],[4,1.723]],s:["ad","iV","ad","iV"]},
+  brayton:{n:"Brayton",g:1.4,d:"Aire (diatómico), \\(r_p=6\\): dos adiabáticas y dos isóbaros.",
+    v:[[4,1],[1.111,6],[2.2,6],[7.92,1]],s:["ad","iP","ad","iP"]}
+};
+const tipoNom={iT:"isotermo",iP:"isóbaro",iV:"isócoro",ad:"adiabático"};
+let cyKey="carnot", reversed=false, hideVerdict=false;
+const sel=$("cycSel");
+Object.keys(CY).forEach(k=>{const b=document.createElement("button"); b.type="button"; b.textContent=CY[k].n; b.dataset.k=k;
+  b.addEventListener("click",()=>{cyKey=k; reversed=false; drawCycle();}); sel.appendChild(b);});
+$("cycRev").addEventListener("click",()=>{reversed=!reversed; drawCycle();});
+$("cycHide").addEventListener("click",()=>{hideVerdict=!hideVerdict; $("cycHide").textContent=hideVerdict?"Mostrar veredicto":"Ocultar veredicto"; drawCycle();});
+
+function segPts(a,b,type,g){
+  const N=80,pts=[];
+  for(let i=0;i<=N;i++){const t=i/N; let V,p;
+    if(type==="iV"){V=a[0]; p=a[1]+(b[1]-a[1])*t;}
+    else if(type==="iP"){p=a[1]; V=a[0]+(b[0]-a[0])*t;}
+    else {V=a[0]*Math.pow(b[0]/a[0],t); p=type==="iT"?a[0]*a[1]/V:a[1]*Math.pow(a[0]/V,g);}
+    pts.push([V,p]);}
+  return pts;
+}
+function analyse(){
+  const c=CY[cyKey]; const cv=1/(c.g-1);
+  let verts=c.v.map(x=>x.slice()), types=c.s.slice(), labels=verts.map((_,i)=>i+1);
+  const m=verts.length;
+  let segs=[];
+  for(let i=0;i<m;i++){segs.push({a:i,b:(i+1)%m,type:types[i]});}
+  if(reversed){segs=segs.slice().reverse().map(s=>({a:s.b,b:s.a,type:s.type}));}
+  segs.forEach(s=>{
+    const A=verts[s.a],B=verts[s.b]; s.pts=segPts(A,B,s.type,c.g);
+    let W=0; for(let i=1;i<s.pts.length;i++){W-=0.5*(s.pts[i][1]+s.pts[i-1][1])*(s.pts[i][0]-s.pts[i-1][0]);}
+    const Ta=A[0]*A[1],Tb=B[0]*B[1];
+    s.W=W; s.dU=cv*(Tb-Ta); s.Q=s.dU-W; if(s.type==="ad") s.Q=0;
+    s.dS=s.type==="ad"?0:cv*Math.log(Tb/Ta)+Math.log(B[0]/A[0]);
+    s.la=labels[s.a]; s.lb=labels[s.b];
+  });
+  const S=(V,p)=>cv*Math.log(V*p)+Math.log(V);
+  return {c,cv,verts,labels,segs,S};
+}
+function setup(cv){const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;const w=Math.max(280,r.width||560),h=w*0.68;
+  cv.style.height=h+"px"; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); const c=cv.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0); return {c,w,h};}
+function plot(cv,data,xl,yl){
+  const {c,w,h}=setup(cv); c.fillStyle=css("--surface"); c.fillRect(0,0,w,h);
+  const L=44,Rr=18,T=18,B=40;
+  let xs=[],ys=[]; data.forEach(s=>s.pts.forEach(p=>{xs.push(p[0]);ys.push(p[1]);}));
+  let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  const dx=(x1-x0)||1,dy=(y1-y0)||1; x0-=dx*0.12;x1+=dx*0.12;y0-=dy*0.14;y1+=dy*0.14;
+  const X=x=>L+(x-x0)/(x1-x0)*(w-L-Rr), Y=y=>h-B-(y-y0)/(y1-y0)*(h-T-B);
+  c.strokeStyle=css("--ink"); c.lineWidth=1; c.beginPath(); c.moveTo(L,T); c.lineTo(L,h-B); c.lineTo(w-Rr,h-B); c.stroke();
+  c.font="13px 'STIX Two Text',Georgia,serif"; c.fillStyle=css("--ink"); c.textAlign="right"; c.fillText(xl,w-Rr,h-B+26); c.textAlign="left"; c.fillText(yl,L-30,T+10);
+  // relleno
+  c.beginPath(); data.forEach((s,i)=>s.pts.forEach((p,j)=>{ if(i===0&&j===0) c.moveTo(X(p[0]),Y(p[1])); else c.lineTo(X(p[0]),Y(p[1]));})); c.closePath();
+  c.fillStyle=css("--soft"); c.fill();
+  data.forEach(s=>{
+    const col=Math.abs(s.Q)<1e-6?css("--ink"):(s.Q>0?css("--warm"):css("--cold"));
+    c.strokeStyle=col; c.lineWidth=2.4; c.beginPath(); s.pts.forEach((p,j)=>{ if(j===0) c.moveTo(X(p[0]),Y(p[1])); else c.lineTo(X(p[0]),Y(p[1]));}); c.stroke();
+    const k=Math.floor(s.pts.length/2), p0=s.pts[k-2], p1=s.pts[k+2];
+    const ax=X(p1[0]),ay=Y(p1[1]),bx=X(p0[0]),by=Y(p0[1]); const ang=Math.atan2(ay-by,ax-bx);
+    c.fillStyle=col; c.beginPath(); c.moveTo(ax,ay); c.lineTo(ax-9*Math.cos(ang-0.4),ay-9*Math.sin(ang-0.4)); c.lineTo(ax-9*Math.cos(ang+0.4),ay-9*Math.sin(ang+0.4)); c.closePath(); c.fill();
+  });
+  data.forEach(s=>{const p=s.pts[0]; c.fillStyle=css("--surface"); c.strokeStyle=css("--ink"); c.lineWidth=1.3; c.beginPath(); c.arc(X(p[0]),Y(p[1]),4.5,0,7); c.fill(); c.stroke();
+    c.fillStyle=css("--ink"); c.font="600 13px 'IBM Plex Sans',sans-serif"; c.textAlign="left"; c.fillText(String(s.la),X(p[0])+7,Y(p[1])-7);});
+}
+function drawCycle(){
+  if($("v-ciclos").hidden) return;
+  const A=analyse(); const {c,segs}=A;
+  sel.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===cyKey?"true":"false"));
+  $("cycHead").textContent=c.n+(reversed?" · recorrido invertido":"");
+  $("cycDesc").innerHTML=c.d+(reversed?" <strong>Sentido invertido.</strong>":"");
+  plot($("cvPV"),segs,"V","p");
+  const ts=segs.map(s=>Object.assign({},s,{pts:s.pts.map(p=>[A.S(p[0],p[1]),p[0]*p[1]])}));
+  plot($("cvTS"),ts,"S","T");
+  // tabla
+  let Qabs=0,Qced=0,Wn=0,Sn=0; segs.forEach(s=>{ if(s.Q>1e-9) Qabs+=s.Q; else if(s.Q<-1e-9) Qced+=s.Q; Wn+=s.W; Sn+=s.dS;});
+  const rows=segs.map(s=>`<tr><td>${s.la}→${s.lb}</td><td>${tipoNom[s.type]}</td><td class="num">${fmt(s.Q,3)}</td><td class="num">${fmt(s.W,3)}</td><td class="num">${fmt(s.dU,3)}</td><td class="num">${fmt(s.dS,3)}</td><td>${Math.abs(s.Q)<1e-9?'<span class="chip mid">Q = 0</span>':s.Q>0?'<span class="chip bad">absorbe</span>':'<span class="chip ok" style="color:var(--cold)">cede</span>'}</td></tr>`).join("");
+  $("cycTable").innerHTML=`<thead><tr><th>Tramo</th><th>Proceso</th><th>Q</th><th>W</th><th>ΔU</th><th>ΔS</th><th></th></tr></thead><tbody>${rows}
+   <tr><td colspan="2"><strong>Ciclo</strong></td><td class="num"><strong>${fmt(Qabs+Qced,3)}</strong></td><td class="num"><strong>${fmt(Wn,3)}</strong></td><td class="num">0,000</td><td class="num">${fmt(Math.abs(Sn)<5e-4?0:Sn,3)}</td><td></td></tr></tbody>`;
+  // sentido (área orientada en p–V)
+  let area=0; segs.forEach(s=>{for(let i=1;i<s.pts.length;i++){area+=s.pts[i-1][0]*s.pts[i][1]-s.pts[i][0]*s.pts[i-1][1];}});
+  const horario=area<0, motor=Wn<0;
+  const v=$("cycVerdict");
+  if(hideVerdict){v.innerHTML='<span class="small">Veredicto oculto. Mira el sentido de las flechas y el signo de la suma de calores, decide, y pulsa «Mostrar veredicto».</span>';}
+  else if(motor){const eta=-Wn/Qabs;
+    v.innerHTML=`<span class="small">Sentido ${horario?"horario":"antihorario"} en \\(p\\)–\\(V\\) · \\(W_{\\rm neto}=${tex(Wn,3)}<0\\)</span><span class="big">Motor (máquina directa)</span>
+    <span>\\(\\eta=\\dfrac{|W_{\\rm neto}|}{Q_{\\rm abs}}=\\dfrac{${tex(-Wn,3)}}{${tex(Qabs,3)}}=${tex(eta,3)}\\)</span>
+    <span class="small">Energías en unidades de \\(nRT\\) de referencia. Comprobación: \\(\\sum\\Delta S_i=0\\).</span>`;}
+  else {const eps=Qabs/Wn, nu=-Qced/Wn;
+    v.innerHTML=`<span class="small">Sentido ${horario?"horario":"antihorario"} en \\(p\\)–\\(V\\) · \\(W_{\\rm neto}=${tex(Wn,3)}>0\\)</span><span class="big">Refrigerador o bomba de calor</span>
+    <span>\\(\\varepsilon=\\dfrac{Q_{\\rm abs}}{W}=\\dfrac{${tex(Qabs,3)}}{${tex(Wn,3)}}=${tex(eps,3)}\\), \\(\\quad\\nu=\\dfrac{|Q_{\\rm ced}|}{W}=${tex(nu,3)}=\\varepsilon+1\\)</span>
+    <span class="small">El calor absorbido sale del foco frío y el cedido va al caliente.</span>`;}
+  typeset($("v-ciclos"));
+}
+let rz; window.addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(drawCycle,120);});
+if(window.matchMedia){const mq=matchMedia("(prefers-color-scheme: dark)"); if(mq.addEventListener) mq.addEventListener("change",drawCycle);}
+new MutationObserver(drawCycle).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+/* =================== 3. TEST =================== */
+const Q=[
+ {t:"s",q:"En un proceso <em>isócoro</em> de un gas perfecto que se calienta de \\(T_1\\) a \\(T_2\\), \\(\\Delta S\\) es…",o:["\\(C_p\\ln(T_2/T_1)\\)","\\(C_V\\ln(T_2/T_1)\\)","\\(nR\\ln(T_2/T_1)\\)","0"],a:1,e:"Con \\(V\\) fijo, \\(nR\\ln(V_2/V_1)=0\\) y queda el término térmico con \\(C_V\\)."},
+ {t:"s",q:"En un proceso <em>isóbaro</em>, la capacidad que aparece en \\(\\Delta S\\) es…",o:["\\(C_V\\)","\\(C_p\\)","\\(C_p-C_V\\)"],a:1,e:"Con la forma \\(C_p\\ln\\frac{T_2}{T_1}-nR\\ln\\frac{p_2}{p_1}\\), el segundo término se anula a \\(p\\) constante."},
+ {t:"s",q:"En una expansión <em>libre</em> de un gas ideal (\\(Q=0\\)), \\(\\Delta S_{\\rm gas}\\)…",o:["es 0 porque \\(Q=0\\)","es \\(nR\\ln(V_2/V_1)>0\\)","es negativa"],a:1,e:"\\(Q=0\\) no implica \\(\\Delta S=0\\): el proceso es irreversible y se calcula por un isotermo auxiliar. Toda esa entropía es generada."},
+ {t:"s",q:"Para calcular \\(\\Delta S\\) del sistema en un proceso irreversible…",o:["uso \\(Q_{\\rm real}/T\\)","uso un camino reversible entre los mismos estados","no se puede calcular"],a:1,e:"\\(S\\) es función de estado: cualquier camino reversible entre los mismos extremos da el mismo \\(\\Delta S\\)."},
+ {t:"s",q:"Un foco a 300 K recibe 600 J del sistema. Su cambio de entropía es…",o:["\\(+2\\ \\mathrm{J/K}\\)","\\(-2\\ \\mathrm{J/K}\\)","0, porque su temperatura no cambia"],a:0,e:"\\(\\Delta S_F=Q_F/T_F=600/300=+2\\ \\mathrm{J/K}\\). Su \\(T\\) no cambia, pero su entropía sí."},
+ {t:"s",q:"En una adiabática <em>reversible</em>…",o:["\\(\\Delta S>0\\)","\\(\\Delta S=0\\)","\\(\\Delta S<0\\)"],a:1,e:"\\(\\dbar Q_{\\rm rev}=0\\) en cada paso: proceso isoentrópico. Si fuera adiabática irreversible, \\(\\Delta S=S_{\\rm gen}>0\\)."},
+ {t:"s",q:"Una batería que entrega trabajo eléctrico a una resistencia cambia su entropía en…",o:["\\(W/T\\)","0","\\(-W/T\\)"],a:1,e:"Las fuentes de trabajo no intercambian calor: \\(\\Delta S=0\\). La entropía se genera en la resistencia y en lo que esta calienta."},
+ {t:"c",q:"Un ciclo se recorre en sentido <em>horario</em> en el plano \\(p\\)–\\(V\\). Es…",o:["un motor","un refrigerador","no se puede saber"],a:0,e:"En sentido horario la expansión va por arriba y \\(W_{\\rm neto}=-\\oint p\\,\\dd V<0\\): el gas entrega trabajo."},
+ {t:"c",q:"Si en un ciclo \\(\\sum_iQ_i<0\\), entonces…",o:["es un motor","es una máquina inversa (\\(W>0\\))","viola la primera ley"],a:1,e:"\\(W_{\\rm neto}=-\\sum Q_i>0\\): el ciclo recibe trabajo."},
+ {t:"c",q:"El rendimiento de un motor con varios tramos que absorben calor es…",o:["\\(|W|/Q_{\\rm neto}\\)","\\(|W|/Q_{\\rm abs}\\)","\\(Q_{\\rm abs}/|W|\\)"],a:1,e:"Se divide entre todo el calor <em>absorbido</em>, no entre el neto, que es igual a \\(|W|\\) y daría siempre 1."},
+ {t:"c",q:"En el plano \\(T\\)–\\(S\\), el área encerrada por un ciclo reversible es…",o:["el calor neto, igual a \\(|W_{\\rm neto}|\\)","la variación de energía interna","cero"],a:0,e:"\\(\\oint T\\,\\dd S=Q_{\\rm neto}=-W_{\\rm neto}\\). Por eso el sentido horario en \\(T\\)–\\(S\\) también indica un motor."},
+ {t:"c",q:"Un refrigerador con \\(\\varepsilon=3\\) funcionando como bomba tiene…",o:["\\(\\nu=2\\)","\\(\\nu=3\\)","\\(\\nu=4\\)"],a:2,e:"\\(\\nu=|Q_h|/W=(Q_c+W)/W=\\varepsilon+1=4\\)."},
+ {t:"c",q:"En un ciclo cualquiera, \\(\\sum_i\\Delta S_i\\) del <em>gas</em> vale…",o:["0","\\(>0\\) si hay irreversibilidades","\\(Q_{\\rm neto}/T\\)"],a:0,e:"\\(S\\) es función de estado y el gas vuelve al estado inicial. La entropía generada aparece en los focos (universo)."},
+ {t:"n",q:"1 mol de gas ideal duplica su volumen de forma isoterma. \\(\\Delta S\\) en J/K:",num:8.314*Math.LN2,tol:0.01,e:"\\(\\Delta S=R\\ln2=5{,}76\\ \\mathrm{J/K}\\)."},
+ {t:"n",q:"2 mol de gas diatómico se calientan a volumen constante de 300 K a 600 K. \\(\\Delta S\\) en J/K:",num:2*2.5*8.314*Math.LN2,tol:0.01,e:"\\(\\Delta S=n\\tfrac52R\\ln2=5\\cdot8{,}314\\cdot0{,}693=28{,}8\\ \\mathrm{J/K}\\)."},
+ {t:"n",q:"Pasan 1200 J de un foco a 400 K a otro a 300 K. \\(\\Delta S_{\\rm univ}\\) en J/K:",num:1,tol:0.01,e:"\\(-1200/400+1200/300=-3+4=1\\ \\mathrm{J/K}>0\\)."},
+ {t:"n",q:"Un motor de Carnot opera entre 600 K y 300 K. Su rendimiento es:",num:0.5,tol:0.01,e:"\\(\\eta_C=1-300/600=0{,}5\\)."},
+ {t:"n",q:"Un refrigerador de Carnot entre 300 K (frío) y 400 K (caliente). Su \\(\\varepsilon\\) es:",num:3,tol:0.01,e:"\\(\\varepsilon_C=T_c/(T_h-T_c)=300/100=3\\)."}
+];
+const quiz={list:[],i:0,ok:0};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newQuiz(){const t=$("qTag").value; const pool=Q.filter(q=>t==="all"||q.t===t);
+  quiz.list=shuffle(pool.slice()).slice(0,Math.min(10,pool.length)); quiz.i=0; quiz.ok=0; showQ();}
+function showQ(){
+  const box=$("qBox"),nx=$("qNext"); $("qMeter").style.width=(100*quiz.i/quiz.list.length)+"%";
+  if(quiz.i>=quiz.list.length){const n=quiz.list.length,s=quiz.ok;
+    if(n===10&&(store.best==null||s>store.best)){store.best=s;save();prog();}
+    box.innerHTML=`<div class="score"><span class="small">Resultado</span><span class="big">${s}/${n}</span><span>${s===n?"Perfecto.":s>=n*0.7?"Bien. Repasa las preguntas falladas en la pestaña de entropía o de ciclos.":"Repasa las dos primeras pestañas y vuelve a intentarlo."}</span></div>`;
+    nx.hidden=true; $("qCount").textContent=""; return;}
+  const q=quiz.list[quiz.i]; $("qCount").textContent=`Pregunta ${quiz.i+1} de ${quiz.list.length} · aciertos ${quiz.ok}`;
+  const meta={s:"Entropía",c:"Ciclos y máquinas",n:"Numérica"}[q.t];
+  nx.hidden=true;
+  const done=ok=>{ if(ok) quiz.ok++; nx.hidden=false; nx.textContent=quiz.i+1<quiz.list.length?"Siguiente":"Ver resultado"; nx.focus(); };
+  if(q.num!=null){
+    box.innerHTML=`<span class="meta">${meta}</span><p>${q.q}</p><div class="answer"><input id="qIn" inputmode="decimal" autocomplete="off" aria-label="Tu resultado"><button class="btn ghost" type="button" id="qChk">Comprobar</button><span class="fb" id="qFb"></span></div>`;
+    let used=false;
+    const chk=()=>{ if(used) return; const x=parseNum($("qIn").value); if(!isFinite(x)){$("qFb").className="fb no";$("qFb").textContent="Escribe un número.";return;}
+      used=true; const ok=Math.abs(x-q.num)<=Math.abs(q.num)*q.tol+1e-9;
+      const ex=document.createElement("div"); ex.className="expl"+(ok?"":" no"); ex.innerHTML=(ok?"<strong>Correcto.</strong> ":"<strong>No.</strong> ")+q.e; box.appendChild(ex); typeset(ex); done(ok);};
+    $("qChk").addEventListener("click",chk); $("qIn").addEventListener("keydown",e=>{if(e.key==="Enter")chk();});
+  } else {
+    box.innerHTML=`<span class="meta">${meta}</span><p>${q.q}</p><div class="opts">${q.o.map((o,i)=>`<button type="button" class="opt" data-i="${i}"><span class="k">${"abcd"[i]})</span><span>${o}</span></button>`).join("")}</div>`;
+    box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.i,ok=i===q.a;
+      box.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.i===q.a) x.classList.add("right");}); if(!ok) b.classList.add("wrong");
+      const ex=document.createElement("div"); ex.className="expl"+(ok?"":" no"); ex.innerHTML=(ok?"<strong>Correcto.</strong> ":"<strong>No.</strong> ")+q.e; box.appendChild(ex); typeset(ex); done(ok);}));
+  }
+  typeset(box);
+}
+$("qNew").addEventListener("click",newQuiz); $("qTag").addEventListener("change",newQuiz); $("qNext").addEventListener("click",()=>{quiz.i++;showQ();});
+
+/* ---------------- Arranque ---------------- */
+selectP("isoc"); prog(); route();
+})();
+</script>
