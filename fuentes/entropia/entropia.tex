@@ -67,18 +67,38 @@ Cada término depende de una sola variable, así que se integra directamente:
 \begin{equation}\label{eq:TV}
   \Delta S=n\Cv\ln\frac{T_2}{T_1}+nR\ln\frac{V_2}{V_1}.
 \end{equation}
-Con $V=nRT/p$, $\ln\frac{V_2}{V_1}=\ln\frac{T_2}{T_1}-\ln\frac{p_2}{p_1}$, y por Mayer $\Cv+R=\Cp$:
+\paso{Forma en $(T,p)$} Se elimina $V$ con la ecuación de estado. Como $V=nRT/p$,
+\[
+  \frac{V_2}{V_1}=\frac{T_2}{T_1}\,\frac{p_1}{p_2}\quad\Longrightarrow\quad
+  \ln\frac{V_2}{V_1}=\ln\frac{T_2}{T_1}-\ln\frac{p_2}{p_1}.
+\]
+Sustituyendo en \eqref{eq:TV} y agrupando los términos en $\ln(T_2/T_1)$ con Mayer, $\Cv+R=\Cp$:
+\[
+  \Delta S=n\Cv\ln\frac{T_2}{T_1}+nR\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}
+  =n(\Cv+R)\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1},
+\]
 \begin{equation}\label{eq:Tp}
   \Delta S=n\Cp\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}.
 \end{equation}
-Análogamente, con $T=pV/nR$ se obtiene la forma en $(p,V)$:
+
+\paso{Forma en $(p,V)$} Ahora se elimina $T$. Como $T=pV/nR$,
+\[
+  \frac{T_2}{T_1}=\frac{p_2}{p_1}\,\frac{V_2}{V_1}\quad\Longrightarrow\quad
+  \ln\frac{T_2}{T_1}=\ln\frac{p_2}{p_1}+\ln\frac{V_2}{V_1}.
+\]
+Sustituyendo en \eqref{eq:TV} y agrupando los términos en $\ln(V_2/V_1)$:
+\[
+  \Delta S=n\Cv\ln\frac{p_2}{p_1}+n\Cv\ln\frac{V_2}{V_1}+nR\ln\frac{V_2}{V_1}
+  =n\Cv\ln\frac{p_2}{p_1}+n(\Cv+R)\ln\frac{V_2}{V_1},
+\]
 \begin{equation}\label{eq:pV}
   \Delta S=n\Cv\ln\frac{p_2}{p_1}+n\Cp\ln\frac{V_2}{V_1}.
 \end{equation}
+\emph{Comprobación}: si $\Delta S=0$, $\Cv\ln\frac{p_2}{p_1}=-\Cp\ln\frac{V_2}{V_1}$, es decir,
+$p_2V_2^{\gamma}=p_1V_1^{\gamma}$: la adiabática reversible.
 Las tres son la misma fórmula; se usa la que tenga los datos del problema.
 
 % ============================ 2. PROCESOS ============================
-\newpage
 \section{Procesos del gas perfecto}
 
 \paso{Isócoro ($V=\cte$)}
@@ -172,8 +192,7 @@ queda en los focos.
 % ============================ 4. TABLA ============================
 \section{Resumen}
 
-\begin{table}[htbp]
-\centering
+\begin{center}
 \small
 \renewcommand{\arraystretch}{1.75}
 \begin{tabular}{lll}
@@ -194,6 +213,6 @@ Foco mecánico & $0$ & solo trabajo\\
 Universo & $\Delta S_{\mathrm{sis}}+\sum\Delta S_F\ge0$ & segunda ley\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 \end{document}
