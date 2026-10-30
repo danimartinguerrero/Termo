@@ -1,0 +1,199 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\numtema}{3}
+\usepackage{estilo}
+\renewcommand{\cabeceraizq}{\espaciado[60]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[60]{Tema 3}}
+\newcommand{\Cv}{\bar C_V}
+\newcommand{\Cp}{\bar C_p}
+
+\begin{document}
+
+% ============================ CABECERA ============================
+\thispagestyle{empty}
+\vspace*{-1.2cm}
+\noindent\begin{tikzpicture}[remember picture,overlay]
+  \shade[left color=navy,right color=regla!60!white] (current page.north west) rectangle ([yshift=-3.2mm]current page.north east);
+\end{tikzpicture}%
+\begin{tikzpicture}
+  \useasboundingbox (0,-1.15) rectangle (\textwidth,0.75);
+  \node[anchor=west,inner sep=0pt] at (0,0) {\includegraphics[width=0.22\textwidth]{logo-usal.png}};
+  \node[anchor=east,inner sep=0pt] at (\textwidth,0) {\includegraphics[width=0.15\textwidth]{logo-ciencias.png}};
+  \node[align=center,inner sep=0pt] at (0.535\textwidth,0)
+    {{\color{navy}\large\espaciado[150]{Universidad de Salamanca}}\\[4pt]
+     {\color{acento}\espaciado[110]{Facultad de Ciencias}\enspace\textperiodcentered\enspace\espaciado[110]{Grado en Física}}};
+  \draw[regla,line width=0.6pt] (0,-1.1) -- (\textwidth,-1.1);
+\end{tikzpicture}
+
+\vspace{0.6cm}
+\noindent{\color{acento}\large\espaciado[150]{Termodinámica I}\enspace\textperiodcentered\enspace\espaciado[150]{Tema 3}}\\[6pt]
+{\color{navy}\fontsize{26}{32}\selectfont\bfseries Entropía proceso a proceso}\\[4pt]
+\begin{tikzpicture}
+  \shade[left color=navy,right color=white] (0,0) rectangle (0.62\textwidth,1.6mm);
+\end{tikzpicture}
+
+\vspace{0.3cm}
+\noindent{\large\itshape Fórmulas de $\Delta S$ para cada proceso, deducidas desde la integral
+$\int\dbar Q_{\mathrm{rev}}/T$}
+
+\vspace{0.3cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Autor}}\enspace Daniel Martín Guerrero
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  {\color{acento}\espaciado[180]{Profesor}}\enspace Julián González Ayala
+\end{minipage}
+
+\vspace{0.2cm}
+\begin{recuadro}{Punto de partida}
+La entropía es función de estado y su variación se calcula por \emph{cualquier} camino reversible entre los
+estados inicial y final:
+\[
+  \Delta S=S_2-S_1=\int_1^2\frac{\dbar Q_{\mathrm{rev}}}{T}.
+\]
+Si el proceso real es irreversible, \emph{no} se integra su calor real: se elige un camino reversible auxiliar
+con los mismos extremos. Convención: $Q>0$ si entra en el sistema; $n$ moles de gas perfecto con $\Cv$, $\Cp$
+constantes, $\Cp-\Cv=R$ y $\gamma=\Cp/\Cv$.
+\end{recuadro}
+
+% ============================ 1. GAS PERFECTO ============================
+\section{Fórmula general del gas perfecto}
+
+Por la primera ley en un proceso reversible, $\dbar Q_{\mathrm{rev}}=\dd U+p\,\dd V$, con $\dd U=n\Cv\,\dd T$ y
+$p=nRT/V$:
+\[
+  \dd S=\frac{n\Cv\,\dd T+p\,\dd V}{T}=n\Cv\frac{\dd T}{T}+nR\frac{\dd V}{V}.
+\]
+Cada término depende de una sola variable, así que se integra directamente:
+\begin{equation}\label{eq:TV}
+  \Delta S=n\Cv\ln\frac{T_2}{T_1}+nR\ln\frac{V_2}{V_1}.
+\end{equation}
+Con $V=nRT/p$, $\ln\frac{V_2}{V_1}=\ln\frac{T_2}{T_1}-\ln\frac{p_2}{p_1}$, y por Mayer $\Cv+R=\Cp$:
+\begin{equation}\label{eq:Tp}
+  \Delta S=n\Cp\ln\frac{T_2}{T_1}-nR\ln\frac{p_2}{p_1}.
+\end{equation}
+Análogamente, con $T=pV/nR$ se obtiene la forma en $(p,V)$:
+\begin{equation}\label{eq:pV}
+  \Delta S=n\Cv\ln\frac{p_2}{p_1}+n\Cp\ln\frac{V_2}{V_1}.
+\end{equation}
+Las tres son la misma fórmula; se usa la que tenga los datos del problema.
+
+% ============================ 2. PROCESOS ============================
+\newpage
+\section{Procesos del gas perfecto}
+
+\paso{Isócoro ($V=\cte$)}
+$\dbar Q_{\mathrm{rev}}=n\Cv\,\dd T$, de modo que
+\[
+  \Delta S=\int_{T_1}^{T_2}\frac{n\Cv\,\dd T}{T}=n\Cv\ln\frac{T_2}{T_1}=n\Cv\ln\frac{p_2}{p_1},
+\]
+donde la última igualdad usa $p/T=\cte$. Es \eqref{eq:TV} con $\ln(V_2/V_1)=0$.
+
+\paso{Isóbaro ($p=\cte$)}
+$\dbar Q_{\mathrm{rev}}=n\Cp\,\dd T$, de modo que
+\[
+  \Delta S=\int_{T_1}^{T_2}\frac{n\Cp\,\dd T}{T}=n\Cp\ln\frac{T_2}{T_1}=n\Cp\ln\frac{V_2}{V_1},
+\]
+con $V/T=\cte$. Es \eqref{eq:Tp} con $\ln(p_2/p_1)=0$.
+
+\paso{Isotermo ($T=\cte$)}
+$\dd U=0$, luego $\dbar Q_{\mathrm{rev}}=p\,\dd V$ y la $T$ sale de la integral:
+\[
+  \Delta S=\frac1T\int_{V_1}^{V_2}\frac{nRT}{V}\,\dd V=nR\ln\frac{V_2}{V_1}=nR\ln\frac{p_1}{p_2}=\frac{Q_{\mathrm{rev}}}{T}.
+\]
+Expansión: $\Delta S>0$; compresión: $\Delta S<0$.
+
+\paso{Adiabático reversible}
+$\dbar Q_{\mathrm{rev}}=0$ en cada paso, luego el integrando es nulo:
+\[
+  \Delta S=0\qquad(\text{isoentrópico}).
+\]
+\emph{Comprobación}: con Poisson, $T_2/T_1=(V_1/V_2)^{\gamma-1}$, y como $n\Cv(\gamma-1)=nR$, en
+\eqref{eq:TV} los dos términos se cancelan:
+\[
+  n\Cv\ln\frac{T_2}{T_1}=n\Cv(\gamma-1)\ln\frac{V_1}{V_2}=-nR\ln\frac{V_2}{V_1}.
+\]
+
+\paso{Politrópico ($pV^m=\cte$, $m\neq1$)}
+La capacidad del proceso es $\bar C_m=\Cv\,\dfrac{m-\gamma}{m-1}$, con $\dbar Q_{\mathrm{rev}}=n\bar C_m\,\dd T$:
+\[
+  \Delta S=\int_{T_1}^{T_2}\frac{n\bar C_m\,\dd T}{T}=n\Cv\,\frac{m-\gamma}{m-1}\ln\frac{T_2}{T_1}.
+\]
+Recupera los casos anteriores: $m=0$ da $\Cp$; $m\to\infty$ da $\Cv$; $m=\gamma$ da $0$.
+
+\paso{Expansión libre (Joule), irreversible}
+Al vacío y adiabática: $Q=W=0$, luego $\Delta U=0$ y $T_2=T_1$. Que $Q=0$ \emph{no} implica $\Delta S=0$: el
+proceso es irreversible. Camino auxiliar: isotermo reversible entre los mismos estados,
+\[
+  \Delta S=nR\ln\frac{V_2}{V_1}>0.
+\]
+Es entropía íntegramente generada: $S_{\mathrm{gen}}=\Delta S$.
+
+\paso{Cualquier proceso irreversible del gas}
+Se hallan los estados extremos (primera ley y ecuación de estado) y se sustituye en \eqref{eq:TV},
+\eqref{eq:Tp} o \eqref{eq:pV}. Nunca se usa $Q_{\mathrm{real}}/T$.
+
+% ============================ 3. ENTORNO ============================
+\section{Cuerpos, focos y universo}
+
+\paso{Cuerpo de capacidad $C$ (sólido o líquido, sin cambio de fase)}
+Se calienta reversiblemente con $\dbar Q_{\mathrm{rev}}=C\,\dd T$, sea cual sea el proceso real:
+\[
+  \Delta S=\int_{T_i}^{T_f}\frac{C\,\dd T}{T}=C\ln\frac{T_f}{T_i}.
+\]
+Si $C=mc$ depende de $T$, se integra $C(T)/T$.
+
+\paso{Cambio de fase a $T$ y $p$ constantes}
+$T$ sale de la integral y $Q_{\mathrm{rev}}=mL$:
+\[
+  \Delta S=\frac1T\int\dbar Q_{\mathrm{rev}}=\frac{mL}{T}.
+\]
+
+\paso{Foco térmico a $T_F$}
+Su temperatura no cambia, así que para él el intercambio es reversible y $T_F$ sale de la integral. Su calor es
+el del sistema cambiado de signo, $Q_F=-Q_{\mathrm{sis}}$:
+\[
+  \Delta S_F=\frac{1}{T_F}\int\dbar Q_F=\frac{Q_F}{T_F}=-\frac{Q_{\mathrm{sis}}}{T_F}.
+\]
+
+\paso{Foco mecánico (pesas, batería, volante)}
+Solo intercambia trabajo, $\dbar Q=0$: $\Delta S=0$.
+
+\paso{Universo}
+Suma de todas las partes; por la segunda ley,
+\[
+  \Delta S_{\mathrm{univ}}=\Delta S_{\mathrm{sis}}+\sum_k\Delta S_{F_k}=S_{\mathrm{gen}}\ge0,
+\]
+con igualdad solo si el proceso es reversible.
+
+\paso{Ciclo}
+$S$ es función de estado: $\oint\dd S=0$, luego $\sum_i\Delta S_i=0$ para el sistema; la entropía generada
+queda en los focos.
+
+% ============================ 4. TABLA ============================
+\section{Resumen}
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.75}
+\begin{tabular}{lll}
+\toprule
+Proceso o parte & $\Delta S$ & Por qué \\
+\midrule
+Isócoro & $n\Cv\ln\dfrac{T_2}{T_1}$ & $\dbar Q=n\Cv\,\dd T$\\
+Isóbaro & $n\Cp\ln\dfrac{T_2}{T_1}$ & $\dbar Q=n\Cp\,\dd T$\\
+Isotermo & $nR\ln\dfrac{V_2}{V_1}=\dfrac{Q_{\mathrm{rev}}}{T}$ & $T$ sale de la integral\\
+Adiabático reversible & $0$ & $\dbar Q_{\mathrm{rev}}=0$\\
+Politrópico & $n\Cv\dfrac{m-\gamma}{m-1}\ln\dfrac{T_2}{T_1}$ & $\dbar Q=n\bar C_m\,\dd T$\\
+Expansión libre & $nR\ln\dfrac{V_2}{V_1}>0$ & isotermo auxiliar\\
+Gas, caso general & $n\Cv\ln\dfrac{T_2}{T_1}+nR\ln\dfrac{V_2}{V_1}$ & primera ley y $pV=nRT$\\
+Cuerpo de capacidad $C$ & $C\ln\dfrac{T_f}{T_i}$ & $\dbar Q=C\,\dd T$\\
+Cambio de fase & $mL/T$ & $T$ constante\\
+Foco térmico & $-Q_{\mathrm{sis}}/T_F$ & $T_F$ constante\\
+Foco mecánico & $0$ & solo trabajo\\
+Universo & $\Delta S_{\mathrm{sis}}+\sum\Delta S_F\ge0$ & segunda ley\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
