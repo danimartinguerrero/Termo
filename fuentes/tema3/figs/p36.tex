@@ -1,0 +1,27 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% 1 mol diatómico: (V en L, p en atm) 1 (24,62,1), 2 (7,80,5), 3 (13,44,5), 4 (51,83,1)
+\begin{axis}[art,width=8.6cm,height=5.8cm,xmin=0,xmax=58,ymin=0,ymax=6.9,
+    xtick={7.80,13.44,24.62,51.83},xticklabels={$V_2$,$V_3$,$V_1$,$V_4$},ytick={1,5},yticklabels={$p_1$,$5p_1$},
+    xlabel={$V$ (L)},ylabel={$p$ (atm)}]
+  \addplot[navy,medio=0.5,domain=0:1,samples=80] ({24.62-16.82*x},{(24.62/(24.62-16.82*x))^1.4});
+  \addplot[rojo,medio=0.55] coordinates {(7.80,5) (13.44,5)};
+  \addplot[gris,densely dashed,line width=0.9pt,medio=0.5] coordinates {(13.44,5) (51.83,1)};
+  \addplot[acento,medio=0.5] coordinates {(51.83,1) (24.62,1)};
+  \draw[flujo,rojo] (axis cs:10.6,6.55) -- (axis cs:10.6,5.18);
+  \node[font=\scriptsize,rojo,anchor=west,inner sep=2pt] at (axis cs:11.0,6.2) {$Q_{23}=\SI{10}{kJ}$};
+  \draw[guia] (axis cs:34.2,2.85) -- (axis cs:38.5,4.1);
+  \node[font=\scriptsize,gris,anchor=south west,align=left,inner sep=1.5pt] at (axis cs:38.5,4.1) {adiabática\\irreversible};
+  \node[font=\scriptsize,navy,anchor=east,inner sep=2pt] at (axis cs:13.0,2.2) {$Q_{12}=0$};
+  \estado{24.62,1}{north}{1}
+  \estado{7.80,5}{east}{2}
+  \estado{13.44,5}{south west}{3}
+  \estado{51.83,1}{north}{4}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 36. Los tramos $1\to2$ (adiabática), $2\to3$ y $4\to1$ (isóbaros) son reversibles. La expansión
+$3\to4$ es irreversible: no tiene trayectoria en el plano $p$--$V$, solo sus estados extremos; la línea discontinua
+es esquemática.}
+\label{fig:p36}
+\end{figure}

@@ -1,0 +1,79 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 2,horizontal sep=1.7cm,vertical sep=1.9cm},art,width=6.6cm,height=4.9cm]
+% ---------------- Otto, p-V: r = 4, gamma = 1,4 ; (V,p): 1 (4,1), 2 (1,6,964), 3 (1,12), 4 (4,1,723)
+\nextgroupplot[xmin=0,xmax=5.0,ymin=0,ymax=13.5,xtick={1,4},xticklabels={$V_2$,$V_1$},ytick=\empty,
+    xlabel={$V$},ylabel={$p$},title={\small(a) Otto, plano $p$--$V$}]
+  \fill[fondomedio] plot[domain=1:4,samples=60] (\x,{12*\x^(-1.4)}) -- (axis cs:4,1)
+     -- plot[domain=4:1,samples=60] (\x,{(4/\x)^1.4}) -- cycle;
+  \addplot[navy,medio=0.5,domain=0:1,samples=60] ({4-3*x},{(4/(4-3*x))^1.4});
+  \addplot[rojo,medio=0.55] coordinates {(1,6.964) (1,12)};
+  \addplot[navy,medio=0.5,domain=0:1,samples=60] ({1+3*x},{12*(1+3*x)^(-1.4)});
+  \addplot[acento,medio=0.6] coordinates {(4,1.723) (4,1)};
+  \draw[flujo,rojo] (axis cs:0.25,9.5) -- (axis cs:0.9,9.5);
+  \node[font=\scriptsize,rojo,anchor=south,inner sep=2pt] at (axis cs:0.5,9.6) {$Q_{\mathrm{in}}$};
+  \draw[flujo,acento] (axis cs:4.08,1.36) -- (axis cs:4.7,1.36);
+  \node[font=\scriptsize,acento,anchor=north,inner sep=2pt] at (axis cs:4.45,1.2) {$Q_{\mathrm{out}}$};
+  \estado{4,1}{north}{1}
+  \estado{1,6.964}{east}{2}
+  \estado{1,12}{south west}{3}
+  \estado{4,1.723}{south}{4}
+% ---------------- Otto, T-S: C_V = 1 ; T = pV ; 1 (0,4), 2 (0,6,964), 3 (0,5442,12), 4 (0,5442,6,892)
+\nextgroupplot[xmin=-0.15,xmax=0.8,ymin=2.5,ymax=13.5,xtick=\empty,ytick=\empty,
+    xlabel={$S$},ylabel={$T$},title={\small(b) Otto, plano $T$--$S$}]
+  \fill[fondomedio] plot[domain=0:0.5442,samples=60] (\x,{6.964*exp(\x)}) -- (axis cs:0.5442,6.892)
+     -- plot[domain=0.5442:0,samples=60] (\x,{4*exp(\x)}) -- cycle;
+  \addplot[navy,medio=0.55] coordinates {(0,4) (0,6.964)};
+  \addplot[rojo,medio=0.5,domain=0:0.5442,samples=60] {6.964*exp(x)};
+  \addplot[navy,medio=0.55] coordinates {(0.5442,12) (0.5442,6.892)};
+  \addplot[acento,medio=0.5,domain=0:1,samples=60] ({0.5442*(1-x)},{4*exp(0.5442*(1-x))});
+  \draw[flujo,rojo] (axis cs:0.06,11.8) -- (axis cs:0.24,9.05);
+  \node[font=\scriptsize,rojo,anchor=south,inner sep=2pt] at (axis cs:0.06,11.8) {$Q_{\mathrm{in}}$};
+  \draw[flujo,acento] (axis cs:0.30,5.35) -- (axis cs:0.44,3.6);
+  \node[font=\scriptsize,acento,anchor=west,inner sep=2pt] at (axis cs:0.44,3.6) {$Q_{\mathrm{out}}$};
+  \estado{0,4}{north east}{1}
+  \estado{0,6.964}{east}{2}
+  \estado{0.5442,12}{south west}{3}
+  \estado{0.5442,6.892}{west}{4}
+% ---------------- Brayton, p-V: r_p = 6 ; 1 (4,1), 2 (1,111,6), 3 (2,2,6), 4 (7,92,1)
+\nextgroupplot[xmin=0,xmax=9,ymin=-0.9,ymax=7.8,xtick=\empty,ytick={1,6},yticklabels={$p_1$,$p_2$},
+    xlabel={$V$},ylabel={$p$},title={\small(c) Brayton, plano $p$--$V$}]
+  \fill[fondomedio] (axis cs:1.111,6) -- (axis cs:2.2,6) -- plot[domain=2.2:7.92,samples=60] (\x,{6*(2.2/\x)^1.4})
+     -- (axis cs:4,1) -- plot[domain=4:1.111,samples=60] (\x,{(4/\x)^1.4}) -- cycle;
+  \addplot[navy,medio=0.5,domain=0:1,samples=60] ({4-2.889*x},{(4/(4-2.889*x))^1.4});
+  \addplot[rojo,medio=0.55] coordinates {(1.111,6) (2.2,6)};
+  \addplot[navy,medio=0.5,domain=0:1,samples=60] ({2.2+5.72*x},{6*(2.2/(2.2+5.72*x))^1.4});
+  \addplot[acento,medio=0.5] coordinates {(7.92,1) (4,1)};
+  \draw[flujo,rojo] (axis cs:1.65,7.3) -- (axis cs:1.65,6.15);
+  \node[font=\scriptsize,rojo,anchor=west,inner sep=2pt] at (axis cs:1.72,7.15) {$Q_{\mathrm{in}}$};
+  \draw[flujo,acento] (axis cs:6.0,0.93) -- (axis cs:6.0,-0.15);
+  \node[font=\scriptsize,acento,anchor=west,inner sep=2pt] at (axis cs:6.1,0.2) {$Q_{\mathrm{out}}$};
+  \estado{4,1}{north}{1}
+  \estado{1.111,6}{south east}{2}
+  \estado{2.2,6}{south west}{3}
+  \estado{7.92,1}{north}{4}
+% ---------------- Brayton, T-S: C_p = 1 ; 1 (0,4), 2 (0,6,667), 3 (0,6831,13,2), 4 (0,6831,7,92)
+\nextgroupplot[xmin=-0.15,xmax=0.95,ymin=2.5,ymax=14.8,xtick=\empty,ytick=\empty,
+    xlabel={$S$},ylabel={$T$},title={\small(d) Brayton, plano $T$--$S$}]
+  \fill[fondomedio] plot[domain=0:0.6831,samples=60] (\x,{6.667*exp(\x)}) -- (axis cs:0.6831,7.92)
+     -- plot[domain=0.6831:0,samples=60] (\x,{4*exp(\x)}) -- cycle;
+  \addplot[navy,medio=0.55] coordinates {(0,4) (0,6.667)};
+  \addplot[rojo,medio=0.5,domain=0:0.6831,samples=60] {6.667*exp(x)};
+  \addplot[navy,medio=0.55] coordinates {(0.6831,13.2) (0.6831,7.92)};
+  \addplot[acento,medio=0.5,domain=0:1,samples=60] ({0.6831*(1-x)},{4*exp(0.6831*(1-x))});
+  \draw[flujo,rojo] (axis cs:0.08,12.9) -- (axis cs:0.29,9.15);
+  \node[font=\scriptsize,rojo,anchor=south,inner sep=2pt] at (axis cs:0.08,12.9) {$Q_{\mathrm{in}}$};
+  \draw[flujo,acento] (axis cs:0.36,5.7) -- (axis cs:0.52,3.75);
+  \node[font=\scriptsize,acento,anchor=west,inner sep=2pt] at (axis cs:0.52,3.75) {$Q_{\mathrm{out}}$};
+  \estado{0,4}{north east}{1}
+  \estado{0,6.667}{east}{2}
+  \estado{0.6831,13.2}{south west}{3}
+  \estado{0.6831,7.92}{west}{4}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Ciclos Otto (arriba) y Joule--Brayton (abajo). En los dos, $1\to2$ y $3\to4$ son adiabáticas reversibles,
+verticales en el plano $T$--$S$. El calor entra y sale a volumen constante en Otto y a presión constante en
+Brayton; en $T$--$S$ esos tramos son exponenciales, $T\propto\e^{S/C_V}$ y $T\propto\e^{S/C_p}$.}
+\label{fig:ottobrayton}
+\end{figure}

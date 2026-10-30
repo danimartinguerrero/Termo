@@ -136,31 +136,7 @@ como exige $\Delta U_{\mathrm{ciclo}}=0$). Solo absorbe calor el isóbaro, $Q_{\
 \]
 \end{resolucion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\begin{axis}[graf,width=7.4cm,height=5.4cm,xmin=0,xmax=1.2,ymin=0,ymax=11.5,
-    xtick={0.1,1},xticklabels={$V_1/10$,$V_1$},ytick={1,10},yticklabels={$p_1$,$10p_1$},
-    xlabel={$V$},ylabel={$p$}]
-  \fill[fondomedio] plot[domain=1:0.1,samples=60] (\x,{1/\x}) -- (axis cs:1,10) -- cycle;
-  \addplot[acento,line width=1.1pt,domain=0.1:1,samples=80] {1/x};
-  \addplot[rojo,line width=1.1pt] coordinates {(0.1,10) (1,10)};
-  \addplot[navy,line width=1.1pt] coordinates {(1,10) (1,1)};
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:0.40,{1/0.40}) -- (axis cs:0.30,{1/0.30});
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:0.5,10) -- (axis cs:0.6,10);
-  \draw[navy,-{Stealth[length=5pt]}] (axis cs:1,6) -- (axis cs:1,5);
-  \fill[black] (axis cs:1,1) circle (1.6pt) node[anchor=north west,font=\scriptsize,inner sep=2pt] {1};
-  \fill[black] (axis cs:0.1,10) circle (1.6pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {2};
-  \fill[black] (axis cs:1,10) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
-  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:0.55,10.2) {$Q_{\mathrm{abs}}$};
-  \node[font=\scriptsize,acento,anchor=north east] at (axis cs:0.27,3.2) {isoterma};
-  \node[font=\scriptsize,navy] at (axis cs:0.65,6) {$|W|$};
-\end{axis}
-\end{tikzpicture}
-\caption{Problema 31. Compresión isoterma (1--2), isóbaro (2--3) e isócoro (3--1). El ciclo se recorre en sentido
-horario: es un motor y el área encerrada es el trabajo neto.}
-\label{fig:p31}
-\end{figure}
+\input{figs/p31}
 
 % ---------------------------------------------------------------------
 \subsection{Problema 32. Ciclo adiabático, isotermo e isócoro}
@@ -196,28 +172,7 @@ La isoterma a $T_2$ termina en $V_3=V_1$, y el isócoro baja de $T_2$ a $T_1$.
 \]
 \end{resolucion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\begin{axis}[graf,width=7.4cm,height=5.4cm,xmin=0,xmax=1.2,ymin=0,ymax=22.5,
-    xtick={0.1657,1},xticklabels={$V_2$,$V_1$},ytick={1,20},yticklabels={$p_1$,$20p_1$},
-    xlabel={$V$},ylabel={$p$}]
-  \fill[fondomedio] plot[domain=1:0.1657,samples=60] (\x,{\x^(-5/3)}) -- plot[domain=0.1657:1,samples=60] (\x,{3.314/\x}) -- cycle;
-  \addplot[navy,line width=1.1pt,domain=0.1657:1,samples=80] {x^(-5/3)};
-  \addplot[rojo,line width=1.1pt,domain=0.1657:1,samples=80] {3.314/x};
-  \addplot[acento,line width=1.1pt] coordinates {(1,3.314) (1,1)};
-  \draw[navy,-{Stealth[length=5pt]}] (axis cs:0.45,{0.45^(-5/3)}) -- (axis cs:0.36,{0.36^(-5/3)});
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:0.32,{3.314/0.32}) -- (axis cs:0.42,{3.314/0.42});
-  \fill[black] (axis cs:1,1) circle (1.6pt) node[anchor=west,font=\scriptsize,inner sep=3pt] {1};
-  \fill[black] (axis cs:0.1657,20) circle (1.6pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {2};
-  \fill[black] (axis cs:1,3.314) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
-  \node[font=\scriptsize,rojo,anchor=south west] at (axis cs:0.45,8.2) {isoterma $T_2$, $Q_{\mathrm{abs}}$};
-  \node[font=\scriptsize,navy,anchor=east] at (axis cs:0.40,3.2) {adiabática};
-\end{axis}
-\end{tikzpicture}
-\caption{Problema 32. Compresión adiabática (1--2), expansión isoterma a $T_2$ (2--3) e isócoro (3--1).}
-\label{fig:p32}
-\end{figure}
+\input{figs/p32}
 
 % ---------------------------------------------------------------------
 \subsection{Problema 33. Ciclo isóbaro, adiabático e isotermo}
@@ -252,29 +207,7 @@ $Q_{31}=nRT_1\ln\frac{p_3}{p_1}=nRT_1\ln5=1{,}609\,nRT_1$ (absorbe).
 \]
 \end{resolucion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\begin{axis}[graf,width=7.4cm,height=5.4cm,xmin=0,xmax=1.2,ymin=0,ymax=5.8,
-    xtick={0.2,0.6314,1},xticklabels={$V_3$,$V_2$,$V_1$},ytick={1,5},yticklabels={$p_{\min}$,$p_{\max}$},
-    xlabel={$V$},ylabel={$p$}]
-  \fill[fondomedio] (axis cs:1,1) -- (axis cs:0.6314,1) -- plot[domain=0.6314:0.2,samples=60] (\x,{(0.6314/\x)^1.4}) -- plot[domain=0.2:1,samples=60] (\x,{1/\x}) -- cycle;
-  \addplot[acento,line width=1.1pt] coordinates {(1,1) (0.6314,1)};
-  \addplot[navy,line width=1.1pt,domain=0.2:0.6314,samples=80] {(0.6314/x)^1.4};
-  \addplot[rojo,line width=1.1pt,domain=0.2:1,samples=80] {1/x};
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:0.86,1) -- (axis cs:0.76,1);
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:0.45,{1/0.45}) -- (axis cs:0.55,{1/0.55});
-  \fill[black] (axis cs:1,1) circle (1.6pt) node[anchor=north west,font=\scriptsize,inner sep=2pt] {1};
-  \fill[black] (axis cs:0.6314,1) circle (1.6pt) node[anchor=north,font=\scriptsize,inner sep=3pt] {2};
-  \fill[black] (axis cs:0.2,5) circle (1.6pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {3};
-  \node[font=\scriptsize,rojo,anchor=south west] at (axis cs:0.5,2.2) {isoterma $T_1$, $Q_{\mathrm{abs}}$};
-  \node[font=\scriptsize,navy,anchor=east] at (axis cs:0.44,1.3) {adiabática};
-\end{axis}
-\end{tikzpicture}
-\caption{Problema 33. Compresión isóbara (1--2), compresión adiabática (2--3) y expansión isoterma (3--1). El área
-encerrada, pequeña frente al calor absorbido, explica el rendimiento bajo.}
-\label{fig:p33}
-\end{figure}
+\input{figs/p33}
 
 % ---------------------------------------------------------------------
 \subsection{Problema 34. Resistencia sumergida en agua}

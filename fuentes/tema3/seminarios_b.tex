@@ -44,31 +44,7 @@ $\Delta U=W$, es decir $n\bar C_V(T_4-T_3)=-p_1(V_4-V_3)$, con $V_4=nRT_4/p_1$ y
 Es positivo, como debe ser en un proceso adiabático irreversible: $\Delta S=S_{\mathrm{gen}}>0$.
 \end{resolucion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\begin{axis}[graf,width=8.4cm,height=5.8cm,xmin=0,xmax=58,ymin=0,ymax=6.6,
-    xtick={7.80,13.44,24.62,51.83},xticklabels={$V_2$,$V_3$,$V_1$,$V_4$},ytick={1,5},yticklabels={$p_1$,$5p_1$},
-    xlabel={$V$ (L)},ylabel={$p$ (atm)},clip=false]
-  \addplot[navy,line width=1.1pt,domain=7.80:24.62,samples=80] {(24.62/x)^1.4};
-  \addplot[rojo,line width=1.1pt] coordinates {(7.80,5) (13.44,5)};
-  \addplot[gris,line width=1.1pt,densely dashed] coordinates {(13.44,5) (51.83,1)};
-  \addplot[acento,line width=1.1pt] coordinates {(51.83,1) (24.62,1)};
-  \draw[navy,-{Stealth[length=5pt]}] (axis cs:15,{(24.62/15)^1.4}) -- (axis cs:12,{(24.62/12)^1.4});
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:9.8,5) -- (axis cs:11.4,5);
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:40,1) -- (axis cs:36,1);
-  \fill[black] (axis cs:24.62,1) circle (1.6pt) node[anchor=north,font=\scriptsize,inner sep=3pt] {1};
-  \fill[black] (axis cs:7.80,5) circle (1.6pt) node[anchor=east,font=\scriptsize,inner sep=3pt] {2};
-  \fill[black] (axis cs:13.44,5) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
-  \fill[black] (axis cs:51.83,1) circle (1.6pt) node[anchor=north,font=\scriptsize,inner sep=3pt] {4};
-  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:10.6,5.45) {$Q_{23}=\SI{10}{kJ}$};
-  \node[font=\scriptsize,gris,anchor=south west,align=left] at (axis cs:31,3.2) {adiabática\\irreversible};
-\end{axis}
-\end{tikzpicture}
-\caption{Problema 36. La expansión $3\to4$ es irreversible: no tiene trayectoria en el plano $p$--$V$ y solo se
-marcan sus extremos (la línea discontinua es esquemática). Los demás tramos son reversibles.}
-\label{fig:p36}
-\end{figure}
+\input{figs/p36}
 
 % ---------------------------------------------------------------------
 \subsection{Problema 37. Calentamiento con muchos focos y con uno}
@@ -199,33 +175,7 @@ $V_3-V_4=(T_h/T_c)^3(V_2-V_1)$ y
 el de Carnot, como exige el teorema para cualquier sustancia.
 \end{resolucion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-% T_h = 1,25 (p_h = 2,441), T_c = 1 (p_c = 1); V1 = 1, V2 = 2, V3 = 3,906, V4 = 1,953
-\begin{axis}[graf,width=7.6cm,height=5.4cm,xmin=0,xmax=4.6,ymin=0,ymax=3.1,
-    xtick=\empty,ytick={1,2.441},yticklabels={$p_c$,$p_h$},xlabel={$V$},ylabel={$p$}]
-  \fill[fondomedio] (axis cs:1,2.441) -- (axis cs:2,2.441) -- plot[domain=2:3.906,samples=60] (\x,{2.441*(2/\x)^(4/3)})
-     -- (axis cs:1.953,1) -- plot[domain=1.953:1,samples=60] (\x,{2.441*(1/\x)^(4/3)}) -- cycle;
-  \addplot[rojo,line width=1.1pt] coordinates {(1,2.441) (2,2.441)};
-  \addplot[navy,line width=1.1pt,domain=2:3.906,samples=80] {2.441*(2/x)^(4/3)};
-  \addplot[acento,line width=1.1pt] coordinates {(3.906,1) (1.953,1)};
-  \addplot[navy,line width=1.1pt,domain=1:1.953,samples=80] {2.441*(1/x)^(4/3)};
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.4,2.441) -- (axis cs:1.6,2.441);
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:3.0,1) -- (axis cs:2.8,1);
-  \fill[black] (axis cs:1,2.441) circle (1.6pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {1};
-  \fill[black] (axis cs:2,2.441) circle (1.6pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {2};
-  \fill[black] (axis cs:3.906,1) circle (1.6pt) node[anchor=north west,font=\scriptsize,inner sep=2pt] {3};
-  \fill[black] (axis cs:1.953,1) circle (1.6pt) node[anchor=north east,font=\scriptsize,inner sep=2pt] {4};
-  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.5,2.55) {isoterma $T_h$};
-  \node[font=\scriptsize,acento,anchor=north] at (axis cs:2.9,0.9) {isoterma $T_c$};
-  \node[font=\scriptsize,navy,anchor=west] at (axis cs:3.05,1.6) {$pV^{4/3}=\cte$};
-\end{axis}
-\end{tikzpicture}
-\caption{Problema 39. Ciclo de Carnot de la radiación térmica: las isotermas son horizontales porque $p=\tfrac13aT^4$
-solo depende de $T$; las adiabáticas son $pV^{4/3}=\cte$.}
-\label{fig:p39}
-\end{figure}
+\input{figs/p39}
 
 % ---------------------------------------------------------------------
 \subsection{Parcial 2025/26, cuestión 3}

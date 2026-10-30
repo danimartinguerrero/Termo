@@ -1,0 +1,33 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small,
+   foco/.style={draw=navy,line width=0.6pt,minimum width=2.8cm,minimum height=0.58cm,inner sep=2pt,font=\footnotesize},
+   caliente/.style={foco,top color=rojo!14,bottom color=rojo!5},
+   frio/.style={foco,top color=acento!6,bottom color=acento!18},
+   maq/.style={draw=navy,line width=0.8pt,fill=white,circle,minimum size=1.0cm,inner sep=0pt,font=\small\bfseries\color{navy}},
+   fl/.style={-{Stealth[length=5pt,width=4pt]},line width=1pt}]
+  \foreach \x/\nom/\tit/\obj in {0/M/Motor/{$\eta=-W/Q_h$},4.7/R/Refrigerador/{$\varepsilon=Q_c/W$},9.4/B/Bomba de calor/{$\nu=-Q_h/W$}}{
+    \node[caliente] (h\nom) at (\x,2.45) {foco caliente $T_h$};
+    \node[frio] (c\nom) at (\x,-0.45) {foco frío $T_c$};
+    \node[maq] (m\nom) at (\x,1.0) {\nom};
+    \node[font=\small\bfseries,navy,anchor=south] at (\x,2.85) {\tit};
+    \node[font=\footnotesize,gris,anchor=north] at (\x,-0.85) {\obj};
+  }
+  % motor
+  \draw[fl,rojo] (hM.south) -- (mM.north) node[midway,left=2pt,font=\footnotesize] {$Q_h>0$};
+  \draw[fl,acento] (mM.south) -- (cM.north) node[midway,left=2pt,font=\footnotesize] {$Q_c<0$};
+  \draw[fl,navy] (mM.east) -- ++(1.05,0) node[right=1pt,font=\footnotesize] {$W<0$};
+  % refrigerador
+  \draw[fl,rojo] (mR.north) -- (hR.south) node[midway,left=2pt,font=\footnotesize] {$Q_h<0$};
+  \draw[fl,acento] (cR.north) -- (mR.south) node[midway,left=2pt,font=\footnotesize] {$Q_c>0$};
+  \draw[fl,navy] ($(mR.east)+(1.05,0)$) node[right=1pt,font=\footnotesize] {$W>0$} -- (mR.east);
+  % bomba
+  \draw[fl,rojo,line width=1.6pt] (mB.north) -- (hB.south) node[midway,left=2pt,font=\footnotesize] {$Q_h<0$};
+  \draw[fl,acento] (cB.north) -- (mB.south) node[midway,left=2pt,font=\footnotesize] {$Q_c>0$};
+  \draw[fl,navy] ($(mB.east)+(1.05,0)$) node[right=1pt,font=\footnotesize] {$W>0$} -- (mB.east);
+\end{tikzpicture}
+\caption{Las tres máquinas cíclicas entre dos focos, con los signos del sistema y la magnitud que define su
+rendimiento. Refrigerador y bomba son el mismo dispositivo con objetivos distintos: el calor extraído del foco
+frío o el entregado al caliente (flecha gruesa).}
+\label{fig:maquinas}
+\end{figure}

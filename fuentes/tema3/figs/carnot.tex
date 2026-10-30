@@ -1,0 +1,49 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% Gas perfecto monoatómico (gamma = 5/3), nR = 1: T_h = 1,5 ; T_c = 1
+% V1 = 1, V2 = 2,5, V3 = 2,5*1,5^1,5 = 4,593, V4 = 1,5^1,5 = 1,837
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.7cm},art,width=6.9cm,height=5.2cm]
+\nextgroupplot[xmin=0.5,xmax=5.6,ymin=0,ymax=1.75,xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},
+    title={\small(a) Plano del trabajo}]
+  \fill[fondomedio] plot[domain=1:2.5,samples=50] (\x,{1.5/\x})
+    -- plot[domain=2.5:4.593,samples=60] (\x,{0.6*(2.5/\x)^(5/3)})
+    -- plot[domain=4.593:1.837,samples=60] (\x,{1/\x})
+    -- plot[domain=1.837:1,samples=60] (\x,{1.5*(1/\x)^(5/3)}) -- cycle;
+  \addplot[rojo,medio=0.5,domain=0:1,samples=60] ({1+1.5*x},{1.5/(1+1.5*x)});
+  \addplot[navy,medio=0.5,domain=0:1,samples=60] ({2.5+2.093*x},{0.6*(2.5/(2.5+2.093*x))^(5/3)});
+  \addplot[acento,medio=0.5,domain=0:1,samples=60] ({4.593-2.756*x},{1/(4.593-2.756*x)});
+  \addplot[navy,medio=0.55,domain=0:1,samples=60] ({1.837-0.837*x},{1.5*(1/(1.837-0.837*x))^(5/3)});
+  \draw[flujo,rojo] (axis cs:2.9,1.3) -- (axis cs:2.0,0.82);
+  \node[font=\scriptsize,rojo,anchor=west,inner sep=1.5pt] at (axis cs:2.9,1.3) {$Q_h>0$ (isoterma $T_h$)};
+  \draw[flujo,acento] (axis cs:3.7,0.62) -- (axis cs:3.3,0.33);
+  \node[font=\scriptsize,acento,anchor=south west,inner sep=1.5pt] at (axis cs:3.7,0.62) {$Q_c<0$ (isoterma $T_c$)};
+  \node[font=\scriptsize,navy] at (axis cs:2.3,0.54) {$|W|$};
+  \estado{1,1.5}{south east}{1}
+  \estado{2.5,0.6}{south west}{2}
+  \estado{4.593,0.21772}{south west}{3}
+  \estado{1.837,0.54433}{north east}{4}
+\nextgroupplot[xmin=0.4,xmax=3.0,ymin=0,ymax=1.95,xtick={1,2.4},xticklabels={$S_1$,$S_2$},
+    ytick={1,1.5},yticklabels={$T_c$,$T_h$},xlabel={$S$},ylabel={$T$},title={\small(b) Plano del calor}]
+  \fill[pattern=north east lines,pattern color=acentoclaro] (axis cs:1,0) rectangle (axis cs:2.4,1);
+  \fill[fondomedio] (axis cs:1,1) rectangle (axis cs:2.4,1.5);
+  \draw[guia,densely dotted] (axis cs:1,0) -- (axis cs:1,1);
+  \draw[guia,densely dotted] (axis cs:2.4,0) -- (axis cs:2.4,1);
+  \addplot[rojo,medio=0.5] coordinates {(1,1.5) (2.4,1.5)};
+  \addplot[navy,medio=0.55] coordinates {(2.4,1.5) (2.4,1)};
+  \addplot[acento,medio=0.5] coordinates {(2.4,1) (1,1)};
+  \addplot[navy,medio=0.55] coordinates {(1,1) (1,1.5)};
+  \node[font=\scriptsize,rojo,anchor=south,inner sep=2pt] at (axis cs:1.7,1.52) {$Q_h=T_h\,\Delta S$};
+  \node[font=\scriptsize,navy] at (axis cs:1.7,1.25) {$|W|$};
+  \node[font=\scriptsize,acento,fill=white,inner sep=1.5pt] at (axis cs:1.7,0.5) {$|Q_c|=T_c\,\Delta S$};
+  \estado{1,1.5}{south east}{1}
+  \estado{2.4,1.5}{south west}{2}
+  \estado{2.4,1}{north west}{3}
+  \estado{1,1}{north east}{4}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Ciclo de Carnot de un gas perfecto monoatómico. (a) Dos isotermas reversibles (roja, $T_h$; azul,
+$T_c$) y dos adiabáticas; el área encerrada es $|W|$. (b) Las adiabáticas reversibles son isoentrópicas y el
+ciclo es un rectángulo: el área bajo la isoterma caliente es $Q_h$; la rayada, $|Q_c|$.}
+\label{fig:carnot}
+\end{figure}

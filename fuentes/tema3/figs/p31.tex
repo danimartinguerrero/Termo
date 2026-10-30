@@ -1,0 +1,28 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% Ar, unidades p1 = V1 = 1: 1 (1,1), 2 (0,1,10), 3 (1,10)
+\begin{axis}[art,width=7.6cm,height=5.6cm,xmin=0,xmax=1.45,ymin=0,ymax=11.8,
+    xtick={0.1,1},xticklabels={$V_1/10$,$V_1$},ytick={1,10},yticklabels={$p_1$,$10p_1$},
+    xlabel={$V$},ylabel={$p$}]
+  \fill[fondomedio] plot[domain=1:0.1,samples=70] (\x,{1/\x}) -- (axis cs:1,10) -- cycle;
+  \addplot[acento,medio=0.45,domain=0:1,samples=80] ({1-0.9*x},{1/(1-0.9*x)});
+  \addplot[rojo,medio=0.5] coordinates {(0.1,10) (1,10)};
+  \addplot[navy,medio=0.5] coordinates {(1,10) (1,1)};
+  \draw[flujo,rojo] (axis cs:0.55,11.6) -- (axis cs:0.55,10.2);
+  \node[font=\scriptsize,rojo,anchor=west,inner sep=2pt] at (axis cs:0.57,11.1) {$Q_{23}>0$};
+  \draw[flujo,navy] (axis cs:1.015,5.5) -- (axis cs:1.17,5.5);
+  \node[font=\scriptsize,navy,anchor=west,inner sep=2pt] at (axis cs:1.17,5.5) {$Q_{31}<0$};
+  \draw[guia] (axis cs:0.45,{1/0.45}) -- (axis cs:0.40,0.75);
+  \node[font=\scriptsize,acento,anchor=west,inner sep=1.5pt] at (axis cs:0.30,0.5) {isoterma $T_1$, $Q_{12}<0$};
+  \node[font=\scriptsize,navy] at (axis cs:0.62,6.0) {$|W|$};
+  \estado{1,1}{west}{1}
+  \estado{0.1,10}{south east}{2}
+  \estado{1,10}{south west}{3}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 31. Compresión isoterma ($1\to2$, cede calor), isóbaro ($2\to3$, el único tramo que absorbe
+calor) e isócoro ($3\to1$, cede calor). El ciclo se recorre en sentido horario: es un motor, y el área encerrada
+es $|W_{\mathrm{neto}}|$.}
+\label{fig:p31}
+\end{figure}

@@ -1,0 +1,27 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% Diatómico, unidades p1 = V1 = 1: 1 (1,1), 2 (0,6314,1), 3 (0,2,5)
+\begin{axis}[art,width=7.6cm,height=5.6cm,xmin=0,xmax=1.25,ymin=0,ymax=5.9,
+    xtick={0.2,0.6314,1},xticklabels={$V_3$,$V_2$,$V_1$},ytick={1,5},yticklabels={$p_{\min}$,$p_{\max}$},
+    xlabel={$V$},ylabel={$p$}]
+  \fill[fondomedio] (axis cs:1,1) -- (axis cs:0.6314,1) -- plot[domain=0.6314:0.2,samples=60] (\x,{(0.6314/\x)^1.4})
+     -- plot[domain=0.2:1,samples=60] (\x,{1/\x}) -- cycle;
+  \addplot[acento,medio=0.5] coordinates {(1,1) (0.6314,1)};
+  \addplot[navy,medio=0.5,domain=0:1,samples=80] ({0.6314-0.4314*x},{(0.6314/(0.6314-0.4314*x))^1.4});
+  \addplot[rojo,medio=0.5,domain=0:1,samples=80] ({0.2+0.8*x},{1/(0.2+0.8*x)});
+  \draw[flujo,rojo] (axis cs:0.66,3.0) -- (axis cs:0.49,2.13);
+  \node[font=\scriptsize,rojo,anchor=south west,inner sep=1.5pt] at (axis cs:0.66,3.0) {$Q_{31}>0$};
+  \draw[guia] (axis cs:0.31,2.75) -- (axis cs:0.14,1.9);
+  \node[font=\scriptsize,navy,anchor=north,inner sep=1.5pt] at (axis cs:0.14,1.9) {$Q_{23}=0$};
+  \draw[flujo,acento] (axis cs:0.82,0.95) -- (axis cs:0.82,0.35);
+  \node[font=\scriptsize,acento,anchor=west,inner sep=2pt] at (axis cs:0.85,0.55) {$Q_{12}<0$};
+  \estado{1,1}{west}{1}
+  \estado{0.6314,1}{north}{2}
+  \estado{0.2,5}{south east}{3}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 33. Compresión isóbara ($1\to2$), compresión adiabática ($2\to3$) y expansión isoterma
+($3\to1$). El área encerrada es pequeña frente al calor absorbido en la isoterma, de ahí el rendimiento bajo.}
+\label{fig:p33}
+\end{figure}

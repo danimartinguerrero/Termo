@@ -28,38 +28,7 @@ Si el ciclo tiene más de dos tramos con calor, $Q_h$ se sustituye por el \emph{
 $Q_{\mathrm{abs}}=\sum_{Q_i>0}Q_i$, y $\eta=|W_{\mathrm{neto}}|/Q_{\mathrm{abs}}$.
 \end{definicion}
 
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[font=\small,
-   foco/.style={draw=navy,fill=fondomedio,minimum width=2.7cm,minimum height=0.62cm,inner sep=2pt},
-   maq/.style={draw=navy,fill=white,circle,minimum size=0.95cm,inner sep=0pt,font=\small\bfseries},
-   fl/.style={-{Stealth[length=5pt]},line width=1pt}]
-  \foreach \x/\nom/\tit/\dir in {0/M/Motor/1,4.6/R/Refrigerador/-1,9.2/B/Bomba de calor/-1}{
-    \node[foco] (h\nom) at (\x,2.4) {foco caliente $T_h$};
-    \node[foco] (c\nom) at (\x,-0.4) {foco frío $T_c$};
-    \node[maq] (m\nom) at (\x,1.0) {\nom};
-    \node[font=\small\bfseries,navy] at (\x,3.25) {\tit};
-  }
-  % motor
-  \draw[fl,rojo] (hM.south) -- (mM.north) node[midway,left=1pt] {$Q_h>0$};
-  \draw[fl,acento] (mM.south) -- (cM.north) node[midway,left=1pt] {$Q_c<0$};
-  \draw[fl,navy] (mM.east) -- ++(1.0,0) node[right] {$W<0$};
-  % refrigerador
-  \draw[fl,rojo] (mR.north) -- (hR.south) node[midway,left=1pt] {$Q_h<0$};
-  \draw[fl,acento] (cR.north) -- (mR.south) node[midway,left=1pt] {$Q_c>0$};
-  \draw[fl,navy] ($(mR.east)+(1.0,0)$) node[right] {$W>0$} -- (mR.east);
-  % bomba
-  \draw[fl,rojo,line width=1.5pt] (mB.north) -- (hB.south) node[midway,left=1pt] {$Q_h<0$};
-  \draw[fl,acento] (cB.north) -- (mB.south) node[midway,left=1pt] {$Q_c>0$};
-  \draw[fl,navy] ($(mB.east)+(1.0,0)$) node[right] {$W>0$} -- (mB.east);
-  \node[font=\footnotesize,gris] at (0,-1.1) {objetivo: $-W$};
-  \node[font=\footnotesize,gris] at (4.6,-1.1) {objetivo: $Q_c$};
-  \node[font=\footnotesize,gris] at (9.2,-1.1) {objetivo: $-Q_h$};
-\end{tikzpicture}
-\caption{Las tres máquinas cíclicas entre dos focos, con los signos del sistema. Motor: $\eta=-W/Q_h$;
-refrigerador: $\varepsilon=Q_c/W$; bomba de calor: $\nu=-Q_h/W$.}
-\label{fig:maquinas}
-\end{figure}
+\input{figs/maquinas}
 
 \begin{observacion}[Un COP mayor que 1 no viola nada]
 Un refrigerador que consume \SI{100}{J} y extrae \SI{300}{J} del foco frío tiene $\varepsilon=3$ y cede
@@ -232,63 +201,7 @@ dan $T_hV_2^{\gamma-1}=T_cV_3^{\gamma-1}$ y $T_hV_1^{\gamma-1}=T_cV_4^{\gamma-1}
 $Q_c/Q_h=\frac{nRT_c\ln(V_4/V_3)}{nRT_h\ln(V_2/V_1)}=-\frac{T_c}{T_h}$.
 \end{demostracion}
 
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}[b]{0.49\textwidth}\centering
-\begin{tikzpicture}
-% T_h = 1,5 ; T_c = 1 ; gamma = 5/3 ; V1 = 1, V2 = 2,5, V3 = 2,5*1,5^1,5 = 4,593, V4 = 1,5^1,5 = 1,837
-\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.5,xmax=5.2,ymin=0,ymax=1.75,
-    xtick=\empty,ytick=\empty,xlabel={$V$},ylabel={$p$},clip=false]
-  \fill[fondomedio] plot[domain=1:2.5,samples=50] (\x,{1.5/\x})
-    -- plot[domain=2.5:4.593,samples=60] (\x,{0.6*(2.5/\x)^(5/3)})
-    -- plot[domain=4.593:1.837,samples=60] (\x,{1/\x})
-    -- plot[domain=1.837:1,samples=60] (\x,{0.54433*(1.837/\x)^(5/3)}) -- cycle;
-  \addplot[rojo,line width=1.1pt,domain=1:2.5,samples=60] {1.5/x};
-  \addplot[navy,line width=1.1pt,domain=2.5:4.593,samples=60] {0.6*(2.5/x)^(5/3)};
-  \addplot[acento,line width=1.1pt,domain=1.837:4.593,samples=60] {1/x};
-  \addplot[navy,line width=1.1pt,domain=1:1.837,samples=60] {0.54433*(1.837/x)^(5/3)};
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.5,1.0) -- (axis cs:1.75,{1.5/1.75});
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:3.6,{1/3.6}) -- (axis cs:3.2,{1/3.2});
-  \fill[black] (axis cs:1,1.5) circle (1.5pt) node[anchor=south east,font=\scriptsize,inner sep=2pt] {1};
-  \fill[black] (axis cs:2.5,0.6) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {2};
-  \fill[black] (axis cs:4.593,0.21772) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2pt] {3};
-  \fill[black] (axis cs:1.837,0.54433) circle (1.5pt) node[anchor=north east,font=\scriptsize,inner sep=2pt] {4};
-  \node[font=\scriptsize,rojo,anchor=south west] at (axis cs:1.75,0.92) {$T_h$, $Q_h>0$};
-  \node[font=\scriptsize,acento,anchor=north] at (axis cs:3.0,0.27) {$T_c$, $Q_c<0$};
-  \node[font=\scriptsize,navy] at (axis cs:2.3,0.54) {$|W|$};
-\end{axis}
-\end{tikzpicture}
-\caption{}
-\end{subfigure}\hfill
-\begin{subfigure}[b]{0.49\textwidth}\centering
-\begin{tikzpicture}
-\begin{axis}[graf,width=6.9cm,height=5.4cm,xmin=0.4,xmax=3.2,ymin=0,ymax=1.9,
-    xtick={1,2.4},xticklabels={$S_1$,$S_2$},ytick={1,1.5},yticklabels={$T_c$,$T_h$},
-    xlabel={$S$},ylabel={$T$},clip=false]
-  \fill[fondomedio] (axis cs:1,1) rectangle (axis cs:2.4,1.5);
-  \fill[pattern=north east lines,pattern color=acentoclaro] (axis cs:1,0) rectangle (axis cs:2.4,1);
-  \draw[rojo,line width=1.1pt] (axis cs:1,1.5) -- (axis cs:2.4,1.5);
-  \draw[acento,line width=1.1pt] (axis cs:2.4,1) -- (axis cs:1,1);
-  \draw[navy,line width=1.1pt] (axis cs:2.4,1.5) -- (axis cs:2.4,1);
-  \draw[navy,line width=1.1pt] (axis cs:1,1) -- (axis cs:1,1.5);
-  \draw[rojo,-{Stealth[length=5pt]}] (axis cs:1.55,1.5) -- (axis cs:1.85,1.5);
-  \draw[acento,-{Stealth[length=5pt]}] (axis cs:1.85,1) -- (axis cs:1.55,1);
-  \node[font=\scriptsize,anchor=south east,inner sep=2pt] at (axis cs:1,1.5) {1};
-  \node[font=\scriptsize,anchor=south west,inner sep=2pt] at (axis cs:2.4,1.5) {2};
-  \node[font=\scriptsize,anchor=north west,inner sep=2pt] at (axis cs:2.4,1) {3};
-  \node[font=\scriptsize,anchor=north east,inner sep=2pt] at (axis cs:1,1) {4};
-  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.7,1.55) {$Q_h=T_h\,\Delta S$};
-  \node[font=\scriptsize,navy] at (axis cs:1.7,1.25) {$|W|$};
-  \node[font=\scriptsize,acento,fill=white,inner sep=1pt] at (axis cs:1.7,0.5) {$|Q_c|=T_c\,\Delta S$};
-\end{axis}
-\end{tikzpicture}
-\caption{}
-\end{subfigure}
-\caption{Ciclo de Carnot de un gas perfecto. (a) Plano del trabajo: dos isotermas (roja, caliente; azul, fría)
-y dos adiabáticas reversibles; el área encerrada es $|W|$. (b) Plano del calor: las adiabáticas son verticales
-y el ciclo es un rectángulo; el área bajo cada isoterma es su calor.}
-\label{fig:carnot}
-\end{figure}
+\input{figs/carnot}
 
 \begin{observacion}[Temperatura termodinámica]
 Todos los motores reversibles entre los mismos focos tienen el mismo rendimiento, así que
@@ -358,50 +271,7 @@ $T_3T_1=T_2T_4$), y
 \end{equation}
 Para $r=8$ y $\gamma=1{,}4$, $\eta_{\mathrm{Otto}}=1-8^{-0,4}=0{,}565$.
 
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}[b]{0.49\textwidth}\centering
-\begin{tikzpicture}
-% Otto: V1=4, V2=1 (r=4), gamma=1.4 ; p1=1 -> p2=4^1.4=6.964 ; p3=12, p4=12*4^-1.4=1.723
-\begin{axis}[graf,width=6.9cm,height=5.2cm,xmin=0.4,xmax=4.8,ymin=0,ymax=13.5,
-    xtick={1,4},xticklabels={$V_2$,$V_1$},ytick=\empty,xlabel={$V$},ylabel={$p$}]
-  \addplot[navy,line width=1pt,domain=1:4,samples=60] {(4/x)^1.4};
-  \addplot[navy,line width=1pt,domain=1:4,samples=60] {12*(1/x)^1.4};
-  \addplot[rojo,line width=1.2pt] coordinates {(1,6.964) (1,12)};
-  \addplot[acento,line width=1.2pt] coordinates {(4,1.723) (4,1)};
-  \fill[black] (axis cs:4,1) circle (1.5pt) node[anchor=north west,font=\scriptsize,inner sep=2.5pt] {1};
-  \fill[black] (axis cs:1,6.964) circle (1.5pt) node[anchor=east,font=\scriptsize,inner sep=2.5pt] {2};
-  \fill[black] (axis cs:1,12) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2.5pt] {3};
-  \fill[black] (axis cs:4,1.723) circle (1.5pt) node[anchor=west,font=\scriptsize,inner sep=2.5pt] {4};
-  \node[font=\scriptsize,rojo,anchor=east] at (axis cs:0.95,9.5) {$Q_{\mathrm{in}}$};
-  \node[font=\scriptsize,acento,anchor=west] at (axis cs:4.05,3.0) {$Q_{\mathrm{out}}$};
-\end{axis}
-\end{tikzpicture}
-\caption{}
-\end{subfigure}\hfill
-\begin{subfigure}[b]{0.49\textwidth}\centering
-\begin{tikzpicture}
-% Brayton: p1=1, p2=6 ; V1=4 -> V2=4*6^(-1/1.4)=1.111 ; V3=2.2 ; V4=2.2*6^(1/1.4)=7.92
-\begin{axis}[graf,width=6.9cm,height=5.2cm,xmin=0,xmax=9,ymin=0,ymax=7.5,
-    xtick=\empty,ytick={1,6},yticklabels={$p_1$,$p_2$},xlabel={$V$},ylabel={$p$}]
-  \addplot[navy,line width=1pt,domain=1.111:4,samples=60] {(4/x)^1.4};
-  \addplot[navy,line width=1pt,domain=2.2:7.92,samples=60] {6*(2.2/x)^1.4};
-  \addplot[rojo,line width=1.2pt] coordinates {(1.111,6) (2.2,6)};
-  \addplot[acento,line width=1.2pt] coordinates {(7.92,1) (4,1)};
-  \fill[black] (axis cs:4,1) circle (1.5pt) node[anchor=north,font=\scriptsize,inner sep=2.5pt] {1};
-  \fill[black] (axis cs:1.111,6) circle (1.5pt) node[anchor=south east,font=\scriptsize,inner sep=2.5pt] {2};
-  \fill[black] (axis cs:2.2,6) circle (1.5pt) node[anchor=south west,font=\scriptsize,inner sep=2.5pt] {3};
-  \fill[black] (axis cs:7.92,1) circle (1.5pt) node[anchor=north,font=\scriptsize,inner sep=2.5pt] {4};
-  \node[font=\scriptsize,rojo,anchor=south] at (axis cs:1.65,6.45) {$Q_{\mathrm{in}}$};
-  \node[font=\scriptsize,acento,anchor=south] at (axis cs:6.0,1.15) {$Q_{\mathrm{out}}$};
-\end{axis}
-\end{tikzpicture}
-\caption{}
-\end{subfigure}
-\caption{(a) Ciclo Otto: el calor entra y sale a volumen constante. (b) Ciclo Joule--Brayton: entra y sale a
-presión constante. En ambos, $1\to2$ y $3\to4$ son adiabáticas reversibles.}
-\label{fig:ottobrayton}
-\end{figure}
+\input{figs/ottobrayton}
 
 % =====================================================================
 \section{Trabajo perdido y trabajo máximo}

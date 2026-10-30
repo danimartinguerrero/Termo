@@ -1,0 +1,29 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+% T_h = 1,25 (p_h = 2,441), T_c = 1 (p_c = 1); V1 = 1, V2 = 2, V3 = 3,906, V4 = 1,953
+\begin{axis}[art,width=7.8cm,height=5.6cm,xmin=0,xmax=4.9,ymin=0,ymax=3.25,
+    xtick=\empty,ytick={1,2.441},yticklabels={$p_c$,$p_h$},xlabel={$V$},ylabel={$p$}]
+  \fill[fondomedio] (axis cs:1,2.441) -- (axis cs:2,2.441) -- plot[domain=2:3.906,samples=60] (\x,{2.441*(2/\x)^(4/3)})
+     -- (axis cs:1.953,1) -- plot[domain=1.953:1,samples=60] (\x,{2.441*(1/\x)^(4/3)}) -- cycle;
+  \addplot[rojo,medio=0.5] coordinates {(1,2.441) (2,2.441)};
+  \addplot[navy,medio=0.5,domain=0:1,samples=80] ({2+1.906*x},{2.441*(2/(2+1.906*x))^(4/3)});
+  \addplot[acento,medio=0.5] coordinates {(3.906,1) (1.953,1)};
+  \addplot[navy,medio=0.55,domain=0:1,samples=80] ({1.953-0.953*x},{2.441*(1/(1.953-0.953*x))^(4/3)});
+  \draw[flujo,rojo] (axis cs:1.5,3.05) -- (axis cs:1.5,2.53);
+  \node[font=\scriptsize,rojo,anchor=west,inner sep=2pt] at (axis cs:1.58,2.85) {$Q_h>0$, isoterma $T_h$};
+  \draw[flujo,acento] (axis cs:2.9,0.95) -- (axis cs:2.9,0.42);
+  \node[font=\scriptsize,acento,anchor=east,inner sep=2pt] at (axis cs:2.84,0.6) {$Q_c<0$, isoterma $T_c$};
+  \draw[guia] (axis cs:3.2,1.33) -- (axis cs:3.65,1.95);
+  \node[font=\scriptsize,navy,anchor=south,inner sep=1.5pt] at (axis cs:3.85,1.95) {$pV^{4/3}=\cte$};
+  \node[font=\scriptsize,navy] at (axis cs:2.0,1.72) {$|W|$};
+  \estado{1,2.441}{south east}{1}
+  \estado{2,2.441}{south west}{2}
+  \estado{3.906,1}{north west}{3}
+  \estado{1.953,1}{north east}{4}
+\end{axis}
+\end{tikzpicture}
+\caption{Problema 39. Ciclo de Carnot de la radiación térmica. Como $p=\tfrac13aT^4$ solo depende de $T$, las
+isotermas son horizontales (isóbaras); las adiabáticas reversibles son $pV^{4/3}=\cte$.}
+\label{fig:p39}
+\end{figure}
